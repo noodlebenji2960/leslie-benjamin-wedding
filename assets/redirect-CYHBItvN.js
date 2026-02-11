@@ -1,1 +1,0 @@
-import{w as n,p as o,v as r}from"./chunk-EPOLDU6W-DHF8IUtq.js";const i=n(function(){const e=typeof localStorage<"u"?localStorage.getItem("preferred-language"):null,t=typeof navigator<"u"?navigator.language.split("-")[0]:"es",a=e||(t==="en"?"en":"es");return o.jsx(r,{to:`/${a}`,replace:!0})});export{i as default};
