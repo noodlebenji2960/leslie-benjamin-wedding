@@ -1,0 +1,1 @@
+import{w as t,x as a,p as r,a as o}from"./chunk-EPOLDU6W-BnKKP6Ue.js";const i=t(function(){a();const e=r();return o.useEffect(()=>{e.pathname==="/"&&(localStorage.getItem("preferred-language"),navigator.language.split("-")[0])},[]),null});export{i as default};
