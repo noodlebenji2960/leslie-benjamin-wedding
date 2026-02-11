@@ -1,1 +1,0 @@
-import{w as s,v as r,a,p as t}from"./chunk-EPOLDU6W-C6HH8JUa.js";const g=s(function(){const e=r();return a.useEffect(()=>{const n=navigator.language.split("-")[0]==="en"?"en":"es";e(`/${n}`,{replace:!0})},[e]),t.jsx("div",{style:{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"},children:t.jsx("p",{children:"Redirecting..."})})});export{g as default};
