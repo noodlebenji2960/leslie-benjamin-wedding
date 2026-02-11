@@ -1,0 +1,1 @@
+import{w as r,x as a,a as o}from"./chunk-EPOLDU6W-BnKKP6Ue.js";const n=r(function(){const e=a();return o.useEffect(()=>{const t=sessionStorage.getItem("redirect");if(t){sessionStorage.removeItem("redirect"),e(t,{replace:!0});return}navigator.language.split("-")[0].toLowerCase()},[e]),null});export{n as default};
