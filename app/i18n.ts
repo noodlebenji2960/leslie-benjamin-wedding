@@ -14,6 +14,7 @@ import schedule_en from "./locales/en/schedule.json";
 import schedule_es from "./locales/es/schedule.json";
 import rsvp_en from "./locales/en/rsvp.json";
 import rsvp_es from "./locales/es/rsvp.json";
+// 👈 donate translations already included in common.json
 
 i18n
   .use(LanguageDetector)
@@ -21,7 +22,7 @@ i18n
   .init({
     fallbackLng: "es",
     supportedLngs: ["en", "es"],
-    ns: ["common", "home", "qa", "schedule", "rsvp"], // added "rsvp"
+    ns: ["common", "home", "qa", "schedule", "rsvp"],
     defaultNS: "common",
     resources: {
       en: {

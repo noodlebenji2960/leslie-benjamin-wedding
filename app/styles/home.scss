@@ -15,18 +15,23 @@
 .home-hero {
   max-width: 800px;
   margin: 0 auto;
-  padding: $space-xxl $space-lg;
+  padding: $space-2xl $space-lg;
   text-align: center;
 
   h1 {
     font-family: $font-header;
-    font-size: clamp(3rem, 10vw, 6rem);
-    font-weight: $fw-regular;
-    color: $color-text;
+    font-size: clamp(4rem, 10vw, 7rem);
+    font-weight: $fw-medium;
+    color: $color-accent;
     margin: 0 0 $space-lg;
     line-height: 1.1;
     letter-spacing: 0.02em;
     position: relative;
+    z-index: -1;
+
+    i{
+        font-family: 'Courier New', Courier, monospace;
+    }
   }
 }
 
@@ -56,7 +61,7 @@
   gap: $space-md;
   margin: $space-xl 0;
   font-family: $font-heading;
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-size: clamp(1.25rem, 10vw, 1.75rem);
   color: $color-text;
   letter-spacing: 0.03em;
 
@@ -124,7 +129,7 @@
 // ─────────────────────────────────────────────
 
 .schedule-preview {
-  margin: $space-xxl 0;
+  margin: $space-2xl 0;
   padding: $space-xl;
   @include semi-transparent($color-background, 0.5);
 
@@ -247,7 +252,7 @@
 // ─────────────────────────────────────────────
 
 .guest-essentials {
-  margin: $space-xxl 0;
+  margin: $space-2xl 0;
 }
 
 .essentials-grid {
@@ -285,7 +290,7 @@
 // ─────────────────────────────────────────────
 
 .rsvp-section {
-  margin: $space-xxl 0;
+  margin: $space-2xl 0;
   padding: $space-xl;
   @include semi-transparent($color-background, 0.8);
   border-radius: $radius-lg;
@@ -341,7 +346,7 @@
 // ─────────────────────────────────────────────
 
 .contact-section {
-  margin: $space-xxl 0;
+  margin: $space-2xl 0;
   padding: $space-xl;
   text-align: center;
 
@@ -360,7 +365,7 @@
   line-height: 1.7;
   color: $color-text;
   max-width: 500px;
-  margin: 0 auto $space-lg;
+  margin: 0 auto $space-xl;
 
   .faq-link {
     color: $color-accent;
@@ -399,6 +404,14 @@
     text-align: left;
   }
 
+  /* Mobile */
+  @media (max-width: 768px) {
+    &:first-child,
+    &:last-child {
+      text-align: center;
+    }
+  }
+
   strong {
     font-size: $font-size-lg;
     font-weight: $fw-bold;
@@ -412,8 +425,7 @@
     transition: border-color 0.2s ease;
 
     &:hover {
-      border-bottom-color: $color-accent;
-      color: $color-accent;
+      color: $color-primary;
     }
   }
 }

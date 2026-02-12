@@ -1,0 +1,58 @@
+@import "../_variables.scss";
+
+.donate-container {
+  display: inline-block;
+
+  .donate-form {
+    margin: 0;
+  }
+
+  .donate-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-md;
+    border: 2px solid transparent;
+    font-family: $font-body;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    transition: all $transition-base;
+    background: none;
+    border: 1px solid $color-border;
+
+    span {
+      font-size: $font-size-lg;
+    }
+
+    &:hover {
+      border-color: $color-accent;
+      box-shadow: 0 $space-xl $space-2xl rgba(201, 168, 124, 0.4);
+    }
+
+    &:active {
+
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 $space-sm rgba(244, 63, 94, 0.5), 0 $space-lg $space-xl $color-shadow;
+      border-color: $color-primary;
+    }
+
+    @media (max-width: $bp-md) {
+      font-size: $font-size-md;
+      min-height: 3rem;
+
+      span {
+        font-size: $font-size-md;
+      }
+    }
+  }
+
+  .pixel-tracker {
+    display: block;
+    height: 1px;
+    width: 1px;
+    opacity: 0;
+  }
+}

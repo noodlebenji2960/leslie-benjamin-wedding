@@ -1,10 +1,12 @@
 @import "./_fonts.scss";
 @import "./_variables.scss";
+@import "./_mixins.scss";
 
 html,
 body,
 #root {
   min-height: 100vh;
+  max-width: 100vw;
 }
 
 html {
@@ -22,9 +24,21 @@ html {
   box-sizing: inherit;
 }
 
+::selection {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+::-moz-selection {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
 body {
   margin: 0;
   line-height: 1.4;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 a {
@@ -36,6 +50,7 @@ a {
   max-width: 1100px;
   margin: 0 auto;
   padding: $space-md;
+  padding-bottom: $space-sm;
 }
 
 /* Utility helpers used across components */
@@ -68,6 +83,10 @@ a {
   padding: 0.5rem 0.8rem;
   border-radius: $radius-sm;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .button:disabled {
@@ -83,18 +102,47 @@ a {
   }
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150vh;
+  padding-top: 5vh;
+
+
+  &::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: -75px; // stick to bottom
+    height: 25vh; // how tall the blur should be
+    @include semi-transparent($color-background, 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    mask-image: linear-gradient(to top, black 45%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black 45%, transparent 100%);
+    z-index: 1; // behind content
+    pointer-events: none;
+  }
+}
+
 /* Fixed utility container used by layout (_layout.tsx) */
 .fixed-container {
   position: fixed;
-  left: $space-md;
-  right: $space-md;
-  bottom: $space-md;
+  left: $space-sm;
+  right: $space-sm;
+  bottom: $space-sm;
   display: flex;
   gap: $space-sm;
   align-items: center;
   justify-content: space-between;
   z-index: 60;
-  pointer-events: auto;
+  pointer-events: none;
+
+  & > * {
+    pointer-events: auto;
+  }
 }
 
 .fixed-container .group {
@@ -105,9 +153,28 @@ a {
 
 @media (max-width: $bp-sm) {
   .fixed-container {
-    right: $space-sm;
-    bottom: $space-sm;
-    left: $space-sm;
+    right: $space-xs;
+    bottom: $space-xs;
+    left: $space-xs;
     justify-content: space-between;
   }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+label {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }

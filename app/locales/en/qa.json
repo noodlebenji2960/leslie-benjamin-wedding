@@ -1,45 +1,99 @@
 {
-  "title": "Questions & Answers",
+  "title": "Questions?",
+  "all": "All",
+  "essentials": "Essentials",
+  "logistics": "Logistics",
+  "style": "Dress Code",
+  "family": "Family",
+  "gifts": "Gifts",
+  "travel": "Travel & Accommodation",
+  "loading": "Loading...",
+  "links": {
+    "skyscanner": "Skyscanner",
+    "airbnb": "AirBnB"
+  },
+  "distance": "{{distance}}",
+  "transport": "Transport: {{transport}}",
   "items": [
     {
-      "question": "When is the RSVP deadline?",
-      "answer": "Please RSVP by May 11th, so we can have an accurate headcount. :)"
+      "question": "What's the RSVP deadline?",
+      "answer": "Please confirm your attendance before <strong>{{rsvpDeadline}}</strong> (Spain time) so we can get an exact count. It helps us immensely with the planning! 😊",
+      "category": "essentials",
+      "alwaysShow": true
     },
     {
-      "question": "Can I bring a date?",
-      "answer": "Please check your invite for your +1!"
+      "question": "Where is the ceremony and party?",
+      "answer": "Everything will take place at <strong><VenueLink/></strong> starting at {{ceremonyTime}}. <br/><MapVenue></MapVenue> <br/>For guests arriving from the UK, here’s a list of nearby hotels: <HotelLinks/>",
+      "category": "essentials",
+      "alwaysShow": true
     },
     {
-      "question": "What will the weather be like?",
-      "answer": "July is usually very sunny ☀️ and warm. Expect daytime temperatures around 25–30°C, with cooler evenings once the sun goes down. Rain is unlikely, but we recommend bringing a light layer just in case for the evening."
+      "question": "What's the weather like?",
+      "answer": "July is usually sunny and warm, often hotter than in the UK. Here is the current forecast for the venue: <WeatherForecast/>",
+      "category": "logistics"
     },
     {
-      "question": "Where should I park?",
-      "answer": "Why take the car!? Don't do that. There will be a bus from Fuente Murrieta in Logroño to the Hotel! But if you don't plan on drinking and really want to take the car, there is free parking available at the venue."
+      "question": "Is there a shuttle bus?",
+      "answer": "Yes! A bus will depart at <strong>{{busTime}}</strong> from the main meeting point. <br/><MapBus></MapBus> Guests arriving from abroad should plan to be at the meeting point on time.",
+      "category": "logistics",
+      "alwaysShow": true
     },
     {
-      "question": "Are the ceremony and reception locations wheelchair accessible?",
-      "answer": "Yes."
+      "question": "Can I bring a plus one?",
+      "answer": "Please check your invitation! If it says 'and Guest,' then yes. Otherwise, we have only reserved a seat for you personally. This includes partners traveling from the UK.",
+      "category": "essentials"
     },
     {
-      "question": "What should I wear?",
-      "answer": "Not white. Something light and bright and comfortable shoes for a warm day. It can cool down in the evening, so a light jacket or wrap might be useful. Most importantly, wear something you’ll be happy dancing in 💃🕺"
+      "question": "Are children invited?",
+      "answer": "We love your little ones, but we have decided to make our wedding an <strong>adults-only event</strong>. We hope you can enjoy a night off to celebrate with us!",
+      "category": "family"
     },
     {
-      "question": "Is the wedding indoors or outdoors?",
-      "answer": "Both! The ceremony will be outside, followed by cocktails. Dinner will be indoors, so you can enjoy the sunshine and then settle in comfortably for the evening 🌿✨"
+      "question": "What is the Dress Code?",
+      "answer": "Formal / Cocktail attire. Please avoid wearing white or ivory. Since it is {{weddingDate}} in Spain, we recommend light fabrics and breathable materials to stay cool.",
+      "category": "style",
+      "alwaysShow": true
     },
     {
-      "question": "What kind of shoes should/shouldn't I wear?",
-      "answer": "Skip stiletto heels — there are grassy and dirt areas to walk across. Bigger heels, wedges, flats, or sandals will be much more comfortable (and safer!). We’d hate for anyone to ruin beautiful shoes or spend the night worrying about their ankles."
+      "question": "Is there a Registry or Gift list?",
+      "answer": "Your presence is the greatest gift of all. However, if you wish to honor us with a gift, a contribution toward our <strong>honeymoon fund</strong> would be greatly appreciated. <DonateButton/>",
+      "category": "gifts"
     },
     {
-      "question": "Is it okay to take pictures with our phones and cameras during the wedding?",
-      "answer": "Absolutely! Feel free to snap away, but we do have a professional photographer and a photobooth to capture all the special moments 📸 Please be mindful of flashes during the ceremony so everyone can enjoy the moment."
+      "question": "Outdoor or indoor?",
+      "answer": "Both! We will have an outdoor ceremony ({{ceremonyTime}}), followed by cocktails on the terrace and an indoor dinner at {{ceremonyVenue}}. Sunscreen and hats are recommended for those not used to Spain’s July sun.",
+      "category": "logistics"
     },
     {
-      "question": "Whom should I call with questions?",
-      "answer": "Call us or message us on WhatsApp if you have any questions:\n\nLeslie: +34 609 872 090\nBen: +34 680 840 891"
+      "question": "What shoes should I wear?",
+      "answer": "The ceremony is on grass, so we recommend avoiding thin stilettos. Wedges, block heels, or fancy flats will be much more comfortable for dancing!",
+      "category": "style"
+    },
+    {
+      "question": "Do you have special meal options?",
+      "answer": "Of course! When you RSVP, please let us know if you are vegan, gluten-free, have severe allergies, or dietary restrictions common in the UK so our catering team can prepare accordingly.",
+      "category": "essentials"
+    },
+    {
+      "question": "Can I take photos?",
+      "answer": "We invite you to be fully present during our ceremony and ask that you keep your phones away. During the party, please take as many photos as you like! 📸",
+      "category": "style"
+    },
+    {
+      "question": "Last minute questions?",
+      "answer": "If you need anything on the big day, please contact our coordinators:<br/><strong>{{brideFirstName}}:</strong> +44{{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> +44{{groomPhone}}",
+      "category": "essentials",
+      "alwaysShow": true
+    },
+    {
+      "question": "Which airports should I fly into?",
+      "answer": "There are several airports near the venue, you can check flight options on <SkyscannerLink/>.<br/><AirportsList/>",
+      "category": "travel"
+    },
+    {
+      "question": "Where should I stay?",
+      "answer": "For your convenience, we’ve compiled a list of recommended hotels near the bus pick up point or alternatively check out <AirBnbLink/>. <HotelLinks/>. We suggest booking early, especially for guests coming from the UK.",
+      "category": "travel"
     }
   ]
 }

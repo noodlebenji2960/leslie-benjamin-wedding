@@ -5,7 +5,7 @@
 }
 .countdown-grid {
   display: flex;
-  gap: 0.6rem;
+  gap: 0;
   align-items: center;
 }
 .countdown-item {
@@ -14,12 +14,11 @@
   align-items: center;
 }
 .countdown-number {
-  background: $color-shadow;
-  padding: 0.45rem 0.6rem;
-  border-radius: $radius-md;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+  padding: 0.2rem 0.6rem;
   min-width: 52px;
   text-align: center;
-  font-weight: 700;
 }
 .countdown-number.flip {
   transform-origin: center;

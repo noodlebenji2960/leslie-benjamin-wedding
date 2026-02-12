@@ -16,6 +16,9 @@
   --color-white-light: #ffffff;
   --color-shadow-light: rgba(0, 0, 0, 0.1);
   --color-border-light: rgb(204, 204, 204);
+  --color-accent: #c9a87c;
+  --color-accent-light: color-mix(in oklab, var(--color-accent), white 25%);
+  --color-accent-dark: color-mix(in oklab, var(--color-accent), black 5%);
 
   /* Dark mode colors */
   --color-primary-dark: #ea3943;
@@ -27,7 +30,7 @@
   --color-border-dark: rgb(60, 60, 60);
 
   --color-danger: #e74c3c;
-  --color-success: #2ecc71;
+  --color-success: #3cba12;
 
   /* Auto theme switching (light-dark() CSS function) */
   --color-primary: light-dark(
@@ -86,7 +89,8 @@
   --space-md: 1rem;
   --space-lg: 2rem;
   --space-xl: 4rem;
-  --space-xxl: 6rem;
+  --space-2xl: 6rem;
+  --space-3xl: 9rem;
 
   /* ---------------------- Border Radius ---------------------- */
   --radius-sm: 6px;
@@ -141,10 +145,12 @@ $color-white: var(--color-white);
 $color-shadow: var(--color-shadow);
 $color-border: var(--color-border);
 $color-muted: #9e8a7e;
-$color-accent: #c9a87c; // warm gold
+$color-accent: var(--color-accent);
+$color-accent-light: var(--color-accent-light);
+$color-accent-dark: var(--color-accent-dark);
 $color-indicator: #c9a87c;
-$color-danger: #e74c3c;
-$color-success: #2ecc71;
+$color-danger: var(--color-danger);
+$color-success: var(--color-success);
 
 /* Fonts */
 $font-header: var(--font-header);
@@ -179,7 +185,8 @@ $space-sm: var(--space-sm);
 $space-md: var(--space-md);
 $space-lg: var(--space-lg);
 $space-xl: var(--space-xl);
-$space-xxl: var(--space-xxl);
+$space-2xl: var(--space-2xl);
+$space-3xl: var(--space-3xl);
 
 /* Border Radius */
 $radius-sm: var(--radius-sm);

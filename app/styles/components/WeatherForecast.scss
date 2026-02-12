@@ -1,0 +1,236 @@
+@import "../_variables.scss";
+@import "../mixins.scss";
+
+/* ======================================================
+   Compact Weather Forecast (FAQ / inline usage)
+   ====================================================== */
+
+.weather-forecast.compact {
+  border-radius: $radius-md;
+  padding: $space-md 0 $space-lg 0;
+  box-shadow: none;
+  max-width: 100%;
+
+
+  /* Section title styling */
+  > strong {
+    display: block;
+    font-size: $font-size-xs;
+    color: $color-secondary;
+    margin-bottom: $space-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: $fw-semibold;
+  }
+
+  /* ---------- Forecast grid ---------- */
+  .weather-forecast__forecast {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $space-xs;
+    margin-bottom: $space-sm;
+    border: 1px dashed $color-border;
+    border-radius: $radius-sm; padding: $space-xs;
+  }
+
+  /* ---------- Individual day ---------- */
+  .weather-day {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: $space-xs $space-xs;
+    border: none;
+    background: $color-background;
+    border-radius: $radius-sm;
+    transition: all 0.2s ease;
+    min-height: 80px;
+    opacity: 0.4;
+
+    &.today {
+        @include semi-transparent($color-border, 0.1);
+        opacity: 1;
+
+      .date,
+      .temp {
+        color: $color-primary;
+        font-weight: $fw-bold;
+      }
+    }
+
+    .date {
+      font-size: $font-size-xs;
+      color: $color-secondary;
+      margin-bottom: 4px;
+      line-height: 1.1;
+      font-weight: $fw-medium;
+    }
+
+    .icon {
+
+      
+      svg {
+        display: block;
+        width: 40px;
+        height: 40px;
+        color: $color-primary;
+      }
+    }
+
+    .temp {
+      font-size: $font-size-md;
+      font-weight: $fw-bold;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .rain {
+      font-size: $font-size-xs;
+      margin-top: 4px;
+      font-weight: $fw-medium;
+    }
+  }
+
+  /* ---------- Wedding day last year ---------- */
+  .weather-forecast__wedding-day {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+    padding: $space-xs $space-sm;
+
+    border-radius: $radius-sm;
+    font-size: $font-size-xs;
+    margin-bottom: $space-xs;
+
+    strong {
+      font-weight: $fw-semibold;
+      font-size: $font-size-xs;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      svg {
+        width: 16px;
+        height: 16px;
+        color: $color-accent;
+      }
+    }
+
+    span {
+      font-size: $font-size-xs;
+      color: $color-secondary;
+      font-weight: $fw-medium;
+    }
+  }
+
+  /* ---------- Historical / typical averages ---------- */
+  .weather-forecast__typical {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: $color-secondary;
+    padding: $space-xs $space-sm;
+    border-radius: $radius-sm;
+
+    small {
+      color: $color-secondary;
+      font-size: $font-size-xs;
+      font-weight: $fw-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 2px;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: $font-size-xs;
+      line-height: 1.4;
+    }
+  }
+
+  /* ---------- Loading / Error ---------- */
+  &.loading,
+  &.error {
+    padding: $space-lg;
+    text-align: center;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .loading-spinner {
+      margin-bottom: $space-sm;
+      animation: spin 1s linear infinite;
+    }
+
+    p {
+      color: $color-secondary;
+      font-size: $font-size-sm;
+      margin: 0;
+    }
+
+    small {
+      margin-top: $space-xs;
+      color: $color-secondary;
+    }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: $bp-md) {
+    padding: $space-sm;
+
+    .weather-forecast__forecast {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .weather-day {
+      min-height: 75px;
+      padding: $space-xs;
+
+      .icon svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .temp {
+        font-size: $font-size-sm;
+      }
+    }
+
+    .weather-forecast__typical {
+      padding: $space-xs;
+      
+      span {
+        font-size: 10px;
+        gap: 4px;
+      }
+    }
+
+    .weather-forecast__wedding-day {
+      flex-wrap: wrap;
+      padding: $space-xs;
+      gap: 6px;
+    }
+  }
+
+  @media (max-width: $bp-sm) {
+    .weather-forecast__forecast {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
