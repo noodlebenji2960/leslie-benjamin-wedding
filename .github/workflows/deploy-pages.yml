@@ -7,6 +7,9 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      # Ensure production build uses root base when deploying to a custom domain
+      VITE_BASE: "/"
     permissions:
       contents: read
       pages: write
