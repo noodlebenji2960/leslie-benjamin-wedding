@@ -4,8 +4,13 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [reactRouter(), tsconfigPaths()],
-  base:
-    process.env.NODE_ENV === "production" ? "/leslie-benjamin-wedding/" : "/",
+  // Allow overriding the production base via VITE_BASE env var.
+  // For GitHub Pages with a custom domain you should set the base to '/'.
+  base: process.env.VITE_BASE
+    ? process.env.VITE_BASE
+    : process.env.NODE_ENV === "production"
+    ? "/leslie-benjamin-wedding/"
+    : "/",
   build: {
     outDir: "dist",
     sourcemap: false,
