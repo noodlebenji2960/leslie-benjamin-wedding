@@ -1,4 +1,7 @@
+// app/components/Icon.tsx
 import React from "react";
+import type { IconType } from "react-icons";
+
 import {
   IoTrash,
   IoAdd,
@@ -8,9 +11,19 @@ import {
   IoChevronDown,
   IoClose,
   IoEllipsisHorizontal,
+  IoHeartOutline,
+  IoSunny,
+  IoCloudy,
+  IoRainy,
+  IoThunderstorm,
+  IoSnow,
+  IoFastFoodOutline,
 } from "react-icons/io5";
+import { RiExternalLinkLine } from "react-icons/ri";
 import { MdEdit } from "react-icons/md";
-import type { IconType } from "react-icons";
+import { WiFog } from "react-icons/wi";
+import { CiStickyNote } from "react-icons/ci";
+
 
 type IconProps = {
   size?: number;
@@ -18,20 +31,34 @@ type IconProps = {
   className?: string;
 };
 
-// Default size for icons
 const ICON_DEFAULT_SIZE = 24;
 
-// Centralized icon map
+/* ======================================================
+   Centralized icon map
+   ====================================================== */
 const ICONS: Record<string, IconType> = {
+  // UI
   Delete: IoTrash,
   Add: IoAdd,
   Back: IoChevronBack,
   Next: IoChevronForward,
-  Up: IoChevronUp, // 👈 Added
-  Down: IoChevronDown, // 👈 Added
+  Up: IoChevronUp,
+  Down: IoChevronDown,
   Edit: MdEdit,
   Close: IoClose,
   More: IoEllipsisHorizontal,
+  Heart: IoHeartOutline,
+  ExternalLink: RiExternalLinkLine,
+  Food: IoFastFoodOutline,
+  Note: CiStickyNote,
+
+  // Weather
+  Sun: IoSunny,
+  Cloud: IoCloudy,
+  Rain: IoRainy,
+  Storm: IoThunderstorm,
+  Snow: IoSnow,
+  Fog: WiFog,
 };
 
 const IconComponent: React.FC<{ icon: IconType } & IconProps> = ({
@@ -39,11 +66,11 @@ const IconComponent: React.FC<{ icon: IconType } & IconProps> = ({
   size = ICON_DEFAULT_SIZE,
   color = "currentColor",
   className,
-}) => {
-  return <Icon size={size} color={color} className={className} />;
-};
+}) => <Icon size={size} color={color} className={className} />;
 
-// Namespace exports for convenience
+/* ======================================================
+   Namespace export (Icon.X)
+   ====================================================== */
 export const Icon = Object.keys(ICONS).reduce(
   (acc, key) => {
     const Component = ICONS[key];

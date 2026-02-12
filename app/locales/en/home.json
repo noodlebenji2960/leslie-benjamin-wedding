@@ -13,6 +13,6 @@
   "familyWelcome": "Family",
   "familyHint": "Children welcome with kids area.",
   "giftsLabel": "Gifts",
-  "giftsHint": "Your love is enough ❤️",
+  "giftsHint": "<1>If you'd like to contribute</1>, <DonateButton />.",
   "questionsBody": "If you have any questions, feel free to call us, write to us, or check <qaLink>the questions page</qaLink>."
 }

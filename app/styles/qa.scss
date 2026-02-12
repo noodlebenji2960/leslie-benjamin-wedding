@@ -1,17 +1,164 @@
-@import "./_variables.scss";
-@import "./global.scss";
+@use "variables" as *;
 
 .qa-page {
-  padding: 1rem 0;
+  padding-top: $space-xl;
+  padding-bottom: $space-2xl;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-inline: var(--container-padding);
+
+  .qa-title {
+    font-family: $font-fancy;
+    font-size: $font-size-5xl;
+    text-align: center;
+    color: $color-accent;
+    margin-bottom: $space-xl;
+    
+    @media (max-width: $bp-sm) {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  // --- Category Tabs ---
+  .qa-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $space-sm;
+    margin-bottom: $space-xl;
+
+    .category-tab {
+      background: transparent;
+      border: 1px solid $color-border;
+      padding: $space-xs $space-md;
+      border-radius: $radius-button;
+      font-family: $font-body;
+      font-size: $font-size-sm;
+      font-weight: $fw-medium;
+      color: $color-text;
+      cursor: pointer;
+      transition: all $transition-base;
+      text-transform: capitalize;
+
+      &.active {
+        background-color: $color-accent;
+        border-color: $color-accent;
+        color: $color-white;
+        box-shadow: 0 4px 12px $color-shadow;
+      }
+
+      &:hover:not(.active) {
+        border-color: $color-primary;
+        color: $color-background;
+        background-color: $color-primary
+      }
+    }
+  }
+
+  // --- Accordion List ---
+  .qa-list {
+    display: flex;
+    flex-direction: column;
+    gap: $space-md;
+    min-height: 300px; // Maintain layout stability during filtering
+
+    .qa-item {
+      background-color: $color-white;
+      border: 1px solid $color-border;
+      border-radius: $radius-md;
+      overflow: hidden;
+      box-shadow: 0 2px 4px $color-shadow;
+      width: 100%;
+
+      .qa-question {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $space-md $space-lg;
+        background: none;
+        border: none;
+        text-align: left;
+        font-family: $font-heading;
+        font-size: $font-size-lg;
+        font-weight: $fw-semibold;
+        color: $color-text;
+        cursor: pointer;
+        transition: border-color $transition-base, color $transition-base;
+        border-bottom: 1px solid transparent;
+
+        .chevron {
+          width: 20px;
+          height: 20px;
+          transition: transform $transition-indicator;
+          flex-shrink: 0;
+          margin-left: $space-md;
+          color: $color-primary;
+
+          &.rotate-180 {
+            transform: rotate(180deg);
+          }
+        }
+
+        &:hover {
+          color: $color-primary;
+        }
+
+        &.open {
+          color: $color-primary;
+          border-bottom: 1px solid $color-border;
+        }
+      }
+
+      .qa-answer {
+        overflow: hidden; // Necessary for Framer Motion height animations
+
+        .answer-content {
+          padding: $space-md $space-lg $space-lg;
+          font-family: $font-body;
+          font-size: $font-size-md;
+          line-height: 1.6;
+          color: $color-secondary;
+
+          strong {
+            color: $color-text;
+            font-weight: $fw-bold;
+          }
+
+          // Spacing for nested blocks (Map, Weather, etc.)
+          p {
+            margin-bottom: $space-sm;
+            &:last-child { margin-bottom: 0; }
+          }
+
+          .map-container, 
+          .weather-forecast {
+            margin-top: $space-md;
+            border-radius: $radius-sm;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+
+  .qa-hint {
+    text-align: center;
+    font-size: $font-size-sm;
+    color: $color-secondary;
+    margin-top: $space-lg;
+    font-style: italic;
+    font-family: $font-body;
+  }
 }
 
-.faq-list {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.faq-item {
-  padding: 0.75rem;
-  border-radius: 8px;
-  background: $color-shadow;
+// Loading state
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+  font-family: $font-heading;
+  font-size: $font-size-xl;
+  color: $color-primary;
 }

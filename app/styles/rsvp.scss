@@ -1,20 +1,30 @@
-@import './variables.scss';
+@import "./variables.scss";
 
 .rsvp-page {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $space-lg $space-md;
   max-width: 600px;
-  margin: $space-lg auto;
+  margin: 0 auto;
   text-align: center;
   font-family: $font-body;
   color: $color-text;
 
   h1 {
-    font-family: $font-heading;
+    font-family: $font-fancy;
     font-size: $font-size-3xl;
     margin-bottom: $space-xs;
-    color: $color-primary;
+    color: $color-accent;
   }
 
   .step-description {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: $font-size-lg;
     color: $color-secondary;
     margin-bottom: $space-lg;
@@ -29,40 +39,61 @@
     }
   }
 
+  /* ---------------- Progress ---------------- */
   .progress-bar {
+    flex-shrink: 0;
     width: 100%;
-    height: 8px;
+    height: 3px;
     background: $color-border;
     border-radius: 4px;
-    margin: $space-lg 0;
     overflow: hidden;
+    margin-bottom: $space-lg;
 
     .progress-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, $color-primary, $color-accent);
+      background: linear-gradient(
+        90deg,
+        $color-accent-dark,
+        $color-accent,
+        $color-accent-light
+      );
       transition: width 0.3s ease;
-      border-radius: 4px;
     }
   }
 
+  /* ---------------- Form ---------------- */
   .rsvp-form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100% !important;
     margin-top: $space-lg;
+
+    .form-content {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow-y: auto;
+      padding-bottom: $space-md;
+      transition: opacity 0.3s ease;
+    }
 
     .form-group {
       margin-bottom: $space-md;
       text-align: left;
 
-      &.submit-group {
-        display: flex;
-        gap: $space-md;
-      }
-
       label {
         display: block;
         margin-bottom: $space-xs;
         font-weight: $fw-medium;
-        color: $color-text;
         user-select: none;
+      }
+
+      .required {
+        color: $color-danger;
       }
 
       .form-input {
@@ -89,52 +120,19 @@
         resize: vertical;
       }
 
-      /* VALIDATION STATES */
-      .form-input-valid {
+      /* Validation */
+      .form-input-valid:focus {
         border-color: $color-success !important;
         box-shadow: 0 0 0 3px rgba($color-success, 0.25) !important;
       }
 
-      .form-input-invalid {
+      .form-input-invalid:focus {
         border-color: $color-danger !important;
         box-shadow: 0 0 0 3px rgba($color-danger, 0.25) !important;
       }
     }
 
-    .form-navigation {
-      display: flex;
-      gap: $space-md;
-      margin-top: $space-lg;
-
-      .form-btn {
-        flex: 1;
-        padding: $space-md $space-lg;
-        background: $color-primary;
-        color: $color-white;
-        border: none;
-        border-radius: $radius-sm;
-        font-weight: $fw-semibold;
-        font-size: $font-size-md;
-        cursor: pointer;
-        transition: all $transition-base;
-
-        &:hover:not(:disabled) {
-          filter: brightness(1.1);
-          transform: translateY(-1px);
-        }
-
-        &:disabled {
-          background: $color-muted !important;
-          cursor: not-allowed;
-          opacity: 0.6;
-        }
-
-        &:first-child {
-          background: $color-secondary;
-        }
-      }
-    }
-
+    /* ---------------- Errors ---------------- */
     .rsvp-error {
       background: rgba($color-danger, 0.1);
       color: $color-danger;
@@ -142,8 +140,6 @@
       margin-bottom: $space-md;
       text-align: left;
       padding: $space-sm;
-      border-radius: $radius-sm;
-      border-left: 4px solid $color-danger;
     }
 
     .field-error {
@@ -152,50 +148,15 @@
       margin-top: $space-xs;
       padding: $space-xs $space-sm;
       background: rgba($color-danger, 0.05);
-      border-radius: $radius-sm;
-      border-left: 3px solid $color-danger;
-      margin-bottom: $space-sm;
     }
 
     .guests-error {
       @extend .field-error;
-      margin-bottom: $space-md;
       text-align: center;
+      margin-bottom: $space-md;
     }
 
-    /* Guests Section (layout only) */
-    .guests-section {
-      h3 {
-        font-size: $font-size-xl;
-        color: $color-text;
-        margin-bottom: $space-md;
-        text-align: left;
-      }
-
-      .add-guest-btn {
-        background: $color-success;
-        color: $color-white;
-        border: none;
-        padding: $space-md $space-lg;
-        border-radius: $radius-sm;
-        cursor: pointer;
-        width: 100%;
-        font-weight: $fw-semibold;
-        font-size: $font-size-md;
-        transition: all $transition-base;
-
-        &:hover:not(:disabled) {
-          filter: brightness(1.1);
-          transform: translateY(-1px);
-        }
-
-        &:disabled {
-          background: $color-muted;
-          cursor: not-allowed;
-        }
-      }
-    }
-
+    /* ---------------- Review ---------------- */
     .review {
       background: $color-white;
       border: 2px solid $color-border;
@@ -206,20 +167,92 @@
 
       p {
         margin-bottom: $space-sm;
-        padding: $space-xs 0;
+        padding-bottom: $space-xs;
         border-bottom: 1px solid rgba($color-border, 0.3);
 
         strong {
           color: $color-primary;
-          display: inline-block;
           min-width: 140px;
+          display: inline-block;
         }
+      }
+
+      ul {
+        margin: $space-sm 0 $space-md;
+        padding-left: $space-lg;
+      }
+    }
+
+    /* ---------------- Navigation ---------------- */
+    .form-navigation {
+      display: flex;
+      align-items: center;
+      gap: $space-md;
+      margin-top: $space-lg;
+      flex-shrink: 0;
+
+      button {
+        flex: 1;
+      }
+
+      span {
+        font-size: $font-size-sm;
+        color: $color-secondary;
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+
+    /* ---------------- Buttons ---------------- */
+    button {
+      margin: 0;
+      appearance: none;
+      border: none;
+      border-radius: $radius-sm;
+      padding: $space-sm $space-md;
+      font-size: $font-size-md;
+      font-weight: $fw-semibold;
+      cursor: pointer;
+      transition: all $transition-base;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover:not(:disabled) {
+      }
+
+      &:disabled {
+        background: $color-muted;
+        cursor: not-allowed;
+        opacity: 0.6;
       }
     }
   }
 
+  /* ---------------- Responsive ---------------- */
   @media (max-width: $bp-md) {
+    padding: $space-md;
     max-width: 90%;
-    padding: 0 $space-md;
+  }
+}
+
+.heart-animated {
+  svg {
+    width: max(30px, 12vw);
+    height: max(30px, 12vw);
+    overflow: visible !important;
+    fill: $color-accent;
+
+    use {
+      fill: transparent;
+      stroke: rgba(0, 0, 0, 0.7);
+      stroke-width: 1.2;
+
+      &:last-child {
+        fill: var(--heart);
+        stroke: var(--heart);
+        transform-origin: center;
+      }
+    }
   }
 }

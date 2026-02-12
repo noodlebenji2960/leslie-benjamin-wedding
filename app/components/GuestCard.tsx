@@ -66,12 +66,17 @@ const GuestCard = ({
 
   return (
     <motion.div
-      className={`guest-card ${!isValid ? "invalid" : ""}`}
-      layout
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
-      transition={{ duration: 0.2 }}
+      className={`guest-card ${!isValid ? "invalid" : ""}`} // Move class logic here
+      layout="position" // Better for layout changes
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+      transition={{
+        type: "spring",
+        stiffness: 400,
+        damping: 30,
+        layout: { type: "spring", stiffness: 500 },
+      }}
     >
       <div>
         {/* Name fields */}
@@ -92,12 +97,25 @@ const GuestCard = ({
 
         {/* Dietary / Note fields */}
         <AnimatePresence>
+          // Replace height animations with scaleY + maxHeight
           {showDietary && (
             <motion.div
               className="form-row"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, scaleY: 0.8, originY: 0 }}
+              animate={{
+                opacity: 1,
+                scaleY: 1,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30,
+                },
+              }}
+              exit={{
+                opacity: 0,
+                scaleY: 0.8,
+                transition: { duration: 0.15 },
+              }}
             >
               <input
                 type="text"
@@ -105,45 +123,52 @@ const GuestCard = ({
                 value={guest.dietary}
                 onChange={(e) => handleChange("dietary", e.target.value)}
               />
-              {isDraft && (
-                <button
-                  type="button"
-                  className="remove-guest"
-                  onClick={() => setShowDietary(false)}
-                >
-                  ×
-                </button>
-              )}
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setShowDietary(false)}
+              >
+                ×
+              </button>
             </motion.div>
           )}
-
           {showNote && (
             <motion.div
               className="form-row"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, scaleY: 0.8, originY: 0 }}
+              animate={{
+                opacity: 1,
+                scaleY: 1,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30,
+                },
+              }}
+              exit={{
+                opacity: 0,
+                scaleY: 0.8,
+                transition: { duration: 0.15 },
+              }}
             >
               <textarea
                 placeholder={t("rsvp:notePlaceholder")}
                 value={guest.note || ""}
                 onChange={(e) => handleChange("note", e.target.value)}
               />
-              {isDraft && (
-                <button
-                  type="button"
-                  className="remove-guest"
-                  onClick={() => setShowNote(false)}
-                >
-                  ×
-                </button>
-              )}
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setShowNote(false)}
+              >
+                ×
+              </button>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      <div className="guest-card-actions" >
+      <div className="guest-card-actions">
         {isDraft ? (
           <>
             <motion.button
@@ -159,49 +184,31 @@ const GuestCard = ({
               whileHover={isValid ? { scale: 1.02 } : {}}
               title={t("rsvp:addGuest")}
             >
-              <Icon.Add/>
+              <Icon.Add />
             </motion.button>
-
-            <AnimatePresence>
-              {dropdownOpen && (
-                <motion.div
-                  className="dropdown-menu"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowDietary(true);
-                      setDropdownOpen(false);
-                    }}
-                  >
-                    {t("rsvp:dietary")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowNote(true);
-                      setDropdownOpen(false);
-                    }}
-                  >
-                    {t("rsvp:note")}
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </>
         ) : (
           <>
-            <button
-              type="button"
-              className="three-dots-btn"
-              onClick={() => setDropdownOpen((s) => !s)}
-            >
-              <Icon.More/>
-            </button>
+            {!showDietary && (
+              <button
+                type="button"
+                className="three-dots-btn"
+                onClick={() => setShowDietary(true)}
+                title={t("rsvp:addDietary")}
+              >
+                <Icon.Food />
+              </button>
+            )}
+            {!showNote && (
+              <button
+                type="button"
+                className="three-dots-btn"
+                onClick={() => setShowNote(true)}
+                title={t("rsvp:addNote")}
+              >
+                <Icon.Note />
+              </button>
+            )}
             <button
               type="button"
               className="remove-guest"
@@ -212,7 +219,7 @@ const GuestCard = ({
                 if (confirmed) onRemove?.(index);
               }}
             >
-              <Icon.Close/>
+              <Icon.Close />
             </button>
           </>
         )}

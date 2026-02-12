@@ -8,6 +8,9 @@ import { useBuildLink } from "@/hooks/useBuildLink";
 import Map from "@/components/Map";
 import { Link } from "react-router";
 import { FadeInSection } from "@/components/FadeInsection";
+import DonateButton from "@/components/DonateButton";
+import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
+import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -166,6 +169,7 @@ export default function Home() {
         <div className="guest-essentials">
           <div className="essentials-grid">
             <div className="essential-item">
+              <ShoeIllustration height={200} width={200} />
               <strong>
                 {t("dressCode", { ns: "home", defaultValue: "Dress Code" })}
               </strong>
@@ -175,7 +179,7 @@ export default function Home() {
                 defaultValue: "Semi-formal. No jeans, no flip-flops.",
               })}
             </div>
-
+            <div className="vertical-separator" />
             <div className="essential-item">
               <strong>
                 {t("familyWelcome", { ns: "home", defaultValue: "Family" })}
@@ -186,16 +190,20 @@ export default function Home() {
                 defaultValue: "Children welcome with kids area.",
               })}
             </div>
-
+            <div className="vertical-separator" />
             <div className="essential-item">
+              <HeartBoxIllustration height={200} width={200} />
               <strong>
                 {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
               </strong>
               <br />
-              {t("giftsHint", {
-                ns: "home",
-                defaultValue: "Your love is enough ❤️",
-              })}
+              <Trans
+                i18nKey="giftsHint"
+                ns="home"
+                components={{
+                  DonateButton: <DonateButton />,
+                }}
+              />
             </div>
           </div>
         </div>
@@ -204,6 +212,11 @@ export default function Home() {
       {/* RSVP & CONTACT */}
       <FadeInSection delay={0.1}>
         <div className="rsvp-section">
+          <Countdown
+            size="lg"
+            date={wedding.wedding.date}
+            time={wedding.wedding.ceremony.time}
+          />
           <p className="rsvp-intro">
             <Trans
               i18nKey="rsvpIntro"
@@ -212,11 +225,6 @@ export default function Home() {
               components={{ strong: <strong /> }}
             />
           </p>
-          <Countdown
-            size="lg"
-            date={wedding.wedding.date}
-            time={wedding.wedding.ceremony.time}
-          />
           <button onClick={handleRSVP} className="cta-btn">
             {t("rsvp", { ns: "home" })}
           </button>
@@ -251,9 +259,10 @@ export default function Home() {
                   >
                     <strong>{c.name}</strong>
                     <br />
-                    {c.phone && <a href={`tel:${c.phone}`}>{c.phone}</a>}
-                    <br />
                     <a href={`mailto:${c.email}`}>{c.email}</a>
+
+                    <br />
+                    {c.phone && <a href={`tel:${c.phone}`}>{c.phone}</a>}
                   </div>
                   {index !== wedding.contact.length - 1 && (
                     <div className="vertical-separator" />

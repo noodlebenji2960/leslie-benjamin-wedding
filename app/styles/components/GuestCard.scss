@@ -1,6 +1,9 @@
-@import '../variables.scss';
+@import "../variables.scss";
 
 .guest-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: $color-white;
   border: 1px solid $color-border;
   border-radius: $radius-md;
@@ -35,33 +38,34 @@
       line-height: 1;
       cursor: pointer;
       padding: 0;
-      transition: color $transition-base, transform $transition-base;
+      transition:
+        color $transition-base,
+        transform $transition-base;
 
       &:hover {
         color: $color-danger;
-        transform: scale(1.1);
       }
     }
   }
 
   /* Rows */
   .form-row {
+    position: relative;
     display: flex;
     gap: $space-sm;
-    margin-bottom: $space-sm;
     overflow: hidden;
+    padding: $space-sm;
 
     input,
     textarea {
       flex: 1;
-      font-size: $font-size-sm;
-      padding: $space-sm $space-sm;
       border-radius: $radius-sm;
       border: 1px solid $color-border;
       background: $color-white;
       color: $color-text;
       font-family: $font-body;
-      transition: border-color $transition-base,
+      transition:
+        border-color $transition-base,
         box-shadow $transition-base;
 
       &::placeholder {
@@ -73,37 +77,49 @@
         border-color: $color-primary;
         box-shadow: 0 0 0 3px rgba($color-primary, 0.25);
       }
+
+      &:hover + .close-btn,
+      &:focus + .close-btn {
+        opacity: 1;
+      }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      opacity: 0.1;
+
+      &:hover {
+        opacity: 1;
+      }
     }
 
     textarea {
       resize: vertical;
       min-height: 70px;
+      max-height: 170px;
     }
   }
 
   /* Toggle buttons */
-  .guest-actions {
+  .guest-card-actions {
     display: flex;
-    gap: $space-sm;
-    margin-bottom: $space-xs;
+    justify-content: space-between;
+    gap: 0;
+    width: 100%;
 
-    .link-btn {
-      background: transparent;
-      border: none;
-      padding: 0;
-      font-size: $font-size-xs;
-      font-weight: $fw-medium;
-      color: $color-primary;
-      cursor: pointer;
-      transition: color $transition-base;
+    button {
+      background: none;
+      padding: $space-xs;
+      width: min-content;
+      margin-left: auto;
+      opacity: 0.5;
+      transition: opacity $transition-base; 
 
-      &:hover {
-        text-decoration: underline;
-      }
-
-      &.active {
-        color: $color-accent;
-        font-weight: $fw-semibold;
+      &:hover:not(:disabled) {
+        opacity: 1;
       }
     }
   }
@@ -120,18 +136,18 @@
     font-size: $font-size-sm;
     font-weight: $fw-semibold;
     cursor: pointer;
-    transition: background $transition-base,
+
+    transition:
+      background $transition-base,
       transform $transition-base,
       box-shadow $transition-base;
 
     &:hover:not(:disabled) {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba($color-shadow, 0.35);
+      background: $color-primary;
     }
 
     &:disabled {
-      background: $color-muted;
+      background: $color-primary;
       cursor: not-allowed;
       box-shadow: none;
       transform: none;

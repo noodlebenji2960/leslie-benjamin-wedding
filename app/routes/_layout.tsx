@@ -8,6 +8,7 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import ReactLenis, { useLenis } from "lenis/react";
+import Footer from "@/components/PageFooter";
 
 export default function Layout() {
   const location = useLocation();
@@ -76,6 +77,7 @@ export default function Layout() {
               <ThemeSwitcher />
             </div>
           </div>
+          <Footer />
         </main>
       </div>
     </ReactLenis>

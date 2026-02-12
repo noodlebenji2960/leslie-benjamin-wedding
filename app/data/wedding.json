@@ -29,11 +29,48 @@
         },
         "website": "https://hotelsancamilo.es/",
         "phone": "+34 941 441 111",
-        "mapLink": "https://maps.app.goo.gl/sancamilo-navarrette",
+        "mapLink": "https://www.google.com/maps/place/Hotel+San+Camilo+%7C+Navarrete/@42.4337996,-2.5694638,17z/data=!3m1!4b1!4m9!3m8!1s0xd456f2fa898b43d:0xe4d2038f1d00647f!5m2!4m1!1i2!8m2!3d42.4337996!4d-2.5668942!16s%2Fg%2F12q4wldtq?entry=ttu&g_ep=EgoyMDI2MDIwOS4wIKXMDSoASAFQAw%3D%3D",
+        "mapUrl": "https://www.google.com/maps/place/Fuente+Murrieta/@42.4661562,-2.4511548,778m",
         "parking": "Amplio parking gratuito",
         "directions": "A 15min de Logroño por AP-68"
       }
     }
+  },
+  "travel": {
+    "nearestAirport": [
+      {
+        "name": "Zaragoza Airport",
+        "code": "ZAZ",
+        "distance": "10 km",
+        "transportOptions": ["Rental car", "Train"]
+      },
+      {
+        "name": "Bilbao Airport",
+        "code": "BIO",
+        "distance": "120 km",
+        "transportOptions": ["Rental car", "Train"]
+      },
+      {
+        "name": "Logroño-Agoncillo Airport",
+        "code": "RJL",
+        "distance": "15 km",
+        "transportOptions": ["Taxi", "Bus", "Rental car"]
+      }
+    ],
+    "hotels": [
+      {
+        "name": "Hotel San Camilo",
+        "address": "Ctra. Fuenmayor, 4, Navarrette, La Rioja",
+        "website": "https://hotelsancamilo.es/",
+        "phone": "+34 941 441 111"
+      },
+      {
+        "name": "Hotel Los Agustinos",
+        "address": "Calle Los Agustinos, 10, Logroño, La Rioja",
+        "website": "https://hotellosagustinos.com",
+        "phone": "+34 941 234 567"
+      }
+    ]
   },
   "schedule": [
     {

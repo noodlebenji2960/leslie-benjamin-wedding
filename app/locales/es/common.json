@@ -5,9 +5,10 @@
     "schedule": "Programa",
     "qa": "Preguntas",
     "es": "Español",
-    "en": "English",
+    "en": "Inglés",
     "days": "días",
     "hours": "horas",
     "minutes": "minutos"
-  }
+  },
+  "click_here": "haz clic aquí"
 }

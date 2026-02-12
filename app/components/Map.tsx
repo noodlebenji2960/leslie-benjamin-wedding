@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import "@/styles/components/Map.scss";
+import { Icon } from "./Icon";
 
 type MapProps = {
   label?: string;
-  coordinates: { lat: number; lng: number };
+  coordinates: { lat: number; lng: number } | string;
   extraCoordinates?: {
     lat: number;
     lng: number;
@@ -37,182 +38,195 @@ const Map: React.FC<MapProps> = ({
   const mapRef = useRef<any>(null);
   const routingControlRef = useRef<any>(null);
 
-  // Load Leaflet modules
+  // 1. Process coordinates safely
+  const parsedCoordinates = useMemo(() => {
+    if (!coordinates) return null;
+    try {
+      return typeof coordinates === "string"
+        ? JSON.parse(coordinates)
+        : coordinates;
+    } catch (e) {
+      console.error("Map Error: Invalid coordinates format", e);
+      return null;
+    }
+  }, [coordinates]);
+
+  // 2. Load Leaflet and CSS dynamically
   useEffect(() => {
+    let isMounted = true;
     (async () => {
       const [reactLeaflet, leaflet] = await Promise.all([
         import("react-leaflet"),
         import("leaflet"),
         import("leaflet/dist/leaflet.css"),
       ]);
-      setLeaflet(reactLeaflet);
-      setL(leaflet.default);
+      if (isMounted) {
+        setLeaflet(reactLeaflet);
+        setL(leaflet.default);
+      }
     })();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // Load routing machine separately after Leaflet is ready
+  // 3. Setup Routing Machine
   useEffect(() => {
     if (!L || !showRoute) return;
-
-    (async () => {
-      await Promise.all([
-        import("leaflet-routing-machine"),
-        import("leaflet-routing-machine/dist/leaflet-routing-machine.css"),
-      ]);
-
-      // Wait for L.Routing to be available
-      let attempts = 0;
-      const checkRouting = setInterval(() => {
-        if ((L as any).Routing || (window as any).L?.Routing) {
-          if (!(L as any).Routing) {
-            (L as any).Routing = (window as any).L.Routing;
-          }
-          setRoutingReady(true);
-          clearInterval(checkRouting);
-        }
-        attempts++;
-        if (attempts > 20) clearInterval(checkRouting); // timeout after 2s
-      }, 100);
-    })();
+    import("leaflet-routing-machine").then(() => {
+      setRoutingReady(true);
+    });
   }, [L, showRoute]);
 
-  // Remove attribution
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const el = document.querySelector(
-        ".leaflet-control-attribution.leaflet-control",
-      );
-      if (el) {
-        el.remove();
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Add routing control
+  // 4. Handle Routing Logic
   useEffect(() => {
     if (
       !routingReady ||
       !L ||
       !mapRef.current ||
-      !showRoute ||
+      !parsedCoordinates ||
       !extraCoordinates?.length
     )
       return;
 
-    // Clean up previous routing control
-    if (routingControlRef.current) {
-      routingControlRef.current.remove();
-      routingControlRef.current = null;
-    }
+    if (routingControlRef.current) routingControlRef.current.remove();
 
-    try {
-      const map = mapRef.current;
-      const waypoints = [
-        (L as any).latLng(coordinates.lat, coordinates.lng),
-        (L as any).latLng(extraCoordinates[0].lat, extraCoordinates[0].lng),
-      ];
+    const waypoints = [
+      L.latLng(parsedCoordinates.lat, parsedCoordinates.lng),
+      L.latLng(extraCoordinates[0].lat, extraCoordinates[0].lng),
+    ];
 
-      routingControlRef.current = (L as any).Routing.control({
-        waypoints,
-        routeWhileDragging: false,
-        show: false,
-        addWaypoints: false,
-        draggableWaypoints: false,
-        createMarker: () => null, // Hide routing's auto-generated waypoint markers
-        lineOptions: {
-          styles: [
-            {
-              color: "var(--color-primary)",
-              weight: 4,
-            },
-          ],
-          extendToWaypoints: true,
-          missingRouteTolerance: 0,
-        },
-      }).addTo(map);
-
-      // Hide the routing instructions panel
-      setTimeout(() => {
-        const routingContainer = document.querySelector(
-          ".leaflet-routing-container",
-        );
-        if (routingContainer) {
-          (routingContainer as HTMLElement).style.display = "none";
-        }
-      }, 100);
-    } catch (error) {
-      console.error("Failed to add routing:", error);
-    }
+    routingControlRef.current = (L as any).Routing.control({
+      waypoints,
+      addWaypoints: false,
+      draggableWaypoints: false,
+      show: false,
+      createMarker: () => null,
+      lineOptions: { styles: [{ color: "var(--color-primary)", weight: 4 }] },
+    }).addTo(mapRef.current);
 
     return () => {
-      if (routingControlRef.current) {
-        routingControlRef.current.remove();
-        routingControlRef.current = null;
-      }
+      if (routingControlRef.current) routingControlRef.current.remove();
     };
-  }, [routingReady, L, showRoute, coordinates, extraCoordinates]);
+  }, [routingReady, L, parsedCoordinates, extraCoordinates]);
 
-  if (!Leaflet || !L) return null;
+  // 5. Memoize Map Properties
+  const isLoading = !Leaflet || !L || !parsedCoordinates;
 
-  const allCoords = extraCoordinates
-    ? [coordinates, ...extraCoordinates]
-    : [coordinates];
+  const allCoords = useMemo(() => {
+    if (!parsedCoordinates) return [];
+    return extraCoordinates
+      ? [
+          { lat: parsedCoordinates.lat, lng: parsedCoordinates.lng },
+          ...extraCoordinates,
+        ]
+      : [{ lat: parsedCoordinates.lat, lng: parsedCoordinates.lng }];
+  }, [parsedCoordinates, extraCoordinates]);
 
-  // Determine map center and zoom
-  const mapProps =
-    zoom !== undefined
+  const mapProps = useMemo(() => {
+    if (!parsedCoordinates) return {};
+    return zoom !== undefined
       ? {
-          center: [coordinates.lat, coordinates.lng] as [number, number],
-          zoom: zoom,
+          center: [parsedCoordinates.lat, parsedCoordinates.lng] as [
+            number,
+            number,
+          ],
+          zoom,
         }
       : {
           bounds: allCoords.map((c: any) => [c.lat, c.lng]),
-          boundsOptions: { padding: [50, 50] },
+          boundsOptions: { padding: [40, 40] },
         };
+  }, [parsedCoordinates, zoom, allCoords]);
 
   return (
-    <Leaflet.MapContainer
-      ref={mapRef}
-      {...mapProps}
-      style={{ ...style, width, height, borderRadius: "8px" }}
-      scrollWheelZoom={false}
-      dragging={interactive}
-      touchZoom={interactive}
-      doubleClickZoom={interactive}
-      boxZoom={interactive}
-      keyboard={interactive}
-      zoomControl={interactive}
-
-      whenReady={() => {
-        // Ensure map is fully initialized
-        if (mapRef.current) {
-          mapRef.current.invalidateSize();
-        }
+    <div
+      className="map-container-wrapper"
+      style={{
+        ...style,
+        width,
+        height,
+        position: "relative",
+        overflow: "hidden",
+        borderRadius: "8px",
       }}
     >
-      <Leaflet.TileLayer
-        url="https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png"
-        attribution=""
-      />
-      <Leaflet.Marker position={[coordinates.lat, coordinates.lng]}>
-        <Leaflet.Popup>
-          {mapUrl && (
-            <a href={mapUrl} target="_blank" rel="noopener noreferrer">
-              {label && <div className="map-label">{label}</div>}
-            </a>
-          )}
-        </Leaflet.Popup>
-      </Leaflet.Marker>
-      {extraCoordinates?.map((c, i) =>
-        c.showMarker !== false ? (
-          <Leaflet.Marker key={i} position={[c.lat, c.lng]}>
-            <Leaflet.Popup>{c.label || "Additional location"}</Leaflet.Popup>
+      {isLoading ? (
+        <div
+          className="map-loading-placeholder"
+          style={{
+            width: "100%",
+            height: "100%",
+            background: "#f8f8f8",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#888",
+            fontSize: "0.9rem",
+          }}
+        >
+          <span>Loading Map...</span>
+        </div>
+      ) : (
+        <Leaflet.MapContainer
+          ref={mapRef}
+          {...mapProps}
+          style={{ width: "100%", height: "100%" }}
+          scrollWheelZoom={false}
+          dragging={interactive}
+          zoomControl={interactive}
+          // Removes the default "Leaflet" prefix and attribution container
+          attributionControl={false}
+          whenReady={() => {
+            // Necessary for Framer Motion accordions to fix grey tiles
+            setTimeout(() => {
+              if (mapRef.current) {
+                mapRef.current.invalidateSize();
+              }
+            }, 400);
+          }}
+        >
+          <Leaflet.TileLayer
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            attribution="" // Ensures tile provider text is hidden
+          />
+
+          <Leaflet.Marker
+            position={[parsedCoordinates.lat, parsedCoordinates.lng]}
+          >
+            <Leaflet.Popup closeButton={false}>
+              {mapUrl ? (
+                <a
+                  href={mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {label || "View Location"} <Icon.ExternalLink size={16} />
+                </a>
+              ) : (
+                label
+              )}
+            </Leaflet.Popup>
           </Leaflet.Marker>
-        ) : null,
+
+          {extraCoordinates?.map(
+            (c, i) =>
+              c.showMarker !== false && (
+                <Leaflet.Marker key={i} position={[c.lat, c.lng]}>
+                  <Leaflet.Popup>
+                    {c.label || "Additional location"}
+                  </Leaflet.Popup>
+                </Leaflet.Marker>
+              ),
+          )}
+        </Leaflet.MapContainer>
       )}
-    </Leaflet.MapContainer>
+    </div>
   );
 };
 

@@ -1,45 +1,99 @@
 {
-  "title": "Preguntas & Respuestas",
+  "title": "¿Preguntas?",
+  "all": "Todas",
+  "essentials": "Esenciales",
+  "logistics": "Logística",
+  "style": "Código de Vestimenta",
+  "family": "Familia",
+  "gifts": "Regalos",
+  "travel": "Viaje y Alojamiento",
+  "loading": "Cargando...",
+  "links": {
+    "skyscanner": "Skyscanner",
+    "airbnb": "AirBnB"
+  },
+  "distance": "{{distance}}",
+  "transport": "Transporte: {{transport}}",
   "items": [
     {
-      "question": "¿Cuál es la fecha límite para el RSVP?",
-      "answer": "Por favor confirma tu asistencia antes del 11 de mayo, para que podamos tener un conteo exacto. :)"
+      "question": "¿Cuál es la fecha límite para confirmar asistencia?",
+      "answer": "Por favor confirma tu asistencia antes del <strong>{{rsvpDeadline}}</strong> (hora de España) para que podamos tener un conteo exacto. ¡Nos ayuda muchísimo con la planificación! 😊",
+      "category": "essentials",
+      "alwaysShow": true
     },
     {
-      "question": "¿Puedo llevar acompañante?",
-      "answer": "¡Revisa tu invitación para ver si tienes un +1!"
+      "question": "¿Dónde se celebrará la ceremonia y la fiesta?",
+      "answer": "Todo tendrá lugar en <strong><VenueLink/></strong> comenzando a las {{ceremonyTime}}. <br/><MapVenue></MapVenue> <br/>Para los invitados que vienen desde Reino Unido, aquí hay una lista de hoteles cercanos: <HotelLinks/>",
+      "category": "essentials",
+      "alwaysShow": true
     },
     {
       "question": "¿Cómo estará el clima?",
-      "answer": "Julio suele ser muy soleado ☀️ y cálido. Se esperan temperaturas durante el día de 25–30°C, con noches más frescas cuando se oculta el sol. La lluvia es poco probable, pero recomendamos llevar una capa ligera por si acaso en la noche."
+      "answer": "Julio suele ser soleado y cálido, a menudo más que en el Reino Unido. Aquí está el pronóstico actual para el lugar: <WeatherForecast/>",
+      "category": "logistics"
     },
     {
-      "question": "¿Dónde debo aparcar?",
-      "answer": "¡¿Para qué el coche?! No lo hagas. Habrá un bus desde Fuente Murrieta en Logroño hasta el hotel. Pero si no vas a beber y realmente quieres llevar el coche, hay estacionamiento gratuito disponible en el lugar del evento."
+      "question": "¿Habrá un autobús de traslado?",
+      "answer": "¡Sí! Un autobús saldrá a las <strong>{{busTime}}</strong> desde el punto de encuentro principal. <br/><MapBus></MapBus> Los invitados que vienen del extranjero deben planear llegar al punto de encuentro a tiempo.",
+      "category": "logistics",
+      "alwaysShow": true
     },
     {
-      "question": "¿Son accesibles para sillas de ruedas la ceremonia y la recepción?",
-      "answer": "Sí."
+      "question": "¿Puedo llevar acompañante?",
+      "answer": "¡Revisa tu invitación! Si dice 'y acompañante', entonces sí. De lo contrario, solo hemos reservado un asiento para ti. Esto incluye a parejas que viajan desde Reino Unido.",
+      "category": "essentials"
     },
     {
-      "question": "¿Qué debo vestir?",
-      "answer": "No blanco. Algo ligero y brillante, y zapatos cómodos para un día cálido. Por la noche puede refrescar, así que una chaqueta ligera o un chal pueden ser útiles. Lo más importante es que uses algo con lo que puedas disfrutar bailando 💃🕺"
+      "question": "¿Los niños están invitados?",
+      "answer": "Amamos a los más pequeños, pero hemos decidido que nuestra boda será un <strong>evento solo para adultos</strong>. ¡Esperamos que disfrutes de una noche para celebrar con nosotros!",
+      "category": "family"
     },
     {
-      "question": "¿La boda será al aire libre o en interiores?",
-      "answer": "¡Ambos! La ceremonia será al aire libre, seguida de cócteles. La cena será en interiores, así que podrás disfrutar del sol y luego acomodarte cómodamente para la noche 🌿✨"
+      "question": "¿Cuál es el código de vestimenta?",
+      "answer": "Formal / Cóctel. Por favor, evita usar blanco o marfil. Como es {{weddingDate}} en España, recomendamos telas ligeras y transpirables para mantenerte fresco.",
+      "category": "style",
+      "alwaysShow": true
     },
     {
-      "question": "¿Qué tipo de zapatos debería/no debería usar?",
-      "answer": "Evita los tacones de aguja — hay áreas de césped y tierra. Tacones más anchos, cuñas, flats o sandalias serán mucho más cómodos (y seguros). No queremos que nadie arruine sus zapatos o pase la noche preocupándose por sus tobillos."
+      "question": "¿Hay lista de regalos o registro?",
+      "answer": "Tu presencia es el mejor regalo de todos. Sin embargo, si deseas honrarnos con un regalo, una contribución a nuestro <strong>fondo para la luna de miel</strong> sería muy apreciada. <DonateButton/>",
+      "category": "gifts"
     },
     {
-      "question": "¿Está bien tomar fotos con nuestros teléfonos y cámaras durante la boda?",
-      "answer": "¡Por supuesto! Toma todas las fotos que quieras, pero tendremos fotógrafo profesional y photobooth para capturar los momentos especiales 📸 Por favor, ten en cuenta los flashes durante la ceremonia para que todos puedan disfrutar del momento."
+      "question": "¿La ceremonia será al aire libre o en interior?",
+      "answer": "¡Ambas! Tendremos la ceremonia al aire libre ({{ceremonyTime}}), seguida de cócteles en la terraza y una cena en interior en {{ceremonyVenue}}. Recomendamos protector solar y sombreros para quienes no estén acostumbrados al sol de julio en España.",
+      "category": "logistics"
     },
     {
-      "question": "¿A quién debo llamar si tengo preguntas?",
-      "answer": "Llámanos o mándanos un mensaje por WhatsApp si tienes alguna pregunta:\n\nLeslie: +34 609 872 090\nBen: +34 680 840 891"
+      "question": "¿Qué tipo de calzado debo usar?",
+      "answer": "La ceremonia será sobre césped, así que recomendamos evitar tacones finos. Cuñas, tacones anchos o zapatos planos elegantes serán mucho más cómodos para bailar.",
+      "category": "style"
+    },
+    {
+      "question": "¿Habrá opciones especiales de comida?",
+      "answer": "¡Por supuesto! Cuando confirmes tu asistencia, por favor indícanos si eres vegano, sin gluten, tienes alergias graves o restricciones dietéticas comunes en el Reino Unido para que nuestro equipo de catering pueda prepararlo adecuadamente.",
+      "category": "essentials"
+    },
+    {
+      "question": "¿Puedo tomar fotos?",
+      "answer": "Te invitamos a estar completamente presente durante nuestra ceremonia y pedimos que mantengas los teléfonos guardados. Durante la fiesta, ¡puedes tomar tantas fotos como quieras! 📸",
+      "category": "style"
+    },
+    {
+      "question": "¿Preguntas de última hora?",
+      "answer": "Si necesitas algo el día de la boda, por favor contacta a nuestros coordinadores:<br/><strong>{{brideFirstName}}:</strong> +44{{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> +44{{groomPhone}}",
+      "category": "essentials",
+      "alwaysShow": true
+    },
+    {
+      "question": "¿A qué aeropuertos debo volar?",
+      "answer": "Hay varios aeropuertos cerca del lugar, puedes revisar opciones de vuelo en <SkyscannerLink/>.<br/><AirportsList/>",
+      "category": "travel"
+    },
+    {
+      "question": "¿Dónde debo alojarme?",
+      "answer": "Para tu comodidad, hemos compilado una lista de hoteles recomendados cerca del punto de recogida del autobús o alternativamente revisa <AirBnbLink/>. <HotelLinks/>. Sugerimos reservar con anticipación, especialmente para los invitados que vienen desde Reino Unido.",
+      "category": "travel"
     }
   ]
 }
