@@ -1,0 +1,17 @@
+@import "./_variables.scss";
+@import "./global.scss";
+
+.qa-page {
+  padding: 1rem 0;
+}
+
+.faq-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: $color-shadow;
+}

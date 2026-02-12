@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "rsvp": "RSVP",
+    "schedule": "Programa",
+    "qa": "Preguntas",
+    "es": "Español",
+    "en": "English",
+    "days": "días",
+    "hours": "horas",
+    "minutes": "minutos"
+  }
+}

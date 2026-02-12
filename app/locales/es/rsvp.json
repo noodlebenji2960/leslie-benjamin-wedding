@@ -1,0 +1,41 @@
+{
+  "title": "RSVP",
+  "steps": {
+    "contactAndAttendance": "Por favor introduce tus datos de contacto para comenzar.",
+    "guestsOrName": "Añade a tus invitados acompañantes o proporciona tu nombre si no asistirás.",
+    "captcha": "Un paso final para verificar que eres humano.",
+    "review": "Por favor revisa tu información antes de enviar."
+  },
+  "name": "Nombre",
+  "yourName": "Tu Nombre",
+  "email": "Correo electrónico",
+  "attending": "¿Asistirás?",
+  "select": "Selecciona...",
+  "yes": "Sí",
+  "no": "No",
+  "guestsTitle": "Invitados",
+  "noGuests": "Aún no se han añadido invitados",
+  "firstName": "Nombre",
+  "lastName": "Apellidos",
+  "dietary": "Requisitos dietéticos",
+  "dietaryPlaceholder": "Vegetariano, alergias, etc.",
+  "addGuest": "Añadir invitado",
+  "note": "Nota adicional",
+  "notePlaceholder": "Notas adicionales o comentarios...",
+  "guestNote": "Nota del invitado",
+  "messageToBrideGroom": "Mensaje para los novios",
+  "back": "Atrás",
+  "next": "Siguiente",
+  "submit": "Enviar RSVP",
+  "sending": "Enviando...",
+  "thankYou": "¡Gracias!",
+  "confirmation": "Hemos recibido tu RSVP y esperamos verte pronto.",
+  "captchaQuestion": "¿Cuánto es 3 + 4?",
+  "errors": {
+    "required": "Por favor completa todos los campos obligatorios.",
+    "addAtLeastOneGuest": "Por favor añade al menos un invitado con nombre y apellido.",
+    "invalidEmail": "Por favor introduce un correo electrónico válido.",
+    "failed": "Error al enviar.",
+    "fallback": "Por favor inténtalo de nuevo o contáctanos directamente."
+  }
+}

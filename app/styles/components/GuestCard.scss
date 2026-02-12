@@ -1,0 +1,152 @@
+@import '../variables.scss';
+
+.guest-card {
+  background: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $space-md;
+  margin-bottom: $space-md;
+  box-shadow: 0 6px 18px rgba($color-shadow, 0.4);
+
+  &.invalid {
+    border-color: $color-danger;
+    background: rgba($color-danger, 0.05);
+  }
+
+  /* Header */
+  .guest-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-sm;
+
+    h4 {
+      font-size: $font-size-sm;
+      font-weight: $fw-semibold;
+      color: $color-text;
+      margin: 0;
+    }
+
+    .remove-guest {
+      border: none;
+      background: transparent;
+      color: $color-secondary;
+      font-size: $font-size-lg;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      transition: color $transition-base, transform $transition-base;
+
+      &:hover {
+        color: $color-danger;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  /* Rows */
+  .form-row {
+    display: flex;
+    gap: $space-sm;
+    margin-bottom: $space-sm;
+    overflow: hidden;
+
+    input,
+    textarea {
+      flex: 1;
+      font-size: $font-size-sm;
+      padding: $space-sm $space-sm;
+      border-radius: $radius-sm;
+      border: 1px solid $color-border;
+      background: $color-white;
+      color: $color-text;
+      font-family: $font-body;
+      transition: border-color $transition-base,
+        box-shadow $transition-base;
+
+      &::placeholder {
+        color: $color-secondary;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.25);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+  }
+
+  /* Toggle buttons */
+  .guest-actions {
+    display: flex;
+    gap: $space-sm;
+    margin-bottom: $space-xs;
+
+    .link-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font-size: $font-size-xs;
+      font-weight: $fw-medium;
+      color: $color-primary;
+      cursor: pointer;
+      transition: color $transition-base;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &.active {
+        color: $color-accent;
+        font-weight: $fw-semibold;
+      }
+    }
+  }
+
+  /* Confirm button */
+  .form-btn {
+    width: 100%;
+    margin-top: $space-sm;
+    padding: $space-sm $space-md;
+    border-radius: $radius-button;
+    border: none;
+    background: $color-primary;
+    color: $color-white;
+    font-size: $font-size-sm;
+    font-weight: $fw-semibold;
+    cursor: pointer;
+    transition: background $transition-base,
+      transform $transition-base,
+      box-shadow $transition-base;
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba($color-shadow, 0.35);
+    }
+
+    &:disabled {
+      background: $color-muted;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+}
+
+/* Mobile tweaks */
+@media (max-width: $bp-sm) {
+  .guest-card {
+    padding: $space-sm;
+
+    .form-row {
+      flex-direction: column;
+      gap: $space-xs;
+    }
+  }
+}

@@ -1,0 +1,3 @@
+@mixin semi-transparent($color-var, $opacity: 0.7) {
+  background-color: color-mix(in srgb, $color-var $opacity * 100%, transparent);
+}
