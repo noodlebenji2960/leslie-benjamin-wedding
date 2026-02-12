@@ -1,0 +1,39 @@
+// ==========================================
+// _fonts.scss
+// Include local font files from `public/fonts` so devices without local installs
+// will download and use the correct typeface. Add woff/woff2 files for better
+// mobile/browser support if available.
+// ==========================================
+
+@font-face {
+  font-family: 'Adelia';
+  /* Prefer local copy if the user has it installed, then fall back to bundled files.
+     Order: woff2 -> woff -> ttf -> otf */
+  src: local('Adelia'),
+       url('/fonts/adelia/adelia.woff2') format('woff2'),
+       url('/fonts/adelia/adelia.woff') format('woff'),
+       url('/fonts/adelia/adelia.ttf') format('truetype'),
+       url('/fonts/adelia/adelia.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mantonico';
+  src: local('Mantonico'),
+    /* Prefer woff2/woff when available (safe filenames without spaces). */
+    url('/fonts/mantonico/mantonico-regular.woff2') format('woff2'),
+    url('/fonts/mantonico/mantonico-regular.woff') format('woff'),
+    url('/fonts/mantonico/mantonico-regular.ttf') format('truetype'),
+    url('/fonts/mantonico/mantonico-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Notes:
+ - For best browser/mobile coverage produce and include woff2 and woff versions.
+ - If you deploy to a subpath, ensure VITE_BASE (or build base) is correct so
+   the leading '/' paths resolve; alternatively use relative paths.
+*/
