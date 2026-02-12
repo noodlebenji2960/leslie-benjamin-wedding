@@ -8,8 +8,6 @@ export default defineConfig({
   // For GitHub Pages with a custom domain you should set the base to '/'.
   base: process.env.VITE_BASE
     ? process.env.VITE_BASE
-    : process.env.NODE_ENV === "production"
-    ? "/leslie-benjamin-wedding/"
     : "/",
   build: {
     outDir: "dist",
