@@ -1,0 +1,38 @@
+@import "../_variables.scss";
+
+/* Theme toggle - EXACT LanguageSwitcher pattern */
+.theme-toggle-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+    border: 1px solid $color-border;
+  width: 34px;
+  height: 44px;
+  transition: border-color 0.5s ease;
+
+  &:hover {
+    border-color: $color-text;
+  }
+}
+
+.theme-toggle-slider .toggle-icons {
+  display: flex;
+  flex-direction: column;  // 👈 Vertical stack like language-icons
+  align-items: center;
+}
+
+.theme-toggle-slider .icon {
+  padding: 0.15rem 0.25rem;  // 👈 Matched language-label padding
+  border-radius: $radius-sm; // 👈 Matched radius
+  font-weight: 600;         // 👈 Matched weight
+  opacity: 0.2;            // 👈 Matched inactive opacity
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.theme-toggle-slider .icon.active {
+  opacity: 1;
+  color: $color-text;
+}

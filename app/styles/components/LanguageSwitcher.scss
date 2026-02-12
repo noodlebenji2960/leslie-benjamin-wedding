@@ -1,0 +1,31 @@
+@import "../_variables.scss";
+
+.language-switcher {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.language-switcher .language-icons {
+  display: flex;           // 👈 Changed from inline-flex
+  flex-direction: column;  // 👈 ADDED - forces vertical stack
+  align-items: center;
+}
+
+.language-switcher .language-label {
+  padding: 0.25rem 0.45rem;
+  border-radius: $radius-sm;
+  font-weight: 600;
+  opacity: 0.4;
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.language-switcher .language-label.active {
+  opacity: 1;
+  color: $color-text;
+}

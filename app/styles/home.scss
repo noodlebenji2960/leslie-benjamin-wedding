@@ -1,0 +1,476 @@
+// ─────────────────────────────────────────────
+// home.scss — Elegant Wedding Landing Page
+// ─────────────────────────────────────────────
+@import "./_variables.scss";
+
+// Mixin for semi-transparent backgrounds
+@mixin semi-transparent($color-var, $opacity: 0.7) {
+  background-color: color-mix(in srgb, $color-var $opacity * 100%, transparent);
+}
+
+// ─────────────────────────────────────────────
+// Hero Section
+// ─────────────────────────────────────────────
+
+.home-hero {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $space-xxl $space-lg;
+  text-align: center;
+
+  h1 {
+    font-family: $font-header;
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: $fw-regular;
+    color: $color-text;
+    margin: 0 0 $space-lg;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    position: relative;
+  }
+}
+
+.hero-subtitle {
+  font-family: $font-body;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: $color-secondary;
+  margin-bottom: $space-md;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: $fw-medium;
+}
+
+.hero-body {
+  font-family: $font-body;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: $color-text;
+  margin: 0 auto $space-xl;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+.hero-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-md;
+  margin: $space-xl 0;
+  font-family: $font-heading;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  color: $color-text;
+  letter-spacing: 0.03em;
+
+  .date-month {
+    text-transform: capitalize;
+    font-weight: $fw-medium;
+    font-family: $font-fancy;
+  }
+
+  .date-daynum {
+    font-size: 1.4em;
+    font-weight: $fw-bold;
+    color: $color-accent;
+  }
+
+  .date-year {
+    font-weight: $fw-regular;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Venue Card & Map
+// ─────────────────────────────────────────────
+
+.venue-card {
+  @include semi-transparent($color-background, 0.8);
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $space-xl;
+  margin: $space-xl 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  .hero-location {
+    font-family: $font-body;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: $space-lg;
+    color: $color-text;
+
+    strong {
+      font-size: 1.25em;
+      font-weight: $fw-bold;
+      color: $color-accent;
+      display: block;
+      margin-bottom: $space-sm;
+    }
+
+    a {
+      color: $color-accent;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
+
+      &:hover {
+        border-bottom-color: $color-accent;
+      }
+    }
+  }
+}
+
+// ─────────────────────────────────────────────
+// Schedule Preview
+// ─────────────────────────────────────────────
+
+.schedule-preview {
+  margin: $space-xxl 0;
+  padding: $space-xl;
+  @include semi-transparent($color-background, 0.5);
+
+  h3 {
+    font-family: $font-header;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: $fw-medium;
+    color: $color-text;
+    margin-bottom: $space-lg;
+    text-align: center;
+  }
+}
+
+.timeline {
+  position: relative;
+  padding: $space-lg 0;
+  max-width: 500px;
+  margin: 0 auto $space-lg;
+
+  // Vertical line
+  &::before {
+    content: "";
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      $color-border 10%,
+      $color-border 90%,
+      transparent
+    );
+  }
+
+  @media (max-width: 640px) {
+    &::before {
+      left: 16px;
+    }
+  }
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-lg;
+  margin-bottom: $space-lg;
+  position: relative;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.timeline-dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: $color-accent;
+  border: 3px solid $color-background;
+  box-shadow: 0 0 0 2px $color-accent;
+  position: relative;
+  z-index: 1;
+  margin-top: 4px;
+  margin-left: 18px;
+
+  @media (max-width: 640px) {
+    margin-left: 10px;
+  }
+}
+
+.timeline-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  padding-top: 2px;
+}
+
+.timeline-time {
+  font-family: $font-body;
+  font-size: 0.875rem;
+  font-weight: $fw-bold;
+  color: $color-accent;
+  letter-spacing: 0.05em;
+}
+
+.timeline-label {
+  font-family: $font-body;
+  font-size: 1rem;
+  color: $color-text;
+  line-height: 1.5;
+}
+
+.schedule-body {
+  font-family: $font-body;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: $color-text;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+
+  .faq-link {
+    color: $color-accent;
+    text-decoration: none;
+    border-bottom: 1px solid $color-accent;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────
+// Guest Essentials
+// ─────────────────────────────────────────────
+
+.guest-essentials {
+  margin: $space-xxl 0;
+}
+
+.essentials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $space-lg;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.essential-item {
+  @include semi-transparent($color-background, 0.6);
+  padding: $space-lg;
+  border-radius: $radius-md;
+  text-align: center;
+  font-family: $font-body;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: $color-text;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  strong {
+    display: block;
+    font-size: 1.1em;
+    font-weight: $fw-bold;
+    color: $color-accent;
+    margin-bottom: $space-xs;
+  }
+}
+
+// ─────────────────────────────────────────────
+// RSVP Section
+// ─────────────────────────────────────────────
+
+.rsvp-section {
+  margin: $space-xxl 0;
+  padding: $space-xl;
+  @include semi-transparent($color-background, 0.8);
+  border-radius: $radius-lg;
+  border: 2px solid $color-accent;
+  text-align: center;
+}
+
+.rsvp-intro {
+  font-family: $font-body;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.7;
+  color: $color-text;
+  margin-bottom: $space-lg;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+
+  strong {
+    color: $color-accent;
+    font-weight: $fw-bold;
+  }
+}
+
+.cta-btn {
+  font-family: $font-body;
+  font-size: 1.125rem;
+  font-weight: $fw-bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $color-white;
+  background: $color-accent;
+  border: none;
+  border-radius: $radius-button;
+  padding: $space-md $space-xl;
+  margin-top: $space-lg;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ─────────────────────────────────────────────
+// Contact Section
+// ─────────────────────────────────────────────
+
+.contact-section {
+  margin: $space-xxl 0;
+  padding: $space-xl;
+  text-align: center;
+
+  h4 {
+    font-family: $font-header;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: $fw-medium;
+    color: $color-text;
+    margin-bottom: $space-md;
+  }
+}
+
+.questions-body {
+  font-family: $font-body;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: $color-text;
+  max-width: 500px;
+  margin: 0 auto $space-lg;
+
+  .faq-link {
+    color: $color-accent;
+    text-decoration: none;
+    border-bottom: 1px solid $color-accent;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.contacts-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: $space-lg;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-item {
+  flex: 1;
+  min-width: 200px;
+  font-family: $font-body;
+  color: $color-text;
+  padding: $space-md;
+
+  &:first-child {
+    text-align: right;
+  }
+
+  &:last-child {
+    text-align: left;
+  }
+
+  strong {
+    font-size: $font-size-lg;
+    font-weight: $fw-bold;
+    color: $color-accent;
+  }
+
+  a {
+    color: $color-text;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-bottom-color: $color-accent;
+      color: $color-accent;
+    }
+  }
+}
+
+.vertical-separator {
+  width: 1px;
+  background: $color-border;
+  margin: 0 $space-md;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Loading State
+// ─────────────────────────────────────────────
+
+.loading {
+  font-family: $font-body;
+  font-size: 1.125rem;
+  color: $color-secondary;
+  animation: fadeInOut 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Responsive Adjustments
+// ─────────────────────────────────────────────
+
+@media (max-width: 768px) {
+  .home-hero {
+    padding: $space-xl $space-md;
+  }
+
+  .venue-card,
+  .schedule-preview,
+  .rsvp-section,
+  .contact-section {
+    padding: $space-lg;
+  }
+
+  .essentials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contacts-row {
+    flex-direction: column;
+    gap: $space-md;
+  }
+}

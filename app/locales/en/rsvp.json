@@ -1,0 +1,41 @@
+{
+  "title": "RSVP",
+  "steps": {
+    "contactAndAttendance": "Please enter your contact information to get started.",
+    "guestsOrName": "Add your accompanying guests or provide your name if not attending.",
+    "captcha": "One final step to verify you're human.",
+    "review": "Please review your information before submitting."
+  },
+  "name": "Name",
+  "yourName": "Your Name",
+  "email": "Email",
+  "attending": "Will you attend?",
+  "select": "Select...",
+  "yes": "Yes",
+  "no": "No",
+  "guestsTitle": "Guests",
+  "noGuests": "No guests added yet",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "dietary": "Dietary Requirements",
+  "dietaryPlaceholder": "Vegetarian, allergies, etc.",
+  "addGuest": "Add Guest",
+  "note": "Additional Notes",
+  "notePlaceholder": "Additional notes or comments...",
+  "guestNote": "Guest Note",
+  "messageToBrideGroom": "Message to the Bride & Groom",
+  "back": "Back",
+  "next": "Next",
+  "submit": "Send RSVP",
+  "sending": "Sending...",
+  "thankYou": "Thank you!",
+  "confirmation": "We've received your RSVP and look forward to seeing you!",
+  "captchaQuestion": "What is 3 + 4?",
+  "errors": {
+    "required": "Please fill out all required fields.",
+    "addAtLeastOneGuest": "Please add at least one guest with full names.",
+    "invalidEmail": "Please enter a valid email address.",
+    "failed": "Submission failed.",
+    "fallback": "Please try again or contact us directly."
+  }
+}

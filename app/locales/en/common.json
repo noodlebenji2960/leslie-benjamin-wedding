@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "home": "Home",
+    "rsvp": "RSVP",
+    "schedule": "Schedule",
+    "qa": "Q&A",
+    "es": "Español",
+    "en": "English",
+    "days": "days",
+    "hours": "hours",
+    "minutes": "minutes"
+  }
+}

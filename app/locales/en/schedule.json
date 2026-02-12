@@ -1,0 +1,25 @@
+{
+  "title": "Wedding Schedule",
+  "events": {
+    "bus": {
+      "title": "Bus from Logroño",
+      "description": "Depart from Fuente de Murrieta."
+    },
+    "ceremony": {
+      "title": "Ceremony",
+      "description": "Join us at the beautiful gardens for the wedding ceremony."
+    },
+    "cocktails": {
+      "title": "Cocktails & Photos",
+      "description": "Cocktails will be served while we take photos."
+    },
+    "dinner": {
+      "title": "Dinner Reception",
+      "description": "Enjoy dinner with friends and family."
+    },
+    "party": {
+      "title": "Dancing & Celebration",
+      "description": "Let's dance the night away!"
+    }
+  }
+}

@@ -1,0 +1,206 @@
+// ==========================================
+// _variables.scss
+// Global Design Tokens & Theme Variables
+// ==========================================
+
+// ==========================================
+// CSS CUSTOM PROPERTIES
+// ==========================================
+:root {
+  /* ---------------------- Color Palette ---------------------- */
+  /* Light mode colors */
+  --color-primary-light: #f43f5e;
+  --color-secondary-light: #555;
+  --color-background-light: #f9f9f9;
+  --color-text-light: #333;
+  --color-white-light: #ffffff;
+  --color-shadow-light: rgba(0, 0, 0, 0.1);
+  --color-border-light: rgb(204, 204, 204);
+
+  /* Dark mode colors */
+  --color-primary-dark: #ea3943;
+  --color-secondary-dark: #b8bcc8;
+  --color-background-dark: #1a1a1a;
+  --color-text-dark: #e8e8e8;
+  --color-white-dark: #ffffff;
+  --color-shadow-dark: rgba(0, 0, 0, 0.4);
+  --color-border-dark: rgb(60, 60, 60);
+
+  --color-danger: #e74c3c;
+  --color-success: #2ecc71;
+
+  /* Auto theme switching (light-dark() CSS function) */
+  --color-primary: light-dark(
+    var(--color-primary-light),
+    var(--color-primary-dark)
+  );
+  --color-secondary: light-dark(
+    var(--color-secondary-light),
+    var(--color-secondary-dark)
+  );
+  --color-background: light-dark(
+    var(--color-background-light),
+    var(--color-background-dark)
+  );
+  --color-text: light-dark(var(--color-text-light), var(--color-text-dark));
+  --color-white: light-dark(var(--color-white-light), var(--color-white-dark));
+  --color-shadow: light-dark(
+    var(--color-shadow-light),
+    var(--color-shadow-dark)
+  );
+  --color-border: light-dark(
+    var(--color-border-light),
+    var(--color-border-dark)
+  );
+
+  /* ---------------------- Typography ---------------------- */
+  --font-header: "Adelia", sans-serif;
+  --font-heading: "Mantonico", serif;
+  --font-fancy: "Adelia", sans-serif;
+  --font-body: "Mantonico", serif;
+  --font-display: "Cormorant Garamond", "Garamond", Georgia, serif;
+
+  /* Font Weights */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* ---------------------- Font Sizes ---------------------- */
+  --font-size-2xs: 0.75rem; /* 12px */
+  --font-size-xs: 0.8125rem; /* 13px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-md: 1rem; /* 16px (base) */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.75rem; /* 28px */
+  --font-size-4xl: 2.125rem; /* 34px */
+  --font-size-5xl: 2.5rem; /* 40px */
+  --font-size-6xl: 3em;
+  --font-size-7xl: 4rem;
+
+  /* ---------------------- Spacing Scale ---------------------- */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 4rem;
+  --space-xxl: 6rem;
+
+  /* ---------------------- Border Radius ---------------------- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-button: 999px;
+
+  /* ---------------------- Breakpoints ---------------------- */
+  --bp-sm: 640px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+
+  /* Compatibility helpers */
+  --font-family: var(--font-body);
+  --container-padding: var(--space-md);
+}
+
+/* ==========================================
+   Manual Theme Overrides (for JS / React Switcher)
+   ========================================== */
+html[data-theme="light"] {
+  --color-primary: var(--color-primary-light) !important;
+  --color-secondary: var(--color-secondary-light) !important;
+  --color-background: var(--color-background-light) !important;
+  --color-text: var(--color-text-light) !important;
+  --color-white: var(--color-white-light) !important;
+  --color-shadow: var(--color-shadow-light) !important;
+  --color-border: var(--color-border-light) !important;
+}
+
+html[data-theme="dark"] {
+  --color-primary: var(--color-primary-dark) !important;
+  --color-secondary: var(--color-secondary-dark) !important;
+  --color-background: var(--color-background-dark) !important;
+  --color-text: var(--color-text-dark) !important;
+  --color-white: var(--color-white-dark) !important;
+  --color-shadow: var(--color-shadow-dark) !important;
+  --color-border: var(--color-border-dark) !important;
+}
+
+// ==========================================
+// SCSS VARIABLES (mapped to CSS custom properties)
+// ==========================================
+
+/* Colors */
+$color-primary: var(--color-primary);
+$color-secondary: var(--color-secondary);
+$color-background: var(--color-background);
+$color-text: var(--color-text);
+$color-white: var(--color-white);
+$color-shadow: var(--color-shadow);
+$color-border: var(--color-border);
+$color-muted: #9e8a7e;
+$color-accent: #c9a87c; // warm gold
+$color-indicator: #c9a87c;
+$color-danger: #e74c3c;
+$color-success: #2ecc71;
+
+/* Fonts */
+$font-header: var(--font-header);
+$font-heading: var(--font-heading);
+$font-body: var(--font-body);
+$font-display: var(--font-display);
+$font-fancy: var(--font-fancy);
+
+/* Font Weights */
+$fw-regular: var(--fw-regular);
+$fw-medium: var(--fw-medium);
+$fw-bold: var(--fw-bold);
+$fw-semibold: var(--fw-semibold);
+
+/* Font Sizes */
+$font-size-2xs: var(--font-size-2xs);
+$font-size-xs: var(--font-size-xs);
+$font-size-sm: var(--font-size-sm);
+$font-size-md: var(--font-size-md);
+$font-size-lg: var(--font-size-lg);
+$font-size-xl: var(--font-size-xl);
+$font-size-2xl: var(--font-size-2xl);
+$font-size-3xl: var(--font-size-3xl);
+$font-size-4xl: var(--font-size-4xl);
+$font-size-5xl: var(--font-size-5xl);
+$font-size-6xl: var(--font-size-6xl);
+$font-size-7xl: var(--font-size-7xl);
+
+/* Spacing */
+$space-xs: var(--space-xs);
+$space-sm: var(--space-sm);
+$space-md: var(--space-md);
+$space-lg: var(--space-lg);
+$space-xl: var(--space-xl);
+$space-xxl: var(--space-xxl);
+
+/* Border Radius */
+$radius-sm: var(--radius-sm);
+$radius-md: var(--radius-md);
+$radius-lg: var(--radius-lg);
+$radius-button: var(--radius-button);
+
+/* Breakpoints */
+$bp-sm: var(--bp-sm);
+$bp-md: var(--bp-md);
+$bp-lg: var(--bp-lg);
+$bp-xl: var(--bp-xl);
+
+// ==========================================
+// PROJECT-SPECIFIC VARIABLES
+// ==========================================
+
+/* Layout */
+$nav-height: 72px;
+$nav-height-scrolled: 60px;
+
+/* Transitions */
+$transition-base: 0.3s ease;
+$transition-indicator: 0.35s cubic-bezier(0.4, 0, 0.2, 1);

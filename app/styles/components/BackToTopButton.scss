@@ -1,0 +1,26 @@
+@import "../_variables.scss";
+.back-to-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $color-text;
+  width: 34px;
+  height: 44px;
+  background: $color-background;
+  color: $color-text;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.back-to-top {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.back-to-top.visible {
+  opacity: 0.2;
+  pointer-events: auto;
+
+    &:hover {
+    opacity: 1;
+  }
+}

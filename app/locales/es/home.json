@@ -1,0 +1,18 @@
+{
+  "subtitle": "¡Por fin, nos casamos!",
+  "rsvp": "Confirmar Asistencia",
+  "rsvpIntro": "¡Nos encantaría saber si podrás acompañarnos! Confírmanos tu asistencia antes del <strong>{{deadline}}</strong> para que podamos prepararlo todo con cariño.",
+  "welcome": "Nos complace invitarte a celebrar con nosotros uno de los días más importantes de nuestras vidas!",
+  "scheduleTitle": "El día",
+  "scheduleBody": "¿Quieres conocer todos los detalles del día? Consulta el <scheduleLink>programa completo</scheduleLink>.",
+  "visitWebsite": "Visitar web",
+  "rsvpDeadline": "Confirma antes del",
+  "questionsTitle": "¿Preguntas?",
+  "dressCode": "Vestimenta",
+  "dressCodeHint": "Semi-formal. Sin vaqueros, sin chanclas.",
+  "familyWelcome": "Familia",
+  "familyHint": "Niños bienvenidos con zona infantil.",
+  "giftsLabel": "Regalos",
+  "giftsHint": "Vuestro amor es suficiente ❤️",
+  "questionsBody": "Si tienes alguna pregunta, no dudes en llamarnos, escribirnos o consulta <qaLink>la pagina de preguntas</qaLink>."
+}

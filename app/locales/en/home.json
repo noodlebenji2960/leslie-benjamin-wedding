@@ -1,0 +1,18 @@
+{
+  "subtitle": "Finally, we are getting married!",
+  "rsvp": "RSVP",
+  "rsvpIntro": "We'd love to know if you can make it! Please let us know by <strong>{{deadline}}</strong> so we can make sure everything is perfect for you.",
+  "welcome": "We are pleased to invite you to celebrate with us one of the most important days of our lives.",
+  "scheduleTitle": "The Day",
+  "scheduleBody": "Want to know every detail of the day? Check out the <scheduleLink>full schedule</scheduleLink>.",
+  "visitWebsite": "Visit website",
+  "rsvpDeadline": "Confirm before",
+  "questionsTitle": "Questions?",
+  "dressCode": "Dress Code",
+  "dressCodeHint": "Semi-formal. No jeans, no flip-flops.",
+  "familyWelcome": "Family",
+  "familyHint": "Children welcome with kids area.",
+  "giftsLabel": "Gifts",
+  "giftsHint": "Your love is enough ❤️",
+  "questionsBody": "If you have any questions, feel free to call us, write to us, or check <qaLink>the questions page</qaLink>."
+}

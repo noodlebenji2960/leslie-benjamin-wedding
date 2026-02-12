@@ -1,0 +1,112 @@
+@import "./_variables.scss";
+
+html,
+body,
+#root {
+  min-height: 100vh;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: $font-body;
+  background: $color-background;
+  color: $color-text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  line-height: 1.4;
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: $space-md;
+}
+
+/* Utility helpers used across components */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.form-row input,
+.form-row textarea {
+  flex: 1;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: inherit;
+}
+
+.button {
+  border: 0;
+  padding: 0.5rem 0.8rem;
+  border-radius: $radius-sm;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Motion: prefer-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  a {
+    color: $color-primary;
+    text-decoration: none;
+  }
+}
+
+/* Fixed utility container used by layout (_layout.tsx) */
+.fixed-container {
+  position: fixed;
+  left: $space-md;
+  right: $space-md;
+  bottom: $space-md;
+  display: flex;
+  gap: $space-sm;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 60;
+  pointer-events: auto;
+}
+
+.fixed-container .group {
+  display: flex;
+  gap: $space-sm;
+  align-items: center;
+}
+
+@media (max-width: $bp-sm) {
+  .fixed-container {
+    right: $space-sm;
+    bottom: $space-sm;
+    left: $space-sm;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,35 @@
+@import "../_variables.scss";
+.countdown-card {
+  padding: 0.4rem;
+  display: block;
+}
+.countdown-grid {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.countdown-number {
+  background: $color-shadow;
+  padding: 0.45rem 0.6rem;
+  border-radius: $radius-md;
+  min-width: 52px;
+  text-align: center;
+  font-weight: 700;
+}
+.countdown-number.flip {
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+.countdown-label {
+  font-size: 0.75rem;
+  color: $color-muted;
+  margin-top: 0.25rem;
+}
+.countdown-sm .countdown-number {
+  min-width: 44px;
+}
