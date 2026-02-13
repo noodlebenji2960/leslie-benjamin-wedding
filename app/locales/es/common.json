@@ -10,5 +10,25 @@
     "hours": "horas",
     "minutes": "minutos"
   },
-  "click_here": "haz clic aquí"
+
+  "click_here": "haz clic aquí",
+
+  "donate": {
+    "title": "Hacer un regalo de boda",
+    "modal_title": "Gracias por vuestro cariño 💖",
+    "message_1": "Estamos muy agradecidos de que hayáis decidido hacernos un regalo de boda.",
+    "message_2": "Vuestra generosidad significa muchísimo para nosotros y nos ayudará a comenzar esta nueva etapa juntos.",
+    "message_3": "Si lo deseáis, podéis continuar y hacer vuestro regalo de forma segura a través de PayPal.",
+    "paypal_cta": "💝 Regalar vía PayPal"
+  },
+
+  "last_visit": "Tu última visita fue el {{date}}.",
+  "visit_count": "¡Esta es la visita número {{count}}!",
+
+  "cookie_intro": "Usamos cookies para mejorar tu experiencia. Puedes elegir qué tipos de cookies permites:",
+  "cookie_necessary": "Cookies necesarias (requeridas)",
+  "cookie_analytics": "Cookies de análisis",
+  "cookie_marketing": "Cookies de marketing",
+  "save_preferences": "Guardar preferencias",
+  "current_preferences": "Tus preferencias de cookies:"
 }

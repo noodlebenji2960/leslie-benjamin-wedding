@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useNavigate, useOutlet } from "react-router";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { use, useEffect, useRef, useState, useTransition } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -8,7 +8,8 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import ReactLenis, { useLenis } from "lenis/react";
-import Footer from "@/components/PageFooter";
+import Footer from "@/components/Footer";
+import { CookieConsentModal } from "@/components/CookieConsentModal";
 
 export default function Layout() {
   const location = useLocation();
@@ -18,6 +19,8 @@ export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { t } = useTranslation(["common"]);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const [cookieConsentModalMode, setCookieConsentModalMode] = useState("first_visit");
+  const [isCookieConsentModalOpen, setIsCookieConsentModalOpen] = useState(true);
 
   const lenis = useLenis(() => {});
 
@@ -32,17 +35,35 @@ export default function Layout() {
     { path: "/qa", label: t("nav.qa") },
   ];
 
-  const buildLink = (path: string) => `/${locale}${path === "/" ? "" : path}`;
+  const openCookieConsentModal = () => {
+    setCookieConsentModalMode("change_preferences");
+    setIsCookieConsentModalOpen(true)
+  };
+
+  const closeCookieConsentModal = () => {
+    setIsCookieConsentModalOpen(false)
+  };
+
+  useEffect(() => {
+    console.log("cookieConsentModalMode", cookieConsentModalMode);
+    if(!isCookieConsentModalOpen) {
+      setCookieConsentModalMode("first_visit");
+    }
+  }, [cookieConsentModalMode]);
 
   return (
     <ReactLenis root>
+      <CookieConsentModal
+        isOpen={isCookieConsentModalOpen}
+        onClose={closeCookieConsentModal}
+        mode={cookieConsentModalMode}
+      />
       <div className="container">
         <Header
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
           locale={locale}
           links={links}
-          buildLink={buildLink}
           onLanguageSwitch={() => startTransition(switchLanguage)}
           isPending={isPending}
           hamburgerRef={hamburgerRef}
@@ -77,7 +98,7 @@ export default function Layout() {
               <ThemeSwitcher />
             </div>
           </div>
-          <Footer />
+          <Footer openCookieConsentModal={openCookieConsentModal} />
         </main>
       </div>
     </ReactLenis>

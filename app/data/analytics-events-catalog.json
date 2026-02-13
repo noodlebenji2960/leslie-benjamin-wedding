@@ -1,0 +1,84 @@
+{
+  "rsvp_start": {
+    "category": "RSVP",
+    "allowDuplicates": true
+  },
+  "rsvp_step_complete": {
+    "category": "RSVP",
+    "allowDuplicates": true
+  },
+  "rsvp_step_back": {
+    "category": "RSVP",
+    "allowDuplicates": true
+  },
+  "rsvp_abandonment": {
+    "category": "RSVP",
+    "allowDuplicates": true,
+    "nonInteraction": true
+  },
+  "rsvp_submit_success": {
+    "category": "RSVP",
+    "dedupeKey": "rsvp_submit_success"
+  },
+  "rsvp_submit_error": {
+    "category": "RSVP",
+    "allowDuplicates": true,
+    "nonInteraction": true
+  },
+  "rsvp_confirmation_view": {
+    "category": "RSVP",
+    "dedupeKey": "rsvp_confirmation_view"
+  },
+  "registry_link_click": {
+    "category": "Registry",
+    "allowDuplicates": true
+  },
+  "faq_item_expand": {
+    "category": "FAQ",
+    "allowDuplicates": true
+  },
+  "faq_item_collapse": {
+    "category": "FAQ",
+    "allowDuplicates": true
+  },
+  "session_start": {
+    "category": "Session",
+    "dedupeKey": "session_start"
+  },
+  "session_end": {
+    "category": "Session",
+    "dedupeKey": "session_end"
+  },
+  "time_on_site": {
+    "category": "Session",
+    "allowDuplicates": true
+  },
+  "page_exit": {
+    "category": "Session",
+    "allowDuplicates": true
+  },
+  "device_type": {
+    "category": "Device",
+    "dedupeKey": "device_type"
+  },
+  "return_visitor": {
+    "category": "User",
+    "dedupeKey": "return_visitor"
+  },
+  "first_time_visitor": {
+    "category": "User",
+    "dedupeKey": "first_time_visitor"
+  },
+  "conversion": {
+    "category": "Conversion",
+    "dedupeKey": "dynamic"
+  },
+  "page_view": {
+    "category": "System",
+    "allowDuplicates": true
+  },
+  "exception": {
+    "category": "System",
+    "allowDuplicates": true
+  }
+}

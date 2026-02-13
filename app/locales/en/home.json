@@ -1,4 +1,10 @@
 {
+  "welcome_first_visit": "Welcome to our wedding website! 💕",
+  "welcome_back_today": "Welcome back! <emoji />",
+  "welcome_back_yesterday": "Great to see you again! You were here yesterday.",
+  "welcome_back_days": "Welcome back! It's been {{days}} days since your last visit.",
+  "welcome_back_less_than_month": "So glad you're back! It's been {{days}} days.",
+  "welcome_back_long_time": "Welcome back! We've missed you! It's been {{days}} days.",
   "subtitle": "Finally, we are getting married!",
   "rsvp": "RSVP",
   "rsvpIntro": "We'd love to know if you can make it! Please let us know by <strong>{{deadline}}</strong> so we can make sure everything is perfect for you.",

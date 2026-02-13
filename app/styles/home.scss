@@ -18,6 +18,21 @@
   padding: $space-2xl $space-lg;
   text-align: center;
 
+  &::before {
+    background: url("/public/images/hojas.png");
+    background-repeat: no-repeat;
+    background-position: contain;
+    background-size: 80%;
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0%;
+    height: 100vh;
+    width: 50vw;
+    pointer-events: none;
+    z-index: 111;
+  }
+
   h1 {
     font-family: $font-header;
     font-size: clamp(4rem, 10vw, 7rem);
@@ -29,8 +44,8 @@
     position: relative;
     z-index: -1;
 
-    i{
-        font-family: 'Courier New', Courier, monospace;
+    i {
+      font-family: "Courier New", Courier, monospace;
     }
   }
 }
@@ -61,7 +76,7 @@
   gap: $space-md;
   margin: $space-xl 0;
   font-family: $font-heading;
-  font-size: clamp(1.25rem, 10vw, 1.75rem);
+  font-size: clamp(2rem, 10vw, 1.75rem);
   color: $color-text;
   letter-spacing: 0.03em;
 
@@ -69,6 +84,7 @@
     text-transform: capitalize;
     font-weight: $fw-medium;
     font-family: $font-fancy;
+    color: $color-accent;
   }
 
   .date-daynum {
@@ -79,6 +95,7 @@
 
   .date-year {
     font-weight: $fw-regular;
+    color: $color-accent;
   }
 }
 

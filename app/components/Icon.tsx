@@ -20,10 +20,9 @@ import {
   IoFastFoodOutline,
 } from "react-icons/io5";
 import { RiExternalLinkLine } from "react-icons/ri";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdLocationPin } from "react-icons/md";
 import { WiFog } from "react-icons/wi";
 import { CiStickyNote } from "react-icons/ci";
-
 
 type IconProps = {
   size?: number;
@@ -51,6 +50,7 @@ const ICONS: Record<string, IconType> = {
   ExternalLink: RiExternalLinkLine,
   Food: IoFastFoodOutline,
   Note: CiStickyNote,
+  location: MdLocationPin,
 
   // Weather
   Sun: IoSunny,

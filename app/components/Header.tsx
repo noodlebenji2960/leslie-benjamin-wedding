@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useRef, useEffect, useLayoutEffect, useState } from "react";
 import "@/styles/components/Header.scss";
 import { useWeddingData } from "@/hooks/useWeddingData";
-import { Countdown } from "./Countdown";
-import { AnimatePresence, motion } from "framer-motion";
+import { useBuildLink } from "@/hooks/useBuildLink";
 
 interface NavLink {
   path: string;
@@ -14,7 +13,6 @@ interface NavLink {
 interface HeaderProps {
   locale: string;
   links: NavLink[];
-  buildLink: (path: string) => string;
   menuOpen?: boolean;
   setMenuOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   onLanguageSwitch?: () => void;
@@ -22,7 +20,8 @@ interface HeaderProps {
   hamburgerRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
-export default function Header({ locale, links, buildLink }: HeaderProps) {
+export default function Header({ locale, links }: HeaderProps) {
+  const { navigateTo, buildLink } = useBuildLink();
   const { t } = useTranslation(["common"]);
   const location = useLocation();
   const navLinksRef = useRef<HTMLDivElement>(null);
@@ -32,7 +31,6 @@ export default function Header({ locale, links, buildLink }: HeaderProps) {
     width: 0,
   });
   const [isHovering, setIsHovering] = useState(false);
-  const wedding = useWeddingData();
 
   const stripLocale = (path: string) => path.replace(/^\/(en|es)/, "") || "/";
   const currentPath = stripLocale(location.pathname);

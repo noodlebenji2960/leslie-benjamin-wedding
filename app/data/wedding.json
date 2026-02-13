@@ -199,17 +199,16 @@
     {
       "name": "Leslie Herce",
       "email": "leslieherce@gmail.com",
-      "phone": "123 123 1234"
+      "phone": "+34 609 87 20 90"
     },
     {
       "name": "Benjamin Chick",
       "email": "benjamin.chick@outlook.com",
-      "phone": "123 123 1234"
+      "phone": "+34 680 84 08 91"
     }
   ],
   "rsvp": {
     "deadline": "2026-07-15",
-    "email": "rsvp@leslieybenjamin.es",
     "fields": ["name", "email", "guests", "dietary", "message"]
   },
   "giftRegistry": {

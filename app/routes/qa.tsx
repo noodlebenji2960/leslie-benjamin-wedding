@@ -56,7 +56,6 @@ const QA = () => {
     const extraCoords = busSchedule?.maps[1]?.extraCoordinates || [];
     const busMapUrl = busSchedule?.maps[1]?.mapUrl || "";
     const showRoute = busSchedule?.maps[1]?.showRoute || false;
-    const interactive = busSchedule?.maps[1]?.interactive || false;
     const busLabel = busSchedule?.maps[1]?.label || "Bus Route";
 
     return {
@@ -70,7 +69,6 @@ const QA = () => {
         })),
         mapUrl: busMapUrl,
         showRoute,
-        interactive,
         label: busLabel,
       },
       venueCoordinates: weddingData.wedding.ceremony.venue.coordinates,
@@ -165,9 +163,9 @@ const QA = () => {
                 key={item.question}
                 className="qa-item"
                 layout
-                initial={{ opacity: 0}}
-                animate={{ opacity: 1}}
-                exit={{ opacity: 0}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
                 <button
@@ -214,7 +212,7 @@ const QA = () => {
                                 coordinates={dynamicValues.venueCoordinates}
                                 label={dynamicValues.ceremonyVenue}
                                 mapUrl={dynamicValues.venueMapLink}
-                                interactive
+                                interactive={false}
                                 zoom={12}
                               />
                             ),
@@ -225,7 +223,7 @@ const QA = () => {
                                 extraCoordinates={dynamicValues.bus.extraCoords}
                                 mapUrl={dynamicValues.bus.mapUrl}
                                 showRoute={dynamicValues.bus.showRoute}
-                                interactive={dynamicValues.bus.interactive}
+                                interactive={false}
                                 width="100%"
                                 height="400px"
                               />

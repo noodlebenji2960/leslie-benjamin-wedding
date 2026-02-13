@@ -50,7 +50,13 @@
       &:hover:not(.active) {
         border-color: $color-primary;
         color: $color-background;
-        background-color: $color-primary
+        background-color: $color-primary;
+      }
+
+      // --- Small screen adjustments ---
+      @media (max-width: 600px) {
+        padding: $space-sm $space-md; // larger tap area
+        font-size: $font-size-md;     // slightly larger text
       }
     }
   }
