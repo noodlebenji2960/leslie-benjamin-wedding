@@ -14,6 +14,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
 import { SessionProvider, SessionContext } from "@/contexts/SessionContext";
+import { useEffect, useState } from "react";
 
 const GA_ID = import.meta.env.VITE_GA_ID;
 const isProd = import.meta.env.MODE === "production";
@@ -34,12 +35,30 @@ export const links: Route.LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const locale = location.pathname.startsWith("/en") ? "en" : "es";
+  const [color, setColor] = useState("#1a1a1a");
+
+  useEffect(() => {
+      const color = getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-primary-light");
+        console.log("color", color);
+        setColor(color)
+  }, []);
 
   return (
     <html lang={locale}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Chrome / Android */}
+        <meta name="theme-color" content={color} />
+
+        {/* iOS Safari */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content={color} />
+
+        {/* Windows / Edge */}
+        <meta name="msapplication-navbutton-color" content={color} />
+
         <Meta />
         <Links />
 
