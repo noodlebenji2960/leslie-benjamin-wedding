@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import "@/styles/components/GuestCard.scss";
-import { g } from "framer-motion/client";
 import { Icon } from "./Icon";
 
 interface Guest {
@@ -10,6 +9,7 @@ interface Guest {
   lastName: string;
   dietary: string;
   note?: string;
+  musicRequest?: string;
 }
 
 interface GuestCardProps {
@@ -35,6 +35,7 @@ const GuestCard = ({
 
   const [showDietary, setShowDietary] = useState(false);
   const [showNote, setShowNote] = useState(false);
+  const [showMusicRequest, setShowMusicRequest] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -48,7 +49,8 @@ const GuestCard = ({
   useEffect(() => {
     if (guest.dietary) setShowDietary(true);
     if (guest.note) setShowNote(true);
-  }, [guest.dietary, guest.note]);
+    if (guest.musicRequest) setShowMusicRequest(true);
+  }, [guest.dietary, guest.note, guest.musicRequest]);
 
   // Close dropdown if clicked outside
   useEffect(() => {
@@ -66,8 +68,8 @@ const GuestCard = ({
 
   return (
     <motion.div
-      className={`guest-card ${!isValid ? "invalid" : ""}`} // Move class logic here
-      layout="position" // Better for layout changes
+      className={`guest-card ${!isValid ? "invalid" : ""}`}
+      layout="position"
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -78,7 +80,7 @@ const GuestCard = ({
         layout: { type: "spring", stiffness: 500 },
       }}
     >
-      <div>
+      <div className="inputs-container">
         {/* Name fields */}
         <div className="form-row">
           <input
@@ -95,9 +97,8 @@ const GuestCard = ({
           />
         </div>
 
-        {/* Dietary / Note fields */}
+        {/* Dietary / Note / Music Request fields */}
         <AnimatePresence>
-          // Replace height animations with scaleY + maxHeight
           {showDietary && (
             <motion.div
               className="form-row"
@@ -165,6 +166,40 @@ const GuestCard = ({
               </button>
             </motion.div>
           )}
+          {showMusicRequest && (
+            <motion.div
+              className="form-row"
+              initial={{ opacity: 0, scaleY: 0.8, originY: 0 }}
+              animate={{
+                opacity: 1,
+                scaleY: 1,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30,
+                },
+              }}
+              exit={{
+                opacity: 0,
+                scaleY: 0.8,
+                transition: { duration: 0.15 },
+              }}
+            >
+              <input
+                type="text"
+                placeholder={t("rsvp:musicRequestPlaceholder")}
+                value={guest.musicRequest || ""}
+                onChange={(e) => handleChange("musicRequest", e.target.value)}
+              />
+              <button
+                type="button"
+                className="close-btn"
+                onClick={() => setShowMusicRequest(false)}
+              >
+                ×
+              </button>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
@@ -180,6 +215,7 @@ const GuestCard = ({
                 setDropdownOpen(false);
                 setShowDietary(false);
                 setShowNote(false);
+                setShowMusicRequest(false);
               }}
               whileHover={isValid ? { scale: 1.02 } : {}}
               title={t("rsvp:addGuest")}
@@ -207,6 +243,16 @@ const GuestCard = ({
                 title={t("rsvp:addNote")}
               >
                 <Icon.Note />
+              </button>
+            )}
+            {!showMusicRequest && (
+              <button
+                type="button"
+                className="three-dots-btn"
+                onClick={() => setShowMusicRequest(true)}
+                title={t("rsvp:addMusicRequest")}
+              >
+                <Icon.Music />
               </button>
             )}
             <button
