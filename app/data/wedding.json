@@ -92,7 +92,7 @@
           "coordinates": { "lat": 42.4337996, "lng": -2.5694691 },
           "mapUrl": "https://www.google.com/maps/directions/...",
           "showRoute": true,
-          "interactive": true,
+          "interactive": false,
           "label": "Route to venue",
           "extraCoordinates": [
             {
@@ -114,7 +114,7 @@
           "coordinates": { "lat": 42.4337996, "lng": -2.5694691 },
           "mapUrl": "https://www.google.com/maps/place/Hotel+San+Camilo",
           "showRoute": true,
-          "interactive": true,
+          "interactive": false,
           "label": "Venue location",
           "extraCoordinates": []
         }
@@ -150,7 +150,7 @@
           "coordinates": { "lat": 42.4661562, "lng": -2.4511548 },
           "mapUrl": "https://www.google.com/maps/directions/...",
           "showRoute": true,
-          "interactive": true,
+          "interactive": false,
           "label": "Return bus to Logroño",
           "extraCoordinates": [
             {
@@ -172,7 +172,7 @@
           "coordinates": { "lat": 42.4668, "lng": -2.4445 },
           "mapUrl": "https://www.google.com/maps/place/Logro%C3%B1o+City+Center",
           "showRoute": true,
-          "interactive": true,
+          "interactive": false,
           "label": "Afterparty location",
           "extraCoordinates": []
         }

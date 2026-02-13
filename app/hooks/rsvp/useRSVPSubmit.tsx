@@ -3,8 +3,10 @@ import emailjs from "@emailjs/browser";
 import type { RSVPFormData } from "@/types/types";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 
+const EMAILJS_KEY = import.meta.env.VITE_EMAILJS_KEY;
+
 // Initialize EmailJS once
-emailjs.init("gVksEDEDoKBjB0TJU");
+emailjs.init(EMAILJS_KEY);
 
 export function useRSVPSubmit(
   form: RSVPFormData,

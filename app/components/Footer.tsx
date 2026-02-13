@@ -12,7 +12,7 @@ const Footer = ({
 }) => {
   const location = useLocation();
   const { locale } = useLanguage();
-  
+
   const weddingData = useWeddingData();
   const { t } = useTranslation();
 
@@ -30,10 +30,10 @@ const Footer = ({
   return (
     <footer className="footer">
       <div className="footer-content">
-        <button onClick={openCookieConsentModal} className="footer__cookie-btn">
-          {t("common:change_cookie_preferences", "Cookie Preferences")}
-        </button>
         {!isHome && <Countdown size="sm" date={date} time={time} />}
+        <button onClick={openCookieConsentModal} className="footer__cookie-btn">
+          {t("common:change_cookie_preferences", "See cookie Preferences.")}
+        </button>
       </div>
     </footer>
   );

@@ -10,7 +10,7 @@ import { useAnalytics } from "@/contexts/AnalyticsContext";
 import "../styles/rsvp.scss";
 import { Icon } from "@/components/Icon";
 
-const RECAPTCHA_SITE_KEY = "6Lcy_mcsAAAAADoT-ibwy1RvePEHG4xJ87D0fdse";
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
 // Module-level tracking - persists across Strict Mode remounts
 let hasTrackedRSVPStart = false;
@@ -167,7 +167,7 @@ export default function RSVP() {
 
   return (
     <div className="rsvp-page container">
-      <h1>RSVP</h1>
+      <h1>Rsvp</h1>
       <p className="step-description">{stepText}</p>
       <div className="progress-bar">
         <div
