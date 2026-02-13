@@ -1,0 +1,58 @@
+@import "../_variables.scss";
+
+.songs-container {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm; // 0.75rem
+
+  .song-row {
+    display: flex;
+    align-items: center;
+    gap: $space-xs; // 0.5rem
+
+    &.draft-row {
+      border-top: 1px solid $color-border;
+      padding-top: $space-md; // 0.75rem
+      margin-top: $space-sm; // 0.5rem
+    }
+
+    input {
+      flex: 1;
+    }
+
+    .song-display {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: $space-xs; // 0.5rem
+      background: $color-background;
+      border-radius: $radius-sm;
+
+      .song-title {
+        font-weight: $fw-medium;
+      }
+
+      .song-separator {
+        opacity: 0.5;
+        margin: 0 $space-xs; // 0.25rem
+      }
+
+      .song-artist {
+        opacity: 0.8;
+      }
+    }
+
+    .close-btn,
+    .add-song-btn {
+      flex-shrink: 0;
+      width: min-content !important;
+      background: $color-danger !important;
+      padding: $space-xs;
+    }
+
+    .add-song-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

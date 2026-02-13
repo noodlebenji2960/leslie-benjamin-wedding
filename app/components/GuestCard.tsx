@@ -3,6 +3,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import "@/styles/components/GuestCard.scss";
 import { Icon } from "./Icon";
+import { SongListManager } from "./SongListManager";
+
+// Song interface
+interface Song {
+  title: string;
+  artist: string;
+}
 
 interface Guest {
   firstName: string;
@@ -10,18 +17,20 @@ interface Guest {
   dietary: string;
   note?: string;
   musicRequest?: string;
+  songs?: Song[]; // NEW: array of songs
 }
 
 interface GuestCardProps {
   index: number;
   guest: Guest;
-  onUpdate?: (index: number, field: keyof Guest, value: string) => void;
+  onUpdate?: (index: number, field: keyof Guest, value: any) => void;
   onRemove?: (index: number) => void;
   onConfirm?: () => void;
   isDraft?: boolean;
   isRostered?: boolean;
 }
 
+// --- Main GuestCard Component ---
 const GuestCard = ({
   index,
   guest,
@@ -36,35 +45,18 @@ const GuestCard = ({
   const [showDietary, setShowDietary] = useState(false);
   const [showNote, setShowNote] = useState(false);
   const [showMusicRequest, setShowMusicRequest] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isValid = guest.firstName.trim() && guest.lastName.trim();
 
-  const handleChange = (field: keyof Guest, value: string) => {
+  const handleChange = (field: keyof Guest, value: any) => {
     onUpdate?.(index, field, value);
   };
 
   useEffect(() => {
     if (guest.dietary) setShowDietary(true);
     if (guest.note) setShowNote(true);
-    if (guest.musicRequest) setShowMusicRequest(true);
-  }, [guest.dietary, guest.note, guest.musicRequest]);
-
-  // Close dropdown if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    if (guest.songs && guest.songs.length > 0) setShowMusicRequest(true);
+  }, [guest.dietary, guest.note, guest.musicRequest, guest.songs]);
 
   return (
     <motion.div
@@ -106,17 +98,9 @@ const GuestCard = ({
               animate={{
                 opacity: 1,
                 scaleY: 1,
-                transition: {
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 30,
-                },
+                transition: { type: "spring", stiffness: 400, damping: 30 },
               }}
-              exit={{
-                opacity: 0,
-                scaleY: 0.8,
-                transition: { duration: 0.15 },
-              }}
+              exit={{ opacity: 0, scaleY: 0.8, transition: { duration: 0.15 } }}
             >
               <input
                 type="text"
@@ -140,17 +124,9 @@ const GuestCard = ({
               animate={{
                 opacity: 1,
                 scaleY: 1,
-                transition: {
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 30,
-                },
+                transition: { type: "spring", stiffness: 400, damping: 30 },
               }}
-              exit={{
-                opacity: 0,
-                scaleY: 0.8,
-                transition: { duration: 0.15 },
-              }}
+              exit={{ opacity: 0, scaleY: 0.8, transition: { duration: 0.15 } }}
             >
               <textarea
                 placeholder={t("rsvp:notePlaceholder")}
@@ -166,63 +142,34 @@ const GuestCard = ({
               </button>
             </motion.div>
           )}
-          {showMusicRequest && (
-            <motion.div
-              className="form-row"
-              initial={{ opacity: 0, scaleY: 0.8, originY: 0 }}
-              animate={{
-                opacity: 1,
-                scaleY: 1,
-                transition: {
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 30,
-                },
-              }}
-              exit={{
-                opacity: 0,
-                scaleY: 0.8,
-                transition: { duration: 0.15 },
-              }}
-            >
-              <input
-                type="text"
-                placeholder={t("rsvp:musicRequestPlaceholder")}
-                value={guest.musicRequest || ""}
-                onChange={(e) => handleChange("musicRequest", e.target.value)}
-              />
-              <button
-                type="button"
-                className="close-btn"
-                onClick={() => setShowMusicRequest(false)}
-              >
-                ×
-              </button>
-            </motion.div>
-          )}
         </AnimatePresence>
+
+        {/* Song Manager */}
+        {showMusicRequest && (
+          <SongListManager
+            songs={guest.songs}
+            onUpdate={(updatedSongs) => handleChange("songs", updatedSongs)}
+          />
+        )}
       </div>
 
       <div className="guest-card-actions">
         {isDraft ? (
-          <>
-            <motion.button
-              type="button"
-              className="form-btn add-guest-btn"
-              disabled={!isValid}
-              onClick={() => {
-                if (onConfirm) onConfirm();
-                setDropdownOpen(false);
-                setShowDietary(false);
-                setShowNote(false);
-                setShowMusicRequest(false);
-              }}
-              whileHover={isValid ? { scale: 1.02 } : {}}
-              title={t("rsvp:addGuest")}
-            >
-              <Icon.Add />
-            </motion.button>
-          </>
+          <motion.button
+            type="button"
+            className="form-btn add-guest-btn"
+            disabled={!isValid}
+            onClick={() => {
+              if (onConfirm) onConfirm();
+              setShowDietary(false);
+              setShowNote(false);
+              setShowMusicRequest(false);
+            }}
+            whileHover={isValid ? { scale: 1.02 } : {}}
+            title={t("rsvp:addGuest")}
+          >
+            <Icon.Add />
+          </motion.button>
         ) : (
           <>
             {!showDietary && (
@@ -245,16 +192,14 @@ const GuestCard = ({
                 <Icon.Note />
               </button>
             )}
-            {!showMusicRequest && (
-              <button
-                type="button"
-                className="three-dots-btn"
-                onClick={() => setShowMusicRequest(true)}
-                title={t("rsvp:addMusicRequest")}
-              >
-                <Icon.Music />
-              </button>
-            )}
+            <button
+              type="button"
+              className="three-dots-btn"
+              onClick={() => setShowMusicRequest((prev) => !prev)}
+              title={t("rsvp:addMusicRequest")}
+            >
+              {showMusicRequest ? <Icon.Music.on /> : <Icon.Music.off />}
+            </button>
             <button
               type="button"
               className="remove-guest"

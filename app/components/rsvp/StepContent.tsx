@@ -4,6 +4,8 @@ import GuestManager from "@/components/GuestManager";
 import ReCAPTCHA from "react-google-recaptcha";
 import type { Guest, RSVPFormData } from "@/types/types";
 
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+
 interface StepContentProps {
   currentStep: number;
   form: RSVPFormData;
@@ -18,7 +20,6 @@ interface StepContentProps {
   error: string | null;
   recaptchaRef: React.RefObject<any>;
   setCaptchaToken: (token: string | null) => void;
-  recaptchaSiteKey: string; // Add this
 }
 
 const fadeVariants = {
@@ -37,7 +38,6 @@ export const StepContent = ({
   error,
   recaptchaRef,
   setCaptchaToken,
-  recaptchaSiteKey,
 }: StepContentProps) => {
   const { t } = useTranslation(["home", "common", "rsvp"]);
 
@@ -190,7 +190,7 @@ export const StepContent = ({
           )}
 
           <ReCAPTCHA
-            sitekey={recaptchaSiteKey}
+            sitekey={RECAPTCHA_SITE_KEY}
             onChange={(token) => setCaptchaToken(token)}
             ref={recaptchaRef}
             style={{
