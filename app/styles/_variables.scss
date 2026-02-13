@@ -7,21 +7,84 @@
 // CSS CUSTOM PROPERTIES
 // ==========================================
 :root {
+  /* ---------------------- Primary Color System ---------------------- */
+  /* 
+    Change these three values to adjust your primary color:
+    - Hue: 0-360 (0=red, 120=green, 240=blue, 330=pink)
+    - Saturation: 0-100% (0=gray, 100=vibrant)
+    - Lightness: 0-100% (0=black, 50=pure color, 100=white)
+  */
+  --primary-hue: 90;
+  --primary-saturation: 19%;
+  --primary-lightness: 50%;
+
+  /* Auto-generated primary color variants */
+  --color-primary-base: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    var(--primary-lightness)
+  );
+  --color-primary-light: hsl(
+    var(--primary-hue),
+    var(--primary-saturation),
+    calc(var(--primary-lightness) + 10%)
+  );
+  --color-primary-dark: hsl(
+    var(--primary-hue),
+    calc(var(--primary-saturation) - 5%),
+    calc(var(--primary-lightness) - 5%)
+  );
+  --color-primary-darker: hsl(
+    var(--primary-hue),
+    calc(var(--primary-saturation) - 10%),
+    calc(var(--primary-lightness) - 15%)
+  );
+
+  /* ---------------------- Accent Color System ---------------------- */
+  /* 
+    Change these three values to adjust your accent color:
+  */
+  --accent-hue: 35;
+  --accent-saturation: 45%;
+  --accent-lightness: 62%;
+
+  /* Auto-generated accent color variants */
+  --color-accent-base: hsl(
+    var(--accent-hue),
+    var(--accent-saturation),
+    var(--accent-lightness)
+  );
+  --color-accent-light: hsl(
+    var(--accent-hue),
+    calc(var(--accent-saturation) - 5%),
+    calc(var(--accent-lightness) + 15%)
+  );
+  --color-accent-dark: hsl(
+    var(--accent-hue),
+    calc(var(--accent-saturation) + 5%),
+    calc(var(--accent-lightness) - 8%)
+  );
+  --color-accent-darker: hsl(
+    var(--accent-hue),
+    calc(var(--accent-saturation) + 10%),
+    calc(var(--accent-lightness) - 20%)
+  );
+
   /* ---------------------- Color Palette ---------------------- */
   /* Light mode colors */
-  --color-primary-light: #f43f5e;
+  --color-primary-light: var(--color-primary-base);
   --color-secondary-light: #555;
   --color-background-light: #f9f9f9;
   --color-text-light: #333;
   --color-white-light: #ffffff;
   --color-shadow-light: rgba(0, 0, 0, 0.1);
   --color-border-light: rgb(204, 204, 204);
-  --color-accent: #c9a87c;
-  --color-accent-light: color-mix(in oklab, var(--color-accent), white 25%);
-  --color-accent-dark: color-mix(in oklab, var(--color-accent), black 5%);
+  --color-accent: var(--color-accent-base);
+  --color-accent-light: var(--color-accent-light);
+  --color-accent-dark: var(--color-accent-dark);
 
   /* Dark mode colors */
-  --color-primary-dark: #ea3943;
+  --color-primary-dark: var(--color-primary-darker);
   --color-secondary-dark: #b8bcc8;
   --color-background-dark: #1a1a1a;
   --color-text-dark: #e8e8e8;
@@ -30,7 +93,7 @@
   --color-border-dark: rgb(60, 60, 60);
 
   --color-danger: #e74c3c;
-  --color-success: #3cba12;
+  --color-success: #40ff00;
 
   /* Auto theme switching (light-dark() CSS function) */
   --color-primary: light-dark(
@@ -110,6 +173,88 @@
 }
 
 /* ==========================================
+   Quick Color Scheme Presets (uncomment to use)
+   ========================================== */
+
+/* Blue & Gold (Classic Wedding) */
+/* 
+:root {
+  --primary-hue: 210;
+  --primary-saturation: 85%;
+  --primary-lightness: 55%;
+  
+  --accent-hue: 45;
+  --accent-saturation: 65%;
+  --accent-lightness: 60%;
+}
+*/
+
+/* Sage Green & Rose Gold (Rustic Elegant) */
+/* 
+:root {
+  --primary-hue: 120;
+  --primary-saturation: 25%;
+  --primary-lightness: 45%;
+  
+  --accent-hue: 15;
+  --accent-saturation: 45%;
+  --accent-lightness: 65%;
+}
+*/
+
+/* Navy & Blush (Modern Romance) */
+/* 
+:root {
+  --primary-hue: 215;
+  --primary-saturation: 80%;
+  --primary-lightness: 30%;
+  
+  --accent-hue: 350;
+  --accent-saturation: 75%;
+  --accent-lightness: 75%;
+}
+*/
+
+/* Burgundy & Gold (Luxe) */
+/* 
+:root {
+  --primary-hue: 345;
+  --primary-saturation: 70%;
+  --primary-lightness: 35%;
+  
+  --accent-hue: 45;
+  --accent-saturation: 70%;
+  --accent-lightness: 55%;
+}
+*/
+
+/* Dusty Purple & Champagne (Soft & Romantic) */
+/* 
+:root {
+  --primary-hue: 280;
+  --primary-saturation: 30%;
+  --primary-lightness: 50%;
+  
+  --accent-hue: 40;
+  --accent-saturation: 30%;
+  --accent-lightness: 70%;
+}
+*/
+
+/* Terracotta & Cream (Boho Desert) */
+/* 
+:root {
+  --primary-hue: 15;
+  --primary-saturation: 55%;
+  --primary-lightness: 50%;
+  
+  --accent-hue: 45;
+  --accent-saturation: 20%;
+  --accent-lightness: 85%;
+}
+*/
+
+/* ==========================================
    Manual Theme Overrides (for JS / React Switcher)
    ========================================== */
 html[data-theme="light"] {
@@ -148,7 +293,7 @@ $color-muted: #9e8a7e;
 $color-accent: var(--color-accent);
 $color-accent-light: var(--color-accent-light);
 $color-accent-dark: var(--color-accent-dark);
-$color-indicator: #c9a87c;
+$color-indicator: var(--color-accent-base); /* Now uses accent system */
 $color-danger: var(--color-danger);
 $color-success: var(--color-success);
 
