@@ -18,6 +18,7 @@ import {
   IoThunderstorm,
   IoSnow,
   IoFastFoodOutline,
+  IoMusicalNotesOutline,
 } from "react-icons/io5";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { MdEdit, MdLocationPin } from "react-icons/md";
@@ -50,6 +51,7 @@ const ICONS: Record<string, IconType> = {
   ExternalLink: RiExternalLinkLine,
   Food: IoFastFoodOutline,
   Note: CiStickyNote,
+  Music: IoMusicalNotesOutline,
   location: MdLocationPin,
 
   // Weather

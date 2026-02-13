@@ -48,17 +48,22 @@
     }
   }
 
+  .inputs-container {
+    width: 70% !important;
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+  }
+
   /* Rows */
   .form-row {
     position: relative;
-    display: flex;
-    gap: $space-sm;
+
     overflow: hidden;
-    padding: $space-sm;
 
     input,
     textarea {
-      flex: 1;
+        width: 100%;
       border-radius: $radius-sm;
       border: 1px solid $color-border;
       background: $color-white;
@@ -107,16 +112,17 @@
   .guest-card-actions {
     display: flex;
     justify-content: space-between;
+    flex-wrap: no-wrap;
     gap: 0;
-    width: 100%;
+    width: min-content;
 
     button {
       background: none;
-      padding: $space-xs;
+      padding: $space-xs !important;
       width: min-content;
       margin-left: auto;
       opacity: 0.5;
-      transition: opacity $transition-base; 
+      transition: opacity $transition-base;
 
       &:hover:not(:disabled) {
         opacity: 1;
