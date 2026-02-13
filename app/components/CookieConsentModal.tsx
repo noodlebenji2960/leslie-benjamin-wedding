@@ -219,15 +219,6 @@ export function CookieConsentModal({
               ))}
             </div>
 
-            {!personalizationAllowed && (
-              <p className="ccm__hint">
-                {t(
-                  "common:personalization_hint",
-                  "Enable personalization to see a tailored welcome message.",
-                )}
-              </p>
-            )}
-
             <div className="ccm__actions">
               <button className="ccm__save-btn" onClick={handleSavePreferences}>
                 {t("common:save_preferences", "Save Preferences")}
