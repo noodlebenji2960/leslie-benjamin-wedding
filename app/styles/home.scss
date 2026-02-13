@@ -34,16 +34,17 @@
 
     @media (max-width: 768px) {
       // mobile breakpoint
+      top: 0;
       width: 100vw; // fill full width
-      height: auto; // adjust height automatically
-      background-size: 100% auto; // scale background to full width
+      height: 50vw; // adjust height automatically
+      background-size: auto 100%; // scale background to full width
     }
   }
 
   h1 {
     max-width: 90vw;
     font-family: $font-header;
-    font-size: clamp(4rem, 10vw, 7rem);
+    font-size: clamp(3rem, 9vw, 4.5rem);
     font-weight: $fw-medium;
     color: $color-accent;
     margin: 0 0 $space-lg;
@@ -51,6 +52,7 @@
     letter-spacing: 0.02em;
     position: relative;
     z-index: -1;
+    text-align: center;
 
     i {
       font-family: "Courier New", Courier, monospace;
