@@ -1,4 +1,10 @@
 {
+  "welcome_first_visit": "¡Bienvenido a nuestro sitio web de bodas! 💕",
+  "welcome_back_today": "¡Bienvenido de nuevo! <emoji />",
+  "welcome_back_yesterday": "¡Qué gusto verte de nuevo! Estuviste aquí ayer.",
+  "welcome_back_days": "¡Bienvenido de nuevo! Han pasado {{days}} días desde tu última visita.",
+  "welcome_back_less_than_month": "¡Qué alegría verte de nuevo! Han pasado {{days}} días.",
+  "welcome_back_long_time": "¡Bienvenido de nuevo! ¡Te hemos extrañado! Han pasado {{days}} días.",
   "subtitle": "¡Por fin, nos casamos!",
   "rsvp": "Confirmar Asistencia",
   "rsvpIntro": "¡Nos encantaría saber si podrás acompañarnos! Confírmanos tu asistencia antes del <strong>{{deadline}}</strong> para que podamos prepararlo todo con cariño.",

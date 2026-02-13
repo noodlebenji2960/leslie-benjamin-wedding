@@ -1,0 +1,49 @@
+@import "../_variables.scss";
+
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: $space-3xl;
+  z-index: 2;
+
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-md;
+}
+
+/* Change Cookie Preferences button */
+.footer__cookie-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none !important;
+
+  font-family: $font-body;
+  font-size: $font-size-xs;
+  font-weight: $fw-medium;
+  color: $color-primary;
+
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  transition:
+    color $transition-base,
+    opacity $transition-base;
+
+  &:hover {
+    color: $color-accent;
+    opacity: 0.9;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}

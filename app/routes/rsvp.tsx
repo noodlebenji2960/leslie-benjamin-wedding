@@ -1,28 +1,41 @@
-import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+// src/pages/RSVP.tsx
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useLanguage } from "@/contexts/LanguageContext";
-import emailjs from "@emailjs/browser";
-import "@/styles/rsvp.scss";
-import { Icon } from "@/components/Icon";
+import { useLocation } from "react-router";
 import { StepContent } from "@/components/rsvp/StepContent";
 import SuccessScreen from "@/components/rsvp/SuccessScreen";
-import type { Guest, RSVPFormData } from "@/types/types";
+import { useRSVPForm } from "@/hooks/rsvp/useRSVPForm";
+import { useRSVPSubmit } from "@/hooks/rsvp/useRSVPSubmit";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import "../styles/rsvp.scss";
+import { Icon } from "@/components/Icon";
 
 const RECAPTCHA_SITE_KEY = "6Lcy_mcsAAAAADoT-ibwy1RvePEHG4xJ87D0fdse";
 
-const steps = ["contactAndAttendance", "guestsOrName", "captcha", "review"];
-const stepDescriptions: Record<number, string> = {
-  0: "contactAndAttendance",
-  1: "guestsOrName",
-  2: "captcha",
-  3: "review",
-};
+// Module-level tracking - persists across Strict Mode remounts
+let hasTrackedRSVPStart = false;
+let hasTrackedAbandonment = false;
 
 export default function RSVP() {
   const { t, ready } = useTranslation(["home", "common", "rsvp"]);
+  const analytics = useAnalytics();
+  const location = useLocation();
   const [isClient, setIsClient] = useState(false);
-  const [form, setForm] = useState<RSVPFormData>({
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const cleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const {
+    form,
+    currentStep,
+    steps,
+    error: formError,
+    handleChange,
+    handleGuestsChange,
+    nextStep,
+    prevStep,
+    setError: setFormError,
+    hasValidGuests,
+  } = useRSVPForm({
     email: "",
     attending: "",
     guests: [],
@@ -30,158 +43,132 @@ export default function RSVP() {
     notes: "",
     website: "",
   });
-  const [hasValidGuests, setHasValidGuests] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [sending, setSending] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [formStartTime] = useState(Date.now());
+
+  const {
+    submit,
+    sending,
+    submitted,
+    error: submitError,
+    setSubmitted,
+  } = useRSVPSubmit(form, captchaToken, currentStep);
 
   const errorRef = useRef<HTMLDivElement>(null);
   const submittedRef = useRef<HTMLDivElement>(null);
   const recaptchaRef = useRef<any>(null);
 
-  useEffect(() => setIsClient(true), []);
+  // Combine errors from both hooks
+  const error = formError || submitError;
+
+  // Combined tracking - start and abandonment
   useEffect(() => {
-    if (error && errorRef.current) errorRef.current.focus();
-    if (submitted && submittedRef.current) submittedRef.current.focus();
+    // Track RSVP start on mount
+    if (!hasTrackedRSVPStart) {
+      analytics.event("rsvp_start", {
+        event_label: "User started RSVP form",
+      });
+      hasTrackedRSVPStart = true;
+    }
+
+    // Reset abandonment flag on mount
+    hasTrackedAbandonment = false;
+
+    // Track abandonment on tab close/refresh
+    const handleBeforeUnload = () => {
+      if (!submitted && !hasTrackedAbandonment) {
+        analytics.event("rsvp_abandonment", {
+          event_label: `Abandoned at ${steps[currentStep]}`,
+          step_number: currentStep + 1,
+          step_name: steps[currentStep],
+        });
+        hasTrackedAbandonment = true;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Single cleanup handler
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+
+      // Clear any pending cleanup
+      if (cleanupTimeoutRef.current) {
+        clearTimeout(cleanupTimeoutRef.current);
+      }
+
+      // Schedule single cleanup check
+      cleanupTimeoutRef.current = setTimeout(() => {
+        const isLeavingRSVP = !window.location.pathname.includes("/rsvp");
+
+        if (isLeavingRSVP) {
+          // Track abandonment if not submitted and not already tracked
+          if (!submitted && !hasTrackedAbandonment) {
+            analytics.event("rsvp_abandonment", {
+              event_label: `Abandoned at ${steps[currentStep]}`,
+              step_number: currentStep + 1,
+              step_name: steps[currentStep],
+            });
+            hasTrackedAbandonment = true;
+          }
+
+          // Reset start tracking for next visit
+          hasTrackedRSVPStart = false;
+        }
+
+        cleanupTimeoutRef.current = null;
+      }, 100);
+    };
+  }, [currentStep, steps, submitted, analytics]);
+
+  useEffect(() => setIsClient(true), []);
+
+  useEffect(() => {
+    if (error && errorRef.current) {
+      errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      errorRef.current.focus();
+    }
+    if (submitted && submittedRef.current) {
+      submittedRef.current.focus();
+    }
   }, [error, submitted]);
 
   if (!ready) return <div className="loading">{t("common:loading")}</div>;
 
-  const hasCompleteGuests = form.guests.some(
-    (g) => g.firstName.trim() && g.lastName.trim(),
-  );
-
-  const validateEmail = (email: string): string | null => {
-    if (!email.trim()) return t("rsvp:errors.required");
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return t("rsvp:errors.invalidEmail");
-    return null;
-  };
-
-  const isStepValid = () => {
-    switch (currentStep) {
-      case 0:
-        return !validateEmail(form.email) && !!form.attending;
-      case 1:
-        return form.attending === "yes"
-          ? hasCompleteGuests
-          : !!form.nonAttendingName?.trim() && !!form.notes?.trim();
-      case 2:
-        return !!captchaToken;
-      default:
-        return true;
-    }
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (error) setError(null);
-  };
-
-  const handleGuestsChange = (guests: Guest[]) => {
-    setForm((prev) => ({ ...prev, guests }));
-    setHasValidGuests(
-      guests.some((g) => g.firstName.trim() && g.lastName.trim()),
-    );
-  };
-
-  const handleNext = () => {
-    if (!isStepValid()) {
-      if (currentStep === 1 && form.attending === "yes" && !hasCompleteGuests) {
-        setError(t("rsvp:errors.addAtLeastOneGuest"));
-      } else {
-        setError(t("rsvp:errors.required"));
-      }
-      return;
-    }
-    setError(null);
-    setCurrentStep((s) => Math.min(s + 1, steps.length - 1));
-  };
-
-  const handleBack = () => {
-    setError(null);
-    setCurrentStep((s) => Math.max(s - 1, 0));
-  };
-
-  const handleSubmit = async () => {
-    setError(null);
-    if (form.website) return setError("Bot detected.");
-    if (Date.now() - formStartTime < 2000)
-      return setError("Submission too fast.");
-    if (!captchaToken) return setError("Please complete reCAPTCHA.");
-
-    setSending(true);
-    try {
-      const guestsText =
-        form.attending === "yes"
-          ? form.guests
-              .map(
-                (g, i) =>
-                  `${i + 1}. ${g.firstName} ${g.lastName}` +
-                  (g.dietary ? ` - Dietary: ${g.dietary}` : "") +
-                  (g.note ? ` - Note: ${g.note}` : ""),
-              )
-              .join("\n")
-          : `Not attending: ${form.nonAttendingName}`;
-
-      await emailjs.send(
-        "service_vvuhisc",
-        "template_4m25aki",
-        {
-          email: form.email,
-          attending: form.attending,
-          guestsCount: form.attending === "yes" ? form.guests.length : 1,
-          guests: guestsText,
-          notes: form.notes || "None",
-          recaptchaToken: captchaToken,
-        },
-        "gVksEDEDoKBjB0TJU",
-      );
-      setSubmitted(true);
-    } catch (err) {
-      console.error("Submission error:", err);
-      setError(t("rsvp:errors.failed"));
-    } finally {
-      setSending(false);
-    }
-  };
-
-  const handleReset = () => {
-    setSubmitted(false);
-    setCurrentStep(0);
-    setForm({
-      email: "",
-      attending: "",
-      guests: [],
-      nonAttendingName: "",
-      notes: "",
-      website: "",
-    });
-    setCaptchaToken(null);
-    setHasValidGuests(false);
-  };
-
   if (submitted) {
-    return <SuccessScreen onReset={handleReset} submittedRef={submittedRef} />;
+    return (
+      <SuccessScreen
+        onReset={() => setSubmitted(false)}
+        submittedRef={submittedRef}
+      />
+    );
   }
 
   const progressPercent = ((currentStep + 1) / steps.length) * 100;
 
+  const isNextDisabled = () => {
+    if (currentStep === 0) {
+      return !form.attending || !form.email;
+    }
+    if (currentStep === 1) {
+      if (form.attending === "yes") {
+        return !hasValidGuests;
+      } else {
+        return !form.nonAttendingName;
+      }
+    }
+    if (currentStep === 2) {
+      return !captchaToken;
+    }
+    return false;
+  };
+
+  const stepTexts = t("rsvp:steps", { returnObjects: true });
+  const stepTextsArray = steps.map((key) => stepTexts[key]);
+  const stepText = stepTextsArray[currentStep];
+
   return (
     <div className="rsvp-page container">
-      <h1>Rsvp</h1>
-
-      <p className="step-description">
-        {t(`rsvp:steps.${stepDescriptions[currentStep]}`)}
-      </p>
+      <h1>RSVP</h1>
+      <p className="step-description">{stepText}</p>
       <div className="progress-bar">
         <div
           className="progress-bar-fill"
@@ -189,11 +176,7 @@ export default function RSVP() {
         />
       </div>
 
-      <form
-        autoComplete="on"
-        className="rsvp-form"
-        onSubmit={(e) => e.preventDefault()}
-      >
+      <form className="rsvp-form" onSubmit={(e) => e.preventDefault()}>
         <StepContent
           currentStep={currentStep}
           form={form}
@@ -201,14 +184,14 @@ export default function RSVP() {
           onChange={handleChange}
           onGuestsChange={handleGuestsChange}
           captchaToken={captchaToken}
-          error={error}
-          recaptchaRef={recaptchaRef}
           setCaptchaToken={setCaptchaToken}
+          recaptchaRef={recaptchaRef}
           recaptchaSiteKey={RECAPTCHA_SITE_KEY}
+          error={error}
         />
 
         {error && (
-          <div className="rsvp-error" ref={errorRef} tabIndex={-1} role="alert">
+          <div className="rsvp-error" ref={errorRef} role="alert" tabIndex={-1}>
             {error}
           </div>
         )}
@@ -216,9 +199,9 @@ export default function RSVP() {
         <div className="form-navigation">
           <button
             type="button"
-            onClick={handleBack}
+            onClick={prevStep}
             disabled={currentStep === 0}
-            title={t("rsvp:back")}
+            title={t("common:back") || "Back"}
           >
             <Icon.Back />
           </button>
@@ -228,14 +211,18 @@ export default function RSVP() {
           {currentStep < steps.length - 1 ? (
             <button
               type="button"
-              disabled={!isStepValid()}
-              onClick={handleNext}
-              title={t("rsvp:next")}
+              onClick={nextStep}
+              disabled={isNextDisabled()}
+              title={t("common:next") || "Next"}
             >
               <Icon.Next />
             </button>
           ) : (
-            <button type="button" onClick={handleSubmit} disabled={sending}>
+            <button
+              type="button"
+              onClick={submit}
+              disabled={sending || isNextDisabled()}
+            >
               {sending ? t("rsvp:sending") : t("rsvp:submit")}
             </button>
           )}

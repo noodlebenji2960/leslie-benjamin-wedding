@@ -1,0 +1,46 @@
+@import "../_variables.scss";
+
+/* Toast Wrapper */
+.toast-wrapper {
+  position: fixed;
+  bottom: $space-lg; // distance from bottom
+  left: 0;
+  right: 0;
+  transform: translateX(-50%);
+  z-index: 1100;
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto; // shrink to fit content
+  pointer-events: none;
+}
+
+/* Toast Content */
+.toast-content {
+  pointer-events: all;
+  background: $color-background;
+  color: $color-text;
+  padding: 0 $space-lg; // thin vertical padding
+  border-radius: $radius-sm; // pill shape
+  box-shadow: 0 5px 15px $color-shadow;
+  text-align: center;
+  font-size: $font-size-xs;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px   solid $color-border;
+}
+
+/* Optional Toast Variants */
+.toast-success {
+  background: $color-success;
+}
+
+.toast-error {
+  background: $color-danger;
+}
+
+.toast-info {
+  background: $color-primary;
+}

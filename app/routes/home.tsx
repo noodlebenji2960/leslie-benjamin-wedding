@@ -11,6 +11,8 @@ import { FadeInSection } from "@/components/FadeInsection";
 import DonateButton from "@/components/DonateButton";
 import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
+import { CookieConsentModal } from "@/components/CookieConsentModal";
+import { Icon } from "@/components/Icon";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -25,7 +27,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const wedding = useWeddingData();
   const { t, i18n, ready } = useTranslation(["home", "common"]);
-  const buildLink = useBuildLink();
+  const { navigateTo, buildLink } = useBuildLink();
 
   const weddingDate = new Date(wedding.wedding.date);
   const dayNumber = weddingDate.toLocaleDateString(i18n.language, {
@@ -39,7 +41,9 @@ export default function Home() {
     i18n.language,
   );
 
-  const handleRSVP = () => buildLink("/rsvp");
+  const handleRSVP = () => {
+    navigateTo("/rsvp");
+  };
 
   if (!ready) {
     return (
@@ -56,11 +60,6 @@ export default function Home() {
       {wedding.bride.firstName} & <br /> {wedding.groom.firstName}
     </>
   );
-
-  // Find schedule highlights
-  const busEvent = wedding.schedule.find((e) => e.id === "bus");
-  const ceremonyEvent = wedding.schedule.find((e) => e.id === "ceremony");
-  const cocktailsEvent = wedding.schedule.find((e) => e.id === "cocktails");
 
   return (
     <div className="home-hero">
@@ -92,7 +91,9 @@ export default function Home() {
         <div className="venue-card">
           <p className="hero-location">
             <Link to={wedding.wedding.ceremony.venue.website}>
-              <strong>{wedding.wedding.ceremony.venue.longName}</strong>
+              <strong>
+                 {wedding.wedding.ceremony.venue.longName}
+                 </strong>
             </Link>
             <br />
             {wedding.wedding.ceremony.venue.address}
@@ -121,8 +122,8 @@ export default function Home() {
         <div className="schedule-preview">
           <h3>{t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}</h3>
           <div className="timeline">
-            {wedding.schedule.map((event) => (
-              <div key={event.id} className="timeline-item">
+            {wedding.schedule.map((event, index) => (
+              <div key={`${index} ${event.id}`} className="timeline-item">
                 <div className="timeline-dot" />
                 <div className="timeline-content">
                   <span className="timeline-time">{event.time}</span>
@@ -181,17 +182,6 @@ export default function Home() {
             </div>
             <div className="vertical-separator" />
             <div className="essential-item">
-              <strong>
-                {t("familyWelcome", { ns: "home", defaultValue: "Family" })}
-              </strong>
-              <br />
-              {t("familyHint", {
-                ns: "home",
-                defaultValue: "Children welcome with kids area.",
-              })}
-            </div>
-            <div className="vertical-separator" />
-            <div className="essential-item">
               <HeartBoxIllustration height={200} width={200} />
               <strong>
                 {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
@@ -213,7 +203,6 @@ export default function Home() {
       <FadeInSection delay={0.1}>
         <div className="rsvp-section">
           <Countdown
-            size="lg"
             date={wedding.wedding.date}
             time={wedding.wedding.ceremony.time}
           />
@@ -254,7 +243,7 @@ export default function Home() {
               return (
                 <>
                   <div
-                    key={c.email}
+                    key={`${index} ${c.email}`}
                     className={`contact-item ${isFirst ? "first" : ""} ${isLast ? "last" : ""}`}
                   >
                     <strong>{c.name}</strong>

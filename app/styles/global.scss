@@ -2,6 +2,12 @@
 @import "./_variables.scss";
 @import "./_mixins.scss";
 
+/* Remove blue tap highlight on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
 html,
 body,
 #root {
@@ -49,8 +55,6 @@ a {
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: $space-md;
-  padding-bottom: $space-sm;
 }
 
 /* Utility helpers used across components */
@@ -177,4 +181,8 @@ label {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+}
+
+.leaflet-routing-container{
+    display: none;
 }

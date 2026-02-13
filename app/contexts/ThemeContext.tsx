@@ -1,5 +1,5 @@
-// contexts/ThemeContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useSession } from "@/contexts/SessionContext";
 
 type ThemeValue = "light" | "dark" | "system";
 
@@ -11,32 +11,47 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<ThemeValue>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("theme") as ThemeValue) || "system";
-    }
-    return "system";
-  });
+  const { cookiePreference } = useSession();
+  const personalizationAllowed = cookiePreference?.personalization ?? false;
 
+  const [theme, setTheme] = useState<ThemeValue>("system");
+  const [loadedFromStorage, setLoadedFromStorage] = useState(false);
+
+  // Load persisted theme when personalization is allowed or consent granted mid-session
   useEffect(() => {
-    localStorage.setItem("theme", theme);
+    if (personalizationAllowed && !loadedFromStorage) {
+      const stored = localStorage.getItem("theme") as ThemeValue;
+      if (stored) setTheme(stored);
+      setLoadedFromStorage(true);
+    }
 
+    // If personalization is revoked mid-session, do not persist changes
+    if (!personalizationAllowed) {
+      setLoadedFromStorage(false);
+    }
+  }, [personalizationAllowed, loadedFromStorage]);
+
+  // Apply theme changes and persist only if allowed
+  useEffect(() => {
     if (theme === "system") {
       document.documentElement.removeAttribute("data-theme");
     } else {
       document.documentElement.setAttribute("data-theme", theme);
     }
-  }, [theme]);
+
+    if (personalizationAllowed) {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme, personalizationAllowed]);
 
   // Listen to system preference changes
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = () => {
       if (theme === "system") {
-        // light-dark() handles this automatically
+        document.documentElement.removeAttribute("data-theme");
       }
     };
-
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);

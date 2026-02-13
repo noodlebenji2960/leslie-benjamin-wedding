@@ -10,5 +10,25 @@
     "hours": "hours",
     "minutes": "minutes"
   },
-  "click_here": "click here"
+
+  "click_here": "click here",
+
+  "donate": {
+    "title": "Make a wedding gift",
+    "modal_title": "Thank you for your love 💖",
+    "message_1": "We are so grateful that you’ve chosen to give us a wedding gift.",
+    "message_2": "Your generosity truly means the world to us and will help us start this new chapter together.",
+    "message_3": "If you’d like to continue, you can securely make your gift via PayPal below.",
+    "paypal_cta": "💝 Give via PayPal"
+  },
+
+  "last_visit": "Your last visit was on {{date}}.",
+  "visit_count": "This is visit #{{count}}!",
+
+  "cookie_intro": "We use cookies to improve your experience. You can choose which types of cookies you allow:",
+  "cookie_necessary": "Necessary cookies (required)",
+  "cookie_analytics": "Analytics cookies",
+  "cookie_marketing": "Marketing cookies",
+  "save_preferences": "Save Preferences",
+  "current_preferences": "Your cookie preferences:"
 }
