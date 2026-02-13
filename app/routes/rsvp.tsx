@@ -10,8 +10,6 @@ import { useAnalytics } from "@/contexts/AnalyticsContext";
 import "../styles/rsvp.scss";
 import { Icon } from "@/components/Icon";
 
-const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-
 // Module-level tracking - persists across Strict Mode remounts
 let hasTrackedRSVPStart = false;
 let hasTrackedAbandonment = false;
@@ -186,7 +184,6 @@ export default function RSVP() {
           captchaToken={captchaToken}
           setCaptchaToken={setCaptchaToken}
           recaptchaRef={recaptchaRef}
-          recaptchaSiteKey={RECAPTCHA_SITE_KEY}
           error={error}
         />
 
