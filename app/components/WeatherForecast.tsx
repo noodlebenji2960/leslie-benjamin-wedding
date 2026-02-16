@@ -3,7 +3,6 @@ import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import { useWeddingData } from "@/hooks/useWeddingData";
-import "@/styles/components/WeatherForecast.scss";
 
 interface ForecastDay {
   rawDate: string; // ISO for logic

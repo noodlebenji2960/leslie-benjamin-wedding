@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useWeddingData } from "@/hooks/useWeddingData";
 import Map from "@/components/Map";
-import "@/styles/schedule.scss";
 
 const Schedule = () => {
   const { t } = useTranslation(["schedule", "common"]);

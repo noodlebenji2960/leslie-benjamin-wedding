@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Icon } from "./Icon";
-import "@/styles/components/SongListManager.scss";
 
 interface Song {
   title: string;

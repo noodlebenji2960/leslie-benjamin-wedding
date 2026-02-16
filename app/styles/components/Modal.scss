@@ -1,35 +1,32 @@
 @import "../_variables.scss";
+@import "../mixins.scss";
 
 /* ==========================================
    Modal Wrapper: full viewport, center content
    ========================================== */
 .modal-wrapper {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh; // full viewport
+  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   pointer-events: auto;
-  overflow: hidden; // prevent scroll overflow
+  overflow: hidden;
 }
 
 /* ==========================================
    Backdrop: behind modal content
    ========================================== */
 .modal-backdrop {
-  position: fixed; // full viewport, independent of modal transforms
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: $color-text; // uses variable
-  opacity: 0.4;
-  z-index: 900; // behind modal wrapper
+  position: fixed;
+  inset: 0;
+  z-index: 900;
   pointer-events: auto;
+  background: rgba(0, 0, 0, 0.8); // light black overlay
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(10px); // Safari support
+  transition: opacity 0.3s ease-in-out;
 }
 
 /* ==========================================
@@ -42,7 +39,7 @@
   padding: $space-lg;
   max-width: 500px;
   width: 90%;
-  box-shadow: 0 10px 25px $color-shadow;
+  box-shadow: 0 12px 28px rgba($color-shadow, 0.2);
   z-index: 1001;
   font-family: $font-body;
   color: $color-text;
@@ -50,12 +47,15 @@
   flex-direction: column;
   gap: $space-md;
   pointer-events: auto;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 /* ==========================================
    Close Button
    ========================================== */
-.modal-content .ccm__close {
+.modal-close {
   position: absolute;
   top: $space-md;
   right: $space-md;
@@ -65,10 +65,13 @@
   cursor: pointer;
   color: $color-text;
   line-height: 1;
-  transition: color $transition-base;
+  transition:
+    color $transition-base,
+    transform 0.2s ease;
 
   &:hover {
     color: $color-primary;
+    transform: scale(1.1);
   }
 }
 
@@ -78,7 +81,7 @@
 .modal-content p {
   font-size: $font-size-md;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* ==========================================
@@ -92,7 +95,14 @@
   padding: $space-sm $space-md;
   border: none;
   cursor: pointer;
-  transition: background $transition-base, color $transition-base;
+  transition:
+    background $transition-base,
+    color $transition-base,
+    transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   &.ccm__save-btn {
     background: $color-primary;

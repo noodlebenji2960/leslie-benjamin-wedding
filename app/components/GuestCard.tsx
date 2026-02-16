@@ -1,23 +1,13 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import "@/styles/components/GuestCard.scss";
 import { Icon } from "./Icon";
-import { SongListManager } from "./SongListManager";
-
-// Song interface
-interface Song {
-  title: string;
-  artist: string;
-}
 
 interface Guest {
   firstName: string;
   lastName: string;
   dietary: string;
   note?: string;
-  musicRequest?: string;
-  songs?: Song[]; // NEW: array of songs
 }
 
 interface GuestCardProps {
@@ -30,7 +20,6 @@ interface GuestCardProps {
   isRostered?: boolean;
 }
 
-// --- Main GuestCard Component ---
 const GuestCard = ({
   index,
   guest,
@@ -44,19 +33,30 @@ const GuestCard = ({
 
   const [showDietary, setShowDietary] = useState(false);
   const [showNote, setShowNote] = useState(false);
-  const [showMusicRequest, setShowMusicRequest] = useState(false);
 
   const isValid = guest.firstName.trim() && guest.lastName.trim();
 
-  const handleChange = (field: keyof Guest, value: any) => {
-    onUpdate?.(index, field, value);
+  // ------------------------
+  // Sanitization and limits
+  // ------------------------
+  const sanitizeName = (value: string) =>
+    value.replace(/[^a-zA-ZÀ-ÿ\s'-]/g, "");
+  const truncate = (value: string, max: number) => value.slice(0, max);
+
+  const handleNameChange = (field: "firstName" | "lastName", value: string) => {
+    const sanitized = truncate(sanitizeName(value), 30); // max 30 chars
+    onUpdate?.(index, field, sanitized);
+  };
+
+  const handleChange = (field: keyof Guest, value: any, maxLength?: number) => {
+    const truncated = maxLength ? truncate(value, maxLength) : value;
+    onUpdate?.(index, field, truncated);
   };
 
   useEffect(() => {
     if (guest.dietary) setShowDietary(true);
     if (guest.note) setShowNote(true);
-    if (guest.songs && guest.songs.length > 0) setShowMusicRequest(true);
-  }, [guest.dietary, guest.note, guest.musicRequest, guest.songs]);
+  }, [guest.dietary, guest.note]);
 
   return (
     <motion.div
@@ -79,17 +79,19 @@ const GuestCard = ({
             type="text"
             placeholder={t("rsvp:firstName")}
             value={guest.firstName}
-            onChange={(e) => handleChange("firstName", e.target.value)}
+            onChange={(e) => handleNameChange("firstName", e.target.value)}
+            maxLength={30}
           />
           <input
             type="text"
             placeholder={t("rsvp:lastName")}
             value={guest.lastName}
-            onChange={(e) => handleChange("lastName", e.target.value)}
+            onChange={(e) => handleNameChange("lastName", e.target.value)}
+            maxLength={30}
           />
         </div>
 
-        {/* Dietary / Note / Music Request fields */}
+        {/* Dietary / Note fields */}
         <AnimatePresence>
           {showDietary && (
             <motion.div
@@ -106,7 +108,8 @@ const GuestCard = ({
                 type="text"
                 placeholder={t("rsvp:dietaryPlaceholder")}
                 value={guest.dietary}
-                onChange={(e) => handleChange("dietary", e.target.value)}
+                onChange={(e) => handleChange("dietary", e.target.value, 100)}
+                maxLength={100}
               />
               <button
                 type="button"
@@ -131,7 +134,8 @@ const GuestCard = ({
               <textarea
                 placeholder={t("rsvp:notePlaceholder")}
                 value={guest.note || ""}
-                onChange={(e) => handleChange("note", e.target.value)}
+                onChange={(e) => handleChange("note", e.target.value, 200)}
+                maxLength={200}
               />
               <button
                 type="button"
@@ -143,14 +147,6 @@ const GuestCard = ({
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Song Manager */}
-        {showMusicRequest && (
-          <SongListManager
-            songs={guest.songs}
-            onUpdate={(updatedSongs) => handleChange("songs", updatedSongs)}
-          />
-        )}
       </div>
 
       <div className="guest-card-actions">
@@ -163,7 +159,6 @@ const GuestCard = ({
               if (onConfirm) onConfirm();
               setShowDietary(false);
               setShowNote(false);
-              setShowMusicRequest(false);
             }}
             whileHover={isValid ? { scale: 1.02 } : {}}
             title={t("rsvp:addGuest")}
@@ -192,14 +187,6 @@ const GuestCard = ({
                 <Icon.Note />
               </button>
             )}
-            <button
-              type="button"
-              className="three-dots-btn"
-              onClick={() => setShowMusicRequest((prev) => !prev)}
-              title={t("rsvp:addMusicRequest")}
-            >
-              {showMusicRequest ? <Icon.Music.on /> : <Icon.Music.off />}
-            </button>
             <button
               type="button"
               className="remove-guest"

@@ -1,6 +1,4 @@
 // app/components/LanguageSwitcher.tsx
-// No changes needed - your React logic is perfect!
-import "@/styles/components/LanguageSwitcher.scss";
 
 interface LanguageSwitcherProps {
   currentLocale: string;

@@ -21,7 +21,7 @@ export function useRSVPSubmit(
   const submit = async () => {
     console.log("Submitting RSVP...", { form, captchaToken });
 
-    // Validation with analytics tracking
+    // --- Validation ---
     if (!captchaToken) {
       const errorMsg = "Please complete reCAPTCHA.";
       setError(errorMsg);
@@ -95,6 +95,7 @@ export function useRSVPSubmit(
     setError(null);
 
     try {
+      // --- Prepare email content ---
       const guestsText =
         form.attending === "yes"
           ? form.guests
@@ -113,11 +114,13 @@ export function useRSVPSubmit(
         guestsCount: form.attending === "yes" ? form.guests.length : 1,
         guests: guestsText,
         notes: form.notes || "None",
+        musicRequest: form.musicRequest || "None", // RSVP-level music request
         recaptchaToken: captchaToken,
       };
 
       console.log("Sending email with params:", templateParams);
 
+      // --- Send via EmailJS ---
       const response = await emailjs.send(
         "service_vvuhisc",
         "template_4m25aki",
@@ -126,22 +129,21 @@ export function useRSVPSubmit(
 
       console.log("EmailJS response:", response);
 
-      // Track successful RSVP submission
+      // --- Analytics tracking ---
       analytics.event("rsvp_submit_success", {
         event_label: `RSVP ${form.attending === "yes" ? "Accepted" : "Declined"}`,
         attending: form.attending,
         guest_count: form.attending === "yes" ? form.guests.length : 1,
         dietary_requirements: form.guests[0]?.dietary || "none",
+        music_request: form.musicRequest || "none",
         locale: document.documentElement.lang,
       });
 
-      // Track as conversion
       analytics.event("conversion", {
         event_label: "RSVP Completed",
         send_to: "AW-CONVERSION-ID",
       });
 
-      // Track confirmation page view
       analytics.event("rsvp_confirmation_view", {
         event_label: "Viewed confirmation page",
       });
@@ -162,7 +164,6 @@ export function useRSVPSubmit(
 
       setError(errorMessage);
 
-      // Track RSVP submission failure
       analytics.event("rsvp_submit_error", {
         event_label: errorType,
         error_message: errorMessage,
@@ -172,7 +173,6 @@ export function useRSVPSubmit(
         has_captcha_token: !!captchaToken,
       });
 
-      // Track as exception for monitoring
       analytics.event("exception", {
         description: `RSVP Error: ${errorType} - ${errorMessage}`,
         fatal: false,

@@ -4,7 +4,6 @@ import { Modal } from "./Modal";
 import { Toast } from "./Toast";
 import { Trans, useTranslation } from "react-i18next";
 import { WaveEmoji } from "./WaveEmoji";
-import "@/styles/components/CookieConsentModal.scss";
 
 // -------------------------
 // Define cookie options

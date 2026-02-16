@@ -7,8 +7,8 @@ import SuccessScreen from "@/components/rsvp/SuccessScreen";
 import { useRSVPForm } from "@/hooks/rsvp/useRSVPForm";
 import { useRSVPSubmit } from "@/hooks/rsvp/useRSVPSubmit";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
-import "../styles/rsvp.scss";
 import { Icon } from "@/components/Icon";
+import { ProgressBar } from "@/components/ProgressBar";
 
 // Module-level tracking - persists across Strict Mode remounts
 let hasTrackedRSVPStart = false;
@@ -143,19 +143,13 @@ export default function RSVP() {
   const progressPercent = ((currentStep + 1) / steps.length) * 100;
 
   const isNextDisabled = () => {
-    if (currentStep === 0) {
-      return !form.attending || !form.email;
-    }
-    if (currentStep === 1) {
-      if (form.attending === "yes") {
-        return !hasValidGuests;
-      } else {
-        return !form.nonAttendingName;
-      }
-    }
-    if (currentStep === 2) {
-      return !captchaToken;
-    }
+    if (currentStep === 0) return !form.attending || !form.email;
+    if (currentStep === 1)
+      return form.attending === "yes"
+        ? !hasValidGuests
+        : !form.nonAttendingName;
+    if (currentStep === 2) return false; // music request is optional
+    if (currentStep === 3) return !captchaToken;
     return false;
   };
 
@@ -167,32 +161,10 @@ export default function RSVP() {
     <div className="rsvp-page container">
       <h1>Rsvp</h1>
       <p className="step-description">{stepText}</p>
-      <div className="progress-bar">
-        <div
-          className="progress-bar-fill"
-          style={{ width: `${progressPercent}%` }}
-        />
-      </div>
+      <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
 
       <form className="rsvp-form" onSubmit={(e) => e.preventDefault()}>
-        <StepContent
-          currentStep={currentStep}
-          form={form}
-          isClient={isClient}
-          onChange={handleChange}
-          onGuestsChange={handleGuestsChange}
-          captchaToken={captchaToken}
-          setCaptchaToken={setCaptchaToken}
-          recaptchaRef={recaptchaRef}
-          error={error}
-        />
-
-        {error && (
-          <div className="rsvp-error" ref={errorRef} role="alert" tabIndex={-1}>
-            {error}
-          </div>
-        )}
-
+        
         <div className="form-navigation">
           <button
             type="button"
@@ -224,6 +196,22 @@ export default function RSVP() {
             </button>
           )}
         </div>
+        <StepContent
+          currentStep={currentStep}
+          form={form}
+          isClient={isClient}
+          onChange={handleChange}
+          onGuestsChange={handleGuestsChange}
+          captchaToken={captchaToken}
+          setCaptchaToken={setCaptchaToken}
+          recaptchaRef={recaptchaRef}
+          error={error}
+        />
+        {error && (
+          <div className="rsvp-error" ref={errorRef} role="alert" tabIndex={-1}>
+            {error}
+          </div>
+        )}
       </form>
     </div>
   );

@@ -4,7 +4,6 @@ import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import { useWeddingData } from "@/hooks/useWeddingData";
-import "@/styles/qa.scss";
 import WeatherForecast from "@/components/WeatherForecast";
 import Map from "@/components/Map";
 import DonateButton from "@/components/DonateButton";

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import "../styles/components/DonateButton.scss";
 import { Modal } from "./Modal";
 
 interface DonateButtonProps {

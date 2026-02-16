@@ -1,6 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "@/styles/components/Toast.scss";
 
 interface ToastProps {
   isOpen: boolean;

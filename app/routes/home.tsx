@@ -1,7 +1,6 @@
 import type { Route } from "./+types/home";
 import { Trans, useTranslation } from "react-i18next";
 import { useWeddingData } from "@/hooks/useWeddingData";
-import "@/styles/home.scss";
 import { Countdown } from "@/components/Countdown";
 import { AnimatePresence, motion } from "framer-motion";
 import { useBuildLink } from "@/hooks/useBuildLink";
@@ -11,8 +10,6 @@ import { FadeInSection } from "@/components/FadeInsection";
 import DonateButton from "@/components/DonateButton";
 import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
-import { CookieConsentModal } from "@/components/CookieConsentModal";
-import { Icon } from "@/components/Icon";
 
 export function meta({}: Route.MetaArgs) {
   return [
