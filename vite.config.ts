@@ -3,7 +3,11 @@ import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import svgr from "@svgr/rollup";
-import path from "path";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   plugins: [reactRouter(), tsconfigPaths(), svgr()],
@@ -20,7 +24,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      app: path.resolve(__dirname, "app"),
+      app: resolve(__dirname, "app"),
     },
   },
 
