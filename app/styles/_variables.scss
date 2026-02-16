@@ -94,6 +94,7 @@
 
   --color-danger: #e74c3c;
   --color-success: #40ff00;
+  --color-warning: #ffd900;
 
   /* Auto theme switching (light-dark() CSS function) */
   --color-primary: light-dark(
@@ -296,6 +297,7 @@ $color-accent-dark: var(--color-accent-dark);
 $color-indicator: var(--color-accent-base); /* Now uses accent system */
 $color-danger: var(--color-danger);
 $color-success: var(--color-success);
+$color-warning: var(--color-warn);
 
 /* Fonts */
 $font-header: var(--font-header);

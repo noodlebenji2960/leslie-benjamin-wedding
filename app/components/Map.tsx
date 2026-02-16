@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import "@/styles/components/Map.scss";
 import { Icon } from "./Icon";
 
 type MapProps = {

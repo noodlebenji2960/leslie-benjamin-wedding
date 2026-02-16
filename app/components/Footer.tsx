@@ -1,6 +1,5 @@
 import { useWeddingData } from "@/hooks/useWeddingData";
 import { Countdown } from "./Countdown";
-import "../styles/components/Footer.scss";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useLocation } from "react-router";

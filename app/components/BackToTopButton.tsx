@@ -1,6 +1,4 @@
-import { use, useEffect, useState } from "react";
-import "@/styles/components/BackToTopButton.scss";
-import { useLenis } from "lenis/react";
+import { useEffect, useState } from "react";
 import { Icon } from "./Icon";
 
 interface BackToTopButtonProps {

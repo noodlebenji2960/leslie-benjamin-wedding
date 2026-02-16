@@ -1,10 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import GuestManager from "@/components/GuestManager";
-import ReCAPTCHA from "react-google-recaptcha";
 import type { Guest, RSVPFormData } from "@/types/types";
-
-const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+import ReCAPTCHA from "react-google-recaptcha";
+import GuestManager from "../GuestManager";
+import MusicRequestManager from "./MusicRequestManager";
 
 interface StepContentProps {
   currentStep: number;
@@ -50,6 +49,7 @@ export const StepContent = ({
 
   return (
     <AnimatePresence mode="wait">
+      {/* ---------- Step 0: Contact & Attendance ---------- */}
       {currentStep === 0 && (
         <motion.div
           key="step0"
@@ -59,7 +59,6 @@ export const StepContent = ({
           exit="exit"
           className="form-content"
         >
-          {/* Email + Attendance step */}
           <div className="form-group">
             <label htmlFor="email">
               {t("rsvp:email")} <span className="required">*</span>
@@ -69,11 +68,6 @@ export const StepContent = ({
               name="email"
               type="email"
               value={form.email}
-              spellCheck={false}
-              onKeyDown={(e) => e.key === " " && e.preventDefault()}
-              onPaste={(e) =>
-                /\s/.test(e.clipboardData.getData("text")) && e.preventDefault()
-              }
               onChange={onChange}
               className={`form-input ${
                 form.email.trim()
@@ -99,7 +93,9 @@ export const StepContent = ({
               name="attending"
               value={form.attending}
               onChange={onChange}
-              className={`form-input ${form.attending ? "form-input-valid" : ""}`}
+              className={`form-input ${
+                form.attending ? "form-input-valid" : ""
+              }`}
               required
               autoComplete="off"
             >
@@ -111,6 +107,7 @@ export const StepContent = ({
         </motion.div>
       )}
 
+      {/* ---------- Step 1: Guests / Non-Attending Name ---------- */}
       {currentStep === 1 && (
         <motion.div
           key="guestsOrName"
@@ -127,47 +124,51 @@ export const StepContent = ({
               required
             />
           ) : (
-            <>
-              <div className="form-group">
-                <label htmlFor="nonAttendingName">
-                  {t("rsvp:yourName")} <span className="required">*</span>
-                </label>
-                <input
-                  id="nonAttendingName"
-                  name="nonAttendingName"
-                  type="text"
-                  value={form.nonAttendingName}
-                  onChange={onChange}
-                  className="form-input"
-                  required
-                  autoComplete="name"
-                  spellCheck={false}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="notes">
-                  {t("rsvp:messageToBrideGroom")}{" "}
-                  <span className="required">*</span>
-                </label>
-                <textarea
-                  id="notes"
-                  name="notes"
-                  value={form.notes}
-                  onChange={onChange}
-                  className="form-input"
-                  placeholder={t("rsvp:messagePlaceholder")}
-                  rows={5}
-                  required
-                />
-              </div>
-            </>
+            <div className="form-group">
+              <label htmlFor="nonAttendingName">
+                {t("rsvp:yourName")} <span className="required">*</span>
+              </label>
+              <input
+                id="nonAttendingName"
+                name="nonAttendingName"
+                type="text"
+                value={form.nonAttendingName}
+                onChange={onChange}
+                className="form-input"
+                required
+                autoComplete="name"
+                spellCheck={false}
+              />
+            </div>
           )}
         </motion.div>
       )}
 
-      {currentStep === 2 && isClient && (
+      {/* ---------- Step 2: Music Requests ---------- */}
+      {currentStep === 2 && form.attending === "yes" && (
         <motion.div
-          key="step3"
+          key="musicRequest"
+          variants={fadeVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="form-content"
+        >
+          <MusicRequestManager
+            musicRequests={form.musicRequest || []}
+            onChange={(updatedList: string[]) =>
+              onChange({
+                target: { name: "musicRequest", value: updatedList },
+              } as React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)
+            }
+          />
+        </motion.div>
+      )}
+
+      {/* ---------- Step 3: Notes + CAPTCHA ---------- */}
+      {currentStep === 3 && isClient && (
+        <motion.div
+          key="captcha"
           variants={fadeVariants}
           initial="initial"
           animate="animate"
@@ -190,7 +191,7 @@ export const StepContent = ({
           )}
 
           <ReCAPTCHA
-            sitekey={RECAPTCHA_SITE_KEY}
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
             onChange={(token) => setCaptchaToken(token)}
             ref={recaptchaRef}
             style={{
@@ -205,9 +206,10 @@ export const StepContent = ({
         </motion.div>
       )}
 
-      {currentStep === 3 && (
+      {/* ---------- Step 4: Review ---------- */}
+      {currentStep === 4 && (
         <motion.div
-          key="step4"
+          key="review"
           variants={fadeVariants}
           initial="initial"
           animate="animate"
@@ -236,6 +238,12 @@ export const StepContent = ({
                     </li>
                   ))}
                 </ul>
+                {form.musicRequest && form.musicRequest.length > 0 && (
+                  <p>
+                    <strong>{t("rsvp:musicRequest")}:</strong>{" "}
+                    {form.musicRequest.join(", ")}
+                  </p>
+                )}
               </div>
             )}
 
@@ -244,6 +252,7 @@ export const StepContent = ({
                 <strong>{t("rsvp:name")}:</strong> {form.nonAttendingName}
               </p>
             )}
+
             {form.notes && (
               <p>
                 <strong>{t("rsvp:messageToBrideGroom")}:</strong> {form.notes}

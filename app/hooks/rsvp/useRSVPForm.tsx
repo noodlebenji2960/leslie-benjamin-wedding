@@ -4,13 +4,26 @@ import { useAnalytics } from "@/contexts/AnalyticsContext";
 
 export function useRSVPForm(initial: RSVPFormData) {
   const analytics = useAnalytics();
-  const [form, setForm] = useState(initial);
+
+  const [form, setForm] = useState<RSVPFormData>({
+    ...initial,
+    musicRequest: initial.musicRequest || "", // Initialize music request
+  });
+
   const [currentStep, setCurrentStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [hasValidGuests, setHasValidGuests] = useState(false);
 
-  const steps = ["contactAndAttendance", "guestsOrName", "captcha", "review"];
+  // Steps: contact, guests/non-attending, music request, captcha, review
+  const steps = [
+    "contactAndAttendance",
+    "guestsOrName",
+    "musicRequest",
+    "captcha",
+    "review",
+  ];
 
+  /** Generic input change handler */
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -21,6 +34,7 @@ export function useRSVPForm(initial: RSVPFormData) {
     setError(null);
   };
 
+  /** Update guest list and validate */
   const handleGuestsChange = (guests: Guest[]) => {
     setForm((prev) => ({ ...prev, guests }));
     setHasValidGuests(
@@ -28,8 +42,8 @@ export function useRSVPForm(initial: RSVPFormData) {
     );
   };
 
+  /** Proceed to next step with analytics */
   const nextStep = () => {
-    // Track analytics before moving to next step
     analytics.event("rsvp_step_complete", {
       event_label: steps[currentStep],
       step_number: currentStep + 1,
@@ -38,8 +52,8 @@ export function useRSVPForm(initial: RSVPFormData) {
     setCurrentStep((s) => s + 1);
   };
 
+  /** Go back a step with analytics */
   const prevStep = () => {
-    // Track when user goes back
     analytics.event("rsvp_step_back", {
       event_label: steps[currentStep],
       step_number: currentStep + 1,
@@ -48,6 +62,7 @@ export function useRSVPForm(initial: RSVPFormData) {
     setCurrentStep((s) => s - 1);
   };
 
+  /** Jump to a specific step */
   const goToStep = (step: number) => setCurrentStep(step);
 
   return {

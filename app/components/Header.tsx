@@ -1,8 +1,6 @@
 import { Link, useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useRef, useEffect, useLayoutEffect, useState } from "react";
-import "@/styles/components/Header.scss";
-import { useWeddingData } from "@/hooks/useWeddingData";
 import { useBuildLink } from "@/hooks/useBuildLink";
 
 interface NavLink {

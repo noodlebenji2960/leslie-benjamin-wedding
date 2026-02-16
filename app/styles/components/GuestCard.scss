@@ -121,11 +121,20 @@
       padding: $space-xs !important;
       width: min-content;
       margin-left: auto;
-      opacity: 0.5;
+      opacity: 1;
       transition: opacity $transition-base;
 
+      &.add-guest-btn {
+        background: $color-primary;
+      }
+
       &:hover:not(:disabled) {
-        opacity: 1;
+        opacity: 1 !important;
+      }
+
+      &:disabled {
+        background: $color-muted !important;
+        opacity: 0.5 !important;
       }
     }
   }

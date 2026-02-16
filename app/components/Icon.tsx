@@ -21,6 +21,9 @@ import {
   IoFastFoodOutline,
   IoMusicalNotesOutline,
   IoMusicalNotes,
+  IoPlay,
+  IoStop,
+  IoCheckmark,
 } from "react-icons/io5";
 import { RiExternalLinkLine } from "react-icons/ri";
 import { MdEdit, MdLocationPin } from "react-icons/md";
@@ -41,9 +44,8 @@ const ICON_DEFAULT_SIZE = 24;
 const IconComponent: React.FC<{ icon: IconType } & IconProps> = ({
   icon: Icon,
   size = ICON_DEFAULT_SIZE,
-  color = "currentColor",
   className,
-}) => <Icon size={size} color={color} className={className} />;
+}) => <Icon size={size} className={className} />;
 
 /* ======================================================
    Icon map with optional nested variants
@@ -78,6 +80,9 @@ const ICONS = {
   Storm: IoThunderstorm,
   Snow: IoSnow,
   Fog: WiFog,
+  Play: IoPlay,
+  Stop: IoStop,
+  Tick: IoCheckmark,
 };
 
 /* ======================================================
@@ -97,7 +102,6 @@ function buildIconComponents(map: any): any {
       // Nested icon variants (on/off/default)
       const { default: defaultIcon, ...variants } = value;
 
-      // Create default function that renders `defaultIcon`
       const nested: Record<string, any> = {
         ...Object.fromEntries(
           Object.entries(variants).map(([variantKey, IconFunc]) => [
@@ -105,7 +109,6 @@ function buildIconComponents(map: any): any {
             (props: IconProps) => <IconComponent icon={IconFunc} {...props} />,
           ]),
         ),
-        // Default render if no variant specified
         default: (props: IconProps) => (
           <IconComponent icon={defaultIcon} {...props} />
         ),
@@ -114,7 +117,7 @@ function buildIconComponents(map: any): any {
       // Proxy to allow <Icon.Heart /> to render default automatically
       result[key] = new Proxy(nested, {
         get(target, prop) {
-          if (prop === "then") return undefined; // Prevent issues with async/await
+          if (prop === "then") return undefined;
           return prop in target
             ? target[prop as keyof typeof target]
             : target.default;

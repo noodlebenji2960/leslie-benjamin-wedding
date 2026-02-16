@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import "@/styles/components/Modal.scss";
+import { useLenis } from "lenis/react";
+import { Icon } from "./Icon";
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,7 +16,9 @@ export function Modal({
   children,
   closeOnBackdropClick = true,
 }: ModalProps) {
-  // Escape key
+  const lenis = useLenis(() => {});
+
+  // Escape key listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) onClose();
@@ -24,17 +27,23 @@ export function Modal({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
+  // Stop scrolling when modal is open
+  useEffect(() => {
+    if (lenis) {
+      isOpen ? lenis.stop() : lenis.start();
+    }
+  }, [isOpen, lenis]);
+
   const modalVariants = {
-    hidden: { opacity: 0, y: -20, scale: 0.95 },
-    visible: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: -20, scale: 0.95 },
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop fades in/out separately */}
           <motion.div
             className="modal-backdrop"
             onClick={() => closeOnBackdropClick && onClose()}
@@ -44,7 +53,6 @@ export function Modal({
             transition={{ duration: 0.3 }}
           />
 
-          {/* Modal content animates independently */}
           <motion.div
             className="modal-wrapper"
             variants={modalVariants}
@@ -53,7 +61,12 @@ export function Modal({
             exit="exit"
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <div className="modal-content">{children}</div>
+            <div className="modal-content">
+              <button className="modal-close" onClick={onClose}>
+                <Icon.Close />
+              </button>
+              {children}
+            </div>
           </motion.div>
         </>
       )}

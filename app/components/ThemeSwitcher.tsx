@@ -1,6 +1,5 @@
 // components/ThemeSwitcher.jsx
 import { useTheme } from "../contexts/ThemeContext";
-import "@/styles/components/ThemeSwitcher.scss";
 
 type ThemeValue = "light" | "dark" | "system";
 
