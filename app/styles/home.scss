@@ -12,6 +12,15 @@
 // Hero Section
 // ─────────────────────────────────────────────
 
+@keyframes fadeInLeaves {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .home-hero {
   max-width: 800px;
   margin: 0 auto;
@@ -19,25 +28,26 @@
   text-align: center;
 
   &::before {
-    background: url("/public/images/hojas.png");
+    background: url("/images/hojas.png"); // no /public needed in URL
     background-repeat: no-repeat;
     background-position: contain;
     background-size: 80%;
     content: "";
     position: absolute;
-    bottom: 0px;
-    left: 0%;
+    bottom: 0;
+    left: 0;
     height: 100vh;
     width: 50vw;
     pointer-events: none;
     z-index: 111;
+    opacity: 0; // start invisible
+    animation: fadeInLeaves 2s ease forwards 0.5s; // fade in over 2s
 
     @media (max-width: 768px) {
-      // mobile breakpoint
       top: 0;
-      width: 100vw; // fill full width
-      height: 50vw; // adjust height automatically
-      background-size: auto 100%; // scale background to full width
+      width: 100vw;
+      height: 50vw;
+      background-size: auto 100%;
     }
   }
 
