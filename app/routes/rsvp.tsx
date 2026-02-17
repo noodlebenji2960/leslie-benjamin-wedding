@@ -1,4 +1,3 @@
-// src/pages/RSVP.tsx
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
@@ -10,7 +9,8 @@ import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { Icon } from "@/components/Icon";
 import { ProgressBar } from "@/components/ProgressBar";
 
-// Module-level tracking - persists across Strict Mode remounts
+const isDev = import.meta.env.DEV;
+
 let hasTrackedRSVPStart = false;
 let hasTrackedAbandonment = false;
 
@@ -25,6 +25,7 @@ export default function RSVP() {
   const {
     form,
     currentStep,
+    currentStepObj, // ← new
     steps,
     error: formError,
     handleChange,
@@ -54,29 +55,22 @@ export default function RSVP() {
   const submittedRef = useRef<HTMLDivElement>(null);
   const recaptchaRef = useRef<any>(null);
 
-  // Combine errors from both hooks
   const error = formError || submitError;
 
-  // Combined tracking - start and abandonment
   useEffect(() => {
-    // Track RSVP start on mount
     if (!hasTrackedRSVPStart) {
-      analytics.event("rsvp_start", {
-        event_label: "User started RSVP form",
-      });
+      analytics.event("rsvp_start", { event_label: "User started RSVP form" });
       hasTrackedRSVPStart = true;
     }
 
-    // Reset abandonment flag on mount
     hasTrackedAbandonment = false;
 
-    // Track abandonment on tab close/refresh
     const handleBeforeUnload = () => {
       if (!submitted && !hasTrackedAbandonment) {
         analytics.event("rsvp_abandonment", {
-          event_label: `Abandoned at ${steps[currentStep]}`,
+          event_label: `Abandoned at ${currentStepObj.key}`, // ← .key
           step_number: currentStep + 1,
-          step_name: steps[currentStep],
+          step_name: currentStepObj.key, // ← .key
         });
         hasTrackedAbandonment = true;
       }
@@ -84,38 +78,30 @@ export default function RSVP() {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
 
-    // Single cleanup handler
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
 
-      // Clear any pending cleanup
-      if (cleanupTimeoutRef.current) {
-        clearTimeout(cleanupTimeoutRef.current);
-      }
+      if (cleanupTimeoutRef.current) clearTimeout(cleanupTimeoutRef.current);
 
-      // Schedule single cleanup check
       cleanupTimeoutRef.current = setTimeout(() => {
         const isLeavingRSVP = !window.location.pathname.includes("/rsvp");
 
         if (isLeavingRSVP) {
-          // Track abandonment if not submitted and not already tracked
           if (!submitted && !hasTrackedAbandonment) {
             analytics.event("rsvp_abandonment", {
-              event_label: `Abandoned at ${steps[currentStep]}`,
+              event_label: `Abandoned at ${currentStepObj.key}`, // ← .key
               step_number: currentStep + 1,
-              step_name: steps[currentStep],
+              step_name: currentStepObj.key, // ← .key
             });
             hasTrackedAbandonment = true;
           }
-
-          // Reset start tracking for next visit
           hasTrackedRSVPStart = false;
         }
 
         cleanupTimeoutRef.current = null;
       }, 100);
     };
-  }, [currentStep, steps, submitted, analytics]);
+  }, [currentStep, currentStepObj, steps, submitted, analytics]);
 
   useEffect(() => setIsClient(true), []);
 
@@ -124,9 +110,7 @@ export default function RSVP() {
       errorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
       errorRef.current.focus();
     }
-    if (submitted && submittedRef.current) {
-      submittedRef.current.focus();
-    }
+    if (submitted && submittedRef.current) submittedRef.current.focus();
   }, [error, submitted]);
 
   if (!ready) return <div className="loading">{t("common:loading")}</div>;
@@ -136,11 +120,10 @@ export default function RSVP() {
       <SuccessScreen
         onReset={() => setSubmitted(false)}
         submittedRef={submittedRef}
+        guestEmail={form.email}
       />
     );
   }
-
-  const progressPercent = ((currentStep + 1) / steps.length) * 100;
 
   const isNextDisabled = () => {
     if (currentStep === 0) return !form.attending || !form.email;
@@ -148,23 +131,33 @@ export default function RSVP() {
       return form.attending === "yes"
         ? !hasValidGuests
         : !form.nonAttendingName;
-    if (currentStep === 2) return false; // music request is optional
-    if (currentStep === 3) return !captchaToken;
+    if (currentStep === 2) return false; // musicRequest — skippable
+    if (currentStep === 3) return false; // notes — skippable
+    if (currentStep === 4)
+      return isDev ? !form.termsAccepted : !captchaToken || !form.termsAccepted;
     return false;
   };
 
-  const stepTexts = t("rsvp:steps", { returnObjects: true });
-  const stepTextsArray = steps.map((key) => stepTexts[key]);
-  const stepText = stepTextsArray[currentStep];
+  const stepTitle = t(`rsvp:steps.${currentStepObj.key}.stepTitle`);
+  const stepText = t(`rsvp:steps.${currentStepObj.key}.stepText`);
+
+const stepHasData = () => {
+  if (currentStepObj.key === "musicRequest") {
+    return Array.isArray(form.musicRequest) && form.musicRequest.length > 0;
+  }
+  if (currentStepObj.key === "notes") {
+    return !!form.notes?.trim();
+  }
+  return false;
+};
 
   return (
     <div className="rsvp-page container">
       <h1>Rsvp</h1>
-      <p className="step-description">{stepText}</p>
+      <h2 className="step-description">{stepTitle}</h2>
       <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
-
+      <p className="step-description">{stepText}</p>
       <form className="rsvp-form" onSubmit={(e) => e.preventDefault()}>
-        
         <div className="form-navigation">
           <button
             type="button"
@@ -182,9 +175,17 @@ export default function RSVP() {
               type="button"
               onClick={nextStep}
               disabled={isNextDisabled()}
-              title={t("common:next") || "Next"}
+              title={
+                currentStepObj.required || stepHasData()
+                  ? t("common:next")
+                  : t("rsvp:skip")
+              }
             >
-              <Icon.Next />
+              {currentStepObj.required || stepHasData() ? (
+                <Icon.Next />
+              ) : (
+                t("rsvp:skip")
+              )}
             </button>
           ) : (
             <button
@@ -198,6 +199,7 @@ export default function RSVP() {
         </div>
         <StepContent
           currentStep={currentStep}
+          currentStepObj={currentStepObj}
           form={form}
           isClient={isClient}
           onChange={handleChange}

@@ -1,10 +1,38 @@
 {
   "title": "RSVP",
   "steps": {
-    "contactAndAttendance": "Please enter your contact information to get started.",
-    "guestsOrName": "Add your accompanying guests or provide your name if not attending.",
-    "captcha": "One final step to verify you're human.",
-    "review": "Please review your information before submitting."
+    "contactAndAttendance": {
+      "stepTitle": "Contact & Attendance",
+      "stepText": "Please enter your contact information to get started."
+    },
+    "guestsOrName": {
+      "stepTitle": "Guests / Non-Attending Name",
+      "stepText": "Add your accompanying guests or provide your name if not attending."
+    },
+    "musicRequest": {
+      "stepTitle": "Music Request",
+      "stepText": "Please select your music request."
+    },
+    "notes": {
+      "stepTitle": "Message",
+      "stepText": "Leave a message for the Bride & Groom."
+    },
+    "review": {
+      "stepTitle": "Review",
+      "stepText": "Please review your information before submitting."
+    }
+  },
+  "review": {
+    "acceptsWithPleasure": "accepts with pleasure",
+    "declinesWithRegrets": "declines with regrets",
+    "numberAttending": "Number attending",
+    "pleasureOfYourCompany": "Please review before sending"
+  },
+  "terms": {
+    "iAgree": "I agree to the",
+    "termsLinkText": "Terms & Conditions",
+    "privacyLinkText": "Privacy Policy",
+    "and": "and"
   },
   "name": "Name",
   "yourName": "Your Name",
@@ -26,16 +54,19 @@
   "messageToBrideGroom": "Message to the Bride & Groom",
   "back": "Back",
   "next": "Next",
+  "skip": "Skip",
+  "optional": "Optional",
   "submit": "Send RSVP",
   "sending": "Sending...",
   "thankYou": "Thank you!",
-  "confirmation": "We've received your RSVP and look forward to seeing you!",
+  "confirmation": "We've sent a confirmation email to {{guestEmail}}. We look forward to seeing you!",
   "captchaQuestion": "What is 3 + 4?",
   "errors": {
     "required": "Please fill out all required fields.",
     "addAtLeastOneGuest": "Please add at least one guest with full names.",
     "invalidEmail": "Please enter a valid email address.",
     "failed": "Submission failed.",
-    "fallback": "Please try again or contact us directly."
+    "fallback": "Please try again or contact us directly.",
+    "captchaRequired": "Please complete reCAPTCHA."
   }
 }

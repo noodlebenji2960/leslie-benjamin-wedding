@@ -1,0 +1,60 @@
+{
+  "title": "Privacy Policy",
+  "lastUpdated": "Last updated: February 2026",
+  "intro": "This Privacy Policy explains how we collect, use, store, and protect your personal data when you use this website and submit your RSVP. We are committed to handling your information responsibly and in full compliance with the General Data Protection Regulation (EU) 2016/679 (GDPR) and applicable Spanish data protection law, including Ley Orgánica 3/2018 (LOPDGDD).",
+
+  "sections": {
+    "controller": {
+      "title": "1. Data Controller",
+      "body": "The data controller responsible for your personal information is the couple organising this wedding. As this is a private event website and not a commercial entity, formal company registration details do not apply. If you wish to contact us regarding your data, please do so via the contact details provided on this website. We take full responsibility for ensuring your data is handled in accordance with this policy and applicable law."
+    },
+    "whatWeCollect": {
+      "title": "2. What Personal Data We Collect",
+      "body": "Through the RSVP form on this website, we collect the following categories of personal data: your email address; your attendance status; the first and last names of yourself and any accompanying guests; dietary requirements, food allergies, or intolerances for yourself and your guests; any optional message you choose to leave for us; and any music requests you submit. We do not collect any special category data beyond dietary information, which may incidentally reveal health-related information. We do not collect payment information, government identification, or any data unrelated to the organisation of this event."
+    },
+    "howWeUse": {
+      "title": "3. How We Use Your Data",
+      "body": "Your personal data is used exclusively for the following purposes: to manage guest attendance and seating arrangements for our wedding; to communicate relevant event information to you if necessary; to pass dietary and allergy information to our catering team to ensure appropriate meal provision; to pass music requests to our DJ or band for consideration; and to maintain an accurate guest list for logistical and safety purposes. We will not use your data for marketing, profiling, automated decision-making, or any purpose beyond the direct organisation of this event."
+    },
+    "legalBasis": {
+      "title": "4. Legal Basis for Processing",
+      "body": "Under the GDPR, we process your personal data on the following legal bases: Consent (Article 6(1)(a)) — you provide your data voluntarily by submitting the RSVP form, and by accepting our Terms & Conditions you give explicit consent to the processing described in this policy. Legitimate Interests (Article 6(1)(f)) — certain processing activities, such as maintaining a guest list for safety and logistical purposes, are based on our legitimate interest in organising a safe and well-managed private event. Where we process dietary information that may constitute health-related data under Article 9 GDPR, we rely on your explicit consent given at the point of submission. You have the right to withdraw your consent at any time by contacting us directly, without affecting the lawfulness of processing carried out prior to withdrawal."
+    },
+    "sharing": {
+      "title": "5. Who We Share Your Data With",
+      "body": "Your personal data will only be shared with the following parties, strictly on a need-to-know basis: our catering team or venue, who will receive dietary and allergy information and guest numbers; our DJ or band, who will receive music requests only (no personal identifying information); and any essential service providers involved in organising the event who require limited information to fulfil their role. We do not sell, rent, or otherwise share your data with any third party for commercial or marketing purposes. Any third parties with whom we share data are instructed to use it solely for the purposes described above and to delete it once it is no longer required."
+    },
+    "retention": {
+      "title": "6. How Long We Keep Your Data",
+      "body": "We will retain your personal data only for as long as is necessary to organise and administer the wedding event. In practice, this means your data will be held from the point of submission until a reasonable period after the wedding has taken place — typically no longer than six months after the event date — after which it will be securely deleted. If you request deletion of your data before this period, we will comply as soon as reasonably practicable, provided this does not compromise our ability to manage the event safely."
+    },
+    "security": {
+      "title": "7. Data Security",
+      "body": "We take appropriate technical and organisational measures to protect your personal data against unauthorised access, loss, or disclosure. This website uses HTTPS encryption for all data transmission. RSVP submissions are transmitted via a third-party email service (EmailJS) and are subject to that provider's security measures. We recommend you review EmailJS's own privacy policy for further detail. We do not store your RSVP data in any publicly accessible database. While we take reasonable precautions, no method of electronic transmission or storage is entirely secure, and we cannot guarantee absolute security."
+    },
+    "rights": {
+      "title": "8. Your Rights Under GDPR",
+      "body": "As a data subject under the GDPR, you have the following rights in relation to your personal data: the right to access — you may request a copy of the personal data we hold about you; the right to rectification — you may ask us to correct any inaccurate or incomplete data; the right to erasure — you may request that we delete your personal data, subject to any overriding legal obligations; the right to restriction of processing — you may ask us to limit how we use your data in certain circumstances; the right to data portability — you may request your data in a structured, commonly used format; the right to object — you may object to processing based on legitimate interests; and the right to withdraw consent — where processing is based on consent, you may withdraw it at any time. To exercise any of these rights, please contact us directly using the contact information on this website. We will respond to all requests within one month as required by the GDPR. If you believe your rights have been violated, you have the right to lodge a complaint with the Spanish Data Protection Authority (Agencia Española de Protección de Datos — AEPD) at www.aepd.es."
+    },
+    "cookies": {
+      "title": "9. Cookies & Analytics",
+      "body": "This website may use cookies or similar tracking technologies for the purpose of understanding how visitors use the site (analytics). Any analytics data collected is aggregated and anonymised and is not linked to your RSVP submission or personal identity. We do not use advertising cookies or third-party tracking for commercial purposes. By continuing to use this website, you consent to the use of essential and analytical cookies as described. You may disable cookies through your browser settings at any time, though this may affect the functionality of the site."
+    },
+    "thirdParty": {
+      "title": "10. Third-Party Services",
+      "body": "This website makes use of the following third-party services which may process certain data as part of their operation: EmailJS, used to transmit RSVP form submissions; Google reCAPTCHA, used to verify that form submissions are made by humans and not automated bots — this service is subject to Google's Privacy Policy and Terms of Service; and Google Analytics or equivalent, if enabled, used to collect anonymised usage statistics. We encourage you to review the privacy policies of these third-party providers independently. We are not responsible for the data practices of external services."
+    },
+    "international": {
+      "title": "11. International Data Transfers",
+      "body": "Some of the third-party services we use may process data outside the European Economic Area (EEA). Where this occurs, we ensure that appropriate safeguards are in place in accordance with GDPR requirements, such as the use of Standard Contractual Clauses approved by the European Commission, or reliance on an adequacy decision. If you have concerns about international transfers of your data, please contact us."
+    },
+    "changes": {
+      "title": "12. Changes to This Privacy Policy",
+      "body": "We reserve the right to update this Privacy Policy from time to time to reflect changes in our practices or applicable law. Any updates will be posted on this page with a revised date. We encourage you to review this policy periodically. Continued use of this website after changes are posted constitutes your acceptance of the updated policy."
+    },
+    "contact": {
+      "title": "13. Contact Us",
+      "body": "If you have any questions, concerns, or requests relating to this Privacy Policy or the handling of your personal data, please contact us directly using the contact details provided on this website. We are committed to addressing your queries promptly and transparently."
+    }
+  }
+}

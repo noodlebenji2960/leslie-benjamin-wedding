@@ -1,10 +1,38 @@
 {
   "title": "RSVP",
   "steps": {
-    "contactAndAttendance": "Por favor introduce tus datos de contacto para comenzar.",
-    "guestsOrName": "Añade a tus invitados acompañantes o proporciona tu nombre si no asistirás.",
-    "captcha": "Un paso final para verificar que eres humano.",
-    "review": "Por favor revisa tu información antes de enviar."
+    "contactAndAttendance": {
+      "stepTitle": "Contacto y Asistencia",
+      "stepText": "Por favor introduce tus datos de contacto para comenzar."
+    },
+    "guestsOrName": {
+      "stepTitle": "Invitados / Nombre del No Asistente",
+      "stepText": "Añade a tus invitados acompañantes o proporciona tu nombre si no asistirás."
+    },
+    "musicRequest": {
+      "stepTitle": "Petición Musical",
+      "stepText": "Por favor selecciona tu petición musical."
+    },
+    "notes": {
+      "stepTitle": "Mensaje",
+      "stepText": "Deja un mensaje para los novios."
+    },
+    "review": {
+      "stepTitle": "Revisión",
+      "stepText": "Por favor revisa tu información antes de enviar."
+    }
+  },
+  "review": {
+    "acceptsWithPleasure": "acepta con placer",
+    "declinesWithRegrets": "declina con regrets",
+    "numberAttending": "Número de asistentes",
+    "pleasureOfYourCompany": "Por favor revisa antes de enviar"
+  },
+  "terms": {
+    "iAgree": "Acepto los",
+    "termsLinkText": "Términos y Condiciones",
+    "privacyLinkText": "Política de Privacidad",
+    "and": "y la"
   },
   "name": "Nombre",
   "yourName": "Tu Nombre",
@@ -26,16 +54,19 @@
   "messageToBrideGroom": "Mensaje para los novios",
   "back": "Atrás",
   "next": "Siguiente",
+  "skip": "Omitir",
+  "optional": "Opcional",
   "submit": "Enviar RSVP",
   "sending": "Enviando...",
   "thankYou": "¡Gracias!",
-  "confirmation": "Hemos recibido tu RSVP y esperamos verte pronto.",
+  "confirmation": "Hemos enviado un correo de confirmación a {{guestEmail}}. ¡Esperamos verte pronto!",
   "captchaQuestion": "¿Cuánto es 3 + 4?",
   "errors": {
     "required": "Por favor completa todos los campos obligatorios.",
     "addAtLeastOneGuest": "Por favor añade al menos un invitado con nombre y apellido.",
     "invalidEmail": "Por favor introduce un correo electrónico válido.",
     "failed": "Error al enviar.",
-    "fallback": "Por favor inténtalo de nuevo o contáctanos directamente."
+    "fallback": "Por favor inténtalo de nuevo o contáctanos directamente.",
+    "captchaRequired": "Por favor completa el reCAPTCHA."
   }
 }

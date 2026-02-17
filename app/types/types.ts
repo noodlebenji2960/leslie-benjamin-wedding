@@ -14,4 +14,5 @@ export interface RSVPFormData {
   notes?: string;
   website?: string;
   captchaAnswer?: string;
+  termsAccepted: boolean;
 }

@@ -1,0 +1,46 @@
+{
+  "title": "Terms & Conditions",
+  "lastUpdated": "Last updated: February 2026",
+  "intro": "By submitting your RSVP through this website, you agree to the following terms and conditions. Please read them carefully before proceeding.",
+
+  "sections": {
+    "dataPrivacy": {
+      "title": "1. Data Privacy & Personal Information",
+      "body": "The personal information you provide through this RSVP form — including your name, email address, the names of your accompanying guests, and any dietary requirements — will be collected and used solely for the purpose of organising and managing attendance at our wedding. Your data will not be sold, shared with third parties for commercial purposes, or used for any purpose unrelated to this event. We are committed to handling your information with care and in accordance with applicable data protection principles. Your data will be retained only for as long as is necessary to administer the event and will be securely deleted thereafter. If you wish to access, correct, or request deletion of your personal data at any time, please contact us directly."
+    },
+    "dietaryInfo": {
+      "title": "2. Dietary & Allergy Information",
+      "body": "Any dietary requirements, food allergies, or intolerances you provide will be passed directly to our catering team to ensure appropriate meal options are available on the day. While we will make every reasonable effort to accommodate your requirements, we cannot guarantee that all dietary needs can be fully met, particularly in the case of severe allergies. It is your responsibility to inform us of all relevant dietary needs at the time of RSVP. We strongly encourage guests with severe food allergies to contact us directly in addition to completing this form, so we can discuss your requirements in detail with our caterers. We accept no liability for allergic reactions or dietary issues arising from incomplete or inaccurate information provided."
+    },
+    "photoVideo": {
+      "title": "3. Photography & Videography Consent",
+      "body": "Our wedding will be professionally photographed and/or filmed. By attending the event, you acknowledge and consent to being photographed or filmed as part of the general coverage of the day. These images and recordings may be used for personal and private purposes by the couple, including sharing with family and close friends, and may be stored in personal albums or private digital collections. If you have significant concerns about being photographed or filmed, please contact us before the event so we can make reasonable arrangements. Please note that while we will do our best to accommodate such requests, we cannot guarantee that you will not appear incidentally in any photographs or footage."
+    },
+    "rsvpAccuracy": {
+      "title": "4. Accuracy of Information",
+      "body": "You are responsible for ensuring that all information submitted through this RSVP form is accurate and complete at the time of submission. This includes the names and dietary requirements of all guests in your party. If any information changes after submission — for example, if a guest can no longer attend or if dietary requirements change — please contact us as soon as possible. We will do our best to accommodate last-minute changes, but cannot guarantee that we will be able to do so depending on the timing and nature of the change."
+    },
+    "rsvpDeadline": {
+      "title": "5. RSVP Deadline & Changes",
+      "body": "We kindly ask that RSVPs be submitted by the date specified in your invitation. Late responses may not be accommodated due to catering, seating, and logistical requirements that must be confirmed in advance with our venue and suppliers. If you need to change your RSVP response after submitting — including changing from attending to not attending, or vice versa — please contact us directly as soon as possible rather than resubmitting the form."
+    },
+    "minors": {
+      "title": "6. Children & Minors",
+      "body": "If you are submitting an RSVP on behalf of a minor, you confirm that you are the parent or legal guardian of that minor and that you consent on their behalf to the terms set out in this document, including the photography and videography consent outlined in Section 3."
+    },
+    "contact": {
+      "title": "7. Contact & Queries",
+      "body": "If you have any questions about these terms, or wish to exercise any rights in relation to your personal data, please do not hesitate to get in touch with us directly. We are happy to address any concerns you may have before or after submitting your RSVP."
+    },
+    "changes": {
+      "title": "8. Changes to These Terms",
+      "body": "We reserve the right to update or amend these terms and conditions at any time. Any changes will be reflected on this page with an updated date. We encourage you to review this page if you have any concerns."
+    },
+    "governing": {
+      "title": "9. Governing Law",
+      "body": "These terms and conditions are governed by and construed in accordance with applicable law. By submitting your RSVP, you agree that any disputes arising in connection with these terms will be subject to the exclusive jurisdiction of the relevant courts."
+    }
+  },
+
+  "agreement": "By checking the box and submitting your RSVP, you confirm that you have read, understood, and agree to these Terms & Conditions."
+}

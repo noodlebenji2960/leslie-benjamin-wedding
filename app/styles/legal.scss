@@ -1,0 +1,125 @@
+.legal-page {
+  min-height: 100vh;
+  background-color: var(--color-background, #faf9f6);
+  padding: 4rem 1.5rem 6rem;
+  font-family: var(--font-body, "Cormorant Garamond", "Georgia", serif);
+  color: var(--color-text, #2c2825);
+}
+
+.legal-page__inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Header */
+.legal-page__header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.legal-page__ornament {
+  display: block;
+  font-size: 2rem;
+  color: var(--color-accent, #9c7c5a);
+  margin-bottom: 1.25rem;
+  line-height: 1;
+}
+
+.legal-page__title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  line-height: 1.1;
+}
+
+.legal-page__updated {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted, #9e9189);
+  margin: 0 0 2rem;
+}
+
+.legal-page__intro {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-text-soft, #4a443f);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Divider */
+.legal-page__divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem 0;
+}
+
+.legal-page__divider::before,
+.legal-page__divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border, #d9d0c7);
+}
+
+/* Sections */
+.legal-page__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.legal-page__section {
+  border-left: 2px solid var(--color-border, #d9d0c7);
+  padding-left: 1.5rem;
+}
+
+.legal-page__section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-accent, #9c7c5a);
+  margin: 0 0 0.75rem;
+  font-family: var(--font-body, "Cormorant Garamond", "Georgia", serif);
+}
+
+.legal-page__section-body {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--color-text-soft, #4a443f);
+  margin: 0;
+}
+
+/* Footer */
+.legal-page__footer {
+  text-align: center;
+}
+
+.legal-page__agreement {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  font-style: italic;
+  color: var(--color-muted, #9e9189);
+  margin: 0 0 2rem;
+}
+
+.legal-page__ornament--footer {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .legal-page {
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  .legal-page__section {
+    padding-left: 1rem;
+  }
+}

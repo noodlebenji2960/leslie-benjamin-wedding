@@ -61,6 +61,11 @@
 
     overflow: hidden;
 
+    input[name="firstName"],
+    input[name="lastName"] {
+      text-transform: capitalize;
+    }
+
     input,
     textarea {
         width: 100%;

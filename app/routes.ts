@@ -9,10 +9,8 @@ import {
 
 export default [
   layout("routes/_layout.tsx", [
-    // Root redirect at the layout level
     index("routes/redirect.tsx"),
 
-    // Spanish routes under /es prefix
     ...prefix("es", [
       index("routes/home.tsx", { id: "es/home" }),
       route("rsvp", "routes/rsvp.tsx", { id: "es/rsvp" }),
@@ -20,12 +18,19 @@ export default [
       route("qa", "routes/qa.tsx", { id: "es/qa" }),
     ]),
 
-    // English routes under /en prefix
     ...prefix("en", [
       index("routes/home.tsx", { id: "en/home" }),
       route("rsvp", "routes/rsvp.tsx", { id: "en/rsvp" }),
       route("schedule", "routes/schedule.tsx", { id: "en/schedule" }),
       route("qa", "routes/qa.tsx", { id: "en/qa" }),
     ]),
+  ]),
+
+  // Legal pages — language prefixed, outside the layout
+  ...prefix("es", [
+    route("legal/:page", "routes/legal.tsx", { id: "es/legal" }),
+  ]),
+  ...prefix("en", [
+    route("legal/:page", "routes/legal.tsx", { id: "en/legal" }),
   ]),
 ] satisfies RouteConfig;

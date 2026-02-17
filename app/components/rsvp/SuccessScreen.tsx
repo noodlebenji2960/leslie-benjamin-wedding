@@ -5,20 +5,19 @@ import { useTranslation } from "react-i18next";
 interface SuccessScreenProps {
   onReset: () => void;
   submittedRef: React.RefObject<HTMLDivElement | null>;
+  guestEmail: string;
 }
 
-const SuccessScreen = ({ submittedRef }: SuccessScreenProps) => {
+const SuccessScreen = ({ submittedRef, guestEmail }: SuccessScreenProps) => {
   const { t } = useTranslation(["home", "common", "rsvp"]);
   const [isOn, setIsOn] = useState(false);
 
   useEffect(() => {
-    // Trigger heart animation on mount after first render
     const timer = setTimeout(() => setIsOn(true), 50);
 
-    // Cycle every 5 seconds (changed from 10000)
     const interval = setInterval(() => {
       setIsOn(false);
-      setTimeout(() => setIsOn(true), 55); // restart animation
+      setTimeout(() => setIsOn(true), 55);
     }, 10000);
 
     return () => {
@@ -69,10 +68,7 @@ const SuccessScreen = ({ submittedRef }: SuccessScreenProps) => {
             key={isOn ? "on" : "off"}
             xlinkHref="#heart"
             initial={{ opacity: 0, scale: 0.33 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{
               type: "spring",
               stiffness: 300,
@@ -104,7 +100,7 @@ const SuccessScreen = ({ submittedRef }: SuccessScreenProps) => {
           lineHeight: 1.6,
         }}
       >
-        {t("rsvp:confirmation")}
+        {t("rsvp:confirmation", { guestEmail })}
       </motion.p>
     </motion.div>
   );

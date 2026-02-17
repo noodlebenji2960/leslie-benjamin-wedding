@@ -2,8 +2,37 @@ import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
 import type { RSVPFormData } from "@/types/types";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import type { MusicRequestItem } from "@/components/rsvp/MusicRequestManager";
 
 const EMAILJS_KEY = import.meta.env.VITE_EMAILJS_KEY;
+const EMAILJS_SERVICE = "service_vvuhisc";
+const TEMPLATE_NOTIFICATION = "template_4m25aki";
+const TEMPLATE_AUTOREPLY_EN = import.meta.env.VITE_EMAILJS_AUTOREPLY_EN;
+const TEMPLATE_AUTOREPLY_ES = import.meta.env.VITE_EMAILJS_AUTOREPLY_ES;
+
+// ─────────────────────────────────────────────
+// ENV CHECK — log missing EmailJS env variables
+// ─────────────────────────────────────────────
+const REQUIRED_ENV_VARS = {
+  VITE_EMAILJS_KEY: import.meta.env.VITE_EMAILJS_KEY,
+  VITE_EMAILJS_AUTOREPLY_EN: import.meta.env.VITE_EMAILJS_AUTOREPLY_EN,
+  VITE_EMAILJS_AUTOREPLY_ES: import.meta.env.VITE_EMAILJS_AUTOREPLY_ES,
+};
+
+const missingEnvVars = Object.entries(REQUIRED_ENV_VARS)
+  .filter(([_, value]) => !value)
+  .map(([key]) => key);
+
+if (missingEnvVars.length > 0) {
+  console.error(
+    "[RSVP ENV ERROR] Missing required environment variables:",
+    missingEnvVars,
+  );
+} else {
+  console.log("[RSVP ENV OK] All required environment variables are present.");
+}
+
+const isDev = import.meta.env.DEV;
 
 // Initialize EmailJS once
 emailjs.init(EMAILJS_KEY);
@@ -22,7 +51,22 @@ export function useRSVPSubmit(
     console.log("Submitting RSVP...", { form, captchaToken });
 
     // --- Validation ---
-    if (!captchaToken) {
+    if (!form.termsAccepted) {
+      const errorMsg =
+        "Please accept the Terms & Conditions and Privacy Policy.";
+      setError(errorMsg);
+      analytics.event("rsvp_submit_error", {
+        event_label: "validation_error",
+        error_message: errorMsg,
+        error_type: "validation_error",
+        current_step: currentStep,
+        attending_status: form.attending,
+        has_captcha_token: !!captchaToken,
+      });
+      return;
+    }
+
+    if (!isDev && !captchaToken) {
       const errorMsg = "Please complete reCAPTCHA.";
       setError(errorMsg);
       analytics.event("rsvp_submit_error", {
@@ -108,26 +152,49 @@ export function useRSVPSubmit(
               .join("\n")
           : `Not attending: ${form.nonAttendingName}`;
 
+      const musicRequestText = (() => {
+        if (!form.musicRequest) return "None";
+        const items = form.musicRequest as MusicRequestItem[];
+        if (!Array.isArray(items) || items.length === 0) return "None";
+        return items
+          .map((song, i) => `${i + 1}. ${song.trackName} — ${song.artistName}`)
+          .join("\n");
+      })();
+
       const templateParams = {
         email: form.email,
         attending: form.attending,
         guestsCount: form.attending === "yes" ? form.guests.length : 1,
         guests: guestsText,
         notes: form.notes || "None",
-        musicRequest: form.musicRequest || "None", // RSVP-level music request
+        musicRequest: musicRequestText,
+        termsAccepted: form.termsAccepted
+          ? "Yes — Terms & Conditions and Privacy Policy accepted"
+          : "No",
         recaptchaToken: captchaToken,
       };
 
       console.log("Sending email with params:", templateParams);
 
-      // --- Send via EmailJS ---
+      // --- 1. Send notification to couple ---
       const response = await emailjs.send(
-        "service_vvuhisc",
-        "template_4m25aki",
+        EMAILJS_SERVICE,
+        TEMPLATE_NOTIFICATION,
         templateParams,
       );
+      console.log("Notification sent:", response);
 
-      console.log("EmailJS response:", response);
+      // --- 2. Send auto-reply to guest ---
+      const locale = document.documentElement.lang ?? "es";
+      const autoReplyTemplate =
+        locale === "en" ? TEMPLATE_AUTOREPLY_EN : TEMPLATE_AUTOREPLY_ES;
+
+      const autoReplyResponse = await emailjs.send(
+        EMAILJS_SERVICE,
+        autoReplyTemplate,
+        templateParams,
+      );
+      console.log("Auto-reply sent:", autoReplyResponse);
 
       // --- Analytics tracking ---
       analytics.event("rsvp_submit_success", {
@@ -135,7 +202,8 @@ export function useRSVPSubmit(
         attending: form.attending,
         guest_count: form.attending === "yes" ? form.guests.length : 1,
         dietary_requirements: form.guests[0]?.dietary || "none",
-        music_request: form.musicRequest || "none",
+        music_request: musicRequestText,
+        terms_accepted: true,
         locale: document.documentElement.lang,
       });
 
