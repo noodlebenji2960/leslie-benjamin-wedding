@@ -110,6 +110,91 @@
       }
     }
 
+    /* ---------------- Consent ---------------- */
+    .form-group--consent {
+      margin-top: $space-lg;
+      padding: $space-md $space-md;
+      border: 1px dashed rgba($color-accent, 0.3);
+      border-radius: $radius-sm;
+      background: rgba($color-accent, 0.03);
+    }
+
+    .consent-label {
+      display: flex;
+      align-items: flex-start;
+      gap: $space-sm;
+      cursor: pointer;
+      margin-bottom: 0;
+      font-weight: $fw-regular;
+    }
+
+    .consent-checkbox {
+      // Hide native checkbox
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      border: 1.5px solid $color-border;
+      border-radius: 3px;
+      background: $color-white;
+      margin-top: 2px;
+      cursor: pointer;
+      transition: all $transition-base;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 5px;
+        height: 9px;
+        border: 2px solid $color-white;
+        border-top: none;
+        border-left: none;
+        transform: rotate(45deg) translateY(-1px);
+        opacity: 0;
+        transition: opacity $transition-base;
+      }
+
+      &:checked {
+        background: $color-accent;
+        border-color: $color-accent;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($color-accent, 0.25);
+      }
+
+      // Override generic form-input width on checkbox
+      width: 18px !important;
+      padding: 0 !important;
+    }
+
+    .consent-text {
+      font-size: $font-size-sm;
+      color: $color-secondary;
+      line-height: 1.6;
+
+      a {
+        color: $color-accent;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        transition: opacity $transition-base;
+
+        &:hover {
+          opacity: 0.75;
+        }
+      }
+    }
+
     /* ---------------- Errors ---------------- */
     .rsvp-error {
       background: rgba($color-danger, 0.1);
@@ -134,30 +219,128 @@
       margin-bottom: $space-md;
     }
 
-    /* ---------------- Review ---------------- */
-    .review {
-      background: $color-white;
-      border: 2px solid $color-border;
-      border-radius: $radius-lg;
-      padding: $space-xl;
-      text-align: left;
-      box-shadow: 0 2px 8px rgba($color-border, 0.1);
+    /* ---------------- Review Card ---------------- */
+    .review-card {
+      width: 100%;
+      border: 1px solid rgba($color-accent, 0.25);
+      border-radius: $radius-sm;
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        0 4px 16px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      padding: $space-xl $space-xl $space-lg;
+      position: relative;
 
-      p {
-        margin-bottom: $space-sm;
-        padding-bottom: $space-xs;
-        border-bottom: 1px solid rgba($color-border, 0.3);
+      &__inner {
+        display: flex;
+        flex-direction: column;
+        gap: $space-md;
+        text-align: center;
+      }
 
-        strong {
-          color: $color-primary;
-          min-width: 140px;
-          display: inline-block;
+      &__reply-line {
+        font-family: $font-fancy;
+        font-size: $font-size-3xl;
+        color: $color-accent;
+        margin: 0;
+        line-height: 1.4;
+        text-transform: capitalize;
+        border-top: 1px dashed $color-border;
+        padding: $space-xl 0 $space-lg 0;
+      }
+
+      &__divider {
+        color: $color-accent;
+        font-size: $font-size-lg;
+        letter-spacing: 0.5em;
+        opacity: 0.6;
+        line-height: 1;
+      }
+
+      &__field {
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding-bottom: $space-sm;
+        border-bottom: 1px dashed rgba($color-accent, 0.2);
+
+        &:last-of-type {
+          border-bottom: none;
         }
       }
 
-      ul {
-        margin: $space-sm 0 $space-md;
-        padding-left: $space-lg;
+      &__field-label {
+        font-size: $font-size-xs;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: $color-secondary;
+        font-weight: $fw-semibold;
+      }
+
+      &__field-value {
+        font-size: $font-size-lg;
+        color: $color-primary;
+        line-height: 1.4;
+      }
+
+      &__guests {
+        list-style: none;
+        padding: 0;
+        margin: $space-xs 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      &__dietary {
+        font-family: $font-body;
+        font-size: $font-size-sm;
+        color: $color-secondary;
+      }
+
+      &__songs {
+        list-style: none;
+        padding: 0;
+        margin: $space-xs 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: $space-xs;
+      }
+
+      &__song {
+        display: flex;
+        align-items: center;
+        gap: $space-sm;
+      }
+
+      &__song-art {
+        width: 32px;
+        height: 32px;
+        border-radius: 3px;
+        object-fit: cover;
+        flex-shrink: 0;
+        opacity: 0.85;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+      }
+
+      &__note {
+        font-size: $font-size-lg;
+        line-height: 1.6;
+        margin: 0;
+        color: $color-primary;
+      }
+
+      &__footer {
+        border-top: 1px dashed $color-border;
+        padding: $space-lg 0;
+        font-size: $font-size-xs;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: $color-secondary;
+        margin: 0;
+        text-align: center;
+        margin-top: $space-lg;
       }
     }
 

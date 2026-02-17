@@ -1,0 +1,46 @@
+{
+  "title": "Términos y Condiciones",
+  "lastUpdated": "Última actualización: febrero de 2026",
+  "intro": "Al enviar tu confirmación de asistencia (RSVP) a través de este sitio web, aceptas los siguientes términos y condiciones. Por favor, léelos detenidamente antes de continuar.",
+
+  "sections": {
+    "dataPrivacy": {
+      "title": "1. Privacidad de Datos e Información Personal",
+      "body": "La información personal que proporciones a través de este formulario de RSVP — incluyendo tu nombre, dirección de correo electrónico, los nombres de tus acompañantes y cualquier requisito dietético — será recopilada y utilizada únicamente con el propósito de organizar y gestionar la asistencia a nuestra boda. Tus datos no serán vendidos, compartidos con terceros con fines comerciales, ni utilizados para ningún propósito ajeno a este evento. Nos comprometemos a tratar tu información con cuidado y de conformidad con los principios aplicables de protección de datos. Tus datos serán conservados únicamente durante el tiempo necesario para administrar el evento y serán eliminados de forma segura posteriormente. Si en algún momento deseas acceder, corregir o solicitar la eliminación de tus datos personales, por favor contáctanos directamente."
+    },
+    "dietaryInfo": {
+      "title": "2. Información Dietética y Alergias",
+      "body": "Cualquier requisito dietético, alergia alimentaria o intolerancia que nos indiques será trasladada directamente a nuestro equipo de catering para garantizar que haya opciones de menú adecuadas el día del evento. Si bien haremos todo lo razonablemente posible para satisfacer tus necesidades, no podemos garantizar que todos los requerimientos dietéticos puedan ser atendidos en su totalidad, especialmente en casos de alergias graves. Es tu responsabilidad informarnos de todas las necesidades dietéticas relevantes en el momento de enviar el RSVP. Recomendamos encarecidamente a los invitados con alergias alimentarias graves que se pongan en contacto con nosotros directamente, además de completar este formulario, para que podamos analizar sus necesidades en detalle con nuestros proveedores de catering. No asumimos ninguna responsabilidad por reacciones alérgicas o problemas dietéticos derivados de información incompleta o inexacta proporcionada."
+    },
+    "photoVideo": {
+      "title": "3. Consentimiento para Fotografía y Videografía",
+      "body": "Nuestra boda será fotografiada y/o filmada de manera profesional. Al asistir al evento, reconoces y consientes ser fotografiado o filmado como parte de la cobertura general del día. Estas imágenes y grabaciones podrán ser utilizadas con fines personales y privados por los novios, incluido el hecho de compartirlas con familiares y amigos cercanos, y podrán almacenarse en álbumes personales o colecciones digitales privadas. Si tienes objeciones importantes a ser fotografiado o filmado, por favor contáctanos antes del evento para que podamos tomar las medidas razonables que correspondan. Ten en cuenta que, aunque haremos todo lo posible por atender dichas solicitudes, no podemos garantizar que no aparezcas de forma incidental en alguna fotografía o grabación."
+    },
+    "rsvpAccuracy": {
+      "title": "4. Exactitud de la Información",
+      "body": "Eres responsable de garantizar que toda la información enviada a través de este formulario de RSVP sea exacta y completa en el momento de su envío. Esto incluye los nombres y los requisitos dietéticos de todos los invitados de tu grupo. Si algún dato cambia tras el envío — por ejemplo, si un invitado ya no puede asistir o si los requisitos dietéticos cambian — por favor contáctanos lo antes posible. Haremos todo lo posible por atender los cambios de última hora, pero no podemos garantizar que podamos hacerlo en función del momento y la naturaleza del cambio."
+    },
+    "rsvpDeadline": {
+      "title": "5. Fecha Límite y Modificaciones del RSVP",
+      "body": "Te pedimos amablemente que envíes tu confirmación antes de la fecha indicada en tu invitación. Las respuestas tardías pueden no poder ser atendidas debido a los requisitos de catering, distribución de asientos y logística que deben confirmarse con antelación con nuestro local y proveedores. Si necesitas modificar tu respuesta tras haberla enviado — incluyendo cambiar de asistir a no asistir, o viceversa — por favor contáctanos directamente lo antes posible, en lugar de volver a enviar el formulario."
+    },
+    "minors": {
+      "title": "6. Niños y Menores de Edad",
+      "body": "Si envías un RSVP en nombre de un menor de edad, confirmas que eres el padre, madre o tutor legal de dicho menor y que consientes en su nombre los términos establecidos en este documento, incluido el consentimiento para fotografía y videografía descrito en la Sección 3."
+    },
+    "contact": {
+      "title": "7. Contacto y Consultas",
+      "body": "Si tienes alguna pregunta sobre estos términos, o deseas ejercer algún derecho en relación con tus datos personales, no dudes en ponerte en contacto con nosotros directamente. Estaremos encantados de atender cualquier inquietud que puedas tener antes o después de enviar tu RSVP."
+    },
+    "changes": {
+      "title": "8. Modificaciones de estos Términos",
+      "body": "Nos reservamos el derecho de actualizar o modificar estos términos y condiciones en cualquier momento. Cualquier cambio se reflejará en esta página con una fecha actualizada. Te animamos a revisar esta página si tienes alguna duda."
+    },
+    "governing": {
+      "title": "9. Legislación Aplicable",
+      "body": "Estos términos y condiciones se rigen e interpretan de conformidad con la legislación aplicable. Al enviar tu RSVP, aceptas que cualquier disputa relacionada con estos términos estará sujeta a la jurisdicción exclusiva de los tribunales competentes."
+    }
+  },
+
+  "agreement": "Al marcar la casilla y enviar tu RSVP, confirmas que has leído, comprendido y aceptas estos Términos y Condiciones."
+}

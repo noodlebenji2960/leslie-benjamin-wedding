@@ -2,34 +2,45 @@ import { useState } from "react";
 import type { RSVPFormData, Guest } from "@/types/types";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 
+export type RSVPStep = {
+  key: string;
+  required: boolean;
+};
+
 export function useRSVPForm(initial: RSVPFormData) {
   const analytics = useAnalytics();
 
   const [form, setForm] = useState<RSVPFormData>({
     ...initial,
-    musicRequest: initial.musicRequest || "", // Initialize music request
+    musicRequest: initial.musicRequest || "",
+    termsAccepted: false,
   });
 
   const [currentStep, setCurrentStep] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [hasValidGuests, setHasValidGuests] = useState(false);
 
-  // Steps: contact, guests/non-attending, music request, captcha, review
-  const steps = [
-    "contactAndAttendance",
-    "guestsOrName",
-    "musicRequest",
-    "captcha",
-    "review",
+  const steps: RSVPStep[] = [
+    { key: "contactAndAttendance", required: true },
+    { key: "guestsOrName", required: true },
+    { key: "musicRequest", required: false },
+    { key: "notes", required: false },
+    { key: "review", required: true },
   ];
 
-  /** Generic input change handler */
+  const currentStepObj = steps[currentStep];
+
+  /** Generic input change handler — supports text, select, textarea, and checkboxes */
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
+    const value =
+      e.target instanceof HTMLInputElement && e.target.type === "checkbox"
+        ? e.target.checked
+        : e.target.value;
     setForm((prev) => ({ ...prev, [name]: value }));
     setError(null);
   };
@@ -45,9 +56,9 @@ export function useRSVPForm(initial: RSVPFormData) {
   /** Proceed to next step with analytics */
   const nextStep = () => {
     analytics.event("rsvp_step_complete", {
-      event_label: steps[currentStep],
+      event_label: currentStepObj.key,
       step_number: currentStep + 1,
-      step_name: steps[currentStep],
+      step_name: currentStepObj.key,
     });
     setCurrentStep((s) => s + 1);
   };
@@ -55,9 +66,9 @@ export function useRSVPForm(initial: RSVPFormData) {
   /** Go back a step with analytics */
   const prevStep = () => {
     analytics.event("rsvp_step_back", {
-      event_label: steps[currentStep],
+      event_label: currentStepObj.key,
       step_number: currentStep + 1,
-      step_name: steps[currentStep],
+      step_name: currentStepObj.key,
     });
     setCurrentStep((s) => s - 1);
   };
@@ -69,6 +80,7 @@ export function useRSVPForm(initial: RSVPFormData) {
     form,
     setForm,
     currentStep,
+    currentStepObj,
     steps,
     error,
     setError,

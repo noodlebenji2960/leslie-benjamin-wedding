@@ -3,7 +3,6 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-// Import JSON translations
 import common_en from "./locales/en/common.json";
 import common_es from "./locales/es/common.json";
 import home_en from "./locales/en/home.json";
@@ -14,7 +13,10 @@ import schedule_en from "./locales/en/schedule.json";
 import schedule_es from "./locales/es/schedule.json";
 import rsvp_en from "./locales/en/rsvp.json";
 import rsvp_es from "./locales/es/rsvp.json";
-// 👈 donate translations already included in common.json
+import terms_en from "./locales/en/terms.json";
+import terms_es from "./locales/es/terms.json";
+import privacy_en from "./locales/en/privacy.json";
+import privacy_es from "./locales/es/privacy.json";
 
 i18n
   .use(LanguageDetector)
@@ -22,7 +24,7 @@ i18n
   .init({
     fallbackLng: "es",
     supportedLngs: ["en", "es"],
-    ns: ["common", "home", "qa", "schedule", "rsvp"],
+    ns: ["common", "home", "qa", "schedule", "rsvp", "terms", "privacy"],
     defaultNS: "common",
     resources: {
       en: {
@@ -31,6 +33,8 @@ i18n
         qa: qa_en,
         schedule: schedule_en,
         rsvp: rsvp_en,
+        terms: terms_en,
+        privacy: privacy_en,
       },
       es: {
         common: common_es,
@@ -38,6 +42,8 @@ i18n
         qa: qa_es,
         schedule: schedule_es,
         rsvp: rsvp_es,
+        terms: terms_es,
+        privacy: privacy_es,
       },
     },
     interpolation: { escapeValue: false },

@@ -4,7 +4,7 @@
   "type": "module",
   "homepage": "https://noodlebenji2960.github.io/leslie-benjamin-wedding",
   "scripts": {
-    "dev": "react-router dev",
+    "dev": "react-router dev --mode development",
     "build": "react-router build",
     "typecheck": "react-router typegen && tsc",
     "preview": "vite preview --port 4173",

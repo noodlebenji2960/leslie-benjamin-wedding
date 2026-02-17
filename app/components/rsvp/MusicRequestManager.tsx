@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Icon } from "../Icon";
+import { Icon } from "@/components/Icon";
 
 export interface MusicRequestItem {
   trackName: string;
@@ -232,12 +232,6 @@ const MusicRequestManager = ({
 
   return (
     <div className="music-request-manager">
-      <h3 className="section-title">
-        {safeMusicRequests.length > 0 && `${safeMusicRequests.length} `}
-        Music Request{safeMusicRequests.length !== 1 && "s"}{" "}<br/>
-        <span className="optional-label">(optional)</span>
-      </h3>
-
       {/* Added Songs List */}
       {safeMusicRequests.length > 0 && (
         <div className="added-songs-section">

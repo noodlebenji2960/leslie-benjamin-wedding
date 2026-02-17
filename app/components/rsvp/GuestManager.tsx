@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence } from "framer-motion";
-import GuestCard from "./GuestCard";
+import GuestCard from "@/components/rsvp/GuestCard";
 
 interface Guest {
   firstName: string;
@@ -62,11 +62,6 @@ const GuestManager = ({ guests, onGuestsChange }: GuestManagerProps) => {
 
   return (
     <div className="guests-section">
-      <h3>
-        {t("rsvp:guestsTitle")}
-        {guests.length > 0 && ` (${guests.length})`}
-      </h3>
-
       <AnimatePresence>
         {/* Existing guests */}
         {guests.map((guest, index) => (

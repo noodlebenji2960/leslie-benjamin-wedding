@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Icon } from "./Icon";
+import { Icon } from "@/components/Icon";
 
 interface Guest {
   firstName: string;
@@ -77,6 +77,7 @@ const GuestCard = ({
         <div className="form-row">
           <input
             type="text"
+            name="firstName"
             placeholder={t("rsvp:firstName")}
             value={guest.firstName}
             onChange={(e) => handleNameChange("firstName", e.target.value)}
@@ -84,6 +85,7 @@ const GuestCard = ({
           />
           <input
             type="text"
+            name="lastName"
             placeholder={t("rsvp:lastName")}
             value={guest.lastName}
             onChange={(e) => handleNameChange("lastName", e.target.value)}
