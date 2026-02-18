@@ -19,18 +19,6 @@ const REQUIRED_ENV_VARS = {
   VITE_EMAILJS_AUTOREPLY_ES: import.meta.env.VITE_EMAILJS_AUTOREPLY_ES,
 };
 
-const missingEnvVars = Object.entries(REQUIRED_ENV_VARS)
-  .filter(([_, value]) => !value)
-  .map(([key]) => key);
-
-if (missingEnvVars.length > 0) {
-  console.error(
-    "[RSVP ENV ERROR] Missing required environment variables:",
-    missingEnvVars,
-  );
-} else {
-  console.log("[RSVP ENV OK] All required environment variables are present.");
-}
 
 const isDev = import.meta.env.DEV;
 

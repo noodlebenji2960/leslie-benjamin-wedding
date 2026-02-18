@@ -1,6 +1,6 @@
-@import "./_fonts.scss";
-@import "./_variables.scss";
-@import "./_mixins.scss";
+@use "app/styles/fonts";
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
 
 /* Remove blue tap highlight on mobile */
 * {

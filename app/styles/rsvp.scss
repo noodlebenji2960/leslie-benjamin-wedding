@@ -1,4 +1,4 @@
-@import "./variables.scss";
+@use "app/styles/variables" as *;
 
 .rsvp-page {
   min-height: calc(100vh - 200px);
@@ -85,6 +85,7 @@
 
         &:focus {
           outline: none;
+          border-color: $color-primary;
           box-shadow: 0 0 0 3px rgba($color-primary, 0.25);
         }
 
@@ -224,10 +225,6 @@
       width: 100%;
       border: 1px solid rgba($color-accent, 0.25);
       border-radius: $radius-sm;
-      box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.06),
-        0 4px 16px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.8);
       padding: $space-xl $space-xl $space-lg;
       position: relative;
 

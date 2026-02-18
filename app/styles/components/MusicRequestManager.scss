@@ -1,5 +1,5 @@
-@import "../_variables.scss";
-@import "../mixins.scss";
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
 
 .music-request-manager {
   width: 100%;
@@ -87,7 +87,8 @@
         align-items: center;
         gap: $space-sm;
         flex: 1;
-        min-width: 0;
+        min-width: 0; // Allow shrinking below content size
+        overflow: hidden; // Clip any overflowing content
 
         .song-artwork-small {
           width: 40px;
@@ -101,7 +102,7 @@
           display: flex;
           flex-direction: column;
           gap: $space-xs;
-          min-width: 0;
+          min-width: 0; // Allow text container to shrink
 
           .song-name {
             font-size: $font-size-sm;
@@ -139,7 +140,9 @@
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: background-color $transition-base, transform 0.1s;
+          transition:
+            background-color $transition-base,
+            transform 0.1s;
 
           &:hover {
             background: $color-primary;
@@ -163,7 +166,9 @@
           align-items: center;
           justify-content: center;
           border-radius: $radius-sm;
-          transition: color $transition-base, background-color $transition-base;
+          transition:
+            color $transition-base,
+            background-color $transition-base;
 
           &:hover {
             color: $color-danger;
@@ -177,7 +182,7 @@
 
 /* Search Inputs */
 .search-inputs {
-  display: grid;
+  display: flex;
   grid-template-columns: 1fr 1fr;
   gap: $space-sm;
   margin-bottom: $space-md;
@@ -188,7 +193,9 @@
     border: 1px solid $color-border;
     border-radius: $radius-sm;
     font-size: $font-size-sm;
-    transition: border-color $transition-base, box-shadow $transition-base;
+    transition:
+      border-color $transition-base,
+      box-shadow $transition-base;
     outline: none;
 
     &:focus {
@@ -202,53 +209,31 @@
   }
 }
 
-/* Search Status */
-.search-status {
+/* Search Status Messages */
+.searching-status,
+.search-error {
   padding: $space-sm $space-md;
   border-radius: $radius-sm;
   font-size: $font-size-sm;
   margin-bottom: $space-md;
   text-align: center;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: $space-sm;
+}
 
-  &.searching {
-    background: $color-muted;
-    color: $color-muted;
-    border: 1px solid $color-muted;
-  }
+.searching-status {
+  background: $color-muted;
+  color: $color-muted;
+  border: 1px solid $color-muted;
+}
 
-  &.error {
-    background: $color-danger;
-    color: $color-danger;
-    border: 1px solid $color-danger;
-
-    .error-dismiss {
-      background: none;
-      border: none;
-      color: $color-danger;
-      font-size: $font-size-lg;
-      cursor: pointer;
-      padding: 0;
-      margin-left: auto;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: $radius-sm;
-      transition: background-color $transition-base;
-      position: absolute;
-      right: $space-sm;
-
-      &:hover {
-        background-color: rgba($color-danger, 0.2);
-      }
-    }
-  }
+.search-error {
+  background: $color-danger;
+  color: $color-danger;
+  border: 1px solid $color-danger;
+  position: relative;
 }
 
 /* Suggestions List */
@@ -280,7 +265,6 @@
       height: 100px;
       flex-shrink: 0;
 
-      // Grayscale layer
       .album-grayscale {
         width: 100%;
         height: 100%;
@@ -291,7 +275,6 @@
         left: 0;
       }
 
-      // Color circle layer
       .album-color {
         width: 100%;
         height: 100%;
@@ -357,7 +340,9 @@
 
     .suggestion-info {
       flex: 1;
-      min-width: 0;
+      min-width: 0; // Allow shrinking
+      overflow: hidden; // Clip overflowing content
+
       display: flex;
       flex-direction: column;
       gap: $space-xs;
@@ -461,6 +446,165 @@
   font-size: $font-size-sm;
   text-align: center;
   margin-top: $space-md;
+}
+
+/* Manual Entry */
+.manual-entry-section {
+  margin-top: $space-md;
+
+  .manual-entry-toggle {
+    background: none;
+    border: none;
+    color: $color-secondary;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  .manual-entry-form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    margin-top: $space-sm;
+  }
+
+  .manual-entry-actions {
+    display: flex;
+    gap: $space-sm;
+    justify-content: flex-end;
+
+    .button {
+      padding: $space-sm $space-md;
+      border-radius: $radius-button;
+      border: 1px solid $color-border;
+      background: transparent;
+      color: $color-text;
+      font-size: $font-size-sm;
+      font-weight: $fw-semibold;
+      cursor: pointer;
+      transition:
+        background $transition-base,
+        border-color $transition-base;
+
+      &:hover {
+        background: rgba($color-border, 0.4);
+      }
+
+      &.button--primary {
+        background: $color-primary;
+        border-color: $color-primary;
+        color: $color-white;
+
+        &:hover:not(:disabled) {
+          background: $color-primary;
+          border-color: $color-primary;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+/* Mini Player */
+.mini-player {
+  position: fixed;
+  bottom: $space-lg;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(480px, calc(100vw - #{$space-lg} * 2) - 150px);
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-lg;
+  @include semi-transparent($color-background, 0.8);
+  border: 1px solid $color-border;
+  border-bottom: 2px solid $color-border;
+  border-radius: $radius-md;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  &__artwork {
+    width: 44px;
+    height: 44px;
+    border-radius: $radius-sm;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__track {
+    font-size: $font-size-sm;
+    font-weight: $fw-semibold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $color-text;
+  }
+
+  &__artist {
+    font-size: $font-size-xs;
+    color: $color-secondary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__progress-bar {
+    width: 100%;
+    height: 3px;
+    background: $color-border;
+    border-radius: 999px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: $color-primary;
+    border-radius: 999px;
+    transition: width 0.1s linear;
+  }
+
+  &__time {
+    font-size: $font-size-xs;
+    color: $color-secondary;
+    margin-top: 2px;
+  }
+
+  &__stop {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $color-text;
+    flex-shrink: 0;
+    padding: $space-xs;
+    border-radius: $radius-sm;
+    transition:
+      color $transition-base,
+      background $transition-base;
+
+    &:hover {
+      color: $color-danger;
+      background: rgba($color-danger, 0.1);
+    }
+  }
 }
 
 /* Focus Styles for Accessibility */

@@ -12,13 +12,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const isDev = import.meta.env.DEV;
 
-// For validateEmail — no g flag
 const EMAIL_REGEX = /^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-// For handleEmailKeyDown — no g flag, stateless .test()
 const VALID_EMAIL_CHARS_TEST = /[^\w\-+.@]/;
-
-// For handleEmailChange — g flag for .replace() to strip all occurrences
 const VALID_EMAIL_CHARS_REPLACE = /[^\w\-+.@]/g;
 
 interface StepContentProps {
@@ -26,11 +21,11 @@ interface StepContentProps {
   currentStepObj: RSVPStep;
   form: RSVPFormData;
   isClient: boolean;
-  onChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => void;
+onChange: (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >,
+) => void;
   onGuestsChange: (guests: Guest[]) => void;
   captchaToken: string | null;
   error: string | null;
@@ -94,6 +89,7 @@ export const StepContent = ({
           animate="animate"
           exit="exit"
           className="form-content"
+          tabIndex={-1}
         >
           <div className="form-group">
             <label htmlFor="email">
@@ -116,6 +112,7 @@ export const StepContent = ({
               }`}
               required
               autoComplete="email"
+              tabIndex={0}
             />
             {emailError && <div className="field-error">{emailError}</div>}
           </div>
@@ -132,6 +129,7 @@ export const StepContent = ({
               className={`form-input ${form.attending ? "form-input-valid" : ""}`}
               required
               autoComplete="off"
+              tabIndex={0}
             >
               <option value="">{t("rsvp:select")}</option>
               <option value="yes">{t("rsvp:yes")}</option>
@@ -150,6 +148,7 @@ export const StepContent = ({
           animate="animate"
           exit="exit"
           className="form-content"
+          tabIndex={-1}
         >
           {form.attending === "yes" ? (
             <GuestManager
@@ -172,6 +171,7 @@ export const StepContent = ({
                 required
                 autoComplete="name"
                 spellCheck={false}
+                tabIndex={0}
               />
             </div>
           )}
@@ -187,6 +187,7 @@ export const StepContent = ({
           animate="animate"
           exit="exit"
           className="form-content"
+          tabIndex={-1}
         >
           <MusicRequestManager
             musicRequests={form.musicRequest || []}
@@ -208,6 +209,7 @@ export const StepContent = ({
           animate="animate"
           exit="exit"
           className="form-content"
+          tabIndex={-1}
         >
           {form.attending === "yes" && (
             <div className="form-group">
@@ -222,6 +224,7 @@ export const StepContent = ({
                 className="form-input"
                 placeholder={t("rsvp:messagePlaceholder")}
                 rows={5}
+                tabIndex={0}
               />
             </div>
           )}
@@ -237,6 +240,7 @@ export const StepContent = ({
           animate="animate"
           exit="exit"
           className="form-content"
+          tabIndex={-1}
         >
           <div className="review-card">
             <div className="review-card__inner">
@@ -333,7 +337,6 @@ export const StepContent = ({
             </div>
           </div>
 
-          {/* ---------- Consent checkbox ---------- */}
           <div className="form-group form-group--consent">
             <label className="consent-label">
               <input
@@ -342,6 +345,7 @@ export const StepContent = ({
                 checked={!!form.termsAccepted}
                 onChange={onChange}
                 className="consent-checkbox"
+                tabIndex={0}
               />
               <span className="consent-text">
                 {t("rsvp:terms.iAgree")}{" "}

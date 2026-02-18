@@ -1,4 +1,4 @@
-@import "../_variables.scss";
+@use "app/styles/variables" as *;
 
 /* Toast Wrapper */
 .toast-wrapper {

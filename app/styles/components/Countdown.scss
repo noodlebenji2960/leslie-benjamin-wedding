@@ -1,4 +1,4 @@
-@import "../_variables.scss";
+@use "app/styles/variables" as *;
 .countdown-card {
   padding: 0.4rem;
   display: block;

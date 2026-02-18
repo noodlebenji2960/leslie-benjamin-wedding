@@ -1,5 +1,5 @@
-@import "../variables.scss";
-@import "../mixins.scss";
+@use "app/styles/mixins" as *;
+@use "app/styles/variables" as *;
 
 .progress-bar-container {
   width: 100%;

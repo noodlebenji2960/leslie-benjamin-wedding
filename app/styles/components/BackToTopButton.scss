@@ -1,4 +1,4 @@
-@import "../_variables.scss";
+@use "app/styles/variables" as *;
 .back-to-top {
   display: flex;
   justify-content: center;
