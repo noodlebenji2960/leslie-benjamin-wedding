@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "lenis/react";
 import { Icon } from "./Icon";
@@ -8,6 +8,7 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   closeOnBackdropClick?: boolean;
+  showCloseButton?: boolean;
 }
 
 export function Modal({
@@ -15,8 +16,11 @@ export function Modal({
   onClose,
   children,
   closeOnBackdropClick = true,
+  showCloseButton = true,
 }: ModalProps) {
   const lenis = useLenis(() => {});
+  const contentRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   // Escape key listener
   useEffect(() => {
@@ -33,6 +37,49 @@ export function Modal({
       isOpen ? lenis.stop() : lenis.start();
     }
   }, [isOpen, lenis]);
+
+  // Save previous focus, focus modal on open, restore on close
+  useEffect(() => {
+    if (isOpen) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      setTimeout(() => {
+        const focusable = contentRef.current?.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        focusable?.[0]?.focus();
+      }, 50);
+    } else {
+      previousFocusRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  // Trap focus inside modal
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== "Tab" || !contentRef.current) return;
+
+    const focusable = Array.from(
+      contentRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((el) => !el.hasAttribute("disabled"));
+
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  };
 
   const modalVariants = {
     hidden: { opacity: 0 },
@@ -55,16 +102,21 @@ export function Modal({
 
           <motion.div
             className="modal-wrapper"
+            role="dialog"
+            aria-modal="true"
             variants={modalVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
             transition={{ duration: 0.4, ease: "easeInOut" }}
+            onKeyDown={handleKeyDown}
           >
-            <div className="modal-content">
-              <button className="modal-close" onClick={onClose}>
-                <Icon.Close />
-              </button>
+            <div className="modal-content" ref={contentRef}>
+              {showCloseButton && (
+                <button className="modal-close" onClick={onClose}>
+                  <Icon.Close />
+                </button>
+              )}
               {children}
             </div>
           </motion.div>

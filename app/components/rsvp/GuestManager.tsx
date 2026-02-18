@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import GuestCard from "@/components/rsvp/GuestCard";
 
 interface Guest {
@@ -26,16 +26,12 @@ const emptyGuest: Guest = {
 const GuestManager = ({ guests, onGuestsChange }: GuestManagerProps) => {
   const { t } = useTranslation(["rsvp"]);
 
-  // Controlled draft guest state
   const [draftGuest, setDraftGuest] = useState<Guest>(emptyGuest);
-
-  /* -------------------- Handlers -------------------- */
 
   const addGuestToRoster = useCallback(() => {
     if (!draftGuest.firstName.trim() || !draftGuest.lastName.trim()) return;
-
     onGuestsChange([...guests, draftGuest]);
-    setDraftGuest(emptyGuest); // reset draft
+    setDraftGuest(emptyGuest);
   }, [draftGuest, guests, onGuestsChange]);
 
   const removeGuest = useCallback(
@@ -58,12 +54,9 @@ const GuestManager = ({ guests, onGuestsChange }: GuestManagerProps) => {
     setDraftGuest((prev) => ({ ...prev, [field]: value }));
   }, []);
 
-  /* -------------------- Render -------------------- */
-
   return (
-    <div className="guests-section">
+    <div className="guests-section" aria-label={t("rsvp:guestsTitle")}>
       <AnimatePresence>
-        {/* Existing guests */}
         {guests.map((guest, index) => (
           <GuestCard
             key={`roster-${index}`}
@@ -74,17 +67,27 @@ const GuestManager = ({ guests, onGuestsChange }: GuestManagerProps) => {
             isRostered
           />
         ))}
-
-        {/* Draft guest */}
-        <GuestCard
-          key="draft"
-          index={guests.length}
-          guest={draftGuest}
-          onUpdate={(_, field, value) => updateDraft(field, value)}
-          onConfirm={addGuestToRoster}
-          isDraft
-        />
       </AnimatePresence>
+
+      {guests.length > 0 && (
+        <motion.p
+          className="add-another-label"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          {t("rsvp:addAnotherGuest")}
+        </motion.p>
+      )}
+
+      <GuestCard
+        key="draft"
+        index={guests.length}
+        guest={draftGuest}
+        onUpdate={(_, field, value) => updateDraft(field, value)}
+        onConfirm={addGuestToRoster}
+        isDraft
+      />
     </div>
   );
 };

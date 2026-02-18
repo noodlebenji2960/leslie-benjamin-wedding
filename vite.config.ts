@@ -31,10 +31,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `
-          @use "app/styles/variables" as *;
-          @use "app/styles/mixins" as *;
-        `,
+        loadPaths: [resolve(__dirname)],
       },
     },
   },

@@ -1,4 +1,5 @@
-@import "../variables.scss";
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
 
 .guest-card {
   display: flex;
@@ -58,7 +59,6 @@
   /* Rows */
   .form-row {
     position: relative;
-
     overflow: hidden;
 
     input[name="firstName"],
@@ -68,7 +68,7 @@
 
     input,
     textarea {
-        width: 100%;
+      width: 100%;
       border-radius: $radius-sm;
       border: 1px solid $color-border;
       background: $color-white;
@@ -96,10 +96,11 @@
 
     .close-btn {
       position: absolute;
-      top: 8px;
+      top: 7px;
       right: 8px;
       background: transparent;
       opacity: 0.1;
+      padding: 0;
 
       &:hover {
         opacity: 1;
@@ -117,7 +118,7 @@
   .guest-card-actions {
     display: flex;
     justify-content: space-between;
-    flex-wrap: no-wrap;
+    flex-wrap: nowrap;
     gap: 0;
     width: min-content;
 
@@ -156,7 +157,6 @@
     font-size: $font-size-sm;
     font-weight: $fw-semibold;
     cursor: pointer;
-
     transition:
       background $transition-base,
       transform $transition-base,
@@ -175,6 +175,57 @@
   }
 }
 
+/* Confirm removal modal */
+.confirm-modal {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-sm 0;
+
+  p {
+    margin: 0;
+    color: $color-text;
+    text-align: center;
+  }
+
+  .confirm-modal-actions {
+    display: flex;
+    gap: $space-sm;
+    justify-content: center;
+
+    .button {
+      flex: 1;
+      padding: $space-sm $space-md;
+      border-radius: $radius-button;
+      border: 1px solid $color-border;
+      background: transparent;
+      color: $color-text;
+      font-size: $font-size-sm;
+      font-weight: $fw-semibold;
+      cursor: pointer;
+      transition:
+        background $transition-base,
+        border-color $transition-base,
+        color $transition-base;
+
+      &:hover {
+        background: rgba($color-border, 0.4);
+      }
+
+      &.button--danger {
+        background: $color-danger;
+        border-color: $color-danger;
+        color: $color-white;
+
+        &:hover {
+          background: $color-danger;
+          border-color: $color-danger;
+        }
+      }
+    }
+  }
+}
+
 /* Mobile tweaks */
 @media (max-width: $bp-sm) {
   .guest-card {
@@ -184,5 +235,9 @@
       flex-direction: column;
       gap: $space-xs;
     }
+  }
+
+  .confirm-modal .confirm-modal-actions {
+    flex-direction: column;
   }
 }

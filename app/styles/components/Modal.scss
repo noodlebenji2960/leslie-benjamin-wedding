@@ -1,5 +1,5 @@
-@import "../_variables.scss";
-@import "../mixins.scss";
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
 
 /* ==========================================
    Modal Wrapper: full viewport, center content
@@ -71,7 +71,6 @@
 
   &:hover {
     color: $color-primary;
-    transform: scale(1.1);
   }
 }
 
@@ -101,7 +100,7 @@
     transform 0.2s ease;
 
   &:hover {
-    transform: scale(1.05);
+
   }
 
   &.ccm__save-btn {

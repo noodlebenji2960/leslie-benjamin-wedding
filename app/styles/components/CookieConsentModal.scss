@@ -1,4 +1,4 @@
-@import "../_variables.scss";
+@use "app/styles/variables" as *;
 
 // Cookie Consent Modal (CCM)
 .ccm {
