@@ -34,28 +34,27 @@
       z-index: 1;
     }
 
-    /* Step container */
     .progress-bar__steps {
       position: absolute;
       inset: 0;
       z-index: 2;
     }
 
-    /* Individual step dot */
     .progress-step {
+      --step-size: clamp(32px, 6vw, 60px);
+
       position: absolute;
       top: 0%;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: 2px solid $color-border;
+      width: var(--step-size);
+      height: var(--step-size);
+      border: 1px solid $color-border !important;
+      border-radius: $radius-md;
+      box-shadow: $box-shadow-sm;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: $font-size-xs;
-      padding: $space-xs;
-      outline: 4px solid var(--color-background);
-      outline-offset: -1px;
+      font-size: clamp(8px, 1.2vw, $font-size-xs);
+      padding: clamp(4px, 0.8vw, $space-xs);
       border-width: 3px;
       background-color: var(--color-background);
       color: $color-border;
@@ -88,9 +87,9 @@
           margin: 0;
           color: $color-white;
           font-family: sans-serif;
-          font-size: $font-size-3xs;
+          font-size: clamp(6px, 1vw, $font-size-3xs);
           font-weight: $fw-semibold;
-          line-height: $font-size-3xs;
+          line-height: 1;
         }
       }
 

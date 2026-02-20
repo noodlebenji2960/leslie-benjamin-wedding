@@ -53,7 +53,6 @@ export const StepContactAttendance = ({ form, onChange }: Props) => {
           {t("rsvp:email")} <span className="required">*</span>
         </label>
         <input
-          autoFocus
           id="email"
           name="email"
           type="email"

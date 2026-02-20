@@ -32,7 +32,7 @@ import { MdLocationPin } from "react-icons/md";
 import { WiFog } from "react-icons/wi";
 import { CiStickyNote } from "react-icons/ci";
 import { PiPencilLineLight } from "react-icons/pi";
-import { BsEnvelopePaperHeart } from "react-icons/bs";
+import { BsEnvelopePaperHeart, BsSuitHeartFill } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa6";
 import { VscChecklist } from "react-icons/vsc";
 
@@ -101,6 +101,7 @@ const ICONS = {
   More: IoEllipsisHorizontal,
   Heart: {
     default: IoHeartOutline,
+    full: BsSuitHeartFill,
     on: IoHeart,
     off: IoHeartOutline,
   },

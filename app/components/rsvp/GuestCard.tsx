@@ -157,7 +157,6 @@ const GuestCard = ({
             <div className="form-row">
               <input
                 ref={firstNameRef}
-                autoFocus={isDraft}
                 type="text"
                 name="firstName"
                 placeholder={t("rsvp:firstName")}

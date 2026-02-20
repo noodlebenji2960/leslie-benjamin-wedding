@@ -10,6 +10,7 @@ import { FadeInSection } from "@/components/FadeInsection";
 import DonateButton from "@/components/DonateButton";
 import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
+import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
 
 export function meta({}: Route.MetaArgs) {
   return [

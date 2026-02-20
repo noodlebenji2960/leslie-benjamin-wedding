@@ -164,7 +164,6 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
           </span>
           <input
             ref={songInputRef}
-            autoFocus
             type="text"
             value={songQuery}
             onChange={(e) => onSongChange(e.target.value)}

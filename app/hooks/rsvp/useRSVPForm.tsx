@@ -52,7 +52,7 @@ export function useRSVPForm(initial: RSVPFormData) {
       key: "notes",
       required: false,
       icon: <Icon.LoveLetter />,
-      completionIcon: <Icon.Tick />,
+      completionIcon: <Icon.Heart.default />,
       stepName: t("rsvp:steps.notes.stepTitle"),
     },
     {
