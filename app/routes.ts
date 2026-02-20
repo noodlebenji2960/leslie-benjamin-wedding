@@ -6,27 +6,56 @@ import {
   index,
   prefix,
 } from "@react-router/dev/routes";
+import siteConfig from "./data/feature-config.json"
 
+/**
+ * Helper: include route only if feature is enabled
+ */
+function optionalRoute(
+  enabled: boolean,
+  makeRoute: () => RouteConfig,
+): RouteConfig[] {
+  return enabled ? [makeRoute()] : [];
+}
+
+// --- English routes ---
+const enRoutes: RouteConfig[] = [
+  index("routes/home.tsx", { id: "en/home" }),
+  ...optionalRoute(siteConfig.rsvp, () =>
+    route("rsvp", "routes/rsvp.tsx", { id: "en/rsvp" }),
+  ),
+  ...optionalRoute(siteConfig.schedule, () =>
+    route("schedule", "routes/schedule.tsx", { id: "en/schedule" }),
+  ),
+  ...optionalRoute(siteConfig.qa, () =>
+    route("qa", "routes/qa.tsx", { id: "en/qa" }),
+  ),
+];
+
+// --- Spanish routes ---
+const esRoutes: RouteConfig[] = [
+  index("routes/home.tsx", { id: "es/home" }),
+  ...optionalRoute(siteConfig.rsvp, () =>
+    route("rsvp", "routes/rsvp.tsx", { id: "es/rsvp" }),
+  ),
+  ...optionalRoute(siteConfig.schedule, () =>
+    route("schedule", "routes/schedule.tsx", { id: "es/schedule" }),
+  ),
+  ...optionalRoute(siteConfig.qa, () =>
+    route("qa", "routes/qa.tsx", { id: "es/qa" }),
+  ),
+];
+
+// --- Export final route config ---
 export default [
+  // Main layout
   layout("routes/_layout.tsx", [
     index("routes/redirect.tsx"),
-
-    ...prefix("es", [
-      index("routes/home.tsx", { id: "es/home" }),
-      route("rsvp", "routes/rsvp.tsx", { id: "es/rsvp" }),
-      route("schedule", "routes/schedule.tsx", { id: "es/schedule" }),
-      route("qa", "routes/qa.tsx", { id: "es/qa" }),
-    ]),
-
-    ...prefix("en", [
-      index("routes/home.tsx", { id: "en/home" }),
-      route("rsvp", "routes/rsvp.tsx", { id: "en/rsvp" }),
-      route("schedule", "routes/schedule.tsx", { id: "en/schedule" }),
-      route("qa", "routes/qa.tsx", { id: "en/qa" }),
-    ]),
+    ...prefix("es", esRoutes),
+    ...prefix("en", enRoutes),
   ]),
 
-  // Legal pages — language prefixed, outside the layout
+  // Legal pages — always present
   ...prefix("es", [
     route("legal/:page", "routes/legal.tsx", { id: "es/legal" }),
   ]),

@@ -29,7 +29,7 @@
     },
     {
       "question": "¿Cómo estará el clima?",
-      "answer": "Julio suele ser soleado y cálido, a menudo más que en el Reino Unido. Aquí está el pronóstico actual para el lugar: <WeatherForecast/>",
+      "answer": "Julio suele ser soleado y cálido, a menudo más que en el Reino Unido. <WeatherForecast/>",
       "category": "logistics"
     },
     {

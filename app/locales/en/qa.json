@@ -29,7 +29,7 @@
     },
     {
       "question": "What's the weather like?",
-      "answer": "July is usually sunny and warm, often hotter than in the UK. Here is the current forecast for the venue: <WeatherForecast/>",
+      "answer": "July is usually sunny and warm, often hotter than in the UK. <WeatherForecast/>",
       "category": "logistics"
     },
     {

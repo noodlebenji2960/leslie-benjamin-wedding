@@ -12,6 +12,7 @@ import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
 import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
 import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
+import { useSiteConfig } from "@/contexts/ConfigContext";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,6 +25,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const config = useSiteConfig();
   const wedding = useWeddingData();
   const { t, i18n, ready } = useTranslation(["home", "common"]);
   const { navigateTo, buildLink } = useBuildLink();
@@ -79,88 +81,91 @@ export default function Home() {
       </div>
       <div className="hero-body">{t("welcome", { ns: "home" })}</div>
       <ChampagneIllustration height={100} width={100} />
+      <div className="hero-date">
+        <span className="date-month">{monthName}</span>|
+        <span className="date-daynum">{dayNumber}</span>|
+        <span className="date-year">{year}</span>
+      </div>
       {/* LOCATION & MAP */}
       <FadeInSection>
         <div className="venue-card">
+          <p className="hero-location">
+            <Link to={wedding.wedding.ceremony.venue.website}>
+              <strong>{wedding.wedding.ceremony.venue.longName}</strong>
+            </Link>
+            <br />
+            {wedding.wedding.ceremony.venue.address}
+            <br />
+            {wedding.wedding.ceremony.venue.city},
+            <br />
+            {wedding.wedding.ceremony.venue.region},
+            <br />
+            {wedding.wedding.ceremony.venue.country}
+          </p>
 
-            <p className="hero-location">
-              <Link to={wedding.wedding.ceremony.venue.website}>
-                <strong>{wedding.wedding.ceremony.venue.longName}</strong>
-              </Link>
-              <br />
-              {wedding.wedding.ceremony.venue.address}
-              <br />
-              {wedding.wedding.ceremony.venue.city},
-              <br />
-              {wedding.wedding.ceremony.venue.region},
-              <br />
-              {wedding.wedding.ceremony.venue.country}
-            </p>
-
-            <Map
-              coordinates={wedding.wedding.ceremony.venue.coordinates}
-              label={wedding.wedding.ceremony.venue.name}
-              mapUrl={wedding.wedding.ceremony.venue.mapLink}
-              width="100%"
-              height="250px"
-              interactive={false}
-              zoom={14}
-            />
+          <Map
+            coordinates={wedding.wedding.ceremony.venue.coordinates}
+            label={wedding.wedding.ceremony.venue.name}
+            mapUrl={wedding.wedding.ceremony.venue.mapLink}
+            width="100%"
+            height="250px"
+            interactive={false}
+            zoom={14}
+          />
         </div>
       </FadeInSection>
 
       {/* SCHEDULE HIGHLIGHTS */}
-      <FadeInSection delay={0.1}>
-        <div className="schedule-preview">
-          <h3>{t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}</h3>
-          <div className="hero-date">
-            <span className="date-month">{monthName}</span>|
-            <span className="date-daynum">{dayNumber}</span>|
-            <span className="date-year">{year}</span>
-          </div>
-          <div className="timeline">
-            {wedding.schedule.map((event, index) => (
-              <div key={`${index} ${event.id}`} className="timeline-item">
-                <div className="timeline-dot" />
-                <div className="timeline-content">
-                  <span className="timeline-time">{event.time}</span>
-                  <span className="timeline-label">
-                    {(() => {
-                      switch (event.id) {
-                        case "bus":
-                          return `Bus from ${event.location}`;
-                        case "ceremony":
-                          return `Ceremony @ ${wedding.wedding.ceremony.venue.name}`;
-                        case "cocktails":
-                          return `Cocktails on the terrace`;
-                        case "dinner":
-                          return `Dinner @ ${event.location}`;
-                        case "bus-return":
-                          return `Return bus to Logroño`;
-                        case "afterparty":
-                          return `Afterparty @ ${event.location}`;
-                        default:
-                          return event.location;
-                      }
-                    })()}
-                  </span>
+      {config.schedule.enabled && (
+        <FadeInSection delay={0.1}>
+          <div className="schedule-preview">
+            <h3>
+              {t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}
+            </h3>
+            <div className="timeline">
+              {wedding.schedule.map((event, index) => (
+                <div key={`${index} ${event.id}`} className="timeline-item">
+                  <div className="timeline-dot" />
+                  <div className="timeline-content">
+                    <span className="timeline-time">{event.time}</span>
+                    <span className="timeline-label">
+                      {(() => {
+                        switch (event.id) {
+                          case "bus":
+                            return `Bus from ${event.location}`;
+                          case "ceremony":
+                            return `Ceremony @ ${wedding.wedding.ceremony.venue.name}`;
+                          case "cocktails":
+                            return `Cocktails on the terrace`;
+                          case "dinner":
+                            return `Dinner @ ${event.location}`;
+                          case "bus-return":
+                            return `Return bus to Logroño`;
+                          case "afterparty":
+                            return `Afterparty @ ${event.location}`;
+                          default:
+                            return event.location;
+                        }
+                      })()}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <p className="schedule-body">
+              <Trans
+                i18nKey="scheduleBody"
+                ns="home"
+                components={{
+                  scheduleLink: (
+                    <Link to={buildLink("/schedule")} className="faq-link" />
+                  ),
+                }}
+              />
+            </p>
           </div>
-          <p className="schedule-body">
-            <Trans
-              i18nKey="scheduleBody"
-              ns="home"
-              components={{
-                scheduleLink: (
-                  <Link to={buildLink("/schedule")} className="faq-link" />
-                ),
-              }}
-            />
-          </p>
-        </div>
-      </FadeInSection>
+        </FadeInSection>
+      )}
 
       {/* GUEST ESSENTIALS */}
       <FadeInSection delay={0.1}>
@@ -197,68 +202,116 @@ export default function Home() {
       </FadeInSection>
 
       {/* RSVP & CONTACT */}
-      <FadeInSection delay={0.1}>
-        <div className="rsvp-section">
-          <Countdown
-            date={wedding.wedding.date}
-            time={wedding.wedding.ceremony.time}
-          />
-          <p className="rsvp-intro">
-            <Trans
-              i18nKey="rsvpIntro"
-              ns="home"
-              values={{ deadline: rsvpDeadline }}
-              components={{ strong: <strong /> }}
+      {config.rsvp.enabled && (
+        <FadeInSection delay={0.1}>
+          <div className="rsvp-section">
+            <Countdown
+              date={wedding.wedding.date}
+              time={wedding.wedding.ceremony.time}
             />
-          </p>
-          <button onClick={handleRSVP} className="cta-btn">
-            {t("rsvp", { ns: "home" })}
-          </button>
-        </div>
-      </FadeInSection>
-
-      <FadeInSection delay={0.1}>
-        <div className="contact-section">
-          <h4>
-            {t("questionsTitle", { ns: "home", defaultValue: "Questions?" })}
-          </h4>
-
-          <p className="questions-body">
-            <Trans
-              i18nKey="questionsBody"
-              ns="home"
-              components={{
-                qaLink: <Link to={buildLink("/qa")} className="faq-link" />,
-              }}
-            />
-          </p>
-          <div className="contacts-row">
-            {wedding.contact.map((c, index) => {
-              const isFirst = index === 0;
-              const isLast = index === wedding.contact.length - 1;
-
-              return (
-                <>
-                  <div
-                    key={`${index} ${c.email}`}
-                    className={`contact-item ${isFirst ? "first" : ""} ${isLast ? "last" : ""}`}
-                  >
-                    <strong>{c.name}</strong>
-                    <br />
-                    <a href={`mailto:${c.email}`}>{c.email}</a>
-
-                    <br />
-                    {c.phone && <a href={`tel:${c.phone}`}>{c.phone}</a>}
-                  </div>
-                  {index !== wedding.contact.length - 1 && (
-                    <div className="vertical-separator" />
-                  )}
-                </>
-              );
-            })}
+            <p className="rsvp-intro">
+              <Trans
+                i18nKey="rsvpIntro"
+                ns="home"
+                values={{ deadline: rsvpDeadline }}
+                components={{ strong: <strong /> }}
+              />
+            </p>
+            <button onClick={handleRSVP} className="cta-btn">
+              {t("rsvp", { ns: "home" })}
+            </button>
           </div>
-        </div>
-      </FadeInSection>
+        </FadeInSection>
+      )}
+
+      {config.qa.enabled && (
+        <FadeInSection delay={0.1}>
+          <div className="contact-section">
+            <h4>
+              {t("questionsTitle", { ns: "home", defaultValue: "Questions?" })}
+            </h4>
+
+            <p className="questions-body">
+              <Trans
+                i18nKey="questionsBody"
+                ns="home"
+                components={{
+                  qaLink: <Link to={buildLink("/qa")} className="faq-link" />,
+                }}
+              />
+            </p>
+            <div className="contacts-row">
+              {wedding.contact.map((c, index) => {
+                const isFirst = index === 0;
+                const isLast = index === wedding.contact.length - 1;
+
+                return (
+                  <>
+                    <div
+                      key={`${index} ${c.email}`}
+                      className={`contact-item ${isFirst ? "first" : ""} ${isLast ? "last" : ""}`}
+                    >
+                      <strong>{c.name}</strong>
+                      <br />
+                      <a href={`mailto:${c.email}`}>{c.email}</a>
+
+                      <br />
+                      {c.phone && <a href={`tel:${c.phone}`}>{c.phone}</a>}
+                    </div>
+                    {index !== wedding.contact.length - 1 && (
+                      <div className="vertical-separator" />
+                    )}
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </FadeInSection>
+      )}
+      {config.underConstruction?.homeSection.enabled && (
+        <FadeInSection delay={0.1}>
+          <div className="rsvp-section">
+            <div className="under-construction">
+              <h4>
+                {t("underConstruction.title", {
+                  ns: "home",
+                  defaultValue: "Under Construction",
+                })}
+              </h4>
+              <p>
+                <Trans
+                  i18nKey="underConstruction.message"
+                  ns="home"
+                  values={{
+                    featureList: Object.entries(config)
+                      .filter(([_, value]) => {
+                        // Some features are nested, so normalize to object
+                        const feature =
+                          typeof value === "object"
+                            ? value
+                            : { enabled: value, isInFeatureList: false };
+                        return (
+                          feature.enabled === false &&
+                          feature.isInFeatureList === true
+                        );
+                      })
+                      .map(([key]) => {
+                        // Map raw config keys to friendly labels
+                        const mapping: Record<string, string> = {
+                          rsvp: t("rsvp", "RSVP"),
+                          schedule: t("title", "schedule"),
+                          qa: t("qa", "Q&A"),
+                        };
+                        return mapping[key] ?? key;
+                      })
+                      .join(", "),
+                  }}
+                />
+              </p>
+            </div>
+          </div>
+        </FadeInSection>
+      )}
     </div>
   );
 }

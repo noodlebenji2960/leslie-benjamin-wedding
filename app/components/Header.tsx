@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router";
-import { useTranslation } from "react-i18next";
-import { useRef, useEffect, useLayoutEffect, useState } from "react";
+import { useRef, useEffect, useLayoutEffect, useState, useMemo } from "react";
 import { useBuildLink } from "@/hooks/useBuildLink";
+import { useSiteConfig } from "@/contexts/ConfigContext";
 
 interface NavLink {
   path: string;
@@ -19,8 +19,8 @@ interface HeaderProps {
 }
 
 export default function Header({ locale, links }: HeaderProps) {
-  const { navigateTo, buildLink } = useBuildLink();
-  const { t } = useTranslation(["common"]);
+  const config = useSiteConfig();
+  const { buildLink } = useBuildLink();
   const location = useLocation();
   const navLinksRef = useRef<HTMLDivElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({
@@ -34,7 +34,16 @@ export default function Header({ locale, links }: HeaderProps) {
   const currentPath = stripLocale(location.pathname);
   const isHome = currentPath === "/" || currentPath === "";
 
-  // Update indicator position based on a link element
+  // Only include enabled links
+  const filteredLinks = useMemo(() => {
+    return links.filter((l) => {
+      const key = l.path.replace("/", "") || "home";
+      const feature = (config as any)[key];
+      return feature?.enabled ?? true; // default to true if missing
+    });
+  }, [links, config]);
+
+  // Update indicator position
   const updateIndicator = (el: HTMLElement) => {
     if (!navLinksRef.current || !el) return;
     const navRect = navLinksRef.current.getBoundingClientRect();
@@ -47,14 +56,12 @@ export default function Header({ locale, links }: HeaderProps) {
     });
   };
 
-  // Handle hover
   const handleMouseEnter = (el: HTMLElement) => {
     setIsHovering(true);
     updateIndicator(el);
   };
   const handleMouseLeave = () => setIsHovering(false);
 
-  // Set indicator to active route on mount / route change / locale change
   useEffect(() => {
     if (isHovering) return;
     if (!navLinksRef.current) return;
@@ -62,15 +69,21 @@ export default function Header({ locale, links }: HeaderProps) {
     const linksEl = Array.from(
       navLinksRef.current.querySelectorAll(".nav-link"),
     ) as HTMLElement[];
-    const activeIndex = links.findIndex((l) =>
+    const activeIndex = filteredLinks.findIndex((l) =>
       l.path === "/" ? isHome : currentPath === l.path,
     );
     if (activeIndex === -1) return;
 
     updateIndicator(linksEl[activeIndex]);
-  }, [location.pathname, locale, isHovering, links, isHome, currentPath]);
+  }, [
+    location.pathname,
+    locale,
+    isHovering,
+    filteredLinks,
+    isHome,
+    currentPath,
+  ]);
 
-  // Recalculate indicator on window resize
   useLayoutEffect(() => {
     const handleResize = () => {
       if (!navLinksRef.current) return;
@@ -78,7 +91,7 @@ export default function Header({ locale, links }: HeaderProps) {
       const linksEl = Array.from(
         navLinksRef.current.querySelectorAll(".nav-link"),
       ) as HTMLElement[];
-      const activeIndex = links.findIndex((l) =>
+      const activeIndex = filteredLinks.findIndex((l) =>
         l.path === "/" ? isHome : currentPath === l.path,
       );
       if (activeIndex === -1) return;
@@ -87,16 +100,16 @@ export default function Header({ locale, links }: HeaderProps) {
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // initial calculation
+    handleResize();
     return () => window.removeEventListener("resize", handleResize);
-  }, [links, isHome, currentPath]);
+  }, [filteredLinks, isHome, currentPath]);
+
+  if (!config.layout?.showHeader?.enabled) return null;
 
   return (
-    <nav
-      className="nav"
-    >
+    <nav className="nav">
       <div className="nav-links desktop" ref={navLinksRef}>
-        {links.map((l) => (
+        {filteredLinks.map((l) => (
           <Link
             key={l.path}
             to={buildLink(l.path)}
@@ -109,7 +122,6 @@ export default function Header({ locale, links }: HeaderProps) {
           </Link>
         ))}
 
-        {/* Fully dynamic indicator */}
         <div
           className="nav-indicator"
           style={{
