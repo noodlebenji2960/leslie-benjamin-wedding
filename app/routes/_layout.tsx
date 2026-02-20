@@ -10,7 +10,7 @@ import { BackToTopButton } from "@/components/BackToTopButton";
 import ReactLenis, { useLenis } from "lenis/react";
 import Footer from "@/components/Footer";
 import { CookieConsentModal } from "@/components/CookieConsentModal";
-import { useLayout } from "@/contexts/LayoutContext"; // New import [cite:5]
+import { useLayout } from "@/contexts/LayoutContext";
 
 export default function Layout() {
   const location = useLocation();
@@ -33,13 +33,23 @@ export default function Layout() {
     state: { fixedOffsetY },
   } = useLayout();
 
+  const hasScrolledRef = useRef(false);
+
   useEffect(() => {
     if (!lenis) return;
+    if (hasScrolledRef.current) return;
 
-    requestAnimationFrame(() => {
+    hasScrolledRef.current = true;
+
+    const id = setTimeout(() => {
       lenis.scrollTo(0, { immediate: true });
-    });
-  }, [outlet, lenis]);
+    }, 400);
+
+    return () => {
+      clearTimeout(id);
+      hasScrolledRef.current = false;
+    };
+  }, [location.pathname, lenis]);
 
   const links = [
     { path: "/", label: t("nav.home") },

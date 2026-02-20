@@ -1,12 +1,5 @@
-// ─────────────────────────────────────────────
-// home.scss — Elegant Wedding Landing Page
-// ─────────────────────────────────────────────
 @use "app/styles/variables" as *;
-
-// Mixin for semi-transparent backgrounds
-@mixin semi-transparent($color-var, $opacity: 0.7) {
-  background-color: color-mix(in srgb, $color-var $opacity * 100%, transparent);
-}
+@use "app/styles/mixins" as *;
 
 // ─────────────────────────────────────────────
 // Hero Section
@@ -28,7 +21,7 @@
   text-align: center;
 
   &::before {
-    background: url("/images/hojas.png"); // no /public needed in URL
+    background: url("/images/hojas.png");
     background-repeat: no-repeat;
     background-position: contain;
     background-size: 80%;
@@ -41,7 +34,7 @@
     pointer-events: none;
     z-index: 111;
     opacity: 0; // start invisible
-    animation: fadeInLeaves 2s ease forwards 0.5s; // fade in over 2s
+    animation: fadeInLeaves 2s ease forwards 0.5s;
 
     @media (max-width: 768px) {
       top: 0;
@@ -126,7 +119,7 @@
 .venue-card {
   background: $color-white;
   border: 1px solid $color-border;
-  border-radius: $radius-lg;
+  
   margin: $space-xl 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(8px);
