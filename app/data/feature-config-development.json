@@ -1,0 +1,17 @@
+{
+  "underConstruction": {
+    "siteDisabled": { "enabled": true, "isInFeatureList": false },
+    "homeSection": { "enabled": true, "isInFeatureList": false }
+  },
+  "theme": { "enabled": true, "isInFeatureList": false },
+  "rsvp": { "enabled": true, "isInFeatureList": true },
+  "schedule": { "enabled": true, "isInFeatureList": true },
+  "qa": { "enabled": true, "isInFeatureList": true },
+  "cookies": { "enabled": true, "isInFeatureList": false },
+  "weather": { "enabled": true, "isInFeatureList": false },
+  "layout": {
+    "showHeader": { "enabled": true, "isInFeatureList": false },
+    "showFooter": { "enabled": true, "isInFeatureList": false },
+    "theme": { "enabled": true, "isInFeatureList": false, "default": "light" }
+  }
+}
