@@ -21,7 +21,6 @@ export const StepMessage = ({ attending, notes, onChange }: Props) => {
         value={notes}
         onChange={onChange}
         className="form-input"
-        autoFocus
         tabIndex={0}
       />
     </div>
