@@ -1,0 +1,22 @@
+@use "app/styles/variables" as *;
+
+.heart-animated {
+  svg {
+    width: max(30px, 12vw);
+    height: max(30px, 12vw);
+    overflow: visible !important;
+    fill: $color-accent;
+
+    use {
+      fill: transparent;
+      stroke: rgba(0, 0, 0, 0.7);
+      stroke-width: 1.2;
+
+      &:last-child {
+        fill: var(--heart);
+        stroke: var(--heart);
+        transform-origin: center;
+      }
+    }
+  }
+}

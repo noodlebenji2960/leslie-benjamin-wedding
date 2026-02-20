@@ -32,8 +32,3 @@
   font-display: swap;
 }
 
-/* Notes:
- - For best browser/mobile coverage produce and include woff2 and woff versions.
- - If you deploy to a subpath, ensure VITE_BASE (or build base) is correct so
-   the leading '/' paths resolve; alternatively use relative paths.
-*/

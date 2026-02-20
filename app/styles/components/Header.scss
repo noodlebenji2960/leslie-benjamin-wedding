@@ -20,6 +20,8 @@
     position: absolute;
     inset: 0;
     height: 25vh;
+    min-height: 175px;
+    max-height: 215px;
     @include semi-transparent($color-background, 0.7);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);

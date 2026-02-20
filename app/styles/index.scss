@@ -28,7 +28,6 @@
 @use "./components/Countdown";
 @use "./components/DonateButton";
 @use "./components/Footer";
-@use "./components/GuestCard";
 @use "./components/Header";
 @use "./components/LanguageSwitcher";
 @use "./components/Map";
@@ -39,10 +38,15 @@
 @use "./components/WaveEmoji";
 @use "./components/WeatherForecast";
 @use "./components/ProgressBar";
-@use "./components/MusicRequestManager";
+@use "./components/rsvp/MusicRequestManager";
+@use "./components/rsvp/rsvp-form";  
+@use "./components/rsvp/rsvp-review";
+@use "./components/rsvp/rsvp-heart"; 
+@use "./components/rsvp/GuestCard";
+@use "./components/rsvp/GuestManager";
 
 /* =========================================================
-   PAGE STYLES (GLOBAL — NOT ROUTE-IMPORTED)
+   PAGE STYLES
    ========================================================= */
 
 @use "./home";

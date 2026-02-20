@@ -1,0 +1,282 @@
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
+
+// ── Guest card ────────────────────────────────────────────────────────────────
+
+.guest-card {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  background: $color-white;
+  padding: $space-sm 0;
+  border-radius: 0;
+  z-index: 1;
+  transition:
+    box-shadow $transition-base,
+    background $transition-base,
+    border-color $transition-base;
+
+  &:not(:first-of-type) {
+    border-top: 1px dashed $color-border;
+  }
+
+  &:last-of-type:not(:first-of-type)--locked {
+    border-bottom: 1px dashed $color-border;
+  }
+
+  // Hover/edit highlight layer
+  &::after {
+    content: "";
+    position: absolute;
+    inset: $space-xs calc($space-xs * -1);
+    border-radius: $radius-sm;
+    background: transparent;
+    pointer-events: none;
+    z-index: -1;
+    transition: background $transition-base;
+  }
+
+  // ── State modifiers ──────────────────────────────────────────────────────────
+
+  &.invalid {
+    border-color: $color-danger;
+    background: rgba($color-danger, 0.05);
+  }
+
+  &--editing::after {
+    background: $color-background-alt;
+  }
+
+  // ── Layout ───────────────────────────────────────────────────────────────────
+
+  .inputs-container {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    gap: $space-xs;
+  }
+
+  // ── Read view ────────────────────────────────────────────────────────────────
+
+  .guest-name {
+    margin: 0;
+    font-size: $font-size-md;
+    font-weight: $fw-semibold;
+    color: $color-text;
+    text-transform: capitalize;
+  }
+
+  .guest-meta {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+    margin: $space-xs 0 0;
+    font-size: $font-size-xs;
+    color: $color-secondary;
+
+    svg {
+      flex-shrink: 0;
+      width: 1em;
+      height: 1em;
+    }
+  }
+
+  // ── Edit / draft view ────────────────────────────────────────────────────────
+
+  .form-row {
+    position: relative;
+
+    input[name="firstName"],
+    input[name="lastName"] {
+      text-transform: capitalize;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid $color-border;
+      border-radius: $radius-sm;
+      background: $color-white;
+      color: $color-text;
+      font-family: $font-body;
+      transition:
+        border-color $transition-base,
+        box-shadow $transition-base,
+        background $transition-base;
+
+      &::placeholder {
+        color: $color-secondary;
+      }
+
+      &:focus + .close-btn,
+      &:hover + .close-btn {
+        opacity: 1;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+      max-height: 170px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 7px;
+      right: 8px;
+      padding: 0;
+      background: transparent;
+      opacity: 0.1;
+      transition: opacity $transition-base;
+
+      &:hover,
+      &:focus-visible {
+        opacity: 1;
+      }
+    }
+  }
+
+  // ── Actions ──────────────────────────────────────────────────────────────────
+
+  .guest-card-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    width: min-content;
+    padding: 0 $space-xs 0 0;
+
+    button {
+      background: none;
+      padding: $space-xs !important;
+      width: min-content;
+      margin-left: auto;
+      transition: opacity $transition-base;
+
+      &.add-guest-btn {
+        background: $color-primary;
+      }
+
+      &.confirm-guest-edit {
+        background: $color-primary;
+        color: $color-white;
+      }
+
+      &.remove-guest:hover {
+        color: $color-danger;
+      }
+
+      &:disabled {
+        background: $color-muted !important;
+        opacity: 0.5 !important;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // ── Draft confirm button ─────────────────────────────────────────────────────
+
+  .form-btn {
+    width: 100%;
+    margin-top: $space-sm;
+    padding: $space-sm $space-md;
+    border: none;
+    border-radius: $radius-button;
+    background: $color-primary;
+    color: $color-white;
+    font-size: $font-size-sm;
+    font-weight: $fw-semibold;
+    cursor: pointer;
+    transition:
+      background $transition-base,
+      transform $transition-base,
+      box-shadow $transition-base;
+
+    &:disabled {
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+}
+
+// ── Confirm removal modal ─────────────────────────────────────────────────────
+
+.confirm-modal {
+  display: flex;
+  flex-direction: column;
+  gap: $space-md;
+  padding: $space-sm 0;
+
+  p {
+    margin: 0;
+    color: $color-text;
+    text-align: center;
+  }
+
+  .confirm-modal-actions {
+    display: flex;
+    gap: $space-sm;
+    justify-content: center;
+
+    .button {
+      flex: 1;
+      padding: $space-sm $space-md;
+      border: 1px solid $color-border;
+      border-radius: $radius-button;
+      background: transparent;
+      color: $color-text;
+      font-size: $font-size-sm;
+      font-weight: $fw-semibold;
+      cursor: pointer;
+      transition:
+        background $transition-base,
+        border-color $transition-base,
+        color $transition-base;
+
+      &:hover {
+        background: rgba($color-border, 0.4);
+      }
+
+      &--danger {
+        background: $color-danger;
+        border-color: $color-danger;
+        color: $color-white;
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+      }
+    }
+  }
+}
+
+// ── Mobile ────────────────────────────────────────────────────────────────────
+
+@media (max-width: $bp-sm) {
+  .guest-card {
+    padding: $space-sm;
+
+    .form-row {
+      flex-direction: column;
+      gap: $space-xs;
+    }
+  }
+
+  .confirm-modal .confirm-modal-actions {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 550px) {
+  .guest-card {
+    &:hover .guest-card-actions button[aria-label="editGuest"] {
+      opacity: 1;
+    }
+    .guest-card-actions {
+      button[aria-label="editGuest"] {
+        opacity: 0.15;
+      }
+    }
+  }
+}

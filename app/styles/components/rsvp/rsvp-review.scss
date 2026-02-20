@@ -1,0 +1,123 @@
+// app/styles/_rsvp-review.scss
+@use "app/styles/variables" as *;
+
+.rsvp-page {
+  .review-card {
+    width: 100%;
+    border: 1px solid rgba($color-accent, 0.25);
+    border-radius: $radius-sm;
+    position: relative;
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      gap: $space-md;
+      text-align: center;
+    }
+
+    &__reply-line {
+      font-family: $font-fancy;
+      font-size: $font-size-3xl;
+      color: $color-accent;
+      margin: 0;
+      line-height: 1.4;
+      text-transform: capitalize;
+      border-top: 1px dashed $color-border;
+      padding: $space-xl 0 $space-lg 0;
+    }
+
+    &__divider {
+      color: $color-accent;
+      font-size: $font-size-lg;
+      letter-spacing: 0.5em;
+      opacity: 0.6;
+      line-height: 1;
+    }
+
+    &__field {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-bottom: $space-sm;
+      border-bottom: 1px dashed rgba($color-accent, 0.2);
+
+      &:last-of-type {
+        border-bottom: none;
+      }
+    }
+
+    &__field-label {
+      font-size: $font-size-xs;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: $color-secondary;
+      font-weight: $fw-semibold;
+    }
+
+    &__field-value {
+      font-size: $font-size-lg;
+      color: $color-primary;
+      line-height: 1.4;
+    }
+
+    &__guests {
+      list-style: none;
+      padding: 0;
+      margin: $space-xs 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    &__dietary {
+      font-family: $font-body;
+      font-size: $font-size-sm;
+      color: $color-secondary;
+    }
+
+    &__songs {
+      list-style: none;
+      padding: 0;
+      margin: $space-xs 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: $space-xs;
+    }
+
+    &__song {
+      display: flex;
+      align-items: center;
+      gap: $space-sm;
+    }
+
+    &__song-art {
+      width: 32px;
+      height: 32px;
+      border-radius: 3px;
+      object-fit: cover;
+      flex-shrink: 0;
+      opacity: 0.85;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    &__note {
+      font-size: $font-size-lg;
+      line-height: 1.6;
+      margin: 0;
+      color: $color-primary;
+    }
+
+    &__footer {
+      border-top: 1px dashed $color-border;
+      padding: $space-lg 0;
+      font-size: $font-size-xs;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: $color-secondary;
+      margin: 0;
+      text-align: center;
+      margin-top: $space-lg;
+    }
+  }
+}

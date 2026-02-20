@@ -1,0 +1,20 @@
+@use "app/styles/variables" as *;
+
+.guests-section {
+  text-align: left;
+
+  .add-guest-section {
+    margin-bottom: $space-md;
+
+    .add-another-label {
+      margin: 0;
+    }
+  }
+
+  .guests-count {
+    width: 100%;
+    text-align: right;
+    font-size: $font-size-xs;
+    margin-bottom: $space-sm;
+  }
+}

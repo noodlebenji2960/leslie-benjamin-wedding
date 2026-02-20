@@ -6,7 +6,7 @@
       "stepText": "Por favor introduce tus datos de contacto para comenzar."
     },
     "guestsOrName": {
-      "stepTitle": "Invitados / Nombre del No Asistente",
+      "stepTitle": "Invitados",
       "stepText": "Añade a tus invitados acompañantes o proporciona tu nombre si no asistirás."
     },
     "musicRequest": {
@@ -15,7 +15,7 @@
     },
     "notes": {
       "stepTitle": "Mensaje",
-      "stepText": "Deja un mensaje para los novios."
+      "stepText": "Deja un mensaje para {{bride}} y {{groom}}."
     },
     "review": {
       "stepTitle": "Revisión",
@@ -23,7 +23,7 @@
     }
   },
   "review": {
-    "acceptsWithPleasure": "acepta con placer",
+    "acceptsWithPleasure": "aceptan con placer",
     "declinesWithRegrets": "declina con regrets",
     "numberAttending": "Número de asistentes",
     "pleasureOfYourCompany": "Por favor revisa antes de enviar"
@@ -41,14 +41,19 @@
   "select": "Selecciona...",
   "yes": "Sí",
   "no": "No",
-  "guestsTitle": "Invitados",
+  "guestsTitle": {
+    "singular": "Invitado",
+    "plural": "Invitados"
+  },
   "noGuests": "Aún no se han añadido invitados",
   "firstName": "Nombre",
   "lastName": "Apellidos",
   "dietary": "Requisitos dietéticos",
   "dietaryPlaceholder": "Vegetariano, alergias, etc.",
   "addGuest": "Añadir invitado",
-  "addAnotherGuest": "¿Añadir otro invitado?",
+  "searchSong": "Buscar Canción",
+  "addSong": "Añadir Canción",
+  "addAnother": "¿Añadir otro?",
   "addDietary": "Añadir requisitos dietéticos",
   "addNote": "Añadir una nota",
   "note": "Nota adicional",
@@ -62,7 +67,7 @@
   "next": "Siguiente",
   "skip": "Omitir",
   "optional": "Opcional",
-  "submit": "Enviar RSVP",
+  "submit": "Enviar",
   "sending": "Enviando...",
   "thankYou": "¡Gracias!",
   "confirmation": "Hemos enviado un correo de confirmación a {{guestEmail}}. ¡Esperamos verte pronto!",
@@ -73,5 +78,36 @@
     "failed": "Error al enviar.",
     "fallback": "Por favor inténtalo de nuevo o contáctanos directamente.",
     "captchaRequired": "Por favor completa el reCAPTCHA."
+  },
+  "musicRequest": {
+    "title": {
+      "singular": "Petición de Canción",
+      "plural": "Peticiones de Canciones"
+    },
+    "searchPlaceholder": {
+      "song": "Buscar por título de canción",
+      "artist": "Buscar por artista"
+    },
+    "clearSearch": "Limpiar",
+    "searching": "Buscando...",
+    "errors": {
+      "searchFailed": "Error en la búsqueda. Por favor inténtalo de nuevo.",
+      "noResults": "No se encontraron canciones. Prueba con otra búsqueda.",
+      "playbackFailed": "Error al reproducir la vista previa"
+    },
+    "manualEntry": {
+      "toggle": "¿No encuentras tu canción?",
+      "songPlaceholder": "Título de la canción",
+      "artistPlaceholder": "Nombre del artista",
+      "addButton": "Añadir Canción",
+      "cancelButton": "Cancelar"
+    },
+    "limitMessage": "Has alcanzado el máximo de {{max}} canciones. Elimina una canción para añadir más.",
+    "removeAriaLabel": "Eliminar {{songName}}",
+    "playAriaLabel": "Reproducir vista previa de {{songName}}",
+    "stopAriaLabel": "Detener vista previa de {{songName}}",
+    "addAriaLabel": "Añadir {{songName}} a las peticiones",
+    "addedSongsHeader": "{{count}} / {{max}} canciones",
+    "nowPlayingAriaLabel": "Reproduciendo ahora"
   }
 }
