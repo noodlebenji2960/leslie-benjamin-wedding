@@ -3,10 +3,29 @@
     "siteDisabled": { "enabled": true, "isInFeatureList": false },
     "homeSection": { "enabled": true, "isInFeatureList": false }
   },
-  "theme": { "enabled": true, "isInFeatureList": false },
   "rsvp": { "enabled": true, "isInFeatureList": true },
   "schedule": { "enabled": true, "isInFeatureList": true },
-  "qa": { "enabled": true, "isInFeatureList": true },
+  "qa": {
+    "enabled": true,
+    "isInFeatureList": true,
+    "questions": [
+      ["rsvpDeadline", true],
+      ["ceremonyVenue", true],
+      ["weather", true],
+      ["bus", true],
+      ["plusOne", true],
+      ["children", true],
+      ["dressCode", true],
+      ["gifts", true],
+      ["outdoor", true],
+      ["shoes", true],
+      ["specialMeal", true],
+      ["photos", true],
+      ["lastMinuteQuestions", true],
+      ["airports", true],
+      ["hotels, true"]
+    ]
+  },
   "cookies": { "enabled": true, "isInFeatureList": false },
   "weather": { "enabled": true, "isInFeatureList": false },
   "layout": {

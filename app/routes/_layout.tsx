@@ -76,13 +76,6 @@ export default function Layout() {
   };
 
   useEffect(() => {
-    console.log("cookieConsentModalMode", cookieConsentModalMode);
-    if (!isCookieConsentModalOpen) {
-      setCookieConsentModalMode("first_visit");
-    }
-  }, [cookieConsentModalMode]);
-
-  useEffect(() => {
     if (mainRef.current) {
       mainRef.current.style.setProperty(
         "--y-offset",
