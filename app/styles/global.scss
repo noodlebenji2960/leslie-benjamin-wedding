@@ -11,7 +11,7 @@
 html,
 body,
 #root {
-  min-height: 100vh;
+  height: 100vh;
   max-width: 100vw;
 }
 
@@ -22,7 +22,7 @@ html {
   color: $color-text;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 *,
