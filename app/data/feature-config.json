@@ -6,7 +6,7 @@
   "theme": { "enabled": true, "isInFeatureList": false },
   "rsvp": { "enabled": false, "isInFeatureList": true },
   "schedule": { "enabled": false, "isInFeatureList": true },
-  "qa": { "enabled": true, "isInFeatureList": true },
+  "qa": { "enabled": false, "isInFeatureList": true },
   "cookies": { "enabled": true, "isInFeatureList": false },
   "weather": {
     "enabled": true,
