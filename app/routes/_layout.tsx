@@ -11,6 +11,7 @@ import ReactLenis, { useLenis } from "lenis/react";
 import Footer from "@/components/Footer";
 import { CookieConsentModal } from "@/components/CookieConsentModal";
 import { useLayout } from "@/contexts/LayoutContext";
+import { useSiteConfig } from "@/contexts/ConfigContext";
 
 export default function Layout() {
   const location = useLocation();
@@ -26,6 +27,7 @@ export default function Layout() {
     useState(true);
   const mainRef = useRef<HTMLDivElement>(null);
   const layout = useLayout();
+  const config = useSiteConfig();
 
   const lenis = useLenis(() => {});
 
@@ -51,12 +53,18 @@ export default function Layout() {
     };
   }, [location.pathname, lenis]);
 
+
   const links = [
-    { path: "/", label: t("nav.home") },
-    { path: "/rsvp", label: t("nav.rsvp") },
-    { path: "/schedule", label: t("nav.schedule") },
-    { path: "/qa", label: t("nav.qa") },
-  ];
+    { path: "/", label: t("nav.home") }, // always visible
+    { path: "/rsvp", label: t("nav.rsvp"), feature: "rsvp" },
+    { path: "/schedule", label: t("nav.schedule"), feature: "schedule" },
+    { path: "/qa", label: t("nav.qa"), feature: "qa" },
+  ].filter((link) => {
+    if (!link.feature) return true; // no feature key → always show
+    return Boolean(
+      link.feature.split(".").reduce((acc, key) => acc?.[key], config),
+    );
+  });
 
   const openCookieConsentModal = () => {
     setCookieConsentModalMode("change_preferences");
@@ -135,7 +143,7 @@ export default function Layout() {
               <BackToTopButton
                 onClick={() => lenis?.scrollTo(0, { duration: 1 })}
               />
-              <ThemeSwitcher />
+              {config.layout.theme.enabled && <ThemeSwitcher />}
             </div>
           </motion.div>
           <Footer openCookieConsentModal={openCookieConsentModal} />

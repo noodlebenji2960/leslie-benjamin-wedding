@@ -20,5 +20,9 @@
   "familyHint": "Children welcome with kids area.",
   "giftsLabel": "Gifts",
   "giftsHint": "<1>If you'd like to contribute</1>, <DonateButton />.",
-  "questionsBody": "If you have any questions, feel free to call us, write to us, or check <qaLink>the questions page</qaLink>."
+  "questionsBody": "If you have any questions, feel free to call us, write to us, or check <qaLink>the questions page</qaLink>.",
+  "underConstruction": {
+    "title": "More details Coming Soon!",
+    "message": "We're so excited to celebrate with you! Some details, are still being finalized. Stay tuned for {{featureList}} and more.—we can't wait to share everything with you soon!"
+  }
 }

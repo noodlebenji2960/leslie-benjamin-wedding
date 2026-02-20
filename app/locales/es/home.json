@@ -20,5 +20,9 @@
   "familyHint": "Niños bienvenidos con zona infantil.",
   "giftsLabel": "Regalos",
   "giftsHint": "<1>Si quieres contribuir</1>, <DonateButton />.",
-  "questionsBody": "Si tienes alguna pregunta, no dudes en llamarnos, escribirnos o consulta <qaLink>la pagina de preguntas</qaLink>."
+  "questionsBody": "Si tienes alguna pregunta, no dudes en llamarnos, escribirnos o consulta <qaLink>la pagina de preguntas</qaLink>.",
+  "underConstruction": {
+  "title": "¡Más detalles próximamente!",
+  "message": "¡Estamos muy emocionados de celebrar con ustedes! Algunos detalles aún se están finalizando. Manténganse atentos para {{featureList}} y más.—¡no podemos esperar a compartir todo con ustedes pronto!"
+}
 }

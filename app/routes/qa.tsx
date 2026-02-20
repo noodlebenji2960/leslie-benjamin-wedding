@@ -7,6 +7,7 @@ import { useWeddingData } from "@/hooks/useWeddingData";
 import WeatherForecast from "@/components/WeatherForecast";
 import Map from "@/components/Map";
 import DonateButton from "@/components/DonateButton";
+import { useSiteConfig } from "@/contexts/ConfigContext";
 
 interface FAQItem {
   question: string;
@@ -31,6 +32,7 @@ type Category =
   | "travel";
 
 const QA = () => {
+  const config = useSiteConfig();
   const { t, ready } = useTranslation("qa");
   const weddingData = useWeddingData();
 
@@ -228,7 +230,7 @@ const QA = () => {
                               />
                             ),
                             DonateButton: <DonateButton />,
-                            WeatherForecast: <WeatherForecast />,
+                            WeatherForecast: config.weather.enabled ? <WeatherForecast /> : <></>,
                             SkyscannerLink: (
                               <a
                                 href="https://www.skyscanner.com/"
