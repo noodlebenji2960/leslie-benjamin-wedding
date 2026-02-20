@@ -37,15 +37,7 @@ export const links: Route.LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const locale = location.pathname.startsWith("/en") ? "en" : "es";
-  const [color, setColor] = useState("#1a1a1a");
 
-  useEffect(() => {
-    const color = getComputedStyle(document.documentElement).getPropertyValue(
-      "--color-primary-light",
-    );
-    console.log("color", color);
-    setColor(color);
-  }, []);
 
   return (
     <html lang={locale}>
@@ -53,14 +45,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* Chrome / Android */}
-        <meta name="theme-color" content={color} />
+        <meta name="theme-color" />
 
         {/* iOS Safari */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content={color} />
+        <meta name="apple-mobile-web-app-status-bar-style" />
 
         {/* Windows / Edge */}
-        <meta name="msapplication-navbutton-color" content={color} />
+        <meta name="msapplication-navbutton-color" />
 
         <Meta />
         <Links />

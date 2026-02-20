@@ -19,7 +19,7 @@ function optionalRoute(
 }
 
 // --- English routes ---
-const enRoutes: RouteConfig[] = [
+export const enRoutes: RouteConfig[] = [
   index("routes/home.tsx", { id: "en/home" }),
   ...optionalRoute(siteConfig.rsvp, () =>
     route("rsvp", "routes/rsvp.tsx", { id: "en/rsvp" }),
@@ -33,7 +33,7 @@ const enRoutes: RouteConfig[] = [
 ];
 
 // --- Spanish routes ---
-const esRoutes: RouteConfig[] = [
+export const esRoutes: RouteConfig[] = [
   index("routes/home.tsx", { id: "es/home" }),
   ...optionalRoute(siteConfig.rsvp, () =>
     route("rsvp", "routes/rsvp.tsx", { id: "es/rsvp" }),

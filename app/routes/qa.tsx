@@ -19,7 +19,7 @@ interface FAQItem {
     | "family"
     | "gifts"
     | "travel";
-  alwaysShow?: boolean;
+  id: string;
 }
 
 type Category =
@@ -42,6 +42,7 @@ const QA = () => {
   if (!ready)
     return <div className="loading">{t("loading", "Loading...")}</div>;
 
+  // Prepare dynamic values for the answers
   const dynamicValues = useMemo(() => {
     const busEvent = weddingData.schedule.find((s) => s.id === "bus");
     const brideContact = weddingData.contact.find((c) =>
@@ -52,7 +53,6 @@ const QA = () => {
     );
 
     const busSchedule = weddingData.schedule.find((s: any) => s.id === "bus");
-
     const mainCoords = busSchedule?.maps[1]?.coordinates || null;
     const extraCoords = busSchedule?.maps[1]?.extraCoordinates || [];
     const busMapUrl = busSchedule?.maps[1]?.mapUrl || "";
@@ -92,6 +92,7 @@ const QA = () => {
     };
   }, [weddingData]);
 
+  // Get all FAQ items
   const allItems = useMemo(
     () =>
       (t("items", { returnObjects: true, ...dynamicValues }) as FAQItem[]) ||
@@ -99,11 +100,22 @@ const QA = () => {
     [t, dynamicValues],
   );
 
+  // Get list of enabled QA IDs from config
+  const enabledQAIds = useMemo(() => {
+    if (!config.qa?.questions) return [];
+    return config.qa.questions
+      .filter(([id, enabled]) => enabled)
+      .map(([id]) => id);
+  }, [config.qa?.questions]);
+
+  // Filter visible items by category AND config.enabled
   const visibleItems = useMemo(() => {
-    return allItems.filter((item) =>
-      activeCategory === "all" ? true : item.category === activeCategory,
+    return allItems.filter(
+      (item) =>
+        enabledQAIds.includes(item.id) &&
+        (activeCategory === "all" ? true : item.category === activeCategory),
     );
-  }, [allItems, activeCategory]);
+  }, [allItems, activeCategory, enabledQAIds]);
 
   const toggleItem = useCallback((index: number) => {
     setOpenIndex((prev) => (prev === index ? null : index));
@@ -143,8 +155,6 @@ const QA = () => {
               activeCategory === category ? "active" : ""
             }`}
             onClick={() => toggleCategory(category)}
-            whileHover={{}}
-            whileTap={{}}
           >
             {t(category)}
           </motion.button>
@@ -230,7 +240,11 @@ const QA = () => {
                               />
                             ),
                             DonateButton: <DonateButton />,
-                            WeatherForecast: config.weather.enabled ? <WeatherForecast /> : <></>,
+                            WeatherForecast: config.weather.enabled ? (
+                              <WeatherForecast />
+                            ) : (
+                              <></>
+                            ),
                             SkyscannerLink: (
                               <a
                                 href="https://www.skyscanner.com/"
