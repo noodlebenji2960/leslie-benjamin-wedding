@@ -1,19 +1,21 @@
 import React, { createContext, useContext } from "react";
+import featureConfigProd from "@/data/feature-config.json";
+import featureConfigDev from "@/data/feature-config-development.json";
 
-//override
-const useDevOverride = true;
+// Override flag from Vite environment variables
+const useDevOverride = import.meta.env.VITE_USE_DEV_CONFIG === "true";
 
+// Pick the config based on environment or override
 const featureConfig =
-  useDevOverride || process.env.NODE_ENV !== "production"
-    ? require("@/data/feature-config-development.json")
-    : require("@/data/feature-config.json");
+  useDevOverride || import.meta.env.MODE !== "production"
+    ? featureConfigDev
+    : featureConfigProd;
 
 // Create the context
 const ConfigContext = createContext(featureConfig);
 
 // Provider component
 export const ConfigProvider = ({ children, config }) => {
-  // Use the passed config if provided, otherwise fallback to environment-based config
   const finalConfig = config || featureConfig;
 
   return (
