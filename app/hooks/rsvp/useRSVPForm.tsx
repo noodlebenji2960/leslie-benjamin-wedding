@@ -63,10 +63,9 @@ export function useRSVPForm(initial: RSVPFormData) {
       stepName: t("rsvp:steps.review.stepTitle"),
     },
   ];
-  const isAttending = form.attending === "yes";
 
-  if(isAttending==false){
-    steps.splice(2,1);
+  if (form.attending === "no" || form.attending === undefined) {
+    steps.splice(2, 1);
   }
 
   const currentStepObj = steps[currentStep];

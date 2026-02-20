@@ -124,20 +124,31 @@
 // ─────────────────────────────────────────────
 
 .venue-card {
-  @include semi-transparent($color-background, 0.8);
+  background: $color-white;
   border: 1px solid $color-border;
   border-radius: $radius-lg;
-  padding: $space-xl;
   margin: $space-xl 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  overflow: hidden;
+
+  .map-container-wrapper {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    height: unset !important;
+    width: unset !important;
+    z-index: -1;
+  }
 
   .hero-location {
     font-family: $font-body;
     font-size: 1rem;
     line-height: 1.8;
-    margin-bottom: $space-lg;
     color: $color-text;
 
     strong {
@@ -332,12 +343,14 @@
 // ─────────────────────────────────────────────
 
 .rsvp-section {
+  position: relative;
   margin: $space-2xl 0;
   padding: $space-xl;
-  @include semi-transparent($color-background, 0.8);
   border-radius: $radius-lg;
   border: 2px solid $color-accent;
   text-align: center;
+  overflow: hidden;
+  background-color: $color-white;
 }
 
 .rsvp-intro {
