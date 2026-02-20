@@ -20,14 +20,14 @@
 
 .theme-toggle-slider .toggle-icons {
   display: flex;
-  flex-direction: column;  // 👈 Vertical stack like language-icons
+  flex-direction: column; 
   align-items: center;
 }
 
 .theme-toggle-slider .icon {
-  border-radius: $radius-sm; // 👈 Matched radius
-  font-weight: 600;         // 👈 Matched weight
-  opacity: 0.2;            // 👈 Matched inactive opacity
+  border-radius: $radius-sm; 
+  font-weight: 600;
+  opacity: 0.2;
   transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
 
   svg{

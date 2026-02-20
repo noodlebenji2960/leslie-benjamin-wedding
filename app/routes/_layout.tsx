@@ -24,8 +24,8 @@ export default function Layout() {
     useState("first_visit");
   const [isCookieConsentModalOpen, setIsCookieConsentModalOpen] =
     useState(true);
-    const mainRef = useRef<HTMLDivElement>(null);
-    const layout = useLayout();
+  const mainRef = useRef<HTMLDivElement>(null);
+  const layout = useLayout();
 
   const lenis = useLenis(() => {});
 
@@ -34,8 +34,12 @@ export default function Layout() {
   } = useLayout();
 
   useEffect(() => {
-    lenis?.scrollTo(0, { immediate: true });
-  }, [location.pathname, lenis]);
+    if (!lenis) return;
+
+    requestAnimationFrame(() => {
+      lenis.scrollTo(0, { immediate: true });
+    });
+  }, [outlet, lenis]);
 
   const links = [
     { path: "/", label: t("nav.home") },
@@ -61,8 +65,11 @@ export default function Layout() {
   }, [cookieConsentModalMode]);
 
   useEffect(() => {
-    if(mainRef.current){
-      mainRef.current.style.setProperty("--y-offset", (layout.state.fixedOffsetY * -1)+ "px");
+    if (mainRef.current) {
+      mainRef.current.style.setProperty(
+        "--y-offset",
+        layout.state.fixedOffsetY * -1 + "px",
+      );
     }
   }, [layout.state.fixedOffsetY]);
 
