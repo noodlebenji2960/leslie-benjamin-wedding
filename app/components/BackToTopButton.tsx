@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import { Icon } from "./Icon";
+import { useLenis } from "lenis/react";
 
-interface BackToTopButtonProps {
-  onClick: () => void;
-}
-
-export function BackToTopButton({ onClick }: BackToTopButtonProps) {
+export function BackToTopButton({ onClick }: { onClick: () => void }) {
   const [visible, setVisible] = useState(false);
+  const lenis = useLenis();
 
   useEffect(() => {
-    const onScroll = () => {
-      setVisible(window.scrollY > 150);
+    if (!lenis) return;
+
+    const onScroll = ({ scroll }: { scroll: number }) => {
+      setVisible(scroll > 150);
     };
 
-    onScroll();
+    lenis.on("scroll", onScroll);
 
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    return () => {
+      lenis.off("scroll", onScroll);
+    };
+  }, [lenis]);
 
   return (
     <button
