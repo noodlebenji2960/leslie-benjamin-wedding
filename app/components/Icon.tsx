@@ -33,7 +33,7 @@ import { WiFog } from "react-icons/wi";
 import { CiStickyNote } from "react-icons/ci";
 import { PiPencilLineLight } from "react-icons/pi";
 import { BsEnvelopePaperHeart, BsSuitHeartFill } from "react-icons/bs";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaMoon } from "react-icons/fa6";
 import { VscChecklist } from "react-icons/vsc";
 
 type IconProps = {
@@ -115,6 +115,7 @@ const ICONS = {
   },
   location: MdLocationPin,
   Sun: IoSunny,
+  Moon: FaMoon,
   Cloud: IoCloudy,
   Rain: IoRainy,
   Storm: IoThunderstorm,

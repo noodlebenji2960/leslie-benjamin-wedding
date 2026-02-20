@@ -1,5 +1,6 @@
 // components/ThemeSwitcher.jsx
 import { useTheme } from "../contexts/ThemeContext";
+import { Icon } from "./Icon";
 
 type ThemeValue = "light" | "dark" | "system";
 
@@ -25,14 +26,14 @@ export default function ThemeSwitcher() {
     <button
       className="theme-toggle-slider"
       onClick={cycleTheme}
-  aria-label={`${THEME_LABELS[theme as ThemeValue]}. Click to switch theme.`}
+      aria-label={`${THEME_LABELS[theme as ThemeValue]}. Click to switch theme.`}
     >
       <div className="toggle-icons">
         <span className={`icon sun ${theme === "light" ? "active" : ""}`}>
-          ☀︎
+          <Icon.Sun  />
         </span>
         <span className={`icon moon ${theme === "dark" ? "active" : ""}`}>
-          ⏾
+          <Icon.Moon />
         </span>
       </div>
     </button>
