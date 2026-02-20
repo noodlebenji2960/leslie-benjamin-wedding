@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   border: 0;
-  background: transparent;
+  background: $color-white;
   cursor: pointer;
     border: 1px solid $color-border;
   width: 34px;
@@ -25,11 +25,15 @@
 }
 
 .theme-toggle-slider .icon {
-  padding: 0.15rem 0.25rem;  // 👈 Matched language-label padding
   border-radius: $radius-sm; // 👈 Matched radius
   font-weight: 600;         // 👈 Matched weight
   opacity: 0.2;            // 👈 Matched inactive opacity
   transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+
+  svg{
+    height: 15px;
+  width: 15px;
+  }
 }
 
 .theme-toggle-slider .icon.active {

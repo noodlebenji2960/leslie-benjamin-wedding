@@ -29,7 +29,6 @@ export default function Layout() {
 
   const lenis = useLenis(() => {});
 
-  // New: Layout context for fixed-container shifts
   const {
     state: { fixedOffsetY },
   } = useLayout();
@@ -107,7 +106,7 @@ export default function Layout() {
           </AnimatePresence>
           <motion.div
             className="fixed-container"
-            animate={{ y: fixedOffsetY }} // Smooth spring shift [web:8]
+            animate={{ y: fixedOffsetY }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <LanguageSwitcher
