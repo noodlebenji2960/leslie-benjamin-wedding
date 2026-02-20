@@ -1,0 +1,852 @@
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
+
+.music-request-manager {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $space-md;
+  display: flex;
+  flex-direction: column;
+
+  .search-label {
+    display: flex;
+    gap: $space-sm;
+    text-align: left;
+    justify-content: space-between;
+
+    .add-another-label {
+      width: fit-content;
+    }
+  }
+}
+
+/* Section Title */
+.section-title {
+  font-size: $font-size-lg;
+  font-weight: $fw-semibold;
+  margin-bottom: $space-md;
+  color: $color-accent-dark;
+
+  .optional-label {
+    font-size: $font-size-sm;
+    font-weight: $fw-regular;
+    color: $color-muted;
+    margin-left: $space-xs;
+  }
+}
+
+/* Added Songs Section */
+.added-songs-section {
+  margin-bottom: $space-lg;
+
+  .added-songs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $space-sm;
+
+    .song-count {
+      width: 100%;
+      text-align: right;
+      font-size: $font-size-xs;
+    }
+  }
+
+  .added-songs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+
+    .added-song-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: $space-sm;
+      background: $color-white;
+      border-top: 1px dashed $color-border;
+      transition: box-shadow $transition-base;
+
+      .song-info {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        text-align: left;
+        gap: $space-sm;
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+
+
+        .song-artwork-small {
+          width: 40px;
+          height: 40px;
+          border-radius: $radius-sm;
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+
+        .song-text {
+          display: flex;
+          flex-direction: column;
+          gap: $space-xs;
+          min-width: 0;
+
+          .song-name {
+            font-size: $font-size-sm;
+            font-weight: $fw-medium;
+            color: $color-accent-dark;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .artist-name {
+            font-size: $font-size-xs;
+            color: $color-muted;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+
+      .song-actions {
+        display: flex;
+        align-items: center;
+        gap: $space-xs;
+        flex-shrink: 0;
+
+        button {
+          padding: 0;
+          background: none;
+        }
+
+        .play-btn-small {
+          border: none;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: transform 0.1s;
+
+          &:hover {
+            transform: scale(1.05);
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+        }
+
+        .remove-btn {
+          background: none;
+          border: none;
+          font-size: $font-size-lg;
+          cursor: pointer;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: $radius-sm;
+          transition:
+            color $transition-base,
+            background-color $transition-base;
+
+          &:hover {
+            color: $color-danger;
+            background-color: rgba($color-danger, 0.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+// =========================================================
+// SearchDropdown
+// =========================================================
+
+.search-dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: $space-md;
+
+  // ----- Input row -----
+  &__inputs {
+    display: flex;
+    gap: $space-sm;
+    align-items: stretch;
+
+    @media (max-width: $bp-sm) {
+      flex-direction: column;
+    }
+  }
+
+  &__input-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    position: absolute;
+    left: $space-sm;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-muted;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    z-index: 1;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: $space-sm $space-xl $space-sm 2.25rem; // room for icons
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+    font-size: $font-size-sm;
+    transition:
+      border-color $transition-base,
+      box-shadow $transition-base;
+    outline: none;
+    text-transform: capitalize;
+    background: $color-white;
+  }
+
+  &__clear-single {
+    position: absolute;
+    right: $space-xs;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: $color-muted;
+    cursor: pointer;
+    font-size: $font-size-xs;
+    padding: $space-xs;
+    border-radius: $radius-sm;
+    line-height: 1;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $color-danger;
+    }
+  }
+
+  &__clear-all {
+    flex-shrink: 0;
+    background: none;
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+    color: $color-muted;
+    font-size: $font-size-sm;
+    padding: $space-xs $space-sm;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+      color $transition-base,
+      border-color $transition-base;
+
+    &:hover {
+      color: $color-danger;
+      border-color: $color-danger;
+    }
+  }
+
+  // ----- Dropdown panel -----
+  &__panel {
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: $color-white;
+    border: 1px solid $color-border;
+    border-radius: 0 0 $radius-md $radius-md;
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 480px;
+  }
+
+  // Panel header (total + page controls)
+  &__panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-sm;
+    padding: $space-xs $space-md;
+    border-bottom: 1px solid $color-border;
+    background: $color-background;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  &__total {
+    font-size: $font-size-xs;
+    color: $color-muted;
+    white-space: nowrap;
+  }
+
+  &__pagination-top {
+    display: flex;
+    align-items: center;
+    gap: $space-sm;
+  }
+
+  &__page-select,
+  &__per-page {
+    display: flex;
+    align-items: center;
+    gap: $space-xs;
+
+    label {
+      font-size: $font-size-xs;
+      color: $color-muted;
+      white-space: nowrap;
+    }
+
+    .form-select {
+      padding: 2px $space-xs;
+      border: 1px solid $color-border;
+      border-radius: $radius-sm;
+      background: $color-white;
+      font-size: $font-size-xs;
+      color: $color-text;
+      cursor: pointer;
+      outline: none;
+
+      &:focus {
+        border-color: $color-primary;
+        box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+      }
+    }
+  }
+
+  // Status / error
+  &__status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $space-sm;
+    padding: $space-md;
+    font-size: $font-size-sm;
+    color: $color-muted;
+    flex-shrink: 0;
+  }
+
+  &__spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba($color-primary, 0.2);
+    border-top-color: $color-primary;
+    border-radius: 50%;
+    animation: dd-spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes dd-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &__error {
+    padding: $space-sm $space-md;
+    font-size: $font-size-sm;
+    color: $color-danger;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  // Results list
+  &__list {
+    list-style: none;
+    padding: $space-xs 0;
+    margin: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    flex: 1;
+    scroll-behavior: smooth;
+
+    // Subtle scrollbar
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba($color-muted, 0.3);
+      border-radius: 999px;
+    }
+  }
+
+  // Panel footer (bottom pagination)
+  &__panel-footer {
+    border-top: 1px solid $color-border;
+    padding: $space-xs $space-md;
+    background: $color-background;
+    flex-shrink: 0;
+  }
+}
+
+// =========================================================
+// Dropdown suggestion item
+// =========================================================
+
+.dropdown-suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-xs $space-md;
+  cursor: default;
+  transition: background $transition-base;
+  border-bottom: 1px solid rgba($color-border, 0.6);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &--active {
+    background: $color-accent-light;
+
+    .dd-item__play-btn {
+      opacity: 1 !important;
+    }
+
+    .dd-item__artwork-color {
+      clip-path: circle(37% at 50% 50%) !important;
+    }
+  }
+
+  &--added {
+    opacity: 0.55;
+  }
+
+  // Artwork stack
+  .dd-item__artwork {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: $radius-sm;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &-gray {
+      filter: grayscale(100%);
+    }
+
+    &-color {
+      clip-path: circle(44% at 50% 50%);
+      transition: clip-path $transition-base;
+    }
+  }
+
+  &:hover .dd-item__artwork-color {
+    clip-path: circle(37% at 50% 50%);
+  }
+
+  &:hover .dd-item__play-btn {
+    opacity: 1;
+  }
+
+  // Play button
+  .dd-item__play-btn {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-white;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(2px) brightness(0.75);
+    transition:
+      opacity 0.2s ease,
+      background $transition-base,
+      transform 0.15s ease;
+    opacity: 0;
+    z-index: 2;
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    &--playing {
+      background: rgba($color-primary, 0.75);
+      opacity: 1;
+    }
+
+    &:hover {
+      background: rgba($color-primary, 0.85);
+      transform: scale(1.08);
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+  }
+
+  // Text info
+  .dd-item__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .dd-item__track {
+    font-size: $font-size-sm;
+    font-weight: $fw-semibold;
+    color: $color-accent-dark;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dd-item__artist {
+    font-size: $font-size-xs;
+    color: $color-muted;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dd-item__time {
+    font-size: $font-size-xs;
+    color: $color-primary;
+    font-weight: $fw-medium;
+    margin-top: 2px;
+  }
+
+  // Add button
+  .dd-item__add-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: $color-accent;
+    color: $color-white;
+    cursor: pointer;
+    transition:
+      background $transition-base,
+      transform 0.15s ease;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    &:hover:not(:disabled) {
+      background: $color-accent-dark;
+      transform: scale(1.06);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.94);
+    }
+
+    &:disabled {
+      background: $color-border;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}
+
+// =========================================================
+// Dropdown pagination (footer)
+// =========================================================
+
+.dd-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+
+  &__btn {
+    min-width: 28px;
+    height: 28px;
+    padding: 0 $space-xs;
+    border: 1px solid $color-border;
+    background: none;
+    border-radius: $radius-sm;
+    font-size: $font-size-xs;
+    color: $color-text;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-base;
+
+    &:hover:not(:disabled) {
+      color: $color-accent;
+      border-color: $color-accent;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    &--active {
+      background: $color-accent !important;
+      border-color: $color-accent !important;
+      color: $color-white !important;
+      font-weight: $fw-semibold;
+      cursor: default;
+    }
+  }
+
+  &__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 28px;
+    font-size: $font-size-xs;
+    color: $color-muted;
+    user-select: none;
+  }
+}
+
+// =========================================================
+// Limit message
+// =========================================================
+
+.limit-message {
+  padding: $space-sm $space-md;
+  background: $color-warning;
+  border: 1px solid $color-warning;
+  border-radius: $radius-sm;
+  color: $color-warning;
+  font-size: $font-size-sm;
+  text-align: center;
+  margin-top: $space-md;
+}
+
+// =========================================================
+// Manual Entry
+// =========================================================
+
+.manual-entry-toggle {
+  color: $color-primary;
+  font-family: $font-body;
+  font-weight: $fw-regular !important;
+  width: fit-content;
+  padding: 0 !important;
+  background: none;
+  border: none;
+  text-decoration: none !important;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.manual-entry-section {
+  margin-top: $space-md;
+
+  .manual-entry-form {
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+    margin-top: $space-sm;
+  }
+
+  .manual-entry-actions {
+    display: flex;
+    gap: $space-sm;
+    justify-content: flex-end;
+
+    .button {
+      padding: $space-sm $space-md;
+      border-radius: $radius-button;
+      border: 1px solid $color-border;
+      background: transparent;
+      color: $color-text;
+      font-size: $font-size-sm;
+      font-weight: $fw-semibold;
+      cursor: pointer;
+      transition:
+        background $transition-base,
+        border-color $transition-base;
+
+      &:hover {
+        background: rgba($color-border, 0.4);
+      }
+
+      &.button--primary {
+        background: $color-primary;
+        border-color: $color-primary;
+        color: $color-white;
+
+        &:hover:not(:disabled) {
+          background: $color-primary;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+// =========================================================
+// Mini Player
+// =========================================================
+
+.mini-player {
+  position: fixed;
+  bottom: $space-sm;
+  left: $space-sm;
+  right: $space-sm;
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-xs $space-sm;
+  background: $color-background;
+  outline: 1px solid $color-border;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 25px 5px $color-white;
+
+  &__artwork {
+    width: 64px;
+    height: 64px;
+    border-radius: $radius-sm;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 2px;
+  }
+
+  &__track {
+    font-size: $font-size-sm;
+    font-weight: $fw-semibold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $color-text;
+  }
+
+  &__artist {
+    font-size: $font-size-xs;
+    color: $color-secondary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__progress-bar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 4px;
+    overflow: hidden;
+    background: $color-border;
+  }
+
+  &__progress-fill {
+    height: 3px;
+    background: $color-primary;
+    border-radius: 999px;
+    transition: width 0.1s linear;
+    width: 50%;
+  }
+
+  &__time {
+    text-align: end;
+    white-space: nowrap;
+    font-size: $font-size-xs;
+    color: $color-secondary;
+    margin-top: 2px;
+    width: fit-content;
+  }
+
+  &__stop {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: $color-text;
+    flex-shrink: 0;
+    padding: $space-xs;
+    border-radius: $radius-sm;
+    transition:
+      color $transition-base,
+      background $transition-base;
+
+    &:hover {
+      color: $color-danger;
+      background: rgba($color-danger, 0.1);
+    }
+  }
+}
+
+// =========================================================
+// Animations
+// =========================================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.added-song-item {
+  animation: fadeIn 0.2s ease-out;
+}

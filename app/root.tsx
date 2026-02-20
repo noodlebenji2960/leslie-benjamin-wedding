@@ -15,6 +15,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
 import { SessionProvider, SessionContext } from "@/contexts/SessionContext";
 import { useEffect, useState } from "react";
+import { LayoutProvider } from "./contexts/LayoutContext";
 
 const GA_ID = import.meta.env.VITE_GA_ID;
 const isProd = import.meta.env.MODE === "production";
@@ -38,10 +39,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [color, setColor] = useState("#1a1a1a");
 
   useEffect(() => {
-      const color = getComputedStyle(document.documentElement)
-        .getPropertyValue("--color-primary-light");
-        console.log("color", color);
-        setColor(color)
+    const color = getComputedStyle(document.documentElement).getPropertyValue(
+      "--color-primary-light",
+    );
+    console.log("color", color);
+    setColor(color);
   }, []);
 
   return (
@@ -89,7 +91,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             {({ cookiePreference }) => (
               <AnalyticsProvider cookiePreference={cookiePreference}>
                 <ThemeProvider>
-                  <LanguageProvider>{children}</LanguageProvider>
+                  <LanguageProvider>
+                    <LayoutProvider>{children}</LayoutProvider>
+                  </LanguageProvider>
                 </ThemeProvider>
               </AnalyticsProvider>
             )}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
 import type { RSVPFormData } from "@/types/types";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
-import type { MusicRequestItem } from "@/components/rsvp/MusicRequestManager";
+import type { MusicRequestItem } from "@/components/rsvp/MusicRequestManager/MusicRequestManager";
 
 const EMAILJS_KEY = import.meta.env.VITE_EMAILJS_KEY;
 const EMAILJS_SERVICE = "service_vvuhisc";

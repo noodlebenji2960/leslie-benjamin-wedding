@@ -3,7 +3,7 @@ import React from "react";
 import type { IconType } from "react-icons";
 
 import {
-  IoTrash,
+  IoTrashOutline,
   IoAdd,
   IoChevronBack,
   IoChevronForward,
@@ -21,14 +21,20 @@ import {
   IoFastFoodOutline,
   IoMusicalNotesOutline,
   IoMusicalNotes,
-  IoPlay,
-  IoStop,
-  IoCheckmark,
+  IoPlayOutline,
+  IoPersonOutline,
+  IoPeopleOutline,
+  IoStopOutline,
 } from "react-icons/io5";
+import { IoMdPaperPlane } from "react-icons/io";
 import { RiExternalLinkLine } from "react-icons/ri";
-import { MdEdit, MdLocationPin } from "react-icons/md";
+import { MdLocationPin } from "react-icons/md";
 import { WiFog } from "react-icons/wi";
 import { CiStickyNote } from "react-icons/ci";
+import { PiPencilLineLight } from "react-icons/pi";
+import { BsEnvelopePaperHeart } from "react-icons/bs";
+import { FaCheck } from "react-icons/fa6";
+import { VscChecklist } from "react-icons/vsc";
 
 type IconProps = {
   size?: number;
@@ -37,6 +43,39 @@ type IconProps = {
 };
 
 const ICON_DEFAULT_SIZE = 24;
+
+/* ======================================================
+   Fallback — renders a visible ⓘ and logs the missing key
+   ====================================================== */
+const FallbackIcon: React.FC<IconProps & { iconName: string }> = ({
+  size = ICON_DEFAULT_SIZE,
+  iconName,
+}) => {
+  if (import.meta.env.DEV) {
+    console.error(
+      `[Icon] "${iconName}" is not in the ICONS map. ` +
+        `Add it to Icon.tsx or check for a typo.`,
+    );
+  }
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-label={`Missing icon: ${iconName}`}
+      style={{ color: "var(--color-error, #ef4444)" }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+  );
+};
 
 /* ======================================================
    Icon wrapper component
@@ -52,12 +91,12 @@ const IconComponent: React.FC<{ icon: IconType } & IconProps> = ({
    ====================================================== */
 const ICONS = {
   Add: IoAdd,
-  Delete: IoTrash,
+  Delete: IoTrashOutline,
   Back: IoChevronBack,
   Next: IoChevronForward,
   Up: IoChevronUp,
   Down: IoChevronDown,
-  Edit: MdEdit,
+  Edit: PiPencilLineLight,
   Close: IoClose,
   More: IoEllipsisHorizontal,
   Heart: {
@@ -80,9 +119,15 @@ const ICONS = {
   Storm: IoThunderstorm,
   Snow: IoSnow,
   Fog: WiFog,
-  Play: IoPlay,
-  Stop: IoStop,
-  Tick: IoCheckmark,
+  Play: IoPlayOutline,
+  Stop: IoStopOutline,
+  Tick: FaCheck,
+  Check: FaCheck,
+  Checklist: VscChecklist,
+  Contact: IoPersonOutline,
+  People: IoPeopleOutline,
+  LoveLetter: BsEnvelopePaperHeart,
+  Send: IoMdPaperPlane,
 };
 
 /* ======================================================
@@ -94,19 +139,19 @@ function buildIconComponents(map: any): any {
   for (const key in map) {
     const value = map[key];
     if (typeof value === "function") {
-      // Single icon
       result[key] = (props: IconProps) => (
         <IconComponent icon={value} {...props} />
       );
     } else if (typeof value === "object") {
-      // Nested icon variants (on/off/default)
       const { default: defaultIcon, ...variants } = value;
 
       const nested: Record<string, any> = {
         ...Object.fromEntries(
           Object.entries(variants).map(([variantKey, IconFunc]) => [
             variantKey,
-            (props: IconProps) => <IconComponent icon={IconFunc} {...props} />,
+            (props: IconProps) => (
+              <IconComponent icon={IconFunc as IconType} {...props} />
+            ),
           ]),
         ),
         default: (props: IconProps) => (
@@ -114,13 +159,10 @@ function buildIconComponents(map: any): any {
         ),
       };
 
-      // Proxy to allow <Icon.Heart /> to render default automatically
       result[key] = new Proxy(nested, {
         get(target, prop) {
           if (prop === "then") return undefined;
-          return prop in target
-            ? target[prop as keyof typeof target]
-            : target.default;
+          return prop in target ? target[prop as string] : target.default;
         },
         apply(_target, _thisArg, args) {
           return nested.default(...args);
@@ -129,7 +171,16 @@ function buildIconComponents(map: any): any {
     }
   }
 
-  return result;
+  // ← Top-level Proxy: unknown keys return FallbackIcon instead of undefined
+  return new Proxy(result, {
+    get(target, prop: string) {
+      if (prop === "then" || prop === "$$typeof" || prop === "__esModule") {
+        return undefined;
+      }
+      if (prop in target) return target[prop];
+      return (props: IconProps) => <FallbackIcon iconName={prop} {...props} />;
+    },
+  });
 }
 
 /* ======================================================

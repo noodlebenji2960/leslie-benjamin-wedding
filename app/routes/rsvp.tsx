@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
-import { StepContent } from "@/components/rsvp/StepContent";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import { StepContent } from "@/components/rsvp/stepContent/StepContent";
 import SuccessScreen from "@/components/rsvp/SuccessScreen";
 import { useRSVPForm } from "@/hooks/rsvp/useRSVPForm";
 import { useRSVPSubmit } from "@/hooks/rsvp/useRSVPSubmit";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { Icon } from "@/components/Icon";
 import { ProgressBar } from "@/components/ProgressBar";
+import { useWeddingData } from "@/hooks/useWeddingData";
 
 const isDev = import.meta.env.DEV;
 
@@ -17,21 +17,22 @@ let hasTrackedAbandonment = false;
 export default function RSVP() {
   const { t, ready } = useTranslation(["home", "common", "rsvp"]);
   const analytics = useAnalytics();
-  const location = useLocation();
   const [isClient, setIsClient] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const cleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const weddingData = useWeddingData();
 
   const {
     form,
     currentStep,
-    currentStepObj, // ← new
+    currentStepObj,
     steps,
     error: formError,
     handleChange,
     handleGuestsChange,
     nextStep,
     prevStep,
+    goToStep,
     setError: setFormError,
     hasValidGuests,
   } = useRSVPForm({
@@ -131,71 +132,69 @@ export default function RSVP() {
       return form.attending === "yes"
         ? !hasValidGuests
         : !form.nonAttendingName;
-    if (currentStep === 2) return false; // musicRequest — skippable
-    if (currentStep === 3) return false; // notes — skippable
+    if (currentStep === 2) return false;
+    if (currentStep === 3) return false;
     if (currentStep === 4)
       return isDev ? !form.termsAccepted : !captchaToken || !form.termsAccepted;
     return false;
   };
 
   const stepTitle = t(`rsvp:steps.${currentStepObj.key}.stepTitle`);
-  const stepText = t(`rsvp:steps.${currentStepObj.key}.stepText`);
+  const stepText = (
+    <Trans
+      i18nKey={`rsvp:steps.${currentStepObj.key}.stepText`}
+      values={{
+        bride: weddingData.bride.firstName,
+        groom: weddingData.groom.firstName,
+      }}
+    />
+  );
 
-const stepHasData = () => {
-  if (currentStepObj.key === "musicRequest") {
-    return Array.isArray(form.musicRequest) && form.musicRequest.length > 0;
-  }
-  if (currentStepObj.key === "notes") {
-    return !!form.notes?.trim();
-  }
-  return false;
-};
+  const stepHasData = (stepKey: string): boolean => {
+    if (stepKey === "contactAndAttendance") {
+      return !!form.email || !!form.attending;
+    }
+    if (stepKey === "guestsOrName") {
+      if (form.attending === "yes") {
+        return (
+          Array.isArray(form.guests) &&
+          form.guests.some((g) => g.firstName.trim() && g.lastName.trim())
+        );
+      } else {
+        return !!form.nonAttendingName?.trim();
+      }
+    }
+    if (stepKey === "musicRequest") {
+      return Array.isArray(form.musicRequest) && form.musicRequest.length > 0;
+    }
+    if (stepKey === "notes") {
+      return !!form.notes?.trim();
+    }
+    return false;
+  };
+
+  const stepDataMap = useMemo(() => {
+    return Object.fromEntries(
+      (steps as Array<{ key: string }>).map((step) => [
+        step.key,
+        stepHasData(step.key),
+      ]),
+    );
+  }, [form]);
 
   return (
     <div className="rsvp-page container">
       <h1>Rsvp</h1>
-      <h2 className="step-description">{stepTitle}</h2>
-      <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
-      <p className="step-description">{stepText}</p>
+      <ProgressBar
+        currentStep={currentStep}
+        steps={steps}
+        goToStep={goToStep}
+        stepDataMap={stepDataMap}
+      />
       <form className="rsvp-form" onSubmit={(e) => e.preventDefault()}>
-        <div className="form-navigation">
-          <button
-            type="button"
-            onClick={prevStep}
-            disabled={currentStep === 0}
-            title={t("common:back") || "Back"}
-          >
-            <Icon.Back />
-          </button>
-          <span>
-            {currentStep + 1}/{steps.length}
-          </span>
-          {currentStep < steps.length - 1 ? (
-            <button
-              type="button"
-              onClick={nextStep}
-              disabled={isNextDisabled()}
-              title={
-                currentStepObj.required || stepHasData()
-                  ? t("common:next")
-                  : t("rsvp:skip")
-              }
-            >
-              {currentStepObj.required || stepHasData() ? (
-                <Icon.Next />
-              ) : (
-                t("rsvp:skip")
-              )}
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={submit}
-              disabled={sending || isNextDisabled()}
-            >
-              {sending ? t("rsvp:sending") : t("rsvp:submit")}
-            </button>
-          )}
+        <div className="form-header">
+          <h2 className="step-description">{stepTitle}</h2>
+          <p className="step-description">{stepText}</p>
         </div>
         <StepContent
           currentStep={currentStep}
@@ -214,6 +213,52 @@ const stepHasData = () => {
             {error}
           </div>
         )}
+        <div className="form-navigation">
+          <button
+            type="button"
+            onClick={prevStep}
+            disabled={currentStep === 0}
+            title={t("common:back") || "Back"}
+          >
+            <Icon.Back />
+            {t("common:previous")}
+          </button>
+          <span>
+            {currentStep + 1}/{steps.length}
+          </span>
+          {currentStep < steps.length - 1 ? (
+            <button
+              type="button"
+              onClick={nextStep}
+              disabled={isNextDisabled()}
+              title={
+                currentStepObj.required || stepHasData(currentStepObj.key)
+                  ? t("common:next")
+                  : t("rsvp:skip")
+              }
+            >
+              {currentStepObj.required || stepHasData(currentStepObj.key) ? (
+                <>
+                  {t("common:next")}
+                  <Icon.Next />
+                </>
+              ) : (
+                <>
+                  {t("rsvp:skip")}
+                  <Icon.Next />
+                </>
+              )}
+            </button>
+          ) : (
+            <button
+              type="submit"
+              onClick={submit}
+              disabled={sending || isNextDisabled()}
+            >
+              {sending ? t("rsvp:sending") : t("rsvp:submit")}
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

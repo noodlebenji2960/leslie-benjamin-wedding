@@ -15,7 +15,7 @@
     },
     "notes": {
       "stepTitle": "Message",
-      "stepText": "Leave a message for the Bride & Groom."
+      "stepText": "Leave a message for {{bride}} & {{groom}}."
     },
     "review": {
       "stepTitle": "Review",
@@ -23,7 +23,7 @@
     }
   },
   "review": {
-    "acceptsWithPleasure": "accepts with pleasure",
+    "acceptsWithPleasure": "accept with pleasure",
     "declinesWithRegrets": "declines with regrets",
     "numberAttending": "Number attending",
     "pleasureOfYourCompany": "Please review before sending"
@@ -41,14 +41,19 @@
   "select": "Select...",
   "yes": "Yes",
   "no": "No",
-  "guestsTitle": "Guests",
+  "guestsTitle": {
+    "singular": "Guests",
+    "plural": "Guests"
+  },
   "noGuests": "No guests added yet",
   "firstName": "First Name",
   "lastName": "Last Name",
   "dietary": "Dietary Requirements",
   "dietaryPlaceholder": "Vegetarian, allergies, etc.",
   "addGuest": "Add Guest",
-  "addAnotherGuest": "Add another guest?",
+  "searchSong": "Song Search",
+  "addSong": "Add Song",
+  "addAnother": "Add another?",
   "addDietary": "Add dietary requirements",
   "addNote": "Add a note",
   "note": "Additional Notes",
@@ -62,7 +67,7 @@
   "next": "Next",
   "skip": "Skip",
   "optional": "Optional",
-  "submit": "Send RSVP",
+  "submit": "Submit",
   "sending": "Sending...",
   "thankYou": "Thank you!",
   "confirmation": "We've sent a confirmation email to {{guestEmail}}. We look forward to seeing you!",
@@ -73,5 +78,36 @@
     "failed": "Submission failed.",
     "fallback": "Please try again or contact us directly.",
     "captchaRequired": "Please complete reCAPTCHA."
+  },
+  "musicRequest": {
+    "title": {
+      "singular": "Song Request",
+      "plural": "Song Requests"
+    },
+    "searchPlaceholder": {
+      "song": "Search by song title",
+      "artist": "Search by artist"
+    },
+    "clearSearch": "Clear",
+    "searching": "Searching...",
+    "errors": {
+      "searchFailed": "Failed to search. Please try again.",
+      "noResults": "No songs found. Try a different search.",
+      "playbackFailed": "Failed to play preview"
+    },
+    "manualEntry": {
+      "toggle": "Can't find your song?",
+      "songPlaceholder": "Song title",
+      "artistPlaceholder": "Artist name",
+      "addButton": "Add Song",
+      "cancelButton": "Cancel"
+    },
+    "limitMessage": "Maximum of {{max}} songs reached. Remove a song to add more.",
+    "removeAriaLabel": "Remove {{songName}}",
+    "playAriaLabel": "Play preview of {{songName}}",
+    "stopAriaLabel": "Stop preview of {{songName}}",
+    "addAriaLabel": "Add {{songName}} to requests",
+    "addedSongsHeader": "{{count}} / {{max}} songs",
+    "nowPlayingAriaLabel": "Now playing"
   }
 }

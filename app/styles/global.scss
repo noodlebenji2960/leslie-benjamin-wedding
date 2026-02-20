@@ -107,6 +107,7 @@ a {
 }
 
 .main {
+  --y-offset: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -114,20 +115,21 @@ a {
   padding-top: 5vh;
 
 
-  &::after {
+  &:after {
     content: "";
     position: fixed;
     left: 0;
     right: 0;
-    bottom: -75px; // stick to bottom
-    height: 25vh; // how tall the blur should be
+    bottom: 0;
+    height: calc(12vh + var(--y-offset));
     @include semi-transparent($color-background, 0.7);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    mask-image: linear-gradient(to top, black 45%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, black 45%, transparent 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    mask-image: linear-gradient(to top, black calc(5% + var(--y-offset)), transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black calc(5% + var(--y-offset)), transparent 100%);
     z-index: 1; // behind content
     pointer-events: none;
+    transition: all $transition-base;
   }
 }
 
