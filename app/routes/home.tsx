@@ -11,6 +11,7 @@ import DonateButton from "@/components/DonateButton";
 import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
 import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
+import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -77,41 +78,34 @@ export default function Home() {
         {t("subtitle", { ns: "home" })} <br />
       </div>
       <div className="hero-body">{t("welcome", { ns: "home" })}</div>
-
-      <div className="hero-date">
-        <span className="date-month">{monthName}</span>|
-        <span className="date-daynum">{dayNumber}</span>|
-        <span className="date-year">{year}</span>
-      </div>
-
+      <ChampagneIllustration height={100} width={100} />
       {/* LOCATION & MAP */}
       <FadeInSection>
         <div className="venue-card">
-          <p className="hero-location">
-            <Link to={wedding.wedding.ceremony.venue.website}>
-              <strong>
-                 {wedding.wedding.ceremony.venue.longName}
-                 </strong>
-            </Link>
-            <br />
-            {wedding.wedding.ceremony.venue.address}
-            <br />
-            {wedding.wedding.ceremony.venue.city},
-            <br />
-            {wedding.wedding.ceremony.venue.region},
-            <br />
-            {wedding.wedding.ceremony.venue.country}
-          </p>
 
-          <Map
-            coordinates={wedding.wedding.ceremony.venue.coordinates}
-            label={wedding.wedding.ceremony.venue.name}
-            mapUrl={wedding.wedding.ceremony.venue.mapLink}
-            width="100%"
-            height="250px"
-            interactive={false}
-            zoom={14}
-          />
+            <p className="hero-location">
+              <Link to={wedding.wedding.ceremony.venue.website}>
+                <strong>{wedding.wedding.ceremony.venue.longName}</strong>
+              </Link>
+              <br />
+              {wedding.wedding.ceremony.venue.address}
+              <br />
+              {wedding.wedding.ceremony.venue.city},
+              <br />
+              {wedding.wedding.ceremony.venue.region},
+              <br />
+              {wedding.wedding.ceremony.venue.country}
+            </p>
+
+            <Map
+              coordinates={wedding.wedding.ceremony.venue.coordinates}
+              label={wedding.wedding.ceremony.venue.name}
+              mapUrl={wedding.wedding.ceremony.venue.mapLink}
+              width="100%"
+              height="250px"
+              interactive={false}
+              zoom={14}
+            />
         </div>
       </FadeInSection>
 
@@ -119,6 +113,11 @@ export default function Home() {
       <FadeInSection delay={0.1}>
         <div className="schedule-preview">
           <h3>{t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}</h3>
+          <div className="hero-date">
+            <span className="date-month">{monthName}</span>|
+            <span className="date-daynum">{dayNumber}</span>|
+            <span className="date-year">{year}</span>
+          </div>
           <div className="timeline">
             {wedding.schedule.map((event, index) => (
               <div key={`${index} ${event.id}`} className="timeline-item">
