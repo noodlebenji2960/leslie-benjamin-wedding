@@ -1,6 +1,9 @@
 @use "app/styles/variables" as *;
 
-.heart-animated {
+.heart-animated--sm,
+.heart-animated--lg{
+  margin: 0 !important;
+
   svg {
     width: max(30px, 12vw);
     height: max(30px, 12vw);
@@ -18,5 +21,12 @@
         transform-origin: center;
       }
     }
+  }
+}
+
+.heart-animated--sm {
+  svg{
+    width: max(15px, 2vw);
+    height: max(15px, 2vw);
   }
 }

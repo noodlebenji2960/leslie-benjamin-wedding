@@ -5,29 +5,51 @@
   display: flex;
   justify-content: center;
   margin-top: $space-xl;
-  margin-bottom: 0 !important; // Remove static margin
+  padding-top: $space-lg;
   z-index: 2;
+  padding-bottom: 0 !important;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    background: url("/images/wavey.svg") center top no-repeat;
+    background-size: cover;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  & * {
+    color: $color-white !important;
+  }
 }
 
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: $space-md;
+  justify-content: end;
+  padding-bottom: $space-sm;
+  gap: $space-xs;
+  width: 100%;
+  min-height: 100px;
 }
 
-/* Change Cookie Preferences button */
 .footer__cookie-btn {
   background: none;
   border: none;
   padding: 0;
   text-decoration: none !important;
-
+  mix-blend-mode: difference;
   font-family: $font-body;
   font-size: $font-size-xs;
   font-weight: $fw-medium;
-  color: $color-primary;
-
+  color: $color-text;
+  opacity: 0.5;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 3px;

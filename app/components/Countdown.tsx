@@ -16,7 +16,7 @@ interface TimeLeft {
   seconds: number;
 }
 
-export function Countdown({ date, time, size = "lg", showLabel=true }: CountdownProps) {
+export function Countdown({ date, time, size = "lg", showLabel=true, labelPosition="bottom" }: CountdownProps) {
   const { t } = useTranslation(["common"]);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
@@ -75,7 +75,7 @@ export function Countdown({ date, time, size = "lg", showLabel=true }: Countdown
     }
     
     return (
-      <div className={`countdown-item countdown-item--${size}`} title={size=="sm" ? tLongLabel : ""}>
+      <div className={`countdown-item countdown-item--${size} ${labelPosition === "top" ? "countdown-item--top" : ""}`} title={size=="sm" ? tLongLabel : ""}>
         <div
           className={`countdown-number countdown-number--${size}${value !== prevValue ? " flip" : ""}`}
         >

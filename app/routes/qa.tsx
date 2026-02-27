@@ -252,7 +252,7 @@ const QA = () => {
                               <>
                               <br/>
                               <br/>
-                                {t("items.notEnabled")}
+                              {t(`items.${originalIndex}.notEnabled`)}
                               </>
                             ),
                             VenueLink: (

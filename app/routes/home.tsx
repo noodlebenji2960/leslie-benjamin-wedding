@@ -14,6 +14,7 @@ import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
 import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
 import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Fragment } from "react/jsx-runtime";
+import Heart from "@/components/Heart";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -114,96 +115,118 @@ export default function Home() {
           />
         </div>
       </FadeInSection>
-      {/* SCHEDULE HIGHLIGHTS */}
-      {config.schedule.enabled && (
-        <FadeInSection delay={0.1}>
-          <div className="schedule-preview">
-            <h3>
-              {t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}
-            </h3>
-            <div className="timeline">
-              {wedding.schedule.map((event, index) => (
-                <div key={`${event.id}-${index}`} className="timeline-item">
-                  <div className="timeline-dot" />
-                  <div className="timeline-content">
-                    <span className="timeline-time">{event.time}</span>
-                    <span className="timeline-label">
-                      <Trans
-                        i18nKey={`events.${event.id}.label`}
-                        ns="schedule"
-                        values={{
-                          venueName: wedding.wedding.ceremony.venue.name,
-                          busReturnLocation:
-                            event.id==="busReturn" ? event?.maps[0]?.extraCoordinates[0]?.label : "",
-                          location: event.location,
-                        }}
-                      />
-                    </span>
-                  </div>
+      <div className="wavey-wrapper">
+        <img src="/images/wavey.svg" alt="wavey" />
+        <div className="inner-wavey-wrapper">
+          {/* SCHEDULE HIGHLIGHTS */}
+          {config.schedule.enabled && (
+            <FadeInSection delay={0.1}>
+              <div className="schedule-preview">
+                <div className="schedule-header">
+                  <Countdown
+                    date={wedding.wedding.date}
+                    time={wedding.wedding.ceremony.time}
+                    size="sm"
+                    labelPosition={"top"}
+                    
+                  />
+                  <h3>
+                    {t("scheduleTitle", {
+                      ns: "home",
+                      defaultValue: "The Day",
+                    })}
+                  </h3>
                 </div>
-              ))}
-            </div>
-            <p className="schedule-body">
-              <Trans
-                i18nKey="scheduleBody"
-                ns="home"
-                components={{
-                  scheduleLink: (
-                    <Link to={buildLink("/schedule")} className="faq-link" />
-                  ),
-                }}
-              />
-            </p>
-          </div>
-        </FadeInSection>
-      )}
-      {/* GUEST ESSENTIALS */}
-      <FadeInSection delay={0.1}>
-        <div className="guest-essentials">
-          <div className="essentials-grid">
-            <div className="essential-item">
-              <ShoeIllustration />
-              <span className="essential-item-body">
-                <strong>
-                  {t("dressCode", { ns: "home", defaultValue: "Dress Code" })}
-                </strong>
-                <p>
-                  {t("dressCodeHint", {
-                    ns: "home",
-                    defaultValue: "Semi-formal. No jeans, no flip-flops.",
-                  })}
-                </p>
-              </span>
-            </div>
-            <div className="vertical-separator" />
-            <div className="essential-item">
-              <HeartBoxIllustration />
-              <span className="essential-item-body">
-                <strong>
-                  {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
-                </strong>
-                <p>
+                <div className="timeline">
+                  {wedding.schedule.map((event, index) => (
+                    <div key={`${event.id}-${index}`} className="timeline-item">
+                      <div className="timeline-dot" />
+                      <div className="timeline-content">
+                        <span className="timeline-time">{event.time}</span>
+                        <span className="timeline-label">
+                          <Trans
+                            i18nKey={`events.${event.id}.label`}
+                            ns="schedule"
+                            values={{
+                              venueName: wedding.wedding.ceremony.venue.name,
+                              busReturnLocation:
+                                event.id === "busReturn"
+                                  ? event?.maps[0]?.extraCoordinates[0]?.label
+                                  : "",
+                              location: event.location,
+                            }}
+                          />
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p className="schedule-body">
                   <Trans
-                    i18nKey="giftsHint"
+                    i18nKey="scheduleBody"
                     ns="home"
                     components={{
-                      DonateButton: <DonateButton />,
+                      scheduleLink: (
+                        <Link
+                          to={buildLink("/schedule")}
+                          className="faq-link"
+                        />
+                      ),
                     }}
                   />
                 </p>
-              </span>
+              </div>
+            </FadeInSection>
+          )}
+          {/* GUEST ESSENTIALS */}
+          <FadeInSection delay={0.1}>
+            <div className="guest-essentials">
+              <div className="essentials-grid">
+                <div className="essential-item">
+                  <ShoeIllustration />
+                  <span className="essential-item-body">
+                    <strong>
+                      {t("dressCode", {
+                        ns: "home",
+                        defaultValue: "Dress Code",
+                      })}
+                    </strong>
+                    <p>
+                      {t("dressCodeHint", {
+                        ns: "home",
+                        defaultValue: "Semi-formal. No jeans, no flip-flops.",
+                      })}
+                    </p>
+                  </span>
+                </div>
+                <div className="vertical-separator" />
+                <div className="essential-item">
+                  <HeartBoxIllustration />
+                  <span className="essential-item-body">
+                    <strong>
+                      {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
+                    </strong>
+                    <p>
+                      <Trans
+                        i18nKey="giftsHint"
+                        ns="home"
+                        components={{
+                          DonateButton: <DonateButton />,
+                        }}
+                      />
+                    </p>
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          </FadeInSection>
         </div>
-      </FadeInSection>
+        <img src="/images/wavey.svg" alt="wavey" />
+      </div>
       {/* RSVP & CONTACT */}
       {config.rsvp.enabled && (
         <FadeInSection delay={0.1}>
           <div className="rsvp-section">
-            <Countdown
-              date={wedding.wedding.date}
-              time={wedding.wedding.ceremony.time}
-            />
             <p className="rsvp-intro">
               <Trans
                 i18nKey="rsvpIntro"

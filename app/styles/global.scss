@@ -7,7 +7,6 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-
 html,
 body,
 #root {
@@ -16,12 +15,50 @@ body,
 }
 
 html {
+  position: relative;
   box-sizing: border-box;
   font-family: $font-body;
-  background: $color-background;
   color: $color-text;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("/images/portada.webp");
+    mix-blend-mode: color-burn;
+    z-index: 999;
+    pointer-events: none;
+  }
+
+  &:has(.home-hero)::before {
+    background: url("/images/hojas.png");
+    background-repeat: no-repeat;
+    background-position: contain;
+    background-size: 80%;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    width: 50vw;
+    pointer-events: none;
+    z-index: 111;
+    opacity: 0; // start invisible
+    animation: fadeInLeaves 2s ease forwards 0.5s;
+
+    @media (max-width: 768px) {
+      top: 0;
+      width: 100vw;
+      height: 50vw;
+      background-size: auto 100%;
+    }
+  }
 }
 
 *,
@@ -47,7 +84,7 @@ body {
   overflow-x: hidden;
 }
 
-footer{
+footer {
   padding-bottom: $space-sm !important;
 }
 
@@ -57,7 +94,6 @@ a {
 }
 
 .container {
-  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -118,7 +154,6 @@ a {
   min-height: 150vh;
   padding-top: 5vh;
 
-
   &:after {
     content: "";
     position: fixed;
@@ -129,8 +164,16 @@ a {
     @include semi-transparent($color-background, 0.7);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    mask-image: linear-gradient(to top, black calc(5% + var(--y-offset)), transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, black calc(5% + var(--y-offset)), transparent 100%);
+    mask-image: linear-gradient(
+      to top,
+      black calc(5% + var(--y-offset)),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to top,
+      black calc(5% + var(--y-offset)),
+      transparent 100%
+    );
     z-index: 1; // behind content
     pointer-events: none;
     transition: all $transition-base;
@@ -189,6 +232,22 @@ label {
   -ms-user-select: none;
 }
 
-.leaflet-routing-container{
-    display: none;
+.leaflet-routing-container {
+  display: none;
+}
+
+.wavey-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+
+  .inner-wavey-wrapper{
+    background-color: #EFEDE6;
+  }
+
+  img:last-of-type{
+    transform: scale(-1,-1);
+  }
 }

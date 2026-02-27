@@ -11,23 +11,13 @@ const Footer = ({
 }: {
   openCookieConsentModal: () => void;
 }) => {
-  const location = useLocation();
-  const { locale } = useLanguage();
   const {
     state: { fixedOffsetY },
   } = useLayout();
   const weddingData = useWeddingData();
   const { t } = useTranslation();
 
-  const isHome =
-    location.pathname === "/" ||
-    location.pathname === "" ||
-    location.pathname === `/${locale}`;
-
   if (!weddingData?.wedding) return null;
-
-  const { date } = weddingData.wedding;
-  const { time } = weddingData.wedding.ceremony;
 
   // Simple numeric value Framer can animate
   const spacing = Math.max(20, -fixedOffsetY + 20);
@@ -51,9 +41,6 @@ const Footer = ({
         <button onClick={openCookieConsentModal} className="footer__cookie-btn">
           {t("common:change_cookie_preferences", "See cookie Preferences.")}
         </button>
-        {!isHome && (
-          <Countdown size="sm" date={date} time={time} showLabel={false} />
-        )}
       </div>
     </motion.footer>
   );
