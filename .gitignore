@@ -5,3 +5,15 @@
 # React Router
 /.react-router/
 /build/
+/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
