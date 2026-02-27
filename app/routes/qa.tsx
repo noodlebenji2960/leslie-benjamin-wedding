@@ -42,7 +42,7 @@ const QA = () => {
   const [activeCategory, setActiveCategory] = useState<Category>("essentials");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const {buildLink} = useBuildLink();
+  const { buildLink } = useBuildLink();
 
   if (!ready)
     return <div className="loading">{t("loading", "Loading...")}</div>;
@@ -114,13 +114,16 @@ const QA = () => {
       venueMapLink: weddingData.wedding.ceremony.venue.mapLink,
       venueWebsite: weddingData.wedding.ceremony.venue.website,
       weddingDate: {
-        full: new Date(weddingData.wedding.date).toLocaleDateString(
-        undefined,
-        { year: "numeric", month: "long", day: "numeric" },
-      ), month: new Date(weddingData.wedding.date).toLocaleDateString(
-        undefined,
-        { month: "long" },
-      )},
+        full: new Date(weddingData.wedding.date).toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        month: new Date(weddingData.wedding.date).toLocaleDateString(
+          undefined,
+          { month: "long" },
+        ),
+      },
       brideFirstName: weddingData.bride.firstName,
       bridePhone: brideContact?.phone || "",
       groomFirstName: weddingData.groom.firstName,
@@ -237,10 +240,12 @@ const QA = () => {
                           t={t}
                           values={dynamicValues}
                           components={{
-                            RSVPLink: (
+                            RSVPLink: config.rsvp.enabled ? (
                               <Link to={buildLink("/rsvp")}>
                                 {t("links.goToRSVP")}
                               </Link>
+                            ) : (
+                              <></>
                             ),
                             VenueLink: (
                               <a

@@ -26,7 +26,7 @@ const ConfigContext = createContext(featureConfig);
 // Provider component
 export const ConfigProvider = ({ children, config }) => {
   const finalConfig = config || featureConfig;
-
+  console.log(finalConfig);
   return (
     <ConfigContext.Provider value={finalConfig}>
       {children}
