@@ -6,7 +6,7 @@ import {
   index,
   prefix,
 } from "@react-router/dev/routes";
-import siteConfig from "./data/feature-config.json"
+import siteConfig from "./data/feature-config.json";
 
 /**
  * Helper: include route only if feature is enabled
@@ -21,13 +21,13 @@ function optionalRoute(
 // --- English routes ---
 export const enRoutes: RouteConfig[] = [
   index("routes/home.tsx", { id: "en/home" }),
-  ...optionalRoute(siteConfig.rsvp, () =>
+  ...optionalRoute(siteConfig.rsvp.enabled, () =>
     route("rsvp", "routes/rsvp.tsx", { id: "en/rsvp" }),
   ),
-  ...optionalRoute(siteConfig.schedule, () =>
+  ...optionalRoute(siteConfig.schedule.enabled, () =>
     route("schedule", "routes/schedule.tsx", { id: "en/schedule" }),
   ),
-  ...optionalRoute(siteConfig.qa, () =>
+  ...optionalRoute(siteConfig.qa.enabled, () =>
     route("qa", "routes/qa.tsx", { id: "en/qa" }),
   ),
 ];
@@ -35,13 +35,13 @@ export const enRoutes: RouteConfig[] = [
 // --- Spanish routes ---
 export const esRoutes: RouteConfig[] = [
   index("routes/home.tsx", { id: "es/home" }),
-  ...optionalRoute(siteConfig.rsvp, () =>
+  ...optionalRoute(siteConfig.rsvp.enabled, () =>
     route("rsvp", "routes/rsvp.tsx", { id: "es/rsvp" }),
   ),
-  ...optionalRoute(siteConfig.schedule, () =>
+  ...optionalRoute(siteConfig.schedule.enabled, () =>
     route("schedule", "routes/schedule.tsx", { id: "es/schedule" }),
   ),
-  ...optionalRoute(siteConfig.qa, () =>
+  ...optionalRoute(siteConfig.qa.enabled, () =>
     route("qa", "routes/qa.tsx", { id: "es/qa" }),
   ),
 ];
