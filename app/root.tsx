@@ -14,7 +14,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
 import { SessionProvider, SessionContext } from "@/contexts/SessionContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { LayoutProvider } from "./contexts/LayoutContext";
 import { ConfigProvider } from "./contexts/ConfigContext";
 
@@ -22,6 +22,7 @@ const GA_ID = import.meta.env.VITE_GA_ID;
 const isProd = import.meta.env.MODE === "production";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -38,6 +39,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const locale = location.pathname.startsWith("/en") ? "en" : "es";
 
+useEffect(() => {
+  const color = getComputedStyle(document.documentElement)
+    .getPropertyValue("--color-accent")
+    .trim();
+
+    console.log(color);
+}, []);
 
   return (
     <html lang={locale}>
