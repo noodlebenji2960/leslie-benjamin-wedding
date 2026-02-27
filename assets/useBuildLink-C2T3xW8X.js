@@ -1,1 +1,0 @@
-import{u as i}from"./LanguageContext-BYdMKH5j.js";import{x as s}from"./chunk-LFPYN7LY-BSAdruXa.js";function g(){const{locale:o}=i(),e=s(),n=a=>`/${o}${a==="/"?"":a}`;return{navigateTo:a=>{const t=n(a);e(t)},buildLink:n}}export{g as u};
