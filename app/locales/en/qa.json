@@ -18,7 +18,8 @@
   "items": [
     {
       "question": "What's the RSVP deadline?",
-      "answer": "Please confirm your attendance before <strong>{{rsvpDeadline}}</strong> so we can get an exact count. It helps us immensely with the planning! 😊 <br/><br/> <RSVPLink/>",
+      "answer": "Please confirm your attendance before <strong>{{rsvpDeadline}}</strong> so we can get an exact count. It helps us immensely with the planning! 😊 <RSVPLink/>",
+      "notEnabled": "You will be able to RSVP via the website shortly!",
       "category": "essentials",
       "id": "rsvpDeadline"
     },
@@ -60,7 +61,7 @@
     },
     {
       "question": "Outdoor or indoor?",
-      "answer": "Both! We will have an outdoor ceremony ({{ceremonyTime}}), followed by cocktails on the terrace and an indoor dinner at {{ceremonyVenue}}. Sunscreen and hats are recommended for those not used to Spain's July sun.",
+      "answer": "Both! We will have an outdoor ceremony, followed by cocktails on the terrace and an indoor dinner at {{ceremonyVenue}}. Sunscreen and hats are recommended for those not used to Spain's July sun.",
       "category": "logistics",
       "id": "outdoor"
     },

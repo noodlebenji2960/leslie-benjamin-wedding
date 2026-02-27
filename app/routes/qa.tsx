@@ -241,11 +241,19 @@ const QA = () => {
                           values={dynamicValues}
                           components={{
                             RSVPLink: config.rsvp.enabled ? (
-                              <Link to={buildLink("/rsvp")}>
-                                {t("links.goToRSVP")}
-                              </Link>
+                              <>
+                                <br />
+                                <br />
+                                <Link to={buildLink("/rsvp")}>
+                                  {t("links.goToRSVP")}
+                                </Link>
+                              </>
                             ) : (
-                              <></>
+                              <>
+                              <br/>
+                              <br/>
+                                {t("items.notEnabled")}
+                              </>
                             ),
                             VenueLink: (
                               <a

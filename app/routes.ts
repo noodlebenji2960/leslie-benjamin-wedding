@@ -6,7 +6,11 @@ import {
   index,
   prefix,
 } from "@react-router/dev/routes";
-import siteConfig from "./data/feature-config.json";
+import featureConfigProd from "./data/feature-config.json";
+import featureConfigDev from "./data/feature-config-development.json";
+
+const siteConfig =
+  import.meta.env.MODE !== "production" ? featureConfigDev : featureConfigProd;
 
 /**
  * Helper: include route only if feature is enabled
@@ -62,4 +66,7 @@ export default [
   ...prefix("en", [
     route("legal/:page", "routes/legal.tsx", { id: "en/legal" }),
   ]),
+
+  // 404 catch-all
+  route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;

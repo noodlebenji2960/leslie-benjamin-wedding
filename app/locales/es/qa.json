@@ -18,7 +18,8 @@
   "items": [
     {
       "question": "¿Cuál es la fecha límite para confirmar asistencia?",
-      "answer": "Por favor confirma tu asistencia antes del <strong>{{rsvpDeadline}}</strong> para que podamos tener un conteo exacto. ¡Nos ayuda muchísimo con la planificación! 😊 <br/><br/> <RSVPLink/>",
+      "answer": "Por favor confirma tu asistencia antes del <strong>{{rsvpDeadline}}</strong> para que podamos tener un conteo exacto. ¡Nos ayuda muchísimo con la planificación! 😊 <RSVPLink/>",
+      "notEnabled": "¡Podrás confirmar tu asistencia a través del sitio web en breve!",
       "category": "essentials",
       "id": "rsvpDeadline"
     },
@@ -60,7 +61,7 @@
     },
     {
       "question": "¿La ceremonia será al aire libre o en interior?",
-      "answer": "¡Ambas! Tendremos la ceremonia al aire libre ({{ceremonyTime}}), seguida de cócteles en la terraza y una cena en interior en {{ceremonyVenue}}. Recomendamos protector solar y sombreros para quienes no estén acostumbrados al sol de julio en España.",
+      "answer": "¡Ambas! Tendremos la ceremonia al aire libre, seguida de cócteles en la terraza y una cena en interior en {{ceremonyVenue}}. Recomendamos protector solar y sombreros para quienes no estén acostumbrados al sol de julio en España.",
       "category": "logistics",
       "id": "outdoor"
     },

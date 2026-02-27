@@ -39,7 +39,6 @@ const getWeatherIcon = (precip: number, temp: number) => {
 };
 
 const WeatherForecast: React.FC = ({test}) => {
-  console.log("WeatherForecast rendered with test =", test);
   const weddingData = useWeddingData();
   const { lat, lng } = weddingData.wedding.ceremony.venue.coordinates;
 

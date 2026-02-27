@@ -39,14 +39,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const locale = location.pathname.startsWith("/en") ? "en" : "es";
 
-useEffect(() => {
-  const color = getComputedStyle(document.documentElement)
-    .getPropertyValue("--color-accent")
-    .trim();
-
-    console.log(color);
-}, []);
-
   return (
     <html lang={locale}>
       <head>

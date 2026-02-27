@@ -12,7 +12,7 @@
       ["rsvpDeadline", true],
       ["ceremonyVenue", true],
       ["weather", true],
-      ["bus", true],
+      ["bus", false],
       ["children", true],
       ["dressCode", true],
       ["gifts", true],
