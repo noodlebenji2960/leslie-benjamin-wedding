@@ -1,0 +1,1 @@
+import{w as n}from"./chunk-LFPYN7LY-BSAdruXa.js";import{j as o}from"./jsx-runtime-u17CrQMm.js";const s=n(function(){return o.jsxs("div",{children:[o.jsx("h1",{children:"404"}),o.jsx("p",{children:"Page not found"}),o.jsx("a",{href:"/",children:"Go home"})]})});export{s as default};
