@@ -306,6 +306,8 @@
 }
 
 .essential-item {
+  display: flex;
+  flex-direction: column;
   @include semi-transparent($color-background, 0.6);
   padding: $space-lg;
   border-radius: $radius-md;
@@ -317,10 +319,23 @@
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
+    gap: $space-md;
 
   svg {
+    align-self: center;
+    width: 150%;
+    height: 300px;
+    max-width: 300px;
+    object-fit: contain;
     fill: $color-text;
     opacity: 0.7;
+  }
+
+  .essential-item-body {
+    display: flex;
+    flex-direction: column;
+    gap: $space-xs;
+    height: 100%;
   }
 
   strong {
@@ -329,6 +344,15 @@
     font-weight: $fw-bold;
     color: $color-accent;
     margin-bottom: $space-xs;
+  }
+
+  .donate-container {
+    padding: 0;
+    background: none;
+    border: none;
+    color: $color-primary;
+    text-decoration: underline;
+    width: fit-content;
   }
 }
 
@@ -480,6 +504,7 @@
 }
 
 .vertical-separator {
+  justify-self: center;
   width: 1px;
   background: $color-border;
   margin: 0 $space-md;

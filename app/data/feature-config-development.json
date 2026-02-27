@@ -1,10 +1,11 @@
+
 {
   "underConstruction": {
     "siteDisabled": { "enabled": true, "isInFeatureList": false },
     "homeSection": { "enabled": true, "isInFeatureList": false }
   },
   "rsvp": { "enabled": true, "isInFeatureList": true },
-  "schedule": { "enabled": true, "isInFeatureList": true },
+  "schedule": { "enabled": true, "timesEnabled": true, "isInFeatureList": true },
   "qa": {
     "enabled": true,
     "isInFeatureList": true,
@@ -13,7 +14,6 @@
       ["ceremonyVenue", true],
       ["weather", true],
       ["bus", true],
-      ["plusOne", true],
       ["children", true],
       ["dressCode", true],
       ["gifts", true],
@@ -23,7 +23,7 @@
       ["photos", true],
       ["lastMinuteQuestions", true],
       ["airports", true],
-      ["hotels, true"]
+      ["hotels", true]
     ]
   },
   "cookies": { "enabled": true, "isInFeatureList": false },

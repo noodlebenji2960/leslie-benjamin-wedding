@@ -10,7 +10,22 @@
     "hours": "hours",
     "minutes": "minutes"
   },
-
+  "days":{
+    "long":"days",
+    "short":"d"
+  },
+  "hours":{
+    "long":"hours",
+    "short":"h"
+  },
+  "minutes":{
+    "long":"minutes",
+    "short":"m"
+  },
+  "seconds":{
+    "long":"seconds",
+    "short":"s"
+  },
   "click_here": "click here",
 
   "donate": {

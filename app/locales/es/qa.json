@@ -10,23 +10,22 @@
   "loading": "Cargando...",
   "links": {
     "skyscanner": "Skyscanner",
-    "airbnb": "AirBnB"
+    "airbnb": "AirBnB",
+    "goToRSVP": "Click aquí para RSVP"
   },
   "distance": "{{distance}}",
   "transport": "Transporte: {{transport}}",
   "items": [
     {
       "question": "¿Cuál es la fecha límite para confirmar asistencia?",
-      "answer": "Por favor confirma tu asistencia antes del <strong>{{rsvpDeadline}}</strong> (hora de España) para que podamos tener un conteo exacto. ¡Nos ayuda muchísimo con la planificación! 😊",
+      "answer": "Por favor confirma tu asistencia antes del <strong>{{rsvpDeadline}}</strong> para que podamos tener un conteo exacto. ¡Nos ayuda muchísimo con la planificación! 😊 <br/><br/> <RSVPLink/>",
       "category": "essentials",
-      "alwaysShow": true,
       "id": "rsvpDeadline"
     },
     {
       "question": "¿Dónde se celebrará la ceremonia y la fiesta?",
-      "answer": "Todo tendrá lugar en <strong><VenueLink/></strong> comenzando a las {{ceremonyTime}}. <br/><MapVenue></MapVenue> <br/>Para los invitados que vienen desde Reino Unido, aquí hay una lista de hoteles cercanos: <HotelLinks/>",
+      "answer": "Todo tendrá lugar en <strong><VenueLink/></strong> comenzando a las {{ceremonyTime}} hasta medianoche. <br/><MapVenue></MapVenue>",
       "category": "essentials",
-      "alwaysShow": true,
       "id": "ceremonyVenue"
     },
     {
@@ -37,16 +36,9 @@
     },
     {
       "question": "¿Habrá un autobús de traslado?",
-      "answer": "¡Sí! Un autobús saldrá a las <strong>{{busTime}}</strong> desde el punto de encuentro principal. <br/><MapBus></MapBus> Los invitados que vienen del extranjero deben planear llegar al punto de encuentro a tiempo.",
+      "answer": "¡Sí! Un autobús saldrá a las <strong>{{busToVenue.time}}</strong> desde el punto de encuentro principal. Habrá un autobús de regreso a las <strong>{{busFromVenue.time}}</strong>. <br/><MapBus></MapBus>",
       "category": "logistics",
-      "alwaysShow": true,
       "id": "bus"
-    },
-    {
-      "question": "¿Puedo llevar acompañante?",
-      "answer": "¡Revisa tu invitación! Si dice 'y acompañante', entonces sí. De lo contrario, solo hemos reservado un asiento para ti. Esto incluye a parejas que viajan desde Reino Unido.",
-      "category": "essentials",
-      "id": "plusOne"
     },
     {
       "question": "¿Los niños están invitados?",
@@ -58,7 +50,6 @@
       "question": "¿Cuál es el código de vestimenta?",
       "answer": "Formal / Cóctel. Por favor, evita usar blanco o marfil. Como es {{weddingDate}} en España, recomendamos telas ligeras y transpirables para mantenerte fresco.",
       "category": "style",
-      "alwaysShow": true,
       "id": "dressCode"
     },
     {
@@ -81,7 +72,7 @@
     },
     {
       "question": "¿Habrá opciones especiales de comida?",
-      "answer": "¡Por supuesto! Cuando confirmes tu asistencia, por favor indícanos si eres vegano, sin gluten, tienes alergias graves o restricciones dietéticas comunes en el Reino Unido para que nuestro equipo de catering pueda prepararlo adecuadamente.",
+      "answer": "¡Por supuesto! Cuando confirmes tu asistencia, por favor indícanos si eres vegano, sin gluten, tienes alergias graves o restricciones dietéticas para que el equipo de catering pueda prepararlo adecuadamente.",
       "category": "essentials",
       "id": "specialMeal"
     },
@@ -93,9 +84,8 @@
     },
     {
       "question": "¿Preguntas de última hora?",
-      "answer": "Si necesitas algo el día de la boda, por favor contacta a nuestros coordinadores:<br/><strong>{{brideFirstName}}:</strong> +44{{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> +44{{groomPhone}}",
+      "answer": "Si necesitas algo el día de la boda, por favor contacta a nuestros coordinadores:<br/><strong>{{brideFirstName}}:</strong> {{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> {{groomPhone}}",
       "category": "essentials",
-      "alwaysShow": true,
       "id": "lastMinuteQuestions"
     },
     {

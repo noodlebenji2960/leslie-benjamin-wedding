@@ -4,16 +4,15 @@
     "homeSection": { "enabled": true, "isInFeatureList": false }
   },
   "rsvp": { "enabled": false, "isInFeatureList": true },
-  "schedule": { "enabled": false, "isInFeatureList": true },
+  "schedule": { "enabled": false, "timesEnabled": false, "isInFeatureList": true },
   "qa": {
-    "enabled": false,
+    "enabled": true,
     "isInFeatureList": true,
     "questions": [
       ["rsvpDeadline", true],
       ["ceremonyVenue", true],
       ["weather", true],
       ["bus", true],
-      ["plusOne", true],
       ["children", true],
       ["dressCode", true],
       ["gifts", true],
@@ -23,7 +22,7 @@
       ["photos", true],
       ["lastMinuteQuestions", true],
       ["airports", true],
-      ["hotels, true"]
+      ["hotels", true]
     ]
   },
   "cookies": { "enabled": true, "isInFeatureList": false },

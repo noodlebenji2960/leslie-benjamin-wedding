@@ -48,10 +48,12 @@ const Footer = ({
       }}
     >
       <div className="footer-content">
-        {!isHome && <Countdown size="sm" date={date} time={time} />}
         <button onClick={openCookieConsentModal} className="footer__cookie-btn">
           {t("common:change_cookie_preferences", "See cookie Preferences.")}
         </button>
+        {!isHome && (
+          <Countdown size="sm" date={date} time={time} showLabel={false} />
+        )}
       </div>
     </motion.footer>
   );

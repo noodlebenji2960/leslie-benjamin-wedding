@@ -2,23 +2,27 @@
   "title": "Programa de la Boda",
   "events": {
     "bus": {
-      "title": "Bus from Logroño",
-      "description": "Depart from Fuente de Murrieta."
+      "label": "Bus hasta {{location}}",
+      "description": "Salida desde Fuente de Murrieta."
     },
     "ceremony": {
-      "title": "Ceremonia",
+      "label": "Ceremonia @ {{venueName}}",
       "description": "Únete a nosotros en los hermosos jardines para la ceremonia."
     },
     "cocktails": {
-      "title": "Cócteles y Fotos",
+      "label": "Cócteles en la terraza",
       "description": "Se servirán cócteles mientras tomamos fotos."
     },
     "dinner": {
-      "title": "Cena",
+      "label": "Cena @ {{location}}",
       "description": "Disfruta de la cena con amigos y familiares."
     },
-    "party": {
-      "title": "Baile y Celebración",
+    "busReturn": {
+      "label": "Bus de vuelta a {{busReturnLocation}}",
+      "description": ""
+    },
+    "afterparty": {
+      "label": "Afterparty @ {{location}}",
       "description": "¡Bailemos toda la noche!"
     }
   }

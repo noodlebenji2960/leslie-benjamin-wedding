@@ -8,6 +8,9 @@ import WeatherForecast from "@/components/WeatherForecast";
 import Map from "@/components/Map";
 import DonateButton from "@/components/DonateButton";
 import { useSiteConfig } from "@/contexts/ConfigContext";
+import RSVP from "./rsvp";
+import { Link } from "react-router";
+import { useBuildLink } from "@/hooks/useBuildLink";
 
 interface FAQItem {
   question: string;
@@ -39,38 +42,70 @@ const QA = () => {
   const [activeCategory, setActiveCategory] = useState<Category>("essentials");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  const {buildLink} = useBuildLink();
+
   if (!ready)
     return <div className="loading">{t("loading", "Loading...")}</div>;
 
-  // Prepare dynamic values for the answers
+  // IMPROVED: Separate TO/FROM venue bus handling
   const dynamicValues = useMemo(() => {
-    const busEvent = weddingData.schedule.find((s) => s.id === "bus");
-    const brideContact = weddingData.contact.find((c) =>
+    // Find bus schedule events (separate TO/FROM venue)
+    const busToVenue = weddingData.schedule.find(
+      (s: any) => s.id === "bus-to-venue" || s.type === "bus-to-venue",
+    );
+    const busFromVenue = weddingData.schedule.find(
+      (s: any) => s.id === "bus-from-venue" || s.type === "bus-from-venue",
+    );
+
+    // Bus TO venue map data
+    const busToVenueSchedule = weddingData.schedule.find(
+      (s: any) => s.id === "bus-to-venue" || s.maps?.[0]?.label?.includes("to"),
+    );
+    const busToVenueMap = busToVenueSchedule?.maps?.[0];
+
+    // Bus FROM venue map data
+    const busFromVenueSchedule = weddingData.schedule.find(
+      (s: any) =>
+        s.id === "bus-from-venue" || s.maps?.[0]?.label?.includes("from"),
+    );
+    const busFromVenueMap = busFromVenueSchedule?.maps?.[0];
+
+    const brideContact = weddingData.contact.find((c: any) =>
       c.name.includes(weddingData.bride.firstName),
     );
-    const groomContact = weddingData.contact.find((c) =>
+    const groomContact = weddingData.contact.find((c: any) =>
       c.name.includes(weddingData.groom.firstName),
     );
 
-    const busSchedule = weddingData.schedule.find((s: any) => s.id === "bus");
-    const mainCoords = busSchedule?.maps[1]?.coordinates || null;
-    const extraCoords = busSchedule?.maps[1]?.extraCoordinates || [];
-    const busMapUrl = busSchedule?.maps[1]?.mapUrl || "";
-    const showRoute = busSchedule?.maps[1]?.showRoute || false;
-    const busLabel = busSchedule?.maps[1]?.label || "Bus Route";
-
     return {
-      bus: {
-        mainCoords,
-        extraCoords: extraCoords.map((c: any) => ({
+      // Separate bus objects for TO/FROM venue
+      busToVenue: {
+        time: busToVenue?.time || "18:00",
+        mainCoords: busToVenueMap?.coordinates || null,
+        extraCoords: (busToVenueMap?.extraCoordinates || []).map((c: any) => ({
           lat: c.lat,
           lng: c.lng,
           label: c.label || "",
           showMarker: true,
         })),
-        mapUrl: busMapUrl,
-        showRoute,
-        label: busLabel,
+        mapUrl: busToVenueMap?.mapUrl || "",
+        showRoute: busToVenueMap?.showRoute || false,
+        label: busToVenueMap?.label || "Bus to Venue",
+      },
+      busFromVenue: {
+        time: busFromVenue?.time || "00:00",
+        mainCoords: busFromVenueMap?.coordinates || null,
+        extraCoords: (busFromVenueMap?.extraCoordinates || []).map(
+          (c: any) => ({
+            lat: c.lat,
+            lng: c.lng,
+            label: c.label || "",
+            showMarker: true,
+          }),
+        ),
+        mapUrl: busFromVenueMap?.mapUrl || "",
+        showRoute: busFromVenueMap?.showRoute || false,
+        label: busFromVenueMap?.label || "Bus from Venue",
       },
       venueCoordinates: weddingData.wedding.ceremony.venue.coordinates,
       rsvpDeadline: weddingData.rsvp.deadline,
@@ -78,11 +113,14 @@ const QA = () => {
       ceremonyVenue: weddingData.wedding.ceremony.venue.longName,
       venueMapLink: weddingData.wedding.ceremony.venue.mapLink,
       venueWebsite: weddingData.wedding.ceremony.venue.website,
-      busTime: busEvent?.time || "13:00",
-      weddingDate: new Date(weddingData.wedding.date).toLocaleDateString(
+      weddingDate: {
+        full: new Date(weddingData.wedding.date).toLocaleDateString(
         undefined,
         { year: "numeric", month: "long", day: "numeric" },
-      ),
+      ), month: new Date(weddingData.wedding.date).toLocaleDateString(
+        undefined,
+        { month: "long" },
+      )},
       brideFirstName: weddingData.bride.firstName,
       bridePhone: brideContact?.phone || "",
       groomFirstName: weddingData.groom.firstName,
@@ -92,7 +130,6 @@ const QA = () => {
     };
   }, [weddingData]);
 
-  // Get all FAQ items
   const allItems = useMemo(
     () =>
       (t("items", { returnObjects: true, ...dynamicValues }) as FAQItem[]) ||
@@ -100,15 +137,13 @@ const QA = () => {
     [t, dynamicValues],
   );
 
-  // Get list of enabled QA IDs from config
   const enabledQAIds = useMemo(() => {
     if (!config.qa?.questions) return [];
     return config.qa.questions
-      .filter(([id, enabled]) => enabled)
+      .filter(([id, enabled]: [string, boolean]) => enabled)
       .map(([id]) => id);
   }, [config.qa?.questions]);
 
-  // Filter visible items by category AND config.enabled
   const visibleItems = useMemo(() => {
     return allItems.filter(
       (item) =>
@@ -151,9 +186,7 @@ const QA = () => {
         {categories.map((category) => (
           <motion.button
             key={category}
-            className={`category-tab ${
-              activeCategory === category ? "active" : ""
-            }`}
+            className={`category-tab ${activeCategory === category ? "active" : ""}`}
             onClick={() => toggleCategory(category)}
           >
             {t(category)}
@@ -163,7 +196,7 @@ const QA = () => {
 
       <div className="qa-list">
         <AnimatePresence mode="popLayout">
-          {visibleItems.map((item) => {
+          {visibleItems.map((item, displayIndex) => {
             const originalIndex = allItems.findIndex(
               (i) => i.question === item.question,
             );
@@ -171,7 +204,7 @@ const QA = () => {
 
             return (
               <motion.div
-                key={item.question}
+                key={`${item.id}-${displayIndex}`}
                 className="qa-item"
                 layout
                 initial={{ opacity: 0 }}
@@ -204,6 +237,11 @@ const QA = () => {
                           t={t}
                           values={dynamicValues}
                           components={{
+                            RSVPLink: (
+                              <Link to={buildLink("/rsvp")}>
+                                {t("links.goToRSVP")}
+                              </Link>
+                            ),
                             VenueLink: (
                               <a
                                 href={dynamicValues.venueWebsite}
@@ -227,13 +265,18 @@ const QA = () => {
                                 zoom={12}
                               />
                             ),
+                            // UPDATED: Use busToVenue for bus question
                             MapBus: (
                               <Map
-                                label={dynamicValues.bus.label}
-                                coordinates={dynamicValues.bus.mainCoords}
-                                extraCoordinates={dynamicValues.bus.extraCoords}
-                                mapUrl={dynamicValues.bus.mapUrl}
-                                showRoute={dynamicValues.bus.showRoute}
+                                label={dynamicValues.busToVenue.label}
+                                coordinates={
+                                  dynamicValues.busToVenue.mainCoords
+                                }
+                                extraCoordinates={
+                                  dynamicValues.busToVenue.extraCoords
+                                }
+                                mapUrl={dynamicValues.busToVenue.mapUrl}
+                                showRoute={dynamicValues.busToVenue.showRoute}
                                 interactive={false}
                                 width="100%"
                                 height="400px"
@@ -242,16 +285,14 @@ const QA = () => {
                             DonateButton: <DonateButton />,
                             WeatherForecast: config.weather.enabled ? (
                               <WeatherForecast />
-                            ) : (
-                              <></>
-                            ),
+                            ) : null,
                             SkyscannerLink: (
                               <a
                                 href="https://www.skyscanner.com/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                {t("links.skyscanner", "Skyscanner")}
+                                {t("links.skyscanner")}
                               </a>
                             ),
                             AirBnbLink: (
@@ -260,37 +301,43 @@ const QA = () => {
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                {t("links.airbnb", "AirBnB")}
+                                {t("links.airbnb")}
                               </a>
                             ),
                             AirportsList: (
                               <ul>
-                                {dynamicValues.airports.map((a, i) => (
-                                  <li key={i}>
-                                    <strong>
-                                      {a.name} ({a.code})
-                                    </strong>{" "}
-                                    – {t("distance", { distance: a.distance })},{" "}
-                                    {t("transport", {
-                                      transport: a.transportOptions.join(", "),
-                                    })}
-                                  </li>
-                                ))}
+                                {dynamicValues.airports.map(
+                                  (a: any, i: number) => (
+                                    <li key={i}>
+                                      <strong>
+                                        {a.name} ({a.code})
+                                      </strong>{" "}
+                                      –{" "}
+                                      {t("distance", { distance: a.distance })},{" "}
+                                      {t("transport", {
+                                        transport:
+                                          a.transportOptions.join(", "),
+                                      })}
+                                    </li>
+                                  ),
+                                )}
                               </ul>
                             ),
                             HotelLinks: (
                               <ul>
-                                {dynamicValues.hotels.map((h, i) => (
-                                  <li key={i}>
-                                    <a
-                                      href={h.website}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      {h.name} – {h.address}
-                                    </a>
-                                  </li>
-                                ))}
+                                {dynamicValues.hotels.map(
+                                  (h: any, i: number) => (
+                                    <li key={i}>
+                                      <a
+                                        href={h.website}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {h.name} – {h.address}
+                                      </a>
+                                    </li>
+                                  ),
+                                )}
                               </ul>
                             ),
                             strong: <strong />,

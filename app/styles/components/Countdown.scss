@@ -1,34 +1,111 @@
 @use "app/styles/variables" as *;
+
+// ── Shared base ──────────────────────────────────────────────
 .countdown-card {
-  padding: 0.4rem;
   display: block;
+  justify-self: center;
+  align-self: center;
+  user-select: none;
 }
+
 .countdown-grid {
+  position: relative;
   display: flex;
   gap: 0;
   align-items: center;
+  justify-content: center;
+  width: fit-content;
+  
+
+  &::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    flex: 1;
+    border-top: 1px solid $color-border;
+    border-bottom: 1px solid $color-border;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  :has(.countdown-card--sm) &::after {
+    height: calc(var(--font-size-2xl) + var(--space-sm));
+  }
+  :has(.countdown-card--lg) &::after {
+    height: calc(var(--font-size-4xl) + var(--space-md));
+  }
 }
+
 .countdown-item {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .countdown-number {
-  border-top: 1px solid $color-border;
-  border-bottom: 1px solid $color-border;
-  padding: 0.2rem 0.6rem;
-  min-width: 52px;
   text-align: center;
+  font-family: $font-display;
+  color: $color-text;
+  font-variant-numeric: tabular-nums;
+
+  &.flip {
+    animation: flip 0.3s ease;
+  }
 }
-.countdown-number.flip {
-  transform-origin: center;
-  transition: transform 0.3s ease;
-}
+
 .countdown-label {
-  font-size: 0.75rem;
   color: $color-muted;
-  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-.countdown-sm .countdown-number {
+
+// ── Size: lg (default) ───────────────────────────────────────
+.countdown-card--lg {
+  padding: $space-md;
+}
+
+.countdown-grid--lg {
+  gap: $space-sm;
+}
+
+.countdown-number--lg {
+  min-width: 64px;
+  padding: $space-sm $space-md;
+  font-size: $font-size-4xl;
+  line-height: 1;
+}
+
+.countdown-label--lg {
+  font-size: $font-size-xs;
+  margin-top: $space-xs;
+}
+
+// ── Size: sm ────────────────────────────────────────────────
+.countdown-card--sm {
+  padding: $space-sm;
+}
+
+.countdown-grid--sm {
+  gap: $space-xs;
+}
+
+.countdown-number--sm {
   min-width: 44px;
+  padding: $space-xs $space-sm;
+  font-size: $font-size-2xl;
+  line-height: 1;
+}
+
+.countdown-label--sm {
+  font-size: $font-size-2xs;
+  margin-top: $space-xs;
+}
+
+// ── Flip animation ───────────────────────────────────────────
+@keyframes flip {
+  0%   { transform: translateY(0);      opacity: 1; }
+  40%  { transform: translateY(-6px);   opacity: 0; }
+  60%  { transform: translateY(6px);    opacity: 0; }
+  100% { transform: translateY(0);      opacity: 1; }
 }

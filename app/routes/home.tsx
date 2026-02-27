@@ -13,6 +13,7 @@ import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
 import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
 import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
 import { useSiteConfig } from "@/contexts/ConfigContext";
+import { Fragment } from "react/jsx-runtime";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -75,7 +76,6 @@ export default function Home() {
           <h1>{coupleNames}</h1>
         </motion.div>
       </AnimatePresence>
-
       <div className="hero-subtitle">
         {t("subtitle", { ns: "home" })} <br />
       </div>
@@ -114,7 +114,6 @@ export default function Home() {
           />
         </div>
       </FadeInSection>
-
       {/* SCHEDULE HIGHLIGHTS */}
       {config.schedule.enabled && (
         <FadeInSection delay={0.1}>
@@ -124,29 +123,21 @@ export default function Home() {
             </h3>
             <div className="timeline">
               {wedding.schedule.map((event, index) => (
-                <div key={`${index} ${event.id}`} className="timeline-item">
+                <div key={`${event.id}-${index}`} className="timeline-item">
                   <div className="timeline-dot" />
                   <div className="timeline-content">
                     <span className="timeline-time">{event.time}</span>
                     <span className="timeline-label">
-                      {(() => {
-                        switch (event.id) {
-                          case "bus":
-                            return `Bus from ${event.location}`;
-                          case "ceremony":
-                            return `Ceremony @ ${wedding.wedding.ceremony.venue.name}`;
-                          case "cocktails":
-                            return `Cocktails on the terrace`;
-                          case "dinner":
-                            return `Dinner @ ${event.location}`;
-                          case "bus-return":
-                            return `Return bus to Logroño`;
-                          case "afterparty":
-                            return `Afterparty @ ${event.location}`;
-                          default:
-                            return event.location;
-                        }
-                      })()}
+                      <Trans
+                        i18nKey={`events.${event.id}.label`}
+                        ns="schedule"
+                        values={{
+                          venueName: wedding.wedding.ceremony.venue.name,
+                          busReturnLocation:
+                            event.id==="busReturn" ? event?.maps[0]?.extraCoordinates[0]?.label : "",
+                          location: event.location,
+                        }}
+                      />
                     </span>
                   </div>
                 </div>
@@ -166,41 +157,45 @@ export default function Home() {
           </div>
         </FadeInSection>
       )}
-
       {/* GUEST ESSENTIALS */}
       <FadeInSection delay={0.1}>
         <div className="guest-essentials">
           <div className="essentials-grid">
             <div className="essential-item">
-              <ShoeIllustration height={200} width={200} />
-              <strong>
-                {t("dressCode", { ns: "home", defaultValue: "Dress Code" })}
-              </strong>
-              <br />
-              {t("dressCodeHint", {
-                ns: "home",
-                defaultValue: "Semi-formal. No jeans, no flip-flops.",
-              })}
+              <ShoeIllustration />
+              <span className="essential-item-body">
+                <strong>
+                  {t("dressCode", { ns: "home", defaultValue: "Dress Code" })}
+                </strong>
+                <p>
+                  {t("dressCodeHint", {
+                    ns: "home",
+                    defaultValue: "Semi-formal. No jeans, no flip-flops.",
+                  })}
+                </p>
+              </span>
             </div>
             <div className="vertical-separator" />
             <div className="essential-item">
-              <HeartBoxIllustration height={200} width={200} />
-              <strong>
-                {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
-              </strong>
-              <br />
-              <Trans
-                i18nKey="giftsHint"
-                ns="home"
-                components={{
-                  DonateButton: <DonateButton />,
-                }}
-              />
+              <HeartBoxIllustration />
+              <span className="essential-item-body">
+                <strong>
+                  {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
+                </strong>
+                <p>
+                  <Trans
+                    i18nKey="giftsHint"
+                    ns="home"
+                    components={{
+                      DonateButton: <DonateButton />,
+                    }}
+                  />
+                </p>
+              </span>
             </div>
           </div>
         </div>
       </FadeInSection>
-
       {/* RSVP & CONTACT */}
       {config.rsvp.enabled && (
         <FadeInSection delay={0.1}>
@@ -223,7 +218,6 @@ export default function Home() {
           </div>
         </FadeInSection>
       )}
-
       {config.qa.enabled && (
         <FadeInSection delay={0.1}>
           <div className="contact-section">
@@ -246,9 +240,8 @@ export default function Home() {
                 const isLast = index === wedding.contact.length - 1;
 
                 return (
-                  <>
+                  <Fragment key={`${index} ${c.email}`}>
                     <div
-                      key={`${index} ${c.email}`}
                       className={`contact-item ${isFirst ? "first" : ""} ${isLast ? "last" : ""}`}
                     >
                       <strong>{c.name}</strong>
@@ -261,7 +254,7 @@ export default function Home() {
                     {index !== wedding.contact.length - 1 && (
                       <div className="vertical-separator" />
                     )}
-                  </>
+                  </Fragment>
                 );
               })}
             </div>

@@ -13,6 +13,7 @@
   },
   "wedding": {
     "date": "2026-07-11",
+    "startTime": "2026-07-11T13:30:00.000Z",
     "ceremony": {
       "time": "13:30",
       "venue": {
@@ -65,10 +66,16 @@
         "phone": "+34 941 441 111"
       },
       {
-        "name": "Hotel Los Agustinos",
-        "address": "Calle Los Agustinos, 10, Logroño, La Rioja",
-        "website": "https://hotellosagustinos.com",
-        "phone": "+34 941 234 567"
+        "name": "Sercotel Murrieta",
+        "address": " C. Marqués de Murrieta, 1, 26005 Logroño, La Rioja",
+        "website": "https://www.sercotelhoteles.com/es/hotel-murrieta?utm_source=google&utm_medium=referral&utm_campaign=metasearch-links",
+        "phone": "+34 941 22 41 50"
+      },
+      {
+        "name": "Hotel NH Logroño Herencia Rioja",
+        "address": "C. Marqués de Murrieta, 14, 26005 Logroño, La Rioja",
+        "website": "https://www.nh-hotels.com/en/hotel/nh-logrono-herencia-rioja?utm_campaign=local-gmb&utm_medium=organic_search&utm_source=google_gmb",
+        "phone": "+34 941 21 02 22"
       }
     ]
   },
@@ -85,7 +92,6 @@
           "mapUrl": "https://www.google.com/maps/place/Fuente+Murrieta/@42.4661562,-2.4511548,778m",
           "showRoute": false,
           "interactive": false,
-          "label": "Bus pickup location",
           "zoom": 14.5
         },
         {
@@ -93,7 +99,6 @@
           "mapUrl": "https://www.google.com/maps/directions/...",
           "showRoute": true,
           "interactive": false,
-          "label": "Route to venue",
           "extraCoordinates": [
             {
               "lat": 42.4661562,
@@ -115,7 +120,6 @@
           "mapUrl": "https://www.google.com/maps/place/Hotel+San+Camilo",
           "showRoute": true,
           "interactive": false,
-          "label": "Venue location",
           "extraCoordinates": []
         }
       ]
@@ -136,13 +140,12 @@
           "mapUrl": "https://www.google.com/maps/place/Hotel+San+Camilo",
           "showRoute": false,
           "interactive": false,
-          "label": "Dinner location",
           "extraCoordinates": []
         }
       ]
     },
     {
-      "id": "bus-return",
+      "id": "busReturn",
       "time": "00:00",
       "location": "Hotel San Camilo",
       "maps": [
@@ -151,13 +154,12 @@
           "mapUrl": "https://www.google.com/maps/directions/...",
           "showRoute": true,
           "interactive": false,
-          "label": "Return bus to Logroño",
           "extraCoordinates": [
             {
-              "lat": 42.4337996,
+              "lat":  42.4337996,
               "lng": -2.5694691,
               "showMarker": false,
-              "label": "Hotel San Camilo"
+              "label": "Logroño"
             }
           ]
         }
@@ -173,7 +175,6 @@
           "mapUrl": "https://www.google.com/maps/place/Logro%C3%B1o+City+Center",
           "showRoute": true,
           "interactive": false,
-          "label": "Afterparty location",
           "extraCoordinates": []
         }
       ]
@@ -208,7 +209,7 @@
     }
   ],
   "rsvp": {
-    "deadline": "2026-07-15",
+    "deadline": "2026-05-1",
     "fields": ["name", "email", "guests", "dietary", "message"]
   },
   "giftRegistry": {

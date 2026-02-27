@@ -47,6 +47,10 @@ body {
   overflow-x: hidden;
 }
 
+footer{
+  padding-bottom: $space-sm !important;
+}
+
 a {
   color: $color-primary;
   text-decoration: none;

@@ -10,20 +10,21 @@
   "loading": "Loading...",
   "links": {
     "skyscanner": "Skyscanner",
-    "airbnb": "AirBnB"
+    "airbnb": "AirBnB",
+    "goToRSVP": "Click here to RSVP"
   },
   "distance": "{{distance}}",
   "transport": "Transport: {{transport}}",
   "items": [
     {
       "question": "What's the RSVP deadline?",
-      "answer": "Please confirm your attendance before <strong>{{rsvpDeadline}}</strong> (Spain time) so we can get an exact count. It helps us immensely with the planning! 😊",
+      "answer": "Please confirm your attendance before <strong>{{rsvpDeadline}}</strong> so we can get an exact count. It helps us immensely with the planning! 😊 <br/><br/> <RSVPLink/>",
       "category": "essentials",
       "id": "rsvpDeadline"
     },
     {
       "question": "Where is the ceremony and party?",
-      "answer": "Everything will take place at <strong><VenueLink/></strong> starting at {{ceremonyTime}}. <br/><MapVenue></MapVenue> <br/>For guests arriving from the UK, here’s a list of nearby hotels: <HotelLinks/>",
+      "answer": "Everything will take place at <strong><VenueLink/></strong> starting at {{ceremonyTime}} until midnight. <br/><MapVenue></MapVenue>",
       "category": "essentials",
       "id": "ceremonyVenue"
     },
@@ -35,15 +36,9 @@
     },
     {
       "question": "Is there a shuttle bus?",
-      "answer": "Yes! A bus will depart at <strong>{{busTime}}</strong> from the main meeting point. <br/><MapBus></MapBus> Guests arriving from abroad should plan to be at the meeting point on time.",
+      "answer": "Yes! A bus will depart at <strong>{{busToVenue.time}}</strong> from the main meeting point. There will be a return bus at <strong>{{busFromVenue.time}}</strong>. <br/><MapBus></MapBus>",
       "category": "logistics",
       "id": "bus"
-    },
-    {
-      "question": "Can I bring a plus one?",
-      "answer": "Please check your invitation! If it says 'and Guest,' then yes. Otherwise, we have only reserved a seat for you personally. This includes partners traveling from the UK.",
-      "category": "essentials",
-      "id": "plusOne"
     },
     {
       "question": "Are children invited?",
@@ -53,7 +48,7 @@
     },
     {
       "question": "What is the Dress Code?",
-      "answer": "Formal / Cocktail attire. Please avoid wearing white or ivory. Since it is {{weddingDate}} in Spain, we recommend light fabrics and breathable materials to stay cool.",
+      "answer": "Formal / Cocktail attire. Please avoid wearing white or ivory. Since it is {{weddingDate.month}} in Spain, we recommend light fabrics and breathable materials to stay cool.",
       "category": "style",
       "id": "dressCode"
     },
@@ -65,7 +60,7 @@
     },
     {
       "question": "Outdoor or indoor?",
-      "answer": "Both! We will have an outdoor ceremony ({{ceremonyTime}}), followed by cocktails on the terrace and an indoor dinner at {{ceremonyVenue}}. Sunscreen and hats are recommended for those not used to Spain’s July sun.",
+      "answer": "Both! We will have an outdoor ceremony ({{ceremonyTime}}), followed by cocktails on the terrace and an indoor dinner at {{ceremonyVenue}}. Sunscreen and hats are recommended for those not used to Spain's July sun.",
       "category": "logistics",
       "id": "outdoor"
     },
@@ -77,7 +72,7 @@
     },
     {
       "question": "Do you have special meal options?",
-      "answer": "Of course! When you RSVP, please let us know if you are vegan, gluten-free, have severe allergies, or dietary restrictions common in the UK so our catering team can prepare accordingly.",
+      "answer": "Of course! When you RSVP, please let us know if you are vegan, gluten-free, have severe allergies, or dietary restrictions so the catering team can prepare accordingly.",
       "category": "essentials",
       "id": "specialMeal"
     },
@@ -89,7 +84,7 @@
     },
     {
       "question": "Last minute questions?",
-      "answer": "If you need anything on the big day, please contact our coordinators:<br/><strong>{{brideFirstName}}:</strong> {{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> {{groomPhone}}",
+      "answer": "If you have any questions, you can send us a whatsapp message and we'll get back to you as soon as possible. <br/><strong>{{brideFirstName}}:</strong> {{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> {{groomPhone}}",
       "category": "essentials",
       "id": "lastMinuteQuestions"
     },
@@ -101,7 +96,7 @@
     },
     {
       "question": "Where should I stay?",
-      "answer": "For your convenience, we’ve compiled a list of recommended hotels near the bus pick up point or alternatively check out <AirBnbLink/>. <HotelLinks/>. We suggest booking early, especially for guests coming from the UK.",
+      "answer": "For your convenience, we've compiled a list of recommended hotels near the bus pick up point or alternatively check out <AirBnbLink/>. <HotelLinks/> We suggest booking early, especially for guests coming from the UK.",
       "category": "travel",
       "id": "hotels"
     }

@@ -1,4 +1,3 @@
-// vite.config.ts
 import { reactRouter } from "@react-router/dev/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -9,10 +8,15 @@ import { dirname, resolve } from "node:path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export default defineConfig({
-  plugins: [reactRouter(), tsconfigPaths(), svgr()],
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    // reactRouter plugin must be excluded during testing
+    mode !== "test" && reactRouter(),
+    tsconfigPaths(),
+    svgr(),
+  ].filter(Boolean),
 
-  base: process.env.VITE_BASE ? process.env.VITE_BASE : "/",
+  base: process.env.VITE_BASE ?? "/",
 
   build: {
     outDir: "dist",
@@ -22,6 +26,7 @@ export default defineConfig({
   preview: {
     port: 4173,
   },
+
   resolve: {
     alias: {
       app: resolve(__dirname, "app"),
@@ -35,4 +40,12 @@ export default defineConfig({
       },
     },
   },
-});
+
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: "./app/test/setup.ts",
+    include: ["app/**/*.{test,spec}.{ts,tsx}"],
+    exclude: ["node_modules", "dist"],
+  },
+}));
