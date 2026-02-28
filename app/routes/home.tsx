@@ -85,9 +85,11 @@ export default function Home() {
             {t("subtitle", { ns: "home" })} <br />
           </div>
           <div className="hero-body">{t("welcome", { ns: "home" })}</div>
-          {config.rsvp.enabled && <button onClick={handleRSVP} className="cta-btn">
-            {t("rsvp", { ns: "home" })}
-          </button>}
+          {config.rsvp.enabled && (
+            <button onClick={handleRSVP} className="cta-btn">
+              {t("rsvp", { ns: "home" })}
+            </button>
+          )}
         </span>
         <div className="hero-date">
           <span className="horizontal-line" />
@@ -101,19 +103,12 @@ export default function Home() {
       {/* LOCATION & MAP */}
       <FadeInSection>
         <div className="venue-card">
-          <p className="hero-location">
-            <Link to={wedding.wedding.ceremony.venue.website}>
-              <strong>{wedding.wedding.ceremony.venue.longName}</strong>
+            <Link
+              to={wedding.wedding.ceremony.venue.website}
+              className="hero-location"
+            >
+              {wedding.wedding.ceremony.venue.longName}
             </Link>
-            <br />
-            {wedding.wedding.ceremony.venue.address}
-            <br />
-            {wedding.wedding.ceremony.venue.city},
-            <br />
-            {wedding.wedding.ceremony.venue.region},
-            <br />
-            {wedding.wedding.ceremony.venue.country}
-          </p>
 
           <Map
             coordinates={wedding.wedding.ceremony.venue.coordinates}
