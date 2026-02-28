@@ -12,6 +12,8 @@ import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
 import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
 import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
+import { ReactComponent as BirdyIllustration } from "../images/birdy.svg";
+import { ReactComponent as HeartSpeechBubbleIllustration } from "../images/heartSpeechBubble.svg";
 import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Fragment } from "react/jsx-runtime";
 import Heart from "@/components/Heart";
@@ -60,33 +62,42 @@ export default function Home() {
 
   const coupleNames = (
     <>
-      {wedding.bride.firstName} & <br /> {wedding.groom.firstName}
+      {wedding.bride.firstName} <i>&</i> <br /> {wedding.groom.firstName}
     </>
   );
 
   return (
     <div className="home-hero">
       {/* HERO — no fade-in, visible immediately */}
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
-        >
-          <h1>{coupleNames}</h1>
-        </motion.div>
-      </AnimatePresence>
-      <div className="hero-subtitle">
-        {t("subtitle", { ns: "home" })} <br />
+      <div className="hero">
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+          >
+            <h1>{coupleNames}</h1>
+          </motion.div>
+        </AnimatePresence>
+        <span>
+          <div className="hero-subtitle">
+            {t("subtitle", { ns: "home" })} <br />
+          </div>
+          <div className="hero-body">{t("welcome", { ns: "home" })}</div>
+          {config.rsvp.enabled && <button onClick={handleRSVP} className="cta-btn">
+            {t("rsvp", { ns: "home" })}
+          </button>}
+        </span>
+        <div className="hero-date">
+          <span className="horizontal-line" />
+          <span className="date-month">{monthName}</span>|
+          <span className="date-daynum">{dayNumber}</span>|
+          <span className="date-year">{year}</span>
+          <span className="horizontal-line" />
+        </div>
       </div>
-      <div className="hero-body">{t("welcome", { ns: "home" })}</div>
-      <ChampagneIllustration height={100} width={100} />
-      <div className="hero-date">
-        <span className="date-month">{monthName}</span>|
-        <span className="date-daynum">{dayNumber}</span>|
-        <span className="date-year">{year}</span>
-      </div>
+
       {/* LOCATION & MAP */}
       <FadeInSection>
         <div className="venue-card">
@@ -128,7 +139,6 @@ export default function Home() {
                     time={wedding.wedding.ceremony.time}
                     size="sm"
                     labelPosition={"top"}
-                    
                   />
                   <h3>
                     {t("scheduleTitle", {
@@ -244,6 +254,7 @@ export default function Home() {
       {config.qa.enabled && (
         <FadeInSection delay={0.1}>
           <div className="contact-section">
+            <HeartSpeechBubbleIllustration />
             <h4>
               {t("questionsTitle", { ns: "home", defaultValue: "Questions?" })}
             </h4>
@@ -286,45 +297,43 @@ export default function Home() {
       )}
       {config.underConstruction?.homeSection.enabled && (
         <FadeInSection delay={0.1}>
-          <div className="rsvp-section">
-            <div className="under-construction">
-              <h4>
-                {t("underConstruction.title", {
-                  ns: "home",
-                  defaultValue: "Under Construction",
-                })}
-              </h4>
-              <p>
-                <Trans
-                  i18nKey="underConstruction.message"
-                  ns="home"
-                  values={{
-                    featureList: Object.entries(config)
-                      .filter(([_, value]) => {
-                        // Some features are nested, so normalize to object
-                        const feature =
-                          typeof value === "object"
-                            ? value
-                            : { enabled: value, isInFeatureList: false };
-                        return (
-                          feature.enabled === false &&
-                          feature.isInFeatureList === true
-                        );
-                      })
-                      .map(([key]) => {
-                        // Map raw config keys to friendly labels
-                        const mapping: Record<string, string> = {
-                          rsvp: t("rsvp", "RSVP"),
-                          schedule: t("title", "schedule"),
-                          qa: t("qa", "Q&A"),
-                        };
-                        return mapping[key] ?? key;
-                      })
-                      .join(", "),
-                  }}
-                />
-              </p>
-            </div>
+          <div className="under-construction">
+            <h4>
+              {t("underConstruction.title", {
+                ns: "home",
+                defaultValue: "Under Construction",
+              })}
+            </h4>
+            <p>
+              <Trans
+                i18nKey="underConstruction.message"
+                ns="home"
+                values={{
+                  featureList: Object.entries(config)
+                    .filter(([_, value]) => {
+                      // Some features are nested, so normalize to object
+                      const feature =
+                        typeof value === "object"
+                          ? value
+                          : { enabled: value, isInFeatureList: false };
+                      return (
+                        feature.enabled === false &&
+                        feature.isInFeatureList === true
+                      );
+                    })
+                    .map(([key]) => {
+                      // Map raw config keys to friendly labels
+                      const mapping: Record<string, string> = {
+                        rsvp: t("rsvp", "RSVP"),
+                        schedule: t("title", "schedule"),
+                        qa: t("qa", "Q&A"),
+                      };
+                      return mapping[key] ?? key;
+                    })
+                    .join(", "),
+                }}
+              />
+            </p>
           </div>
         </FadeInSection>
       )}
