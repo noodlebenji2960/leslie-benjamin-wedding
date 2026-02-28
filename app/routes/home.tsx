@@ -116,7 +116,7 @@ export default function Home() {
             mapUrl={wedding.wedding.ceremony.venue.mapLink}
             width="100%"
             height="250px"
-            interactive={false}
+            interactive={true}
             zoom={14}
           />
         </div>

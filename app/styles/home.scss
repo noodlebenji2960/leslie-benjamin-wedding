@@ -165,11 +165,12 @@
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: -1;
+  z-index: 0;
   max-height: 600px;
   min-width: 100vw;
 
   a {
+    height: fit-content;
     z-index: 1;
   }
 
@@ -687,9 +688,14 @@
 @media (max-width: 768px) {
   .schedule-preview,
   .rsvp-section,
-  .contact-section {
+  .contact-section,
+  .under-construction {
     padding: $space-lg;
     margin: $space-xl $space-lg;
+  }
+
+  .under-construction::before{
+    top: 0%;
   }
 
   .essentials-grid {
