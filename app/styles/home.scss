@@ -129,6 +129,12 @@
     height: 1px;
     background: $color-border;
     z-index: -1;
+    transition: all 0.3s ease;
+    opacity: 0;
+
+    &.show {
+      opacity: 1;
+    }
   }
 
   .date-month {
@@ -155,7 +161,6 @@
 // ─────────────────────────────────────────────
 
 .venue-card {
-  aspect-ratio: 1 / 1.4;
   background: $color-white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(8px);
@@ -166,7 +171,7 @@
   justify-content: center;
   position: relative;
   z-index: 0;
-  max-height: 600px;
+  height: 700px !important;
   min-width: 100vw;
 
   a {
@@ -219,10 +224,10 @@
   }
 
   .hero-location {
+    margin-top: 40px;
     font-family: $font-body;
     font-size: $font-size-4xl;
-    line-height: 2.5;
-
+    line-height: 1;
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color 0.2s ease;
@@ -242,7 +247,7 @@
   padding: $space-xl;
 
   .schedule-header {
-    margin-top: -300px;
+    margin-top: -250px;
     margin-bottom: $space-xl;
     position: relative;
     background: white;
@@ -259,10 +264,10 @@
     &::before {
       content: "";
       position: absolute;
-      top: -25%;
-      left: -25%;
-      right: -25%;
-      bottom: -25%;
+      top: -26.5%;
+      left: -26.5%;
+      right: -26.5%;
+      bottom: -26.5%;
       background: url("/images/circularContainer.svg") center no-repeat;
       pointer-events: none;
       filter: brightness(110%) saturate(80%);
@@ -283,62 +288,93 @@
 
 .timeline {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: $space-lg 0;
   max-width: 500px;
-  margin: 0 auto $space-lg;
+  margin: $space-3xl auto $space-lg auto;
+  gap: $space-lg;
 
   // Vertical line
   &::before {
     content: "";
     position: absolute;
-    left: 24px;
-    top: 0;
-    bottom: 0;
+    left: 50%;
+    top: -2.5%;
+    bottom: -5%;
     width: 2px;
     background: linear-gradient(
       to bottom,
       transparent,
-      $color-border 10%,
-      $color-border 90%,
+      $color-accent 10%,
+      $color-accent 90%,
       transparent
     );
   }
+}
 
-  @media (max-width: 640px) {
-    &::before {
-      left: 16px;
-    }
+.timeline-bg-plants {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 0;
+  pointer-events: none;
+  transform: translateX(50%);
+
+
+  &:nth-of-type(1){
+    top: 5%;
+    left: 0;
+    transform: scale(1, -1) translate(55%, 5%) rotate(0deg);
+  }
+
+  &:nth-of-type(2){
+    top: 85%;
+    left: 0;
+    transform: scale(-1, -1) translate(-30%, 5%) rotate(65deg);
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    fill: $color-accent;
   }
 }
 
 .timeline-item {
   display: flex;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   gap: $space-lg;
   margin-bottom: $space-lg;
   position: relative;
+  background: $color-white;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  height: 175px;
+  width: 175px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  outline: 1px solid $color-accent-light;
+  outline-offset: -1px;
+  white-space: wrap;
+  text-align: center;
+  padding: $space-md;
 
   &:last-child {
     margin-bottom: 0;
   }
 }
 
-.timeline-dot {
-  flex-shrink: 0;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: $color-accent;
-  border: 3px solid $color-background;
-  box-shadow: 0 0 0 2px $color-accent;
-  position: relative;
-  z-index: 1;
-  margin-top: 4px;
-  margin-left: 18px;
-
-  @media (max-width: 640px) {
-    margin-left: 10px;
-  }
+.timeline-icon {
+  width: 42px;
+  height: 42px;
+  justify-self: center;
+  align-self: center;
+  color: $color-primary-shade;
+  margin-bottom: $space-xs;
 }
 
 .timeline-content {
@@ -475,6 +511,27 @@
   }
 }
 
+// ──────────────────────────────────────────────────────────────────
+// Our Story Section
+// ──────────────────────────────────────────────────────────────────
+
+.our-story-section {
+  max-width: 1200px;
+  position: relative;
+  margin: auto;
+  margin-top: $space-3xl;
+  padding: $space-xl $space-sm;
+  text-align: center;
+
+  .our-story-header {
+  }
+
+  .our-story-body {
+    max-width: 700px;
+    margin: auto;
+  }
+}
+
 // ─────────────────────────────────────────────
 // RSVP Section
 // ─────────────────────────────────────────────
@@ -483,9 +540,11 @@
   max-width: 700px;
   justify-self: center;
   position: relative;
-  margin: $space-3xl 0 $space-2xl 0;
+  margin: calc($space-3xl * -2) 0 $space-2xl 0;
   padding: $space-xl;
   text-align: center;
+  border: 1px solid $color-accent-light;
+  z-index: 1;
 
   &::before,
   &::after {
@@ -495,19 +554,18 @@
     left: 0%;
     right: 0%;
     bottom: 0%;
-    border: 1px solid $color-accent-light;
+    border: 1px solid $color-accent-dark;
     border-radius: 3px;
     pointer-events: none;
-    transform: rotate(-1deg);
+    transform: rotate(-2deg);
     background-color: $color-white;
-    z-index: -2;
+    z-index: -1;
   }
 
   &::before {
-    border: 1px solid $color-accent-dark;
     background-color: transparent;
-    transform: rotate(1deg);
-    z-index: -1;
+    transform: rotate(2deg);
+    z-index: 0;
   }
 }
 
@@ -694,7 +752,7 @@
     margin: $space-xl $space-lg;
   }
 
-  .under-construction::before{
+  .under-construction::before {
     top: 0%;
   }
 

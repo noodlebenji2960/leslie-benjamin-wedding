@@ -28,13 +28,19 @@ import {
 } from "react-icons/io5";
 import { IoMdPaperPlane } from "react-icons/io";
 import { RiExternalLinkLine } from "react-icons/ri";
-import { MdLocationPin } from "react-icons/md";
+import { MdLocationPin, MdOutlineTapas } from "react-icons/md";
 import { WiFog } from "react-icons/wi";
 import { CiStickyNote } from "react-icons/ci";
 import { PiPencilLineLight } from "react-icons/pi";
 import { BsEnvelopePaperHeart, BsSuitHeartFill } from "react-icons/bs";
 import { FaCheck, FaMoon } from "react-icons/fa6";
 import { VscChecklist } from "react-icons/vsc";
+import { TbBus } from "react-icons/tb";
+import { GiLinkedRings } from "react-icons/gi";
+import { LiaCocktailSolid } from "react-icons/lia";
+import { GiForkKnifeSpoon } from "react-icons/gi";
+import { LuPartyPopper } from "react-icons/lu";
+
 
 type IconProps = {
   size?: number;
@@ -130,6 +136,12 @@ const ICONS = {
   People: IoPeopleOutline,
   LoveLetter: BsEnvelopePaperHeart,
   Send: IoMdPaperPlane,
+  Bus: TbBus,
+  Rings: GiLinkedRings,
+  Spoon: GiForkKnifeSpoon,
+  Cocktail: LiaCocktailSolid,
+  Tapas: MdOutlineTapas,
+  Party: LuPartyPopper,
 };
 
 /* ======================================================

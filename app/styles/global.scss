@@ -243,9 +243,9 @@ label {
   flex-direction: column;
   gap: 0;
 
-
   .inner-wavey-wrapper{
-    background-color: #EFEDE6;
+    background-color: oklab(94.571% -0.0006 0.00944);
+    padding-bottom: calc($space-3xl  * 2);
   }
 
   img:last-of-type{

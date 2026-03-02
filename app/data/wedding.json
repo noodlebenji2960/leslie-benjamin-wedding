@@ -82,6 +82,7 @@
   "schedule": [
     {
       "id": "bus",
+      "icon": "Bus",
       "time": "13:00",
       "location": "Fuente Murrieta",
       "image": "/images/FuenteMurrieta.jpg",
@@ -112,6 +113,7 @@
     },
     {
       "id": "ceremony",
+      "icon": "Rings",
       "time": "13:30",
       "location": "Hotel San Camilo",
       "maps": [
@@ -126,12 +128,14 @@
     },
     {
       "id": "cocktails",
+      "icon": "Tapas",
       "time": "16:30",
       "location": "Terrace",
       "maps": []
     },
     {
       "id": "dinner",
+      "icon": "Spoon",
       "time": "19:30",
       "location": "Hotel San Camilo",
       "maps": [
@@ -146,6 +150,7 @@
     },
     {
       "id": "busReturn",
+      "icon": "Bus",
       "time": "00:00",
       "location": "Hotel San Camilo",
       "maps": [
@@ -167,6 +172,7 @@
     },
     {
       "id": "afterparty",
+      "icon": "Party",
       "time": "00:30",
       "location": "Logroño City Center",
       "maps": [

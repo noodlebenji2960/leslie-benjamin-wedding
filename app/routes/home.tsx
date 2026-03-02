@@ -14,9 +14,20 @@ import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
 import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
 import { ReactComponent as BirdyIllustration } from "../images/birdy.svg";
 import { ReactComponent as HeartSpeechBubbleIllustration } from "../images/heartSpeechBubble.svg";
+import { ReactComponent as HeartArrow1Illustration } from "../images/heartArrow1.svg";
+
+import { ReactComponent as Plants1Illustration } from "../images/plants.svg";
+import { ReactComponent as Plants2Illustration } from "../images/plants2.svg";
+import { ReactComponent as Plants3Illustration } from "../images/plants3.svg";
+import { ReactComponent as Plants4Illustration } from "../images/plants4.svg";
+
 import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Fragment } from "react/jsx-runtime";
 import Heart from "@/components/Heart";
+import Carousel from "@/components/Carousel";
+import ScrollChevron from "@/components/ScrollDown";
+import { useState } from "react";
+import { Icon } from "@/components/Icon";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -66,6 +77,14 @@ export default function Home() {
     </>
   );
 
+  const imageModules = import.meta.glob(
+    "/public/images/carousel/*.{jpg,jpeg,png,webp,avif,svg}",
+    { eager: true, as: "url" },
+  );
+  const photos = Object.values(imageModules) as string[];
+
+  const [showHorizontalLine, setShowHorizontalLine] = useState(false);
+
   return (
     <div className="home-hero">
       {/* HERO — no fade-in, visible immediately */}
@@ -85,30 +104,33 @@ export default function Home() {
             {t("subtitle", { ns: "home" })} <br />
           </div>
           <div className="hero-body">{t("welcome", { ns: "home" })}</div>
-          {config.rsvp.enabled && (
-            <button onClick={handleRSVP} className="cta-btn">
-              {t("rsvp", { ns: "home" })}
-            </button>
-          )}
         </span>
+        <ScrollChevron />
         <div className="hero-date">
-          <span className="horizontal-line" />
+          <span
+            className={`horizontal-line ${showHorizontalLine ? "show" : ""}`}
+          />
           <span className="date-month">{monthName}</span>|
           <span className="date-daynum">{dayNumber}</span>|
           <span className="date-year">{year}</span>
-          <span className="horizontal-line" />
+          <span
+            className={`horizontal-line ${showHorizontalLine ? "show" : ""}`}
+          />
         </div>
       </div>
 
       {/* LOCATION & MAP */}
-      <FadeInSection>
+      <FadeInSection
+        onInView={() => setShowHorizontalLine(true)}
+        onOutView={() => setShowHorizontalLine(false)}
+      >
         <div className="venue-card">
-            <Link
-              to={wedding.wedding.ceremony.venue.website}
-              className="hero-location"
-            >
-              {wedding.wedding.ceremony.venue.longName}
-            </Link>
+          <Link
+            to={wedding.wedding.ceremony.venue.website}
+            className="hero-location"
+          >
+            {wedding.wedding.ceremony.venue.longName}
+          </Link>
 
           <Map
             coordinates={wedding.wedding.ceremony.venue.coordinates}
@@ -129,24 +151,54 @@ export default function Home() {
             <FadeInSection delay={0.1}>
               <div className="schedule-preview">
                 <div className="schedule-header">
-                  <Countdown
-                    date={wedding.wedding.date}
-                    time={wedding.wedding.ceremony.time}
-                    size="sm"
-                    labelPosition={"top"}
-                  />
                   <h3>
                     {t("scheduleTitle", {
                       ns: "home",
                       defaultValue: "The Day",
                     })}
                   </h3>
+                  <p className="schedule-body">
+                    <Trans
+                      i18nKey="scheduleBody"
+                      ns="home"
+                      components={{
+                        scheduleLink: (
+                          <Link
+                            to={buildLink("/schedule")}
+                            className="faq-link"
+                          />
+                        ),
+                      }}
+                    />
+                  </p>
+                  <Countdown
+                    date={wedding.wedding.date}
+                    time={wedding.wedding.ceremony.time}
+                    size="sm"
+                    
+                  />
                 </div>
                 <div className="timeline">
+                  <div className="timeline-bg-plants">
+                    <Plants1Illustration />
+                  </div>
+                  <div className="timeline-bg-plants">
+                    <Plants2Illustration />
+                  </div>
                   {wedding.schedule.map((event, index) => (
                     <div key={`${event.id}-${index}`} className="timeline-item">
-                      <div className="timeline-dot" />
                       <div className="timeline-content">
+                        {event.icon && (
+                          // event.icon is a string like "Add" or "Heart.full"
+                          <span className="timeline-icon">
+                            {event.icon
+                              .split(".") // support nested icons like "Heart.full"
+                              .reduce(
+                                (acc, key) => acc[key],
+                                Icon,
+                              )({ size: 24, className: "timeline-icon" })}
+                          </span>
+                        )}
                         <span className="timeline-time">{event.time}</span>
                         <span className="timeline-label">
                           <Trans
@@ -166,20 +218,6 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <p className="schedule-body">
-                  <Trans
-                    i18nKey="scheduleBody"
-                    ns="home"
-                    components={{
-                      scheduleLink: (
-                        <Link
-                          to={buildLink("/schedule")}
-                          className="faq-link"
-                        />
-                      ),
-                    }}
-                  />
-                </p>
               </div>
             </FadeInSection>
           )}
@@ -232,17 +270,27 @@ export default function Home() {
       {config.rsvp.enabled && (
         <FadeInSection delay={0.1}>
           <div className="rsvp-section">
+            <h2>{rsvpDeadline}</h2>
             <p className="rsvp-intro">
-              <Trans
-                i18nKey="rsvpIntro"
-                ns="home"
-                values={{ deadline: rsvpDeadline }}
-                components={{ strong: <strong /> }}
-              />
+              <Trans i18nKey="rsvpIntro" ns="home" />
             </p>
             <button onClick={handleRSVP} className="cta-btn">
               {t("rsvp", { ns: "home" })}
             </button>
+          </div>
+        </FadeInSection>
+      )}
+      {config.ourStory.imageCarousel.enabled && (
+        <FadeInSection>
+          <div className="our-story-section">
+            <h1 className="our-story-header">Our Story</h1>
+            <p className="our-story-body">
+              Love at first sight is the quiet miracle of a single moment, when
+              one glance ignites a feeling too deep for words. Time seems to
+              pause, hearts lean closer, and the soul recognizes something it
+              has been waiting for all along.
+            </p>
+            <Carousel photos={photos} />
           </div>
         </FadeInSection>
       )}

@@ -4,7 +4,11 @@
     "homeSection": { "enabled": true, "isInFeatureList": false }
   },
   "rsvp": { "enabled": false, "isInFeatureList": true },
-  "schedule": { "enabled": false, "timesEnabled": false, "isInFeatureList": true },
+  "schedule": {
+    "enabled": false,
+    "timesEnabled": false,
+    "isInFeatureList": true
+  },
   "qa": {
     "enabled": true,
     "isInFeatureList": true,
@@ -34,5 +38,13 @@
     "showHeader": { "enabled": true, "isInFeatureList": false },
     "showFooter": { "enabled": true, "isInFeatureList": false },
     "theme": { "enabled": false, "isInFeatureList": false, "default": "light" }
+  },
+  "ourStory": {
+    "enabled": true,
+    "isInFeatureList": false,
+    "imageCarousel": {
+      "enabled": true,
+      "isInFeatureList": false
+    }
   }
 }

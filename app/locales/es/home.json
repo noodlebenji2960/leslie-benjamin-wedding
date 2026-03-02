@@ -7,7 +7,7 @@
   "welcome_back_long_time": "¡Bienvenido de nuevo! ¡Te hemos extrañado! Han pasado {{days}} días.",
   "subtitle": "¡Por fin, nos casamos!",
   "rsvp": "Confirmar Asistencia",
-  "rsvpIntro": "¡Nos encantaría saber si podrás acompañarnos! Confírmanos tu asistencia antes del <strong>{{deadline}}</strong> para que podamos prepararlo todo con cariño.",
+  "rsvpIntro": "¡Nos encantaría saber si podrás acompañarnos! <br/> Confírmanos tu asistencia antes para que podamos prepararlo todo con cariño.",
   "welcome": "Nos complace invitarte a celebrar con nosotros uno de los días más importantes de nuestras vidas!",
   "scheduleTitle": "El Gran Día",
   "scheduleBody": "Consulta el <scheduleLink>programa completo</scheduleLink>.",

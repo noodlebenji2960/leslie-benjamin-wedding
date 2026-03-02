@@ -7,7 +7,7 @@
   "welcome_back_long_time": "Welcome back! We've missed you! It's been {{days}} days.",
   "subtitle": "Finally, we are getting married!",
   "rsvp": "RSVP",
-  "rsvpIntro": "We'd love to know if you can make it! Please let us know by <strong>{{deadline}}</strong> so we can make sure everything is perfect for you.",
+  "rsvpIntro": "We'd love to know if you can make it! <br/> Please let us know in time so we can make sure everything is perfect for you.",
   "welcome": "We are pleased to invite you to celebrate with us one of the most important days of our lives.",
   "scheduleTitle": "The Big Day",
   "scheduleBody": "Check out the <scheduleLink>full schedule</scheduleLink>.",
