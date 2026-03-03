@@ -86,8 +86,8 @@
       "time": "13:00",
       "location": "Fuente Murrieta",
       "images": [
-        "/public/images/FuenteMurrieta.jpg",
-        "/public/images/hotel_exterior.jpg"
+        "/images/FuenteMurrieta.jpg",
+        "/images/hotel_exterior.jpg"
       ],
       "maps": [
         {

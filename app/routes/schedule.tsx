@@ -259,7 +259,7 @@ const Schedule = () => {
                 </div>
 
                 {/* Opposite-side slot — any content keyed by event id */}
-                {event.images && event.images.length>0 && (
+                {event.images && event.images.length > 0 && (
                   <FadeInSection
                     delay={index * 0.08 + 0.05}
                     className={`schedule-event-opposite ${isEven ? "schedule-event-opposite--right" : "schedule-event-opposite--left"}`}
@@ -269,7 +269,10 @@ const Schedule = () => {
                         className="schedule-event-opposite-img"
                         key={`${event.id}-${i}`}
                       >
-                        <img src={image} alt={event.id} />
+                        <img
+                          src={`${import.meta.env.BASE_URL}${image.replace(/^\//, "")}`}
+                          alt={event.id}
+                        />
                       </div>
                     ))}
                   </FadeInSection>
