@@ -15,7 +15,7 @@
 
 .schedule-page {
   padding-bottom: $space-3xl;
-  max-width: 900px;
+  max-width: 1200px;
   margin: auto;
 }
 
@@ -226,6 +226,59 @@
   }
 }
 
+// ─────────────────────────────────────────────
+// Opposite-side slot
+// ─────────────────────────────────────────────
+
+.schedule-event-opposite {
+  margin: auto 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  &--left {
+    grid-column: 1;
+    padding-right: $space-lg;
+  }
+
+  &--right {
+    grid-column: 3;
+    padding-left: $space-lg;
+  }
+}
+
+.schedule-event-opposite-img {
+  max-width: 200px;
+  background: #fff;
+  padding: $space-sm $space-sm calc(#{$space-sm} * 3);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  transform: rotate(1.5deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: calc($space-sm * -1);
+
+  &:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  &:nth-child(even) {
+    transform: rotate(-1.2deg) translateY(-5px);
+  }
+
+  & + & {
+    margin-top: $space-md;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    filter: sepia(8%) contrast(1.05) saturate(0.95);
+  }
+}
+
 .schedule-event-card-inner {
   margin-top: $space-lg;
   background: $color-white;
@@ -237,7 +290,6 @@
 
   &:hover {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
   }
 }
 
@@ -375,6 +427,11 @@
     padding: 0 0 0 $space-md !important;
   }
 
+  .schedule-event-opposite--left,
+  .schedule-event-opposite--right {
+    display: none;
+  }
+
   .schedule-nodes-line-past,
   .schedule-nodes-line-future {
     left: 45px;
@@ -395,8 +452,8 @@
 .schedule-event-node-inner {
 
   &.schedule-event--past {
-    background: $color-primary;
-    border: 2px solid $color-primary-shade;
+    background: $color-accent;
+    border: 2px solid $color-accent-tint;
     outline: 2px solid $color-accent;
 
     .schedule-event-icon,

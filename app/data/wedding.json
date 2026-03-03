@@ -85,8 +85,10 @@
       "icon": "Bus",
       "time": "13:00",
       "location": "Fuente Murrieta",
-      "image": "/images/FuenteMurrieta.jpg",
-      "imageAlt": "Beautiful fountain in Logroño",
+      "images": [
+        "/public/images/FuenteMurrieta.jpg",
+        "/public/images/hotel_exterior.jpg"
+      ],
       "maps": [
         {
           "coordinates": { "lat": 42.4661562, "lng": -2.4511548 },

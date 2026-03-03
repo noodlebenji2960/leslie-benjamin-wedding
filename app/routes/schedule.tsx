@@ -167,16 +167,26 @@ const Schedule = () => {
     });
   }, []);
 
+  // On touch/no-cursor devices, use viewport centre as the reference Y.
+  // On desktop, use the last known cursor position.
+  const referenceY = useCallback(
+    () =>
+      window.matchMedia("(hover: none) and (pointer: coarse)").matches
+        ? window.innerHeight / 2
+        : lastClientY.current,
+    [],
+  );
+
   // Initialize CSS vars on mount so the full future line renders before mouse interaction
   useEffect(() => {
-    updateDot(lastClientY.current);
-  }, [updateDot]);
+    updateDot(referenceY());
+  }, [updateDot, referenceY]);
 
   useEffect(() => {
-    const onScroll = () => updateDot(lastClientY.current || window.innerHeight / 2);
+    const onScroll = () => updateDot(referenceY());
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [updateDot]);
+  }, [updateDot, referenceY]);
 
   return (
     <div className="schedule-page">
@@ -247,6 +257,23 @@ const Schedule = () => {
                   )}
                   <div className="schedule-event-time">{event.time}</div>
                 </div>
+
+                {/* Opposite-side slot — any content keyed by event id */}
+                {event.images && event.images.length>0 && (
+                  <FadeInSection
+                    delay={index * 0.08 + 0.05}
+                    className={`schedule-event-opposite ${isEven ? "schedule-event-opposite--right" : "schedule-event-opposite--left"}`}
+                  >
+                    {event.images.map((image, i) => (
+                      <div
+                        className="schedule-event-opposite-img"
+                        key={`${event.id}-${i}`}
+                      >
+                        <img src={image} alt={event.id} />
+                      </div>
+                    ))}
+                  </FadeInSection>
+                )}
 
                 {/* Card — left or right column */}
                 <FadeInSection
