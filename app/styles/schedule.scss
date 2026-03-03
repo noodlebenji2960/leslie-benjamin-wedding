@@ -101,9 +101,9 @@
 .schedule-timeline-dot-label {
   font-family: $font-body;
   letter-spacing:3px;
-  font-size: $font-size-md;
+  font-size: $font-size-xs;
   font-weight: $fw-bold;
-  color: $color-text;
+  color: $color-primary-shade;
   text-align: center;
   white-space: nowrap;
   pointer-events: none;
@@ -128,8 +128,8 @@
 .schedule-nodes-line-past {
   top: var(--timeline-start, 0%);
   bottom: calc(100% - var(--split-y, var(--timeline-start, 0%)));
-  background: $color-accent;
-  width: 3px;
+  background: $color-primary-tint;
+  width: 2px;
 }
 
 // Future segment: always spans full node range, clipped from top to reveal only below --split-y
@@ -138,10 +138,10 @@
   bottom: calc(100% - var(--timeline-end, 100%));
   background: repeating-linear-gradient(
     to bottom,
-    #{$color-border} 0,
-    #{$color-border} 4px,
-    transparent 4px,
-    transparent 10px
+    #{$color-primary-tint} 0,
+    #{$color-primary-tint} 4px,
+    transparent 7px,
+    transparent 14px
   );
   // Clip everything above --split-y; defaults to full height (nothing visible) until --split-y is set
   clip-path: inset(calc(var(--split-y, var(--timeline-end, 100%)) - var(--timeline-start, 0px)) 0 0 0);
