@@ -21,6 +21,7 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
   const [isDragging, setIsDragging] = useState(false);
 
   const isPausedRef = useRef(false);
+  const isHoveredRef = useRef(false);
   const scrollDirRef = useRef<-1 | 0 | 1>(0);
   const isDraggingRef = useRef(false);
   const dragStartXRef = useRef(0);
@@ -31,8 +32,15 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
   const animFrameRef = useRef<number>(0);
   const posRef = useRef(0);
 
+  // Momentum / inertia state
+  const velocityRef = useRef(0); // px/frame momentum after release
+  const lastClientXRef = useRef(0); // last pointer X during drag
+  const lastDragDeltaRef = useRef(0); // delta of the last move event (for velocity sampling)
+
   const speed = 0.6;
   const buttonSpeed = 3;
+  const friction = 0.92; // multiplied each frame — lower = stops faster
+  const minVelocity = 0.05; // below this we kill momentum
 
   const setDragging = (val: boolean) => {
     isDraggingRef.current = val;
@@ -59,36 +67,38 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
     let singleSetWidth = 0;
 
     const measure = () => {
-      // Since we doubled the slides, the loop point is exactly half the scrollWidth
       singleSetWidth = track.scrollWidth / 2;
+    };
+
+    const wrap = (pos: number) => {
+      if (singleSetWidth <= 0) return pos;
+      let p = pos % singleSetWidth;
+      if (p < 0) p += singleSetWidth;
+      return p;
     };
 
     const animate = () => {
       if (singleSetWidth > 0) {
-        if (!isDraggingRef.current) {
-          const delta =
-            scrollDirRef.current !== 0
-              ? scrollDirRef.current * buttonSpeed
-              : isPausedRef.current
-                ? 0
-                : speed;
-
-          posRef.current += delta;
+        if (isDraggingRef.current) {
+          // While dragging: position is set directly in handleDragMove
+          // but we still sample velocity from lastDragDeltaRef
+          velocityRef.current = lastDragDeltaRef.current;
+          lastDragDeltaRef.current = 0; // reset each frame so stale deltas decay
+        } else if (scrollDirRef.current !== 0) {
+          // Button held
+          velocityRef.current = 0;
+          posRef.current += scrollDirRef.current * buttonSpeed;
+        } else if (Math.abs(velocityRef.current) > minVelocity) {
+          // Momentum (coasting after throw)
+          posRef.current += velocityRef.current;
+          velocityRef.current *= friction;
+        } else if (!isPausedRef.current && !isHoveredRef.current) {
+          // Auto-scroll
+          velocityRef.current = 0;
+          posRef.current += speed;
         }
 
-        // SEAMLESS WRAP LOGIC
-        // If we go past the end of the first set, jump back by one set width
-        if (posRef.current >= singleSetWidth) {
-          posRef.current -= singleSetWidth;
-          // If dragging, we update the start point to keep delta relative
-          if (isDraggingRef.current) dragStartPosRef.current -= singleSetWidth;
-        }
-        // If we go before the start, jump forward by one set width
-        if (posRef.current < 0) {
-          posRef.current += singleSetWidth;
-          if (isDraggingRef.current) dragStartPosRef.current += singleSetWidth;
-        }
-
+        posRef.current = wrap(posRef.current);
         track.style.transform = `translateX(-${posRef.current}px)`;
       }
       animFrameRef.current = requestAnimationFrame(animate);
@@ -97,11 +107,10 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
     const ro = new ResizeObserver(measure);
     ro.observe(track);
 
-    // Initial measure and start
     const timer = setTimeout(() => {
       measure();
       animFrameRef.current = requestAnimationFrame(animate);
-    }, 50); // Slight delay to ensure DOM is painted
+    }, 50);
 
     return () => {
       clearTimeout(timer);
@@ -114,6 +123,7 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
   const handleButtonDown = (dir: -1 | 1) => {
     scrollDirRef.current = dir;
     isPausedRef.current = true;
+    velocityRef.current = 0;
   };
 
   const handleButtonUp = () => {
@@ -125,23 +135,35 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
     setDragging(true);
     wasDraggingRef.current = false;
     dragStartXRef.current = clientX;
+    lastClientXRef.current = clientX;
     dragStartPosRef.current = posRef.current;
+    lastDragDeltaRef.current = 0;
+    velocityRef.current = 0;
     isPausedRef.current = true;
   };
 
   const handleDragMove = (clientX: number) => {
     if (!isDraggingRef.current) return;
-    const delta = dragStartXRef.current - clientX;
 
-    // Threshold to distinguish between a click and a drag
-    if (Math.abs(delta) > 5) wasDraggingRef.current = true;
+    const totalDelta = dragStartXRef.current - clientX;
+    if (Math.abs(totalDelta) > 5) wasDraggingRef.current = true;
 
-    posRef.current = dragStartPosRef.current + delta;
+    // Sample per-move delta for velocity
+    lastDragDeltaRef.current = clientX - lastClientXRef.current; // negative = dragging left (positive scroll dir)
+    lastClientXRef.current = clientX;
+
+    posRef.current = dragStartPosRef.current + totalDelta;
   };
 
   const handleDragEnd = () => {
+    if (!isDraggingRef.current) return;
     setDragging(false);
     isPausedRef.current = false;
+
+    // Convert last drag delta to forward momentum
+    // drag left (negative delta) → positive scroll velocity
+    velocityRef.current = -lastDragDeltaRef.current;
+    lastDragDeltaRef.current = 0;
   };
 
   return (
@@ -164,7 +186,7 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
           style={{
             cursor: isDragging ? "grabbing" : "grab",
             userSelect: "none",
-            touchAction: "pan-y", // Allows vertical scrolling but captures horizontal
+            touchAction: "pan-y",
             overflow: "hidden",
           }}
           onMouseDown={(e) => handleDragStart(e.clientX)}
@@ -180,7 +202,7 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
             ref={trackRef}
             style={{
               display: "flex",
-              width: "max-content", // Essential for scrollWidth to be accurate
+              width: "max-content",
               willChange: "transform",
             }}
           >
@@ -202,21 +224,28 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
                   transition: { type: "spring", stiffness: 300, damping: 20 },
                 }}
                 whileTap={{ scale: 0.97 }}
-                onHoverStart={() => (isPausedRef.current = true)}
-                onHoverEnd={() => (isPausedRef.current = false)}
+                onHoverStart={() => {
+                  isHoveredRef.current = true;
+                }}
+                onHoverEnd={() => {
+                  isHoveredRef.current = false;
+                }}
                 onClick={() => {
-                  if (!wasDraggingRef.current) setSelectedPhoto(item.src);
+                  if (!wasDraggingRef.current) {
+                    isPausedRef.current = true;
+                    setSelectedPhoto(item.src);
+                  }
                 }}
               >
                 <div className="polaroid__photo">
                   <img
                     src={item.src}
                     alt={`Photo ${(i % photos.length) + 1}`}
-                    draggable={false} // Prevents ghost-image drag
+                    draggable={false}
                     style={{ pointerEvents: "none" }}
                   />
                 </div>
-                
+
                 <div
                   className="polaroid__caption"
                   style={{ marginLeft: item.captionOffset }}
@@ -241,8 +270,13 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
         </button>
       </div>
 
-      {/* Modal with AnimatePresence for smooth exit */}
-      <Modal isOpen={!!selectedPhoto} onClose={() => setSelectedPhoto(null)}>
+      <Modal
+        isOpen={!!selectedPhoto}
+        onClose={() => {
+          isPausedRef.current = false;
+          setSelectedPhoto(null);
+        }}
+      >
         {selectedPhoto && (
           <motion.div
             initial={{ opacity: 0, scale: 0.85, rotate: -4 }}

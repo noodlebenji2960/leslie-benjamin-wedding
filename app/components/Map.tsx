@@ -17,6 +17,7 @@ type MapProps = {
   interactive?: boolean;
   zoom?: number;
   style?: React.CSSProperties;
+  dragging?: boolean;
 };
 
 const Map: React.FC<MapProps> = ({
@@ -30,6 +31,7 @@ const Map: React.FC<MapProps> = ({
   interactive = false,
   zoom,
   style,
+  dragging,
 }) => {
   const [Leaflet, setLeaflet] = useState<any>(null);
   const [L, setL] = useState<any>(null);
@@ -143,6 +145,7 @@ const Map: React.FC<MapProps> = ({
             number,
           ],
           zoom,
+          dragging,
         }
       : {
           bounds: allCoords.map((c: any) => [c.lat, c.lng]),
@@ -181,11 +184,11 @@ const Map: React.FC<MapProps> = ({
       ) : (
         <Leaflet.MapContainer
           ref={mapRef}
-          {...mapProps}
           style={{ width: "100%", height: "100%" }}
           scrollWheelZoom={false}
           dragging={interactive}
           zoomControl={interactive}
+          {...mapProps}
           // Removes the default "Leaflet" prefix and attribution container
           attributionControl={false}
           whenReady={() => {

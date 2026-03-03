@@ -77,17 +77,18 @@ export default function Home() {
     </>
   );
 
-  const imageModules = import.meta.glob(
+  const imageModules: Record<string, string> = import.meta.glob(
     "/public/images/carousel/*.{jpg,jpeg,png,webp,avif,svg}",
-    { eager: true, as: "url" },
+    { eager: true, query: "?url", import: "default" },
   );
+
   const photos = Object.values(imageModules) as string[];
 
   const [showHorizontalLine, setShowHorizontalLine] = useState(false);
 
   return (
     <div className="home-hero">
-      {/* HERO — no fade-in, visible immediately */}
+      {/* HERO */}
       <div className="hero">
         <AnimatePresence>
           <motion.div
@@ -139,6 +140,7 @@ export default function Home() {
             width="100%"
             height="250px"
             interactive={true}
+            dragging={false}
             zoom={14}
           />
         </div>
@@ -175,7 +177,6 @@ export default function Home() {
                     date={wedding.wedding.date}
                     time={wedding.wedding.ceremony.time}
                     size="sm"
-                    
                   />
                 </div>
                 <div className="timeline">
@@ -186,7 +187,7 @@ export default function Home() {
                     <Plants2Illustration />
                   </div>
                   {wedding.schedule.map((event, index) => (
-                    <div key={`${event.id}-${index}`} className="timeline-item">
+                    <div key={`${event.id}-${index}1`} className="timeline-item">
                       <div className="timeline-content">
                         {event.icon && (
                           // event.icon is a string like "Add" or "Heart.full"
@@ -242,7 +243,6 @@ export default function Home() {
                     </p>
                   </span>
                 </div>
-                <div className="vertical-separator" />
                 <div className="essential-item">
                   <HeartBoxIllustration />
                   <span className="essential-item-body">

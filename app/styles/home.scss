@@ -545,6 +545,7 @@
   text-align: center;
   border: 1px solid $color-accent-light;
   z-index: 1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
   &::before,
   &::after {

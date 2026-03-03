@@ -9,6 +9,7 @@ interface ModalProps {
   children: ReactNode;
   closeOnBackdropClick?: boolean;
   showCloseButton?: boolean;
+  modalTitle: string;
 }
 
 export function Modal({
@@ -17,6 +18,7 @@ export function Modal({
   children,
   closeOnBackdropClick = true,
   showCloseButton = true,
+  modalTitle = "",
 }: ModalProps) {
   const lenis = useLenis(() => {});
   const contentRef = useRef<HTMLDivElement>(null);
@@ -111,12 +113,15 @@ export function Modal({
             transition={{ duration: 0.4, ease: "easeInOut" }}
             onKeyDown={handleKeyDown}
           >
-            <div className="modal-content" ref={contentRef}>
+            <div className="modal-header">
+              {modalTitle && <h2>{modalTitle}</h2>}
               {showCloseButton && (
                 <button className="modal-close" onClick={onClose}>
                   <Icon.Close />
                 </button>
               )}
+            </div>
+            <div className="modal-content" ref={contentRef}>
               {children}
             </div>
           </motion.div>

@@ -57,16 +57,16 @@ export default [
     index("routes/redirect.tsx"),
     ...prefix("es", esRoutes),
     ...prefix("en", enRoutes),
+    route("*", "routes/not-found.tsx", { id: "not-found" }),
   ]),
 
   // Legal pages — always present
   ...prefix("es", [
     route("legal/:page", "routes/legal.tsx", { id: "es/legal" }),
+    route("legal/*", "routes/not-found.tsx", { id: "es/legal/not-found" }),
   ]),
   ...prefix("en", [
     route("legal/:page", "routes/legal.tsx", { id: "en/legal" }),
+    route("legal/*", "routes/not-found.tsx", { id: "en/legal/not-found" }),
   ]),
-
-  // 404 catch-all
-  route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig;

@@ -192,6 +192,10 @@
     var(--color-border-light),
     var(--color-border-dark)
   );
+    --color-border-alpha: light-dark(
+    var(--color-border-light),
+    var(--color-border-dark)
+  );
 
   /* ---------------------- Typography ---------------------- */
   --font-header: "Adelia", sans-serif;

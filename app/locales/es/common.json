@@ -10,21 +10,21 @@
     "hours": "horas",
     "minutes": "minutos"
   },
-  "days":{
-    "long":"días",
-    "short":"d"
+  "days": {
+    "long": "días",
+    "short": "d"
   },
-  "hours":{
-    "long":"horas",
-    "short":"h"
+  "hours": {
+    "long": "horas",
+    "short": "h"
   },
-  "minutes":{
-    "long":"minutos",
-    "short":"m"
+  "minutes": {
+    "long": "minutos",
+    "short": "m"
   },
-  "seconds":{
-    "long":"segundos",
-    "short":"s"
+  "seconds": {
+    "long": "segundos",
+    "short": "s"
   },
   "click_here": "haz clic aquí",
 
@@ -45,5 +45,12 @@
   "cookie_analytics": "Cookies de análisis",
   "cookie_marketing": "Cookies de marketing",
   "save_preferences": "Guardar preferencias",
-  "current_preferences": "Tus preferencias de cookies:"
+  "current_preferences": "Tus preferencias de cookies:",
+  "errors": {
+    "notFoundTitle": "Página no encontrada",
+    "errorTitle": "Algo salió mal",
+    "genericMessage": "Algo salió mal. Por favor, inténtalo de nuevo.",
+    "goHome": "Ir al inicio",
+    "goBack": "Volver"
+  }
 }

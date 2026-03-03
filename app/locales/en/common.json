@@ -10,21 +10,21 @@
     "hours": "hours",
     "minutes": "minutes"
   },
-  "days":{
-    "long":"days",
-    "short":"d"
+  "days": {
+    "long": "days",
+    "short": "d"
   },
-  "hours":{
-    "long":"hours",
-    "short":"h"
+  "hours": {
+    "long": "hours",
+    "short": "h"
   },
-  "minutes":{
-    "long":"minutes",
-    "short":"m"
+  "minutes": {
+    "long": "minutes",
+    "short": "m"
   },
-  "seconds":{
-    "long":"seconds",
-    "short":"s"
+  "seconds": {
+    "long": "seconds",
+    "short": "s"
   },
   "click_here": "click here",
 
@@ -45,5 +45,12 @@
   "cookie_analytics": "Analytics cookies",
   "cookie_marketing": "Marketing cookies",
   "save_preferences": "Save Preferences",
-  "current_preferences": "Your cookie preferences:"
+  "current_preferences": "Your cookie preferences:",
+  "errors": {
+    "notFoundTitle": "Page not found",
+    "errorTitle": "Something went wrong",
+    "genericMessage": "Something went wrong. Please try again.",
+    "goHome": "Go home",
+    "goBack": "Go back"
+  }
 }

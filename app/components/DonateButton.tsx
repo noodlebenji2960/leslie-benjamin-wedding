@@ -33,7 +33,7 @@ const DonateButton: React.FC<DonateButtonProps> = ({
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         title={t("donate.title")}
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpen(true)} 
       >
         <div className="donate-content">
           <span className="donate-text">{t("click_here")}</span>

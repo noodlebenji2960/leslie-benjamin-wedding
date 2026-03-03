@@ -1,20 +1,429 @@
 @use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
+
+// ─────────────────────────────────────────────
+// Utility: alpha() — works with any CSS custom property
+// ─────────────────────────────────────────────
+
+@function alpha($token, $opacity: 0.5) {
+  @return color-mix(in srgb, #{$token} #{$opacity * 100%}, transparent);
+}
+
+// ─────────────────────────────────────────────
+// Schedule Page
+// ─────────────────────────────────────────────
 
 .schedule-page {
-  padding: 1rem 0;
+  padding-bottom: $space-3xl;
+  max-width: 900px;
+  margin: auto;
 }
 
-.event-card {
+// ─────────────────────────────────────────────
+// Hero
+// ─────────────────────────────────────────────
+
+.schedule-hero {
+  text-align: center;
+  padding: $space-2xl $space-xl $space-xl;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.schedule-eyebrow {
+  font-family: $font-body;
+  font-size: 0.8rem;
+  font-weight: $fw-bold;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $color-accent;
+  margin-bottom: $space-sm;
+}
+
+.schedule-title {
+  font-family: $font-header;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: $fw-medium;
+  color: $color-accent;
+  margin: 0 0 $space-md;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+.schedule-subtitle {
+  font-family: $font-body;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: $color-text;
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto $space-xl;
+}
+
+.schedule-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-md;
+  color: $color-accent;
+
+  span {
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: alpha($color-accent, 0.4);
+  }
+}
+
+// ─────────────────────────────────────────────
+// Timeline Wrapper — positioned root for the dot and vertical line
+// ─────────────────────────────────────────────
+
+.schedule-timeline-wrapper {
+  position: relative;
+  margin: $space-xl auto;
+  padding: 0 $space-lg;
+}
+
+// ─────────────────────────────────────────────
+// Timeline Tracking Dot
+// ─────────────────────────────────────────────
+
+.schedule-timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: var(--dot-y, 0px);
+  transform: translateX(calc(-50% + 2px)) translateY(-50%);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: -1;
+}
+
+.schedule-timeline-dot-label {
+  font-family: $font-body;
+  letter-spacing:3px;
+  font-size: $font-size-md;
+  font-weight: $fw-bold;
+  color: $color-text;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  justify-self: center;
+}
+
+// ─────────────────────────────────────────────
+// Vertical line — two segments split at the cursor position
+// ─────────────────────────────────────────────
+
+.schedule-nodes-line-past,
+.schedule-nodes-line-future {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+// Past segment: first node → cursor (accent color)
+.schedule-nodes-line-past {
+  top: var(--timeline-start, 0%);
+  bottom: calc(100% - var(--split-y, var(--timeline-start, 0%)));
+  background: $color-accent;
+  width: 3px;
+}
+
+// Future segment: always spans full node range, clipped from top to reveal only below --split-y
+.schedule-nodes-line-future {
+  top: calc(var(--timeline-start, 0%) + 35px);
+  bottom: calc(100% - var(--timeline-end, 100%));
+  background: repeating-linear-gradient(
+    to bottom,
+    #{$color-border} 0,
+    #{$color-border} 4px,
+    transparent 4px,
+    transparent 10px
+  );
+  // Clip everything above --split-y; defaults to full height (nothing visible) until --split-y is set
+  clip-path: inset(calc(var(--split-y, var(--timeline-end, 100%)) - var(--timeline-start, 0px)) 0 0 0);
+}
+
+// ─────────────────────────────────────────────
+// Unified timeline — holds one row per event
+// ─────────────────────────────────────────────
+
+.schedule-timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: $space-xl 0;
+  z-index: 2;
+}
+
+// Each row: [card (1fr)] [node (80px)] [card (1fr)]
+// align-items: center keeps the node vertically centred on the card
+
+.schedule-event-row {
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr 80px 1fr;
+  grid-auto-flow: dense;
   align-items: start;
-  margin-bottom: 1rem;
 }
 
-.map-embed {
-  border-radius: 8px;
+.schedule-event-node-inner {
+  grid-column: 2;
+  justify-self: center;
+  pointer-events: auto;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: $color-white;
+  outline: 2px solid $color-accent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.schedule-event-icon,
+.schedule-event-time {
+  color: $color-accent;
+  transition: color 0.3s ease;
+}
+
+.schedule-event-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.schedule-event-time {
+  font-family: $font-body;
+  font-size: 1rem;
+  font-weight: $fw-bold;
+  letter-spacing: 0.09em;
+  white-space: nowrap;
+}
+
+// ─────────────────────────────────────────────
+// Event Card
+// ─────────────────────────────────────────────
+
+.schedule-event-card {
+  // Left cards sit in column 1 of the row grid
+  &--left {
+    grid-column: 1;
+    padding-right: $space-lg;
+  }
+
+  // Right cards sit in column 3 of the row grid
+  &--right {
+    grid-column: 3;
+    padding-left: $space-lg;
+  }
+}
+
+.schedule-event-card-inner {
+  margin-top: $space-lg;
+  background: $color-white;
+  border-radius: $radius-md;
+  border: 1px solid alpha($color-accent-light, 0.6);
+  padding: $space-md;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.schedule-event-header {
+  margin-bottom: $space-sm;
+}
+
+.schedule-event-title {
+  font-family: $font-header;
+  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+  font-weight: $fw-medium;
+  color: $color-accent;
+  margin: 0 0 $space-xs;
+  line-height: 1.2;
+}
+
+.schedule-event-location {
+  display: inline-flex;
+  align-items: center;
+  font-family: $font-body;
+  font-size: 0.78rem;
+  font-weight: $fw-bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $color-primary-darker;
+  opacity: 0.7;
+}
+
+.schedule-event-desc {
+  font-family: $font-body;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: $color-text;
+  margin: 0 0 $space-md;
+
+  &:empty {
+    display: none;
+    margin: 0;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Maps
+// ─────────────────────────────────────────────
+
+.schedule-maps {
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+  margin-top: $space-md;
+}
+
+.schedule-map-wrap {
+  border-radius: $radius-md;
   overflow: hidden;
-  color: #caa572
+  border: 1px solid alpha($color-accent-light, 0.5);
 }
 
+.schedule-map-directions {
+  display: block;
+  font-family: $font-body;
+  font-size: 0.8rem;
+  font-weight: $fw-bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: $color-accent;
+  text-decoration: none;
+  padding: $space-xs $space-md;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.02);
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background: $color-accent;
+    color: $color-white;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Footer Note
+// ─────────────────────────────────────────────
+
+.schedule-footer-note {
+  text-align: center;
+  padding: $space-xl;
+  max-width: 480px;
+  margin: 0 auto;
+
+  p {
+    font-family: $font-body;
+    font-size: 0.9rem;
+    color: $color-text;
+    opacity: 0.6;
+    line-height: 1.7;
+    font-style: italic;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Responsive
+// ─────────────────────────────────────────────
+
+@media (max-width: 680px) {
+  .schedule-timeline-wrapper {
+    padding: 0 $space-xs 0 $space-md;
+  }
+
+  // Collapse to single-column: node left, card right
+  .schedule-event-row {
+    grid-template-columns: 60px 1fr;
+  }
+
+  .schedule-event-card{
+    padding-left: $space-xs !important;
+  }
+
+  .schedule-event-node-inner {
+    grid-column: 1;
+    z-index: 1;
+    width: 80px;
+    height: 80px;
+  }
+
+  .schedule-event-card-inner{
+    margin-top: $space-md;
+    padding-left: $space-lg;
+    background: none;
+    border: none;
+    box-shadow: none !important;
+  }
+
+  .schedule-event-card--left,
+  .schedule-event-card--right {
+    grid-column: 2;
+    padding: 0 0 0 $space-md !important;
+  }
+
+  .schedule-nodes-line-past,
+  .schedule-nodes-line-future {
+    left: 45px;
+    transform: none;
+  }
+
+  .schedule-timeline-dot {
+    left: 45px;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Dot-driven event states
+// Scoped to node-inner only — cards are intentionally excluded
+// so FadeInSection animations are never disrupted by state changes
+// ─────────────────────────────────────────────
+
+.schedule-event-node-inner {
+
+  &.schedule-event--past {
+    background: $color-primary;
+    border: 2px solid $color-primary-shade;
+    outline: 2px solid $color-accent;
+
+    .schedule-event-icon,
+    .schedule-event-time {
+      color: $color-white;
+    }
+  }
+
+  &.schedule-event--active {
+    background: $color-white;
+    outline: 2px solid $color-accent;
+    border: 1px solid transparent;
+
+    .schedule-event-icon,
+    .schedule-event-time {
+      color: $color-accent;
+    }
+  }
+
+  &.schedule-event--upcoming {
+    background: $color-white;
+    outline: 1px solid transparent;
+    border: 1px solid border-alpha(0.4);
+
+    .schedule-event-icon,
+    .schedule-event-time {
+      color: $color-border;
+    }
+  }
+}

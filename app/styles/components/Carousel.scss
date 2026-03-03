@@ -8,8 +8,12 @@
   display: flex;
   align-items: center;
   gap: $space-sm;
-  padding: 0 $space-md;
+
   user-select: none;
+
+  @media (max-width: 768px) {
+    padding: 0 $space-sm;
+  }
 }
 
 .polaroid-carousel {
@@ -19,21 +23,37 @@
   padding: 40px 0 60px;
   cursor: default;
 
-  // Soft vignette fade on the edges so it feels infinite
   -webkit-mask-image: linear-gradient(
     to right,
-    transparent 0%,
+    transparent 5%,
     black 8%,
-    black 92%,
-    transparent 100%
+    black 85%,
+    transparent 95%
   );
   mask-image: linear-gradient(
     to right,
-    transparent 0%,
+    transparent 5%,
     black 8%,
-    black 92%,
-    transparent 100%
+    black 85%,
+    transparent 95%
   );
+
+  @media (max-width: 768px) {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 5%,
+      black 95%,
+      transparent 100%
+    );
+  }
 
   &__track {
     display: flex;
@@ -41,11 +61,17 @@
     gap: 24px;
     width: max-content;
     will-change: transform;
+
+    @media (max-width: 768px) {
+      gap: 12px;
+    }
   }
 
   &__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-100%);
     flex-shrink: 0;
-    position: relative;
     z-index: 20;
     display: flex;
     align-items: center;
@@ -68,17 +94,31 @@
     user-select: none;
     -webkit-user-select: none;
 
+    &:first-of-type {
+      left: 0;
+    }
+
+    &:last-of-type {
+      right: 0;
+    }
+
     &:hover {
       background: $color-primary;
       color: $color-text-alt;
       box-shadow: $box-shadow-md;
-      transform: scale(1.1);
+      transform: scale(1.1) translateY(-100%);
     }
 
     &:active {
       background: $color-accent;
       box-shadow: $box-shadow-xs;
-      transform: scale(0.96);
+      transform: scale(0.96) translateY(-100%);
+    }
+
+    @media (max-width: 768px) {
+      width: 2rem;
+      height: 2rem;
+      font-size: $font-size-xl;
     }
   }
 }
@@ -121,6 +161,11 @@
       filter: sepia(8%) contrast(1.05) saturate(0.95);
       -webkit-user-drag: none;
     }
+
+    @media (max-width: 768px) {
+      width: 120px !important;
+      height: 120px !important;
+    }
   }
 
   &__caption {
@@ -129,5 +174,14 @@
     color: #555;
     margin-top: $space-sm;
     text-align: center;
+
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 140px;
+    padding: 8px 8px 32px;
   }
 }

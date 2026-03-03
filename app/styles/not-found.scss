@@ -1,0 +1,82 @@
+// app/styles/not-found.scss (or wherever you keep it)
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
+
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text;
+  font-family: $font-body;
+}
+
+.not-found__container {
+  text-align: center;
+}
+
+.not-found__title {
+  font-size: $font-size-7xl;
+  font-weight: $fw-bold;
+  color: $color-text;
+  margin: 0 0 $space-xs 0;
+}
+
+.not-found__message {
+  font-size: $font-size-lg;
+  color: $color-text;
+  margin: 0 0 $space-xs 0;
+}
+
+.not-found__help {
+  font-size: $font-size-sm;
+  color: $color-text-alt;
+  margin: 0 0 $space-lg 0;
+}
+
+.not-found__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-md;
+  justify-content: center;
+}
+
+.not-found__button {
+  display: inline-block;
+  padding: $space-md $space-lg;
+  border-radius: $radius-button;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  text-decoration: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.not-found__button:not(:active) {
+  transform: translateY(0);
+}
+
+.not-found__button:active {
+  transform: translateY(1px);
+}
+
+.not-found__button--primary {
+  background: $color-accent-base;
+  color: $color-white;
+  box-shadow: $box-shadow-sm;
+}
+
+.not-found__button--primary:hover {
+  background: $color-accent-dark;
+}
+
+.not-found__button--secondary {
+  background: $color-background-alt;
+  color: $color-text;
+  border: 1px solid $color-border;
+  box-shadow: $box-shadow-xs;
+}
+
+.not-found__button--secondary:hover {
+  background: $color-background-alt;
+  color: $color-text;
+  box-shadow: $box-shadow-sm;
+}
