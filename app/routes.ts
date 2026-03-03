@@ -9,9 +9,11 @@ import {
 import featureConfigProd from "./data/feature-config.json";
 import featureConfigDev from "./data/feature-config-development.json";
 
-const siteConfig =
-  import.meta.env.MODE !== "production" ? featureConfigDev : featureConfigProd;
+const useDevConfig =
+  import.meta.env.VITE_USE_DEV_CONFIG === "true" ||
+  import.meta.env.MODE !== "production";
 
+const siteConfig = useDevConfig ? featureConfigDev : featureConfigProd;
 /**
  * Helper: include route only if feature is enabled
  */
