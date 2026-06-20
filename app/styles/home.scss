@@ -189,8 +189,11 @@
     @include semi-transparent($color-background, 0.1);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
-    mask-image: linear-gradient(to top, black 45%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top, black 45%, transparent 100%);
+    // The schedule header circle overlaps into this bottom half via a
+    // large negative margin — keep this opaque well past that point so
+    // the map underneath doesn't show through behind the circle.
+    mask-image: linear-gradient(to top, black 75%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black 75%, transparent 100%);
     pointer-events: none;
     z-index: 0;
   }

@@ -32,6 +32,7 @@ export function FadeInSection({
     <motion.div
       ref={ref}
       className={className}
+      style={{ willChange: "opacity" }}
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0 }}
       transition={{ duration: 0.6, ease: "easeOut", delay }}
