@@ -765,4 +765,20 @@
     flex-direction: column;
     gap: $space-md;
   }
+
+  // backdrop-filter over the live Leaflet map causes scanline/noise
+  // rendering artifacts on some Android GPUs as the map keeps getting
+  // re-composited under the blur. Drop the blur on mobile and rely on
+  // the solid fade colour alone.
+  .venue-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    &::before,
+    &::after {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background-color: $color-background;
+    }
+  }
 }
