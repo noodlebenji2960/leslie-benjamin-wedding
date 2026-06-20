@@ -43,23 +43,25 @@ const DropdownPagination: React.FC<DropdownPaginationProps> = ({
       >
         ‹
       </button>
-      {getPages().map((p, i) =>
-        p === "…" ? (
-          <span key={`ellipsis-${i}`} className="dd-pagination__ellipsis">
-            …
-          </span>
-        ) : (
-          <button
-            key={p}
-            className={`dd-pagination__btn${p === currentPage ? " dd-pagination__btn--active" : ""}`}
-            onClick={() => typeof p === "number" && onPageChange(p)}
-            disabled={p === currentPage}
-            aria-current={p === currentPage ? "page" : undefined}
-          >
-            {p}
-          </button>
-        ),
-      )}
+      <div>
+        {getPages().map((p, i) =>
+          p === "…" ? (
+            <span key={`ellipsis-${i}`} className="dd-pagination__ellipsis">
+              …
+            </span>
+          ) : (
+            <button
+              key={p}
+              className={`dd-pagination__btn${p === currentPage ? " dd-pagination__btn--active" : ""}`}
+              onClick={() => typeof p === "number" && onPageChange(p)}
+              disabled={p === currentPage}
+              aria-current={p === currentPage ? "page" : undefined}
+            >
+              {p}
+            </button>
+          ),
+        )}
+      </div>
       <button
         className="dd-pagination__btn"
         onClick={() => onPageChange(currentPage + 1)}

@@ -1,29 +1,36 @@
 {
-  "title": "Programa de la Boda",
+  "eyebrow": "Sábado · 11 de julio de 2026",
+  "title": "El Gran Día",
+  "subtitle": "Todo lo que necesitas saber sobre nuestro día de boda, de principio a fin.",
+  "footerNote": "Los horarios son aproximados. Enviaremos los detalles finales más cerca de la fecha.",
   "events": {
     "bus": {
-      "label": "Bus hasta {{location}}",
-      "description": "Salida desde Fuente de Murrieta."
+      "title": "Autobús a la Finca",
+      "description": "El autobús saldrá desde la Fuente Murrieta en Logroño para llevar a los invitados a la finca. Por favor, llega unos minutos antes para poder salir a tiempo."
     },
     "ceremony": {
-      "label": "Ceremonia @ {{venueName}}",
-      "description": "Únete a nosotros en los hermosos jardines para la ceremonia."
+      "title": "Ceremonia",
+      "description": "Acompáñanos mientras intercambiamos nuestros votos en la preciosa Finca del Hotel San Camilo en Navarrete."
     },
     "cocktails": {
-      "label": "Cócteles en la terraza",
-      "description": "Se servirán cócteles mientras tomamos fotos."
+      "title": "Cóctel",
+      "description": "Celebra con nosotros en la terraza con bebidas y pintxos mientras nos hacemos fotos con familiares y amigos."
     },
     "dinner": {
-      "label": "Cena @ {{location}}",
-      "description": "Disfruta de la cena con amigos y familiares."
+      "title": "Cena y Baile",
+      "description": "Disfruta de una cena de boda seguida de una noche de baile con nosotros en el Hotel San Camilo."
     },
     "busReturn": {
-      "label": "Bus de vuelta a {{busReturnLocation}}",
-      "description": ""
+      "title": "Autobús de Vuelta",
+      "description": "El autobús saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes necesiten transporte de regreso."
+    },
+    "busReturnLate": {
+      "title": "Autobús de Vuelta (Más Tarde)",
+      "description": "Un segundo autobús, más tarde, saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes quieran quedarse un poco más."
     },
     "afterparty": {
-      "label": "Afterparty @ {{location}}",
-      "description": "¡Bailemos toda la noche!"
+      "title": "After Party",
+      "description": "¡La noche no tiene por qué acabar! Únete a nosotros en el centro de Logroño para seguir celebrando."
     }
   }
 }

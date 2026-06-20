@@ -8,6 +8,18 @@
   "gifts": "Regalos",
   "travel": "Viaje y Alojamiento",
   "loading": "Cargando...",
+  "transport_options": {
+    "taxi": "Taxi",
+    "bus": "Autobús",
+    "train": "Tren",
+    "rental_car": "Coche de alquiler"
+  },
+  "season": {
+    "spring": "primavera",
+    "summer": "verano",
+    "fall": "otoño",
+    "winter": "invierno"
+  },
   "links": {
     "skyscanner": "Skyscanner",
     "airbnb": "AirBnB",
@@ -49,7 +61,7 @@
     },
     {
       "question": "¿Cuál es el código de vestimenta?",
-      "answer": "Formal / Cóctel. Por favor, evita usar blanco o marfil. Como es {{weddingDate}} en España, recomendamos telas ligeras y transpirables para mantenerte fresco.",
+      "answer": "Formal / Cóctel. Por favor, evita usar blanco o marfil. Como es {{weddingDate.season}} en España, recomendamos telas ligeras y transpirables para mantenerte fresco.",
       "category": "style",
       "id": "dressCode"
     },
@@ -61,7 +73,7 @@
     },
     {
       "question": "¿La ceremonia será al aire libre o en interior?",
-      "answer": "¡Ambas! Tendremos la ceremonia al aire libre, seguida de cócteles en la terraza y una cena en interior en {{ceremonyVenue}}. Recomendamos protector solar y sombreros para quienes no estén acostumbrados al sol de julio en España.",
+      "answer": "¡Ambas! Tendremos la ceremonia al aire libre, seguida de cócteles en la terraza y una comida en interior en {{ceremonyVenue}}. Recomendamos protector solar y sombreros para quienes no estén acostumbrados al sol de julio en España.",
       "category": "logistics",
       "id": "outdoor"
     },
@@ -85,7 +97,7 @@
     },
     {
       "question": "¿Preguntas de última hora?",
-      "answer": "Si necesitas algo el día de la boda, por favor contacta a nuestros coordinadores:<br/><strong>{{brideFirstName}}:</strong> {{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> {{groomPhone}}",
+      "answer": "Si necesitas algo el día de la boda, por favor contacta con nosotros:<br/><strong>{{brideFirstName}}:</strong> {{bridePhone}}<br/><strong>{{groomFirstName}}:</strong> {{groomPhone}}",
       "category": "essentials",
       "id": "lastMinuteQuestions"
     },

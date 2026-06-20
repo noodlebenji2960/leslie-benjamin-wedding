@@ -43,14 +43,12 @@
     }
 
     .progress-step {
-      
-
       position: absolute;
       top: 0%;
       width: var(--step-size);
       height: var(--step-size);
       border: 1px solid $color-border !important;
-      border-radius: $radius-md;
+      border-radius: 50%;
       box-shadow: $box-shadow-sm;
       display: flex;
       align-items: center;

@@ -31,11 +31,10 @@ const MiniPlayer: React.FC<MiniPlayerProps> = ({
     state: { fixedOffsetY },
     actions: { setFixedOffset, resetFixedOffset },
   } = useLayout();
-  if (!player.song) return null;
 
   useEffect(() => {
     if (player.song) {
-      const height = miniplayerRef.current?.getBoundingClientRect().height;
+      const height = miniplayerRef.current?.getBoundingClientRect().height ?? 0;
       setFixedOffset(height * -1);
     } else {
       resetFixedOffset();
@@ -45,6 +44,8 @@ const MiniPlayer: React.FC<MiniPlayerProps> = ({
       resetFixedOffset();
     };
   }, [player, miniplayerRef]);
+
+  if (!player.song) return null;
 
   return (
     <motion.div

@@ -1,29 +1,36 @@
 {
-  "title": "Wedding Schedule",
+  "eyebrow": "Saturday · July 11, 2026",
+  "title": "The Day",
+  "subtitle": "Everything you need to know about our wedding day, from start to finish.",
+  "footerNote": "Times are approximate. We'll send final details closer to the date.",
   "events": {
     "bus": {
-      "label": "Bus to {{location}}",
-      "description": "Depart from Fuente de Murrieta."
+      "title": "Bus to Venue",
+      "description": "A bus will depart from Fuente Murrieta in Logroño to take guests to the venue. Please arrive a few minutes early so we can leave on time."
     },
     "ceremony": {
-      "label": "Ceremony @ {{venueName}}",
-      "description": "Join us at the beautiful gardens for the wedding ceremony."
+      "title": "Ceremony",
+      "description": "Join us as we exchange our vows at the beautiful Finca del Hotel San Camilo in Navarrete."
     },
     "cocktails": {
-      "label": "Cocktails on the terrace",
-      "description": "Cocktails will be served while we take photos."
+      "title": "Cocktail Hour",
+      "description": "Celebrate with us on the terrace with drinks and pintxos while we take photos with family and friends."
     },
     "dinner": {
-      "label": "Dinner @ {{location}}",
-      "description": "Enjoy dinner with friends and family."
+      "title": "Dinner & Dancing",
+      "description": "Enjoy a wedding dinner followed by dancing the night away with us at Hotel San Camilo."
     },
     "busReturn": {
-      "label": "Return bus to {{busReturnLocation}}",
-      "description": ""
+      "title": "Bus Return",
+      "description": "A bus will depart from Hotel San Camilo back to Fuente Murrieta in Logroño for those who need a ride back."
+    },
+    "busReturnLate": {
+      "title": "Late Bus Return",
+      "description": "A second, later bus will depart from Hotel San Camilo back to Fuente Murrieta in Logroño for those who want to stay a bit longer."
     },
     "afterparty": {
-      "label": "Afterparty @ {{location}}",
-      "description": "Let's dance the night away!"
+      "title": "After Party",
+      "description": "The night doesn't have to end! Join us in Logroño city centre to keep the celebration going."
     }
   }
 }

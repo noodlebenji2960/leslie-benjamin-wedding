@@ -36,6 +36,9 @@ export const enRoutes: RouteConfig[] = [
   ...optionalRoute(siteConfig.qa.enabled, () =>
     route("qa", "routes/qa.tsx", { id: "en/qa" }),
   ),
+  ...optionalRoute(siteConfig.gallery.enabled, () =>
+    route("gallery", "routes/gallery.tsx", { id: "en/gallery" }),
+  ),
 ];
 
 // --- Spanish routes ---
@@ -49,6 +52,9 @@ export const esRoutes: RouteConfig[] = [
   ),
   ...optionalRoute(siteConfig.qa.enabled, () =>
     route("qa", "routes/qa.tsx", { id: "es/qa" }),
+  ),
+  ...optionalRoute(siteConfig.gallery.enabled, () =>
+    route("gallery", "routes/gallery.tsx", { id: "es/gallery" }),
   ),
 ];
 

@@ -8,7 +8,8 @@
     "en": "English",
     "days": "days",
     "hours": "hours",
-    "minutes": "minutes"
+    "minutes": "minutes",
+    "gallery": "Gallery"
   },
   "days": {
     "long": "days",
@@ -27,19 +28,27 @@
     "short": "s"
   },
   "click_here": "click here",
-
   "donate": {
     "title": "Make a wedding gift",
     "modal_title": "Thank you for your love 💖",
-    "message_1": "We are so grateful that you’ve chosen to give us a wedding gift.",
-    "message_2": "Your generosity truly means the world to us and will help us start this new chapter together.",
-    "message_3": "If you’d like to continue, you can securely make your gift via PayPal below.",
-    "paypal_cta": "💝 Give via PayPal"
+    "message": "Your generosity means the world to us. Choose whichever option works best for you:",
+    "iban_label": "IBAN",
+    "iban_desc": "Transfer directly to our bank account:",
+    "iban_holder": "Account holder",
+    "iban_copy": "Copy IBAN",
+    "iban_copied": "Copied!",
+    "bizum_label": "Bizum",
+    "bizum_desc": "Send via Bizum to either of us:",
+    "bizum_send_to": "Send to",
+    "paypal_label": "PayPal",
+    "paypal_cta": "Give via PayPal",
+    "paypal_desc": "Fast and secure online payment",
+    "revolut_label": "Revolut",
+    "revolut_cta": "Send via Revolut",
+    "revolut_desc": "Send money instantly via Revolut"
   },
-
   "last_visit": "Your last visit was on {{date}}.",
   "visit_count": "This is visit #{{count}}!",
-
   "cookie_intro": "We use cookies to improve your experience. You can choose which types of cookies you allow:",
   "cookie_necessary": "Necessary cookies (required)",
   "cookie_analytics": "Analytics cookies",

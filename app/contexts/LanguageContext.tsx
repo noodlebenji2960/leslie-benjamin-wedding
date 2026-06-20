@@ -33,7 +33,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const locale = getLocaleFromPath(location.pathname);
 
-  // Sync i18next language whenever URL changes
+  // Sync i18next language synchronously during render so prerendered HTML
+  // (and the first paint before effects run) reflects the URL's locale,
+  // not whatever LanguageDetector guessed at init time.
+  if (i18n.language !== locale) {
+    i18n.changeLanguage(locale);
+  }
+
+  // Keep in sync on subsequent URL changes too.
   useEffect(() => {
     if (i18n.language !== locale) {
       i18n.changeLanguage(locale);

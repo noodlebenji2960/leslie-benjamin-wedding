@@ -8,6 +8,18 @@
   "gifts": "Gifts",
   "travel": "Travel & Accommodation",
   "loading": "Loading...",
+  "transport_options": {
+    "taxi": "Taxi",
+    "bus": "Bus",
+    "train": "Train",
+    "rental_car": "Rental car"
+  },
+  "season": {
+    "spring": "spring",
+    "summer": "summer",
+    "fall": "autumn",
+    "winter": "winter"
+  },
   "links": {
     "skyscanner": "Skyscanner",
     "airbnb": "AirBnB",
@@ -49,7 +61,7 @@
     },
     {
       "question": "What is the Dress Code?",
-      "answer": "Formal / Cocktail attire. Please avoid wearing white or ivory. Since it is {{weddingDate.month}} in Spain, we recommend light fabrics and breathable materials to stay cool.",
+      "answer": "Formal / Cocktail attire. Please avoid wearing white or ivory. Since it is {{weddingDate.season}} in Spain, we recommend light fabrics and breathable materials to stay cool.",
       "category": "style",
       "id": "dressCode"
     },

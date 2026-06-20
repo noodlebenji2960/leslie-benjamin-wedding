@@ -19,6 +19,7 @@ export default function RSVP() {
   const analytics = useAnalytics();
   const [isClient, setIsClient] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  
   const cleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const weddingData = useWeddingData();
 
@@ -114,6 +115,38 @@ export default function RSVP() {
     if (submitted && submittedRef.current) submittedRef.current.focus();
   }, [error, submitted]);
 
+  const stepHasData = (stepKey: string): boolean => {
+    if (stepKey === "contactAndAttendance") {
+      return !!form.email || !!form.attending;
+    }
+    if (stepKey === "guestsOrName") {
+      if (form.attending === "yes") {
+        return (
+          Array.isArray(form.guests) &&
+          form.guests.some((g) => g.firstName.trim() && g.lastName.trim())
+        );
+      } else {
+        return !!form.nonAttendingName?.trim();
+      }
+    }
+    if (stepKey === "musicRequest") {
+      return Array.isArray(form.musicRequest) && form.musicRequest.length > 0;
+    }
+    if (stepKey === "notes") {
+      return !!form.notes?.trim();
+    }
+    return false;
+  };
+
+  const stepDataMap = useMemo(() => {
+    return Object.fromEntries(
+      (steps as Array<{ key: string }>).map((step) => [
+        step.key,
+        stepHasData(step.key),
+      ]),
+    );
+  }, [form]);
+
   if (!ready) return <div className="loading">{t("common:loading")}</div>;
 
   if (submitted) {
@@ -149,38 +182,6 @@ export default function RSVP() {
       }}
     />
   );
-
-  const stepHasData = (stepKey: string): boolean => {
-    if (stepKey === "contactAndAttendance") {
-      return !!form.email || !!form.attending;
-    }
-    if (stepKey === "guestsOrName") {
-      if (form.attending === "yes") {
-        return (
-          Array.isArray(form.guests) &&
-          form.guests.some((g) => g.firstName.trim() && g.lastName.trim())
-        );
-      } else {
-        return !!form.nonAttendingName?.trim();
-      }
-    }
-    if (stepKey === "musicRequest") {
-      return Array.isArray(form.musicRequest) && form.musicRequest.length > 0;
-    }
-    if (stepKey === "notes") {
-      return !!form.notes?.trim();
-    }
-    return false;
-  };
-
-  const stepDataMap = useMemo(() => {
-    return Object.fromEntries(
-      (steps as Array<{ key: string }>).map((step) => [
-        step.key,
-        stepHasData(step.key),
-      ]),
-    );
-  }, [form]);
 
   return (
     <div className="rsvp-page container">

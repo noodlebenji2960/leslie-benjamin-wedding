@@ -59,6 +59,7 @@ export default function Layout() {
     { path: "/rsvp", label: t("nav.rsvp"), feature: "rsvp" },
     { path: "/schedule", label: t("nav.schedule"), feature: "schedule" },
     { path: "/qa", label: t("nav.qa"), feature: "qa" },
+    { path: "/gallery", label: t("nav.gallery"), feature: "gallery" },
   ].filter((link) => {
     if (!link.feature) return true; // no feature key → always show
     return Boolean(

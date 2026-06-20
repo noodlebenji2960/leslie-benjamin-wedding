@@ -3,16 +3,13 @@
 /* Toast Wrapper */
 .toast-wrapper {
   position: fixed;
-  bottom: $space-lg; // distance from bottom
-  left: 0;
-  right: 0;
-  transform: translateX(-50%);
+  bottom: $space-lg;
+  left: $space-md;
+  right: $space-md;
   z-index: 1100;
-  pointer-events: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto; // shrink to fit content
   pointer-events: none;
 }
 
@@ -21,15 +18,22 @@
   pointer-events: all;
   background: $color-background;
   color: $color-text;
-  padding: 0 $space-lg; // thin vertical padding
-  border-radius: $radius-sm; // pill shape
+  padding: 0 $space-lg;
+  border-radius: $radius-sm;
   box-shadow: 0 5px 15px $color-shadow;
   text-align: center;
   font-size: $font-size-xs;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 1px   solid $color-border;
+  border: 1px solid $color-border;
+  max-width: 100%;
+
+  @media (max-width: $bp-sm) {
+    white-space: normal;
+    word-break: break-word;
+    padding: $space-xs $space-md;
+  }
 }
 
 /* Optional Toast Variants */

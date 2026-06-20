@@ -15,14 +15,22 @@
   "rsvpDeadline": "Confirm before",
   "questionsTitle": "Questions?",
   "dressCode": "Dress Code",
-  "dressCodeHint": "Semi-formal. No jeans, no flip-flops.",
+  "dressCodeHint": "Formal. No jeans, no flip-flops.",
   "familyWelcome": "Family",
   "familyHint": "Children welcome with kids area.",
   "giftsLabel": "Gifts",
   "giftsHint": "<1>If you'd like to contribute</1>, <DonateButton />.",
   "questionsBody": "If you have any questions, feel free to call us, write to us, or check <qaLink>the questions page</qaLink>.",
+  "featureLabels": {
+    "rsvp": "RSVP",
+    "schedule": "Schedule",
+    "qa": "Q&A",
+    "gallery": "Gallery"
+  },
   "underConstruction": {
     "title": "More details Coming Soon!",
     "message": "We're so excited to celebrate with you! Some details, are still being finalized. Stay tuned for {{featureList}} and more.—we can't wait to share everything with you soon!"
-  }
+  },
+  "ourStoryTitle": "Our Story",
+  "ourStoryBody": "Love at first sight is the quiet miracle of a single moment, when one glance ignites a feeling too deep for words. Time seems to pause, hearts lean closer, and the soul recognizes something it has been waiting for all along."
 }

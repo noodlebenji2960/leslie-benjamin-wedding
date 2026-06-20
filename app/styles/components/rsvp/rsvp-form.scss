@@ -16,6 +16,12 @@
     margin-top: $space-md;
     padding: $space-sm $space-lg;
 
+    @media (max-width: $bp-sm) {
+      padding: $space-sm $space-sm;
+      margin-top: $space-sm;
+      border-radius: $radius-sm;
+    }
+
     .form-header {
       display: flex;
       flex-direction: column;
@@ -66,8 +72,8 @@
         background: $color-white;
 
         &:focus {
-          outline: none;
-          border-color: $color-primary;
+          outline: none  ;
+          border-color: $color-primary ;
           box-shadow: 0 0 0 3px rgba($color-primary, 0.25);
         }
 
@@ -97,6 +103,11 @@
     .form-group--consent {
       margin-top: $space-lg;
       padding: $space-lg 0;
+
+      @media (max-width: $bp-sm) {
+        margin-top: $space-md;
+        padding: $space-md 0;
+      }
       border: 1px dashed rgba($color-accent, 0.3);
       border-radius: $radius-sm;
       background: rgba($color-accent, 0.03);
@@ -204,10 +215,13 @@
       border-top: 1px dashed $color-border;
       padding: $space-md 0;
 
+      @media (max-width: $bp-sm) {
+        gap: $space-sm;
+        padding: $space-sm 0;
+      }
+
       button {
         background: none;
-
-
       }
 
       span {
@@ -225,6 +239,11 @@
       border-radius: $radius-sm;
       padding: $space-sm $space-md;
       font-size: $font-size-md;
+
+      @media (max-width: $bp-sm) {
+        padding: $space-xs $space-sm;
+        font-size: $font-size-sm;
+      }
       font-weight: $fw-semibold;
       cursor: pointer;
       transition: all $transition-base;
@@ -242,10 +261,10 @@
         opacity: 0.75;
       }
 
-              &[type=submit]:not(:disabled){
-          background: $color-primary;
-          color: $color-white;
-        }
+      &[type="submit"]:not(:disabled) {
+        background: $color-primary;
+        color: $color-white;
+      }
     }
   }
 }

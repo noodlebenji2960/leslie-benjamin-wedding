@@ -22,7 +22,7 @@ export function useRSVPForm(initial: RSVPFormData) {
   });
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [error, setError] = useState<string | null>(null); 
+  const [error, setError] = useState<string | null>(null);
   const [hasValidGuests, setHasValidGuests] = useState(false);
   const lenis = useLenis(() => {});
   const { t } = useTranslation(["rsvp"]);
@@ -117,7 +117,7 @@ export function useRSVPForm(initial: RSVPFormData) {
 
   /** Jump to a specific step */
   const goToStep = (step: number) => {
-    setCurrentStep(step)
+    setCurrentStep(step);
     lenis?.scrollTo(0);
   };
 

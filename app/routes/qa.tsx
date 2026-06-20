@@ -8,7 +8,6 @@ import WeatherForecast from "@/components/WeatherForecast";
 import Map from "@/components/Map";
 import DonateButton from "@/components/DonateButton";
 import { useSiteConfig } from "@/contexts/ConfigContext";
-import RSVP from "./rsvp";
 import { Link } from "react-router";
 import { useBuildLink } from "@/hooks/useBuildLink";
 
@@ -123,6 +122,7 @@ const QA = () => {
           undefined,
           { month: "long" },
         ),
+        season: t(`season.${ { 0: "winter", 1: "winter", 2: "spring", 3: "spring", 4: "spring", 5: "summer", 6: "summer", 7: "summer", 8: "fall", 9: "fall", 10: "fall", 11: "winter" }[new Date(weddingData.wedding.date).getMonth()] }`),
       },
       brideFirstName: weddingData.bride.firstName,
       bridePhone: brideContact?.phone || "",
@@ -328,8 +328,9 @@ const QA = () => {
                                       –{" "}
                                       {t("distance", { distance: a.distance })},{" "}
                                       {t("transport", {
-                                        transport:
-                                          a.transportOptions.join(", "),
+                                        transport: a.transportOptions
+                                          .map((opt: string) => t(`transport_options.${opt}`))
+                                          .join(", "),
                                       })}
                                     </li>
                                   ),

@@ -25,6 +25,10 @@ import {
   IoPersonOutline,
   IoPeopleOutline,
   IoStopOutline,
+  IoCopyOutline,
+  IoBusinessOutline,
+  IoPhonePortraitOutline,
+  IoDownloadOutline,
 } from "react-icons/io5";
 import { IoMdPaperPlane } from "react-icons/io";
 import { RiExternalLinkLine } from "react-icons/ri";
@@ -33,6 +37,7 @@ import { WiFog } from "react-icons/wi";
 import { CiStickyNote } from "react-icons/ci";
 import { PiPencilLineLight } from "react-icons/pi";
 import { BsEnvelopePaperHeart, BsSuitHeartFill } from "react-icons/bs";
+import { SiPaypal, SiRevolut } from "react-icons/si";
 import { FaCheck, FaMoon } from "react-icons/fa6";
 import { VscChecklist } from "react-icons/vsc";
 import { TbBus } from "react-icons/tb";
@@ -129,6 +134,12 @@ const ICONS = {
   Fog: WiFog,
   Play: IoPlayOutline,
   Stop: IoStopOutline,
+  Copy: IoCopyOutline,
+  Bank: IoBusinessOutline,
+  Phone: IoPhonePortraitOutline,
+  Download: IoDownloadOutline,
+  Paypal: SiPaypal,
+  Revolut: SiRevolut,
   Tick: FaCheck,
   Check: FaCheck,
   Checklist: VscChecklist,

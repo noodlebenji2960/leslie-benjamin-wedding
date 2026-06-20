@@ -15,14 +15,22 @@
   "rsvpDeadline": "Confirma antes del",
   "questionsTitle": "¿Preguntas?",
   "dressCode": "Vestimenta",
-  "dressCodeHint": "Semi-formal. Sin vaqueros, sin chanclas.",
+  "dressCodeHint": "Formal. Sin vaqueros, sin chanclas.",
   "familyWelcome": "Familia",
   "familyHint": "Niños bienvenidos con zona infantil.",
   "giftsLabel": "Regalos",
   "giftsHint": "<1>Si quieres contribuir</1>, <DonateButton />.",
   "questionsBody": "Si tienes alguna pregunta, no dudes en llamarnos, escribirnos o consulta <qaLink>la pagina de preguntas</qaLink>.",
+  "featureLabels": {
+    "rsvp": "Confirmación de asistencia",
+    "schedule": "Programa",
+    "qa": "Preguntas frecuentes",
+    "gallery": "Galería"
+  },
   "underConstruction": {
-  "title": "¡Más detalles próximamente!",
-  "message": "¡Estamos muy emocionados de celebrar con ustedes! Algunos detalles aún se están finalizando. Manténganse atentos para {{featureList}} y más.—¡no podemos esperar a compartir todo con ustedes pronto!"
-}
+    "title": "¡Más detalles próximamente!",
+    "message": "¡Estamos muy emocionados de celebrar con ustedes! Algunos detalles aún se están finalizando. Manténganse atentos para {{featureList}} y más.—¡no podemos esperar a compartir todo con ustedes pronto!"
+  },
+  "ourStoryTitle": "Nuestra Historia",
+  "ourStoryBody": "El amor a primera vista es el silencioso milagro de un solo instante, cuando una mirada enciende un sentimiento demasiado profundo para las palabras. El tiempo parece detenerse, los corazones se acercan, y el alma reconoce algo que ha estado esperando desde siempre."
 }

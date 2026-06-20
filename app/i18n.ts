@@ -17,6 +17,8 @@ import terms_en from "./locales/en/terms.json";
 import terms_es from "./locales/es/terms.json";
 import privacy_en from "./locales/en/privacy.json";
 import privacy_es from "./locales/es/privacy.json";
+import notFound_en from "./locales/en/not-found.json";
+import notFound_es from "./locales/es/not-found.json";
 
 i18n
   .use(LanguageDetector)
@@ -24,7 +26,7 @@ i18n
   .init({
     fallbackLng: "es",
     supportedLngs: ["en", "es"],
-    ns: ["common", "home", "qa", "schedule", "rsvp", "terms", "privacy"],
+    ns: ["common", "home", "qa", "schedule", "rsvp", "terms", "privacy", "notFound"],
     defaultNS: "common",
     resources: {
       en: {
@@ -35,6 +37,7 @@ i18n
         rsvp: rsvp_en,
         terms: terms_en,
         privacy: privacy_en,
+        notFound: notFound_en,
       },
       es: {
         common: common_es,
@@ -44,6 +47,7 @@ i18n
         rsvp: rsvp_es,
         terms: terms_es,
         privacy: privacy_es,
+        notFound: notFound_es,
       },
     },
     interpolation: { escapeValue: false },

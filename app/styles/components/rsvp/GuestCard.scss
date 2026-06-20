@@ -95,7 +95,6 @@
     input,
     textarea {
       width: 100%;
-      border: 1px solid $color-border;
       border-radius: $radius-sm;
       background: $color-white;
       color: $color-text;
@@ -265,6 +264,16 @@
 
   .confirm-modal .confirm-modal-actions {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 380px) {
+  .guest-card {
+    .guest-card-actions {
+      flex-direction: column-reverse;
+      align-items: flex-end;
+      width: auto;
+    }
   }
 }
 

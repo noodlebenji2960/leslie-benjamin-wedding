@@ -36,8 +36,9 @@
   font-weight: $fw-bold;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: $color-accent;
+  color: $color-secondary-tint;
   margin-bottom: $space-sm;
+  z-index: -1;
 }
 
 .schedule-title {
@@ -167,6 +168,7 @@
   grid-template-columns: 1fr 80px 1fr;
   grid-auto-flow: dense;
   align-items: start;
+  margin-bottom: $space-2xl;
 }
 
 .schedule-event-node-inner {
@@ -231,23 +233,30 @@
 // ─────────────────────────────────────────────
 
 .schedule-event-opposite {
-  margin: auto 0;
+  margin: auto;
+  margin-top: $space-md;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
+  gap: $space-sm;
+  height: 100%;
+
   &--left {
     grid-column: 1;
     padding-right: $space-lg;
+    justify-content: end;
   }
 
   &--right {
     grid-column: 3;
     padding-left: $space-lg;
+    justify-content: start;
   }
 }
 
 .schedule-event-opposite-img {
-  max-width: 200px;
+  flex: 0 0 calc(25% - #{$space-sm});
+  max-width: calc(25% - #{$space-sm});
   background: #fff;
   padding: $space-sm $space-sm calc(#{$space-sm} * 3);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.08);
@@ -257,15 +266,11 @@
   margin: calc($space-sm * -1);
 
   &:hover {
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
   }
 
   &:nth-child(even) {
     transform: rotate(-1.2deg) translateY(-5px);
-  }
-
-  & + & {
-    margin-top: $space-md;
   }
 
   img {
@@ -274,6 +279,19 @@
     object-fit: cover;
     display: block;
     filter: sepia(8%) contrast(1.05) saturate(0.95);
+  }
+
+  // Single image — fill 80%
+  &:only-child {
+    flex: 0 0 80%;
+    max-width: 80%;
+  }
+
+  // Exactly 2 images — each fills ~50%
+  &:first-child:nth-last-child(2),
+  &:first-child:nth-last-child(2) ~ & {
+    flex: 0 0 calc(50% - #{$space-sm});
+    max-width: calc(50% - #{$space-sm});
   }
 }
 

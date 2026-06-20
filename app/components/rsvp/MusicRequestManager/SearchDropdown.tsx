@@ -60,7 +60,16 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
   const listRef = useRef<HTMLUListElement>(null);
   const songInputRef = useRef<HTMLInputElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [isMobile, setIsMobile] = useState(false);
   const lenis = useLenis();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   const hasQuery = !!(songQuery || artistQuery);
 
@@ -233,7 +242,7 @@ const SearchDropdown: React.FC<SearchDropdownProps> = ({
 
       {/* Dropdown panel */}
       <AnimatePresence>
-        {isOpen && (
+        {(isOpen || (isMobile && (isSearching || suggestions.length > 0 || !!error))) && (
           <motion.div
             className="search-dropdown__panel"
             initial={{ opacity: 0, y: -6, scaleY: 0.97 }}

@@ -1,11 +1,20 @@
 {
   "underConstruction": {
-    "siteDisabled": { "enabled": false, "isInFeatureList": false },
-    "homeSection": { "enabled": true, "isInFeatureList": false }
+    "siteDisabled": {
+      "enabled": false,
+      "isInFeatureList": false
+    },
+    "homeSection": {
+      "enabled": true,
+      "isInFeatureList": false
+    }
   },
-  "rsvp": { "enabled": false, "isInFeatureList": true },
+  "rsvp": {
+    "enabled": true,
+    "isInFeatureList": true
+  },
   "schedule": {
-    "enabled": false,
+    "enabled": true,
     "timesEnabled": false,
     "isInFeatureList": true
   },
@@ -13,31 +22,90 @@
     "enabled": true,
     "isInFeatureList": true,
     "questions": [
-      ["rsvpDeadline", true],
-      ["ceremonyVenue", true],
-      ["weather", true],
-      ["bus", false],
-      ["children", true],
-      ["dressCode", true],
-      ["gifts", true],
-      ["outdoor", true],
-      ["shoes", true],
-      ["specialMeal", true],
-      ["photos", true],
-      ["lastMinuteQuestions", true],
-      ["airports", true],
-      ["hotels", true]
+      [
+        "rsvpDeadline",
+        true
+      ],
+      [
+        "ceremonyVenue",
+        true
+      ],
+      [
+        "weather",
+        true
+      ],
+      [
+        "bus",
+        false
+      ],
+      [
+        "children",
+        true
+      ],
+      [
+        "dressCode",
+        true
+      ],
+      [
+        "gifts",
+        true
+      ],
+      [
+        "outdoor",
+        true
+      ],
+      [
+        "shoes",
+        true
+      ],
+      [
+        "specialMeal",
+        true
+      ],
+      [
+        "photos",
+        true
+      ],
+      [
+        "lastMinuteQuestions",
+        true
+      ],
+      [
+        "airports",
+        true
+      ],
+      [
+        "hotels",
+        true
+      ]
     ]
   },
-  "cookies": { "enabled": true, "isInFeatureList": false },
+  "gallery": {
+    "enabled": false,
+    "isInFeatureList": true
+  },
+  "cookies": {
+    "enabled": true,
+    "isInFeatureList": false
+  },
   "weather": {
     "enabled": true,
     "isInFeatureList": false
   },
   "layout": {
-    "showHeader": { "enabled": true, "isInFeatureList": false },
-    "showFooter": { "enabled": true, "isInFeatureList": false },
-    "theme": { "enabled": false, "isInFeatureList": false, "default": "light" }
+    "showHeader": {
+      "enabled": true,
+      "isInFeatureList": false
+    },
+    "showFooter": {
+      "enabled": true,
+      "isInFeatureList": false
+    },
+    "theme": {
+      "enabled": false,
+      "isInFeatureList": false,
+      "default": "light"
+    }
   },
   "ourStory": {
     "enabled": true,

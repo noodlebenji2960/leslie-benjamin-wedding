@@ -2,57 +2,245 @@
 
 .donate-container {
   display: inline-block;
+  background: none;
+  border: 1px solid $color-border;
+  cursor: pointer;
+  transition: all $transition-base;
 
-  .donate-form {
-    margin: 0;
+  &:hover {
+    border-color: $color-accent;
+    box-shadow: 0 $space-xl $space-2xl rgba(201, 168, 124, 0.4);
   }
+}
 
-  .donate-button {
+// ── Modal content ──────────────────────────────────────────
+
+.donate-modal {
+  // fixed height so the modal doesn't resize between steps
+  position: relative;
+  height: 14rem;
+
+  &__step {
+    position: absolute;
+    inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: $space-md;
-    border: 2px solid transparent;
-    font-family: $font-body;
-    cursor: pointer;
-    text-decoration: none;
-    outline: none;
-    transition: all $transition-base;
-    background: none;
-    border: 1px solid $color-border;
-
-    span {
-      font-size: $font-size-lg;
-    }
-
-    &:hover {
-      border-color: $color-accent;
-      box-shadow: 0 $space-xl $space-2xl rgba(201, 168, 124, 0.4);
-    }
-
-    &:active {
-
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 $space-sm rgba(244, 63, 94, 0.5), 0 $space-lg $space-xl $color-shadow;
-      border-color: $color-primary;
-    }
-
-    @media (max-width: $bp-md) {
-      font-size: $font-size-md;
-      min-height: 3rem;
-
-      span {
-        font-size: $font-size-md;
-      }
-    }
   }
 
-  .pixel-tracker {
-    display: block;
-    height: 1px;
-    width: 1px;
-    opacity: 0;
+  &__intro {
+    font-size: $font-size-sm;
+    color: $color-text;
+    text-align: center;
+    margin: 0;
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-xs;
+    align-self: flex-start;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: $font-size-sm;
+    font-family: $font-body;
+    color: $color-muted;
+    cursor: pointer;
+    transition: color $transition-base;
+
+    &:hover {
+      color: $color-text;
+    }
+  }
+}
+
+// ── Method picker ──────────────────────────────────────────
+
+.payment-picker {
+  display: flex;
+  gap: $space-sm;
+  width: 100%;
+}
+
+.payment-option {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: $space-xs !important;
+  padding: $space-md $space-sm !important;
+  border: 1px solid $color-border !important;
+  border-radius: $radius-sm !important;
+  background: none !important;
+  cursor: pointer !important;
+  transition: all $transition-base !important;
+  font-family: $font-body !important;
+
+  &:hover {
+    border-color: $color-accent;
+    background: $color-background-alt;
+  }
+
+  &__icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    color: $color-primary;
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $fw-semibold;
+    color: $color-text-alt;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+}
+
+// ── Detail views ───────────────────────────────────────────
+
+.payment-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $space-sm;
+  width: 100%;
+  flex: 1;
+}
+
+// ── IBAN ───────────────────────────────────────────────────
+
+.iban-holder {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  &__key {
+    font-size: $font-size-2xs;
+    color: $color-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__value {
+    font-size: $font-size-sm;
+    color: $color-text;
+  }
+}
+
+.iban-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  flex-wrap: wrap;
+}
+
+.iban-number {
+  font-size: $font-size-sm;
+  font-family: monospace;
+  letter-spacing: 0.08em;
+  color: $color-text-alt;
+  flex: 1;
+  min-width: 0;
+  word-break: break-all;
+  width: 100%;
+    &:hover + .iban-copy-btn {
+    opacity: 1;
+  }
+}
+
+.iban-copy-btn {
+  position: absolute;
+  right: $space-md;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid $color-border;
+  border-radius: $radius-button;
+  background: none;
+  font-size: $font-size-md;
+  color: $color-text;
+  cursor: pointer;
+  transition: all $transition-base !important;
+  padding: 0 !important;
+  opacity: 0.5;
+
+  &--copied {
+    border-color: $color-success;
+    color: $color-success;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// ── Bizum ──────────────────────────────────────────────────
+
+.bizum-row {
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  flex-wrap: wrap;
+  align-self: center;
+
+  & + & {
+    padding-top: $space-xs;
+    border-top: 1px solid $color-border;
+  }
+}
+
+.bizum-name {
+  font-size: $font-size-sm;
+  color: $color-text;
+  flex: 1;
+}
+
+.bizum-phone {
+  font-size: $font-size-sm;
+  font-family: monospace;
+  letter-spacing: 0.05em;
+  color: $color-accent-dark;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ── PayPal ─────────────────────────────────────────────────
+
+.paypal-desc {
+  font-size: $font-size-sm;
+  color: $color-muted;
+  margin: 0;
+}
+
+.payment-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-sm $space-md;
+  border-radius: $radius-button;
+  background: $color-accent;
+  color: $color-white;
+  font-size: $font-size-sm;
+  font-family: $font-body;
+  font-weight: $fw-semibold;
+  text-decoration: none;
+  transition: all $transition-base;
+  align-self: flex-start;
+
+  &:hover {
+    background: $color-accent-dark;
   }
 }

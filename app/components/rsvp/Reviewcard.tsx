@@ -64,7 +64,7 @@ export const ReviewCard = ({ form }: Props) => {
           (form.musicRequest as MusicRequestItem[]).length > 0 && (
             <div className="review-card__field">
               <span className="review-card__field-label">
-                {t("rsvp:musicRequest")}
+                {t("rsvp:steps.musicRequest.stepTitle")}
               </span>
               <ul className="review-card__songs">
                 {(form.musicRequest as MusicRequestItem[]).map((song, i) => (

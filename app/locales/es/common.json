@@ -8,7 +8,8 @@
     "en": "Inglés",
     "days": "días",
     "hours": "horas",
-    "minutes": "minutos"
+    "minutes": "minutos",
+    "gallery": "Galería"
   },
   "days": {
     "long": "días",
@@ -27,19 +28,27 @@
     "short": "s"
   },
   "click_here": "haz clic aquí",
-
   "donate": {
     "title": "Hacer un regalo de boda",
     "modal_title": "Gracias por vuestro cariño 💖",
-    "message_1": "Estamos muy agradecidos de que hayáis decidido hacernos un regalo de boda.",
-    "message_2": "Vuestra generosidad significa muchísimo para nosotros y nos ayudará a comenzar esta nueva etapa juntos.",
-    "message_3": "Si lo deseáis, podéis continuar y hacer vuestro regalo de forma segura a través de PayPal.",
-    "paypal_cta": "💝 Regalar vía PayPal"
+    "message": "Vuestra generosidad significa muchísimo para nosotros. Elegid la opción que os resulte más cómoda:",
+    "iban_label": "IBAN",
+    "iban_desc": "Transfiere directamente a nuestra cuenta bancaria:",
+    "iban_holder": "Titular de la cuenta",
+    "iban_copy": "Copiar IBAN",
+    "iban_copied": "¡Copiado!",
+    "bizum_label": "Bizum",
+    "bizum_desc": "Envía por Bizum a cualquiera de los dos:",
+    "bizum_send_to": "Enviar a",
+    "paypal_label": "PayPal",
+    "paypal_cta": "Regalar vía PayPal",
+    "paypal_desc": "Pago online rápido y seguro",
+    "revolut_label": "Revolut",
+    "revolut_cta": "Enviar vía Revolut",
+    "revolut_desc": "Envía dinero al instante vía Revolut"
   },
-
   "last_visit": "Tu última visita fue el {{date}}.",
   "visit_count": "¡Esta es la visita número {{count}}!",
-
   "cookie_intro": "Usamos cookies para mejorar tu experiencia. Puedes elegir qué tipos de cookies permites:",
   "cookie_necessary": "Cookies necesarias (requeridas)",
   "cookie_analytics": "Cookies de análisis",

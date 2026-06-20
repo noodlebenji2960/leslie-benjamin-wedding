@@ -43,19 +43,19 @@
         "name": "Zaragoza Airport",
         "code": "ZAZ",
         "distance": "10 km",
-        "transportOptions": ["Rental car", "Train"]
+        "transportOptions": ["rental_car", "train"]
       },
       {
         "name": "Bilbao Airport",
         "code": "BIO",
         "distance": "120 km",
-        "transportOptions": ["Rental car", "Train"]
+        "transportOptions": ["rental_car", "train"]
       },
       {
         "name": "Logroño-Agoncillo Airport",
         "code": "RJL",
         "distance": "15 km",
-        "transportOptions": ["Taxi", "Bus", "Rental car"]
+        "transportOptions": ["taxi", "bus", "rental_car"]
       }
     ],
     "hotels": [
@@ -83,12 +83,9 @@
     {
       "id": "bus",
       "icon": "Bus",
-      "time": "13:00",
+      "time": "12:45",
       "location": "Fuente Murrieta",
-      "images": [
-        "/images/FuenteMurrieta.jpg",
-        "/images/hotel_exterior.jpg"
-      ],
+      "images": ["/images/FuenteMurrieta.jpg", "/images/hotel_exterior.jpg"],
       "maps": [
         {
           "coordinates": { "lat": 42.4661562, "lng": -2.4511548 },
@@ -133,6 +130,14 @@
       "icon": "Tapas",
       "time": "16:30",
       "location": "Terrace",
+      "images": [
+        "/images/bolas-queso.jpeg",
+        "/images/salpicón.jpeg",
+        "/images/crema-salmon.jpeg",
+        "/images/bacalao-picante.jpeg",
+        "/images/zamburiñas.jpeg",
+        "/images/queso-dedos.jpeg"
+      ],
       "maps": []
     },
     {
@@ -140,6 +145,7 @@
       "icon": "Spoon",
       "time": "19:30",
       "location": "Hotel San Camilo",
+      "images": ["/images/cena.jpeg", "/images/merluza.jpeg", "/images/roti.jpeg", "/images/baile.jpeg"],
       "maps": [
         {
           "coordinates": { "lat": 42.4337996, "lng": -2.5694691 },
@@ -153,6 +159,28 @@
     {
       "id": "busReturn",
       "icon": "Bus",
+      "time": "20:30",
+      "location": "Hotel San Camilo",
+      "maps": [
+        {
+          "coordinates": { "lat": 42.4661562, "lng": -2.4511548 },
+          "mapUrl": "https://www.google.com/maps/directions/...",
+          "showRoute": true,
+          "interactive": false,
+          "extraCoordinates": [
+            {
+              "lat": 42.4337996,
+              "lng": -2.5694691,
+              "showMarker": false,
+              "label": "Logroño"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "busReturnLate",
+      "icon": "Bus",
       "time": "00:00",
       "location": "Hotel San Camilo",
       "maps": [
@@ -163,7 +191,7 @@
           "interactive": false,
           "extraCoordinates": [
             {
-              "lat":  42.4337996,
+              "lat": 42.4337996,
               "lng": -2.5694691,
               "showMarker": false,
               "label": "Logroño"
@@ -221,8 +249,13 @@
     "fields": ["name", "email", "guests", "dietary", "message"]
   },
   "giftRegistry": {
-    "enabled": false,
-    "IBAN": "ES00 0000 0000 0000 0000 0000 00"
+    "IBAN": "ES10 2100 5585 4202 0031 6350",
+    "IBANHolder": "Benjamin John Chick / Leslie Carolina Herce Conti",
+    "bizum": [
+      { "name": "Leslie Herce", "phone": "+34 609 87 20 90" },
+      { "name": "Benjamin Chick", "phone": "+34 680 84 08 91" }
+    ],
+    "revolut": "https://revolut.me/benjaminchick"
   },
   "map": {
     "venue": "https://maps.app.goo.gl/sancamilo-navarrette",

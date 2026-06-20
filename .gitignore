@@ -7,6 +7,14 @@
 /build/
 /dist/
 
+# Server
+/server/dist/
+/server/node_modules/
+/server/data/
+/server/uploads/
+/server/.env
+/server/.env.local
+
 # Logs
 *.log
 npm-debug.log*
@@ -17,3 +25,5 @@ npm-debug.log*
 
 # OS
 Thumbs.db
+.env.local
+.env*.local

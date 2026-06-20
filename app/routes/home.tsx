@@ -187,7 +187,10 @@ export default function Home() {
                     <Plants2Illustration />
                   </div>
                   {wedding.schedule.map((event, index) => (
-                    <div key={`${event.id}-${index}1`} className="timeline-item">
+                    <div
+                      key={`${event.id}-${index}1`}
+                      className="timeline-item"
+                    >
                       <div className="timeline-content">
                         {event.icon && (
                           // event.icon is a string like "Add" or "Heart.full"
@@ -203,12 +206,13 @@ export default function Home() {
                         <span className="timeline-time">{event.time}</span>
                         <span className="timeline-label">
                           <Trans
-                            i18nKey={`events.${event.id}.label`}
+                            i18nKey={`events.${event.id}.title`}
                             ns="schedule"
                             values={{
                               venueName: wedding.wedding.ceremony.venue.name,
                               busReturnLocation:
-                                event.id === "busReturn"
+                                event.id === "busReturn" ||
+                                event.id === "busReturnLate"
                                   ? event?.maps[0]?.extraCoordinates[0]?.label
                                   : "",
                               location: event.location,
@@ -238,7 +242,7 @@ export default function Home() {
                     <p>
                       {t("dressCodeHint", {
                         ns: "home",
-                        defaultValue: "Semi-formal. No jeans, no flip-flops.",
+                        defaultValue: "Formal. No jeans, no flip-flops.",
                       })}
                     </p>
                   </span>
@@ -283,12 +287,11 @@ export default function Home() {
       {config.ourStory.imageCarousel.enabled && (
         <FadeInSection>
           <div className="our-story-section">
-            <h1 className="our-story-header">Our Story</h1>
+            <h1 className="our-story-header">
+              {t("ourStoryTitle", { ns: "home" })}
+            </h1>
             <p className="our-story-body">
-              Love at first sight is the quiet miracle of a single moment, when
-              one glance ignites a feeling too deep for words. Time seems to
-              pause, hearts lean closer, and the soul recognizes something it
-              has been waiting for all along.
+              {t("ourStoryBody", { ns: "home" })}
             </p>
             <Carousel photos={photos} />
           </div>
@@ -367,9 +370,10 @@ export default function Home() {
                     .map(([key]) => {
                       // Map raw config keys to friendly labels
                       const mapping: Record<string, string> = {
-                        rsvp: t("rsvp", "RSVP"),
-                        schedule: t("title", "schedule"),
-                        qa: t("qa", "Q&A"),
+                        rsvp: t("featureLabels.rsvp", { ns: "home" }),
+                        schedule: t("featureLabels.schedule", { ns: "home" }),
+                        qa: t("featureLabels.qa", { ns: "home" }),
+                        gallery: t("featureLabels.gallery", { ns: "home" }),
                       };
                       return mapping[key] ?? key;
                     })
