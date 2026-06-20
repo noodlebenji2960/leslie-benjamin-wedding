@@ -14,7 +14,7 @@
     "isInFeatureList": true
   },
   "schedule": {
-    "enabled": true,
+    "enabled": false,
     "timesEnabled": false,
     "isInFeatureList": true
   },
