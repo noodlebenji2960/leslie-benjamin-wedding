@@ -144,14 +144,11 @@ const Schedule = () => {
     [updateDot],
   );
 
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      const y = e.touches[0].clientY;
-      lastClientY.current = y;
-      updateDot(y);
-    },
-    [updateDot],
-  );
+  // On touch devices the dot stays pinned to the viewport centre and tracks
+  // scroll position, rather than following the finger like the cursor does.
+  const handleTouchMove = useCallback(() => {
+    updateDot(window.innerHeight / 2);
+  }, [updateDot]);
 
   const handleMouseLeave = useCallback(() => {
     if (dotRef.current) dotRef.current.style.opacity = "0";
