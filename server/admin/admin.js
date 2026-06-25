@@ -408,8 +408,12 @@ function buildCard(img) {
 }
 
 // ── SSE live updates ──────────────────────────────────────────
+let currentSSE = null;
+
 function connectSSE() {
+  if (currentSSE) currentSSE.close();
   const es = new EventSource('/events');
+  currentSSE = es;
 
   es.addEventListener('new-image', async e => {
     const img = JSON.parse(e.data);
@@ -478,6 +482,17 @@ function connectSSE() {
     setTimeout(connectSSE, 5000);
   };
 }
+
+// Browsers can suspend/throttle background tabs, silently dropping the SSE
+// connection without firing onerror. Reconnect and refresh when the tab
+// regains focus, so the admin view can't silently go stale.
+function handleVisibilityRefresh() {
+  if (document.visibilityState !== 'visible') return;
+  if (!currentSSE || currentSSE.readyState !== EventSource.OPEN) connectSSE();
+  loadGallery();
+}
+document.addEventListener('visibilitychange', handleVisibilityRefresh);
+window.addEventListener('focus', handleVisibilityRefresh);
 
 // ── Service controls ────────────────────────────────────────────
 function applyServiceStatus({ uploadsDisabled, galleryApiDisabled }) {

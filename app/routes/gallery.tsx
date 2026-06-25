@@ -84,6 +84,37 @@ export default function GalleryPage() {
     void fetchImages();
   }, [fetchImages]);
 
+  // Refresh the first page when the tab regains focus — a backstop in case
+  // the SSE connection silently dropped while the tab was backgrounded.
+  const refreshFirstPage = useCallback(async () => {
+    if (!API_BASE) return;
+    try {
+      const res = await fetch(`${API_BASE}/gallery?limit=24`);
+      if (!res.ok) return;
+      const data: GalleryResponse = await res.json();
+
+      setImages((prev) => {
+        const refreshedIds = new Set(data.images.map((img) => img.id));
+        const olderImages = prev.filter((img) => !refreshedIds.has(img.id));
+        return [...data.images, ...olderImages];
+      });
+    } catch (err) {
+      console.error("Gallery refresh failed", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible") void refreshFirstPage();
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("focus", handleVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("focus", handleVisibility);
+    };
+  }, [refreshFirstPage]);
+
   useSSE(
     (newImage) => {
       setImages((prev) => {

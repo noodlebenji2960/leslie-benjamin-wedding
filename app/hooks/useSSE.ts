@@ -93,4 +93,20 @@ export function useSSE(
       clearTimeout(reconnectTimer.current);
     };
   }, [connect]);
+
+  // Browsers can suspend/throttle background tabs, which silently drops the
+  // SSE connection without firing onerror. Reconnect when the tab regains focus.
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.visibilityState !== "visible") return;
+      if (esRef.current?.readyState === EventSource.OPEN) return;
+      connect();
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("focus", handleVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("focus", handleVisibility);
+    };
+  }, [connect]);
 }
