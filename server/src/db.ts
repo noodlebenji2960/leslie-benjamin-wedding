@@ -40,6 +40,7 @@ class Database {
         ? Image.find({ uploadedAt: { $lt: cursor } })
         : Image.find()
       )
+        .select("-uploaderIp -uploaderUserAgent")
         .sort({ uploadedAt: -1 })
         .limit(limit + 1)
         .lean<ImageRecord[]>(),
