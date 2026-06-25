@@ -5,12 +5,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
-import archiver from "archiver";
 import { database } from "./db.js";
-import { deleteFromS3, getObjectStream } from "./s3.js";
+import { deleteFromS3 } from "./s3.js";
 import { sseManager } from "./sseManager.js";
 import { sendAdminOtpEmail } from "./email.js";
 import { asyncRoute } from "./asyncRoute.js";
+import { streamImagesAsZip } from "./zipExport.js";
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -246,28 +246,5 @@ adminRouter.post("/api/reactions/rename/:imageId/:visitorId", requireAuth, async
 
 adminRouter.get("/download", requireAuth, asyncRoute(async (_req, res) => {
   const { images } = await database.getImages(1000);
-
-  res.setHeader("Content-Type", "application/zip");
-  res.setHeader("Content-Disposition", "attachment; filename=\"wedding-photos.zip\"");
-
-  const archive = archiver("zip", { zlib: { level: 6 } });
-  archive.on("error", (err) => { throw err; });
-  archive.pipe(res);
-
-  const usedNames = new Set<string>();
-  for (const img of images) {
-    const stream = await getObjectStream(`uploads/${img.filename}`);
-    if (!stream) continue;
-    const date = new Date(img.uploadedAt).toISOString().slice(0, 10);
-    const ext = path.extname(img.filename) || ".jpg";
-    let label = `${img.uploaderName ? `${img.uploaderName} - ${date}` : date}${ext}`;
-    let suffix = 1;
-    while (usedNames.has(label)) {
-      label = `${img.uploaderName ? `${img.uploaderName} - ${date}` : date} (${suffix++})${ext}`;
-    }
-    usedNames.add(label);
-    archive.append(stream, { name: label });
-  }
-
-  await archive.finalize();
+  await streamImagesAsZip(images, res, "wedding-photos.zip");
 }));

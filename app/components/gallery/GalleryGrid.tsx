@@ -1,7 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLenis } from "lenis/react";
 import { Icon } from "@/components/Icon";
 import { InlineReactionPicker } from "@/components/gallery/ReactionPicker";
+import { Toast } from "@/components/Toast";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import type { SSEImageRecord } from "@/hooks/useSSE";
 
@@ -87,6 +89,14 @@ export function GalleryGrid({
   const [transitioning, setTransitioning] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const committingRef = useRef(false);
+
+  // Stop the lenis-driven page scroll while the lightbox is open
+  const lenis = useLenis(() => {});
+  useEffect(() => {
+    if (!lenis) return;
+    lightboxIndex !== null ? lenis.stop() : lenis.start();
+  }, [lightboxIndex, lenis]);
+  useEffect(() => () => lenis?.start(), [lenis]);
 
   // Keep track of open image by ID so we can recover index when array shifts
   const lightboxImageIdRef = useRef<string | null>(null);
@@ -251,6 +261,8 @@ export function GalleryGrid({
   // ── selection ─────────────────────────────
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const selectionMode = selectedIds.size > 0;
+  const [downloading, setDownloading] = useState(false);
+  const [downloadErrorOpen, setDownloadErrorOpen] = useState(false);
 
   const toggleSelect = useCallback((id: string) => {
     setSelectedIds((prev) => {
@@ -260,6 +272,42 @@ export function GalleryGrid({
       return next;
     });
   }, []);
+
+  const clearSelection = useCallback(() => setSelectedIds(new Set()), []);
+
+  const selectAll = useCallback(() => {
+    setSelectedIds(new Set(images.map((img) => img.id)));
+  }, [images]);
+
+  const handleDownload = useCallback(async () => {
+    const ids = selectedIds.size > 0 ? Array.from(selectedIds) : images.map((img) => img.id);
+    if (ids.length === 0 || downloading) return;
+
+    setDownloading(true);
+    try {
+      const res = await fetch(`${API_BASE}/download`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids }),
+      });
+      if (!res.ok) throw new Error("Download failed");
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "wedding-photos.zip";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Download error", err);
+      setDownloadErrorOpen(true);
+    } finally {
+      setDownloading(false);
+    }
+  }, [selectedIds, images, downloading, t]);
 
   const handleGridItemPointerDown = useCallback(
     (img: SSEImageRecord, e: React.PointerEvent) => {
@@ -336,6 +384,48 @@ export function GalleryGrid({
 
   return (
     <>
+      <div className="gallery-grid__toolbar">
+        {selectionMode ? (
+          <>
+            <span className="gallery-grid__toolbar-count">
+              {t("selection.count", { count: selectedIds.size })}
+            </span>
+            <button
+              type="button"
+              className="gallery-grid__toolbar-btn"
+              onClick={selectAll}
+            >
+              {t("selection.selectAll")}
+            </button>
+            <button
+              type="button"
+              className="gallery-grid__toolbar-btn"
+              onClick={clearSelection}
+            >
+              {t("selection.clear")}
+            </button>
+            <button
+              type="button"
+              className="gallery-grid__toolbar-btn gallery-grid__toolbar-btn--primary"
+              onClick={() => void handleDownload()}
+              disabled={downloading}
+            >
+              {downloading ? t("selection.downloading") : t("selection.download")}
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            className="gallery-grid__toolbar-btn"
+            onClick={() => void handleDownload()}
+            disabled={downloading}
+          >
+            <Icon.Download size={14} />
+            {downloading ? t("selection.downloading") : t("selection.downloadAll")}
+          </button>
+        )}
+      </div>
+
       <div className="gallery-grid">
         {images.map((img, index) => {
           const selected = selectedIds.has(img.id);
@@ -515,6 +605,10 @@ export function GalleryGrid({
           </div>
         </div>
       )}
+
+      <Toast isOpen={downloadErrorOpen} onClose={() => setDownloadErrorOpen(false)}>
+        {t("selection.downloadError")}
+      </Toast>
     </>
   );
 }

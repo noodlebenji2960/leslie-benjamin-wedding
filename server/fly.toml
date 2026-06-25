@@ -8,6 +8,12 @@ primary_region = "cdg"
   NODE_ENV = "production"
   PORT = "3001"
 
+# Only ever run a single machine. SSE connections and broadcast state
+# (server/src/sseManager.ts) live in-memory per-process — a second
+# machine would silently miss events broadcast on the other one
+# (uploads, reactions, deletes never reaching some connected clients).
+# If `fly deploy` ever creates a second machine again, run
+# `fly scale count 1` to bring it back down to one.
 [http_service]
   internal_port = 3001
   force_https = true

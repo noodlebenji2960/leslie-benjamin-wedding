@@ -35,8 +35,11 @@
   "selection": {
     "count": "{{count}} seleccionada/s",
     "selectAll": "Seleccionar todo",
-    "download": "Descargar",
-    "downloading": "Descargando..."
+    "clear": "Cancelar",
+    "download": "Descargar selección",
+    "downloadAll": "Descargar todo",
+    "downloading": "Descargando...",
+    "downloadError": "Error al descargar. Por favor, inténtalo de nuevo."
   },
   "lightbox": {
     "label": "Visor de fotos",

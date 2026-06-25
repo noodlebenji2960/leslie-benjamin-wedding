@@ -35,8 +35,11 @@
   "selection": {
     "count": "{{count}} selected",
     "selectAll": "Select all",
-    "download": "Download",
-    "downloading": "Downloading..."
+    "clear": "Cancel",
+    "download": "Download selected",
+    "downloadAll": "Download all",
+    "downloading": "Downloading...",
+    "downloadError": "Download failed. Please try again."
   },
   "lightbox": {
     "label": "Photo viewer",

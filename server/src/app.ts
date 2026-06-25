@@ -13,6 +13,7 @@ import { uploadBufferToS3, checkS3Reachable } from "./s3.js";
 import { sseManager } from "./sseManager.js";
 import { adminRouter } from "./admin.js";
 import { asyncRoute } from "./asyncRoute.js";
+import { streamImagesAsZip } from "./zipExport.js";
 import type { ImageRecord, GalleryResponse } from "./types.js";
 
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
@@ -166,6 +167,29 @@ app.get(
       cursor,
     );
     res.json({ images, nextCursor, total } as GalleryResponse);
+  }),
+);
+
+const MAX_DOWNLOAD_IDS = 200;
+
+app.post(
+  "/download",
+  readLimiter,
+  requireGalleryApiEnabled,
+  asyncRoute(async (req, res) => {
+    const ids = req.body?.ids;
+    if (!Array.isArray(ids) || ids.length === 0 || !ids.every((id) => typeof id === "string")) {
+      res.status(400).json({ error: "ids must be a non-empty array of strings" });
+      return;
+    }
+
+    const cleanIds = ids
+      .map((id) => id.replace(/[^a-zA-Z0-9-]/g, "").slice(0, 64))
+      .filter(Boolean)
+      .slice(0, MAX_DOWNLOAD_IDS);
+
+    const { images } = await database.getImagesByIds(cleanIds);
+    await streamImagesAsZip(images, res, "wedding-photos.zip");
   }),
 );
 

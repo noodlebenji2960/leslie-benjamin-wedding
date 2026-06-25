@@ -201,7 +201,9 @@ class Database {
 
   async getImagesByIds(ids: string[]): Promise<{ images: ImageRecord[] }> {
     this.assertConnected();
-    const images = await Image.find({ id: { $in: ids } }).lean<ImageRecord[]>();
+    const images = await Image.find({ id: { $in: ids } })
+      .select("-uploaderIp -uploaderUserAgent")
+      .lean<ImageRecord[]>();
     return { images };
   }
 
