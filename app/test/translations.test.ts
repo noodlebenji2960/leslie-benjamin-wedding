@@ -54,6 +54,27 @@ describe("Translation files", () => {
           ).toEqual(base.keys);
         }
       });
+
+      it("no key has an empty value in any locale", () => {
+        for (const locale of LOCALES) {
+          const json = loadJSON(locale, file);
+          const keys = getKeys(json);
+
+          for (const key of keys) {
+            const value = key
+              .split(".")
+              .reduce<unknown>(
+                (obj, part) => (obj as Record<string, unknown>)?.[part],
+                json,
+              );
+
+            expect(
+              typeof value === "string" ? value.trim().length > 0 : true,
+              `Key "${key}" in ${locale}/${file} is empty`,
+            ).toBe(true);
+          }
+        }
+      });
     });
   }
 });
