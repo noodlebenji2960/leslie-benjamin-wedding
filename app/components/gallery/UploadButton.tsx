@@ -73,6 +73,7 @@ export function UploadButton({
   }, [draftName, setUploaderName]);
 
   const isRecognized = hasName && !isEditingName;
+  const showNameForm = !hasName || isEditingName;
 
   const addPendingFiles = (files: File[]) => {
     const next: PendingFile[] = files.map((file) => ({
@@ -176,7 +177,7 @@ export function UploadButton({
   };
 
   const isUploading = status === "uploading" || status === "staging";
-  const locked = !hasName || isUploading;
+  const locked = !hasName || isUploading || isEditingName;
 
   const capitalizedName = uploaderName
     .split(" ")
@@ -251,7 +252,7 @@ export function UploadButton({
         {/* File picker — drag-and-drop + browse library */}
         <div
           ref={dropzoneRef}
-          className={`gallery-upload__dropzone${isDragging ? " gallery-upload__dropzone--active" : ""}${pendingFiles.length > 0 ? " gallery-upload__dropzone--has-files" : ""}${!hasName ? " gallery-upload__dropzone--locked" : ""}`}
+          className={`gallery-upload__dropzone${isDragging ? " gallery-upload__dropzone--active" : ""}${pendingFiles.length > 0 ? " gallery-upload__dropzone--has-files" : ""}${showNameForm ? " gallery-upload__dropzone--locked" : ""}`}
           style={{
             paddingBottom: previewsHeight ? `${previewsHeight}px` : undefined,
           }}
@@ -281,61 +282,76 @@ export function UploadButton({
           <span className="gallery-upload__dropzone-icon" aria-hidden="true">
             {isUploading ? (
               <span className="gallery-upload__spinner" />
-            ) : !hasName ? (
+            ) : showNameForm ? (
               <Icon.CameraFlash size={48} />
             ) : (
               <Icon.Add size={56} />
             )}
           </span>
           <span className="gallery-upload__dropzone-text">
-            <span className="gallery-upload__label">
-              {isUploading
-                ? batchProgress && batchProgress.total > 1
-                  ? t("upload.uploadingBatch", {
-                      done: batchProgress.done,
-                      total: batchProgress.total,
-                    })
-                  : t("upload.uploading")
-                : !hasName
-                  ? t("upload.nameRequiredLabel")
-                  : t("upload.chooseFile")}
-            </span>
-            <span className="gallery-upload__hint">
-              {hasName ? t("upload.dragDrop") : t("upload.nameRequiredHint")}
-            </span>
+            {!showNameForm && (
+              <>
+                <span className="gallery-upload__label">
+                  {isUploading
+                    ? batchProgress && batchProgress.total > 1
+                      ? t("upload.uploadingBatch", {
+                          done: batchProgress.done,
+                          total: batchProgress.total,
+                        })
+                      : t("upload.uploading")
+                    : t("upload.chooseFile")}
+                </span>
+                <span className="gallery-upload__hint">{t("upload.dragDrop")}</span>
+              </>
+            )}
 
             {!hasName && (
+              <>
+                <span className="gallery-upload__label">{t("upload.nameRequiredLabel")}</span>
+                <span className="gallery-upload__hint">{t("upload.nameRequiredHint")}</span>
+              </>
+            )}
+
+            {showNameForm && (
               <div
                 className="gallery-upload__name-input-row"
                 onClick={(e) => e.stopPropagation()}
               >
-                <input
-                  type="text"
-                  className={`gallery-upload__name-input${nameError ? " gallery-upload__name-input--error" : ""}`}
-                  placeholder={t("upload.namePlaceholder")}
-                  aria-label={t("upload.nameLabel")}
-                  aria-required="true"
-                  autoFocus={isEditingName}
-                  value={draftName}
-                  onChange={(e) => {
-                    setDraftName(e.target.value);
-                    setNameError(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleConfirmName();
-                  }}
-                  maxLength={100}
-                  disabled={isUploading}
-                />
-                <button
-                  type="button"
-                  className="gallery-upload__name-confirm"
-                  onClick={handleConfirmName}
-                  disabled={isUploading || !draftName.trim()}
-                  aria-label={t("upload.saveName")}
+                <label
+                  className="gallery-upload__name-input-label"
+                  htmlFor="gallery-upload-name-input"
                 >
-                  <Icon.Tick size={16} />
-                </button>
+                  {t("upload.nameLabel")}
+                </label>
+                <div className="gallery-upload__name-input-controls">
+                  <input
+                    id="gallery-upload-name-input"
+                    type="text"
+                    className={`gallery-upload__name-input${nameError ? " gallery-upload__name-input--error" : ""}`}
+                    placeholder={t("upload.namePlaceholder")}
+                    aria-required="true"
+                    autoFocus={isEditingName}
+                    value={draftName}
+                    onChange={(e) => {
+                      setDraftName(e.target.value);
+                      setNameError(false);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleConfirmName();
+                    }}
+                    maxLength={100}
+                    disabled={isUploading}
+                  />
+                  <button
+                    type="button"
+                    className="gallery-upload__name-confirm"
+                    onClick={handleConfirmName}
+                    disabled={isUploading || !draftName.trim()}
+                    aria-label={t("upload.saveName")}
+                  >
+                    <Icon.Tick size={16} />
+                  </button>
+                </div>
               </div>
             )}
 

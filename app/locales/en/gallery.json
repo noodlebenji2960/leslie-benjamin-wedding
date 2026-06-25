@@ -10,7 +10,7 @@
     "sectionTitle": "Share a photo",
     "button": "Upload Photo",
     "dragDrop": "or drag & drop here",
-    "nameLabel": "Your name",
+    "nameLabel": "Uploader Name",
     "namePlaceholder": "e.g. María",
     "nameRequired": "Please enter your name before uploading.",
     "nameRequiredLabel": "Add your name to share photos",
