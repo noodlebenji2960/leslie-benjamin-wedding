@@ -22,6 +22,12 @@ const MAX_UPLOADER_NAME_LENGTH = 100;
 
 export const app = express();
 
+// Fly.io terminates TLS at its edge and forwards plain HTTP to this process,
+// so without trusting the proxy, req.secure is always false and
+// express-session silently refuses to set a `secure` cookie — breaking admin
+// login entirely in production.
+app.set("trust proxy", 1);
+
 // ── Security ────────────────────────────────────────────────────────────────
 
 app.use(
