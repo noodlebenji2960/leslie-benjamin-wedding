@@ -229,50 +229,14 @@ export function UploadButton({
         {t("upload.sectionTitle")}
       </p>
 
-      <div className="gallery-upload__name-row">
-        {isRecognized ? (
+      {isRecognized && (
+        <div className="gallery-upload__name-row">
           <p className="gallery-upload__name-greeting">
             {greeting.charAt(0).toUpperCase() + greeting.slice(1)},{" "}
             <span className="gallery-upload__description">{t("subtitle")}</span>
           </p>
-        ) : (
-          <div className="gallery-upload__name-input-row">
-            <input
-              type="text"
-              className={`gallery-upload__name-input${nameError ? " gallery-upload__name-input--error" : ""}`}
-              placeholder={t("upload.namePlaceholder")}
-              aria-label={t("upload.nameLabel")}
-              aria-required="true"
-              autoFocus={isEditingName}
-              value={draftName}
-              onChange={(e) => {
-                setDraftName(e.target.value);
-                setNameError(false);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleConfirmName();
-              }}
-              maxLength={100}
-              disabled={isUploading}
-            />
-            <button
-              type="button"
-              className="gallery-upload__name-confirm"
-              onClick={handleConfirmName}
-              disabled={isUploading || !draftName.trim()}
-              aria-label={t("upload.saveName")}
-            >
-              <Icon.Tick size={16} />
-            </button>
-          </div>
-        )}
-        <br />
-        {nameError && (
-          <p className="gallery-upload__feedback gallery-upload__feedback--error">
-            {t("upload.nameRequired")}
-          </p>
-        )}
-      </div>
+        </div>
+      )}
 
       {pendingFiles.length > 0 && (
         <p className="gallery-upload__pending-count">
@@ -337,6 +301,47 @@ export function UploadButton({
             <span className="gallery-upload__hint">
               {hasName ? t("upload.dragDrop") : t("upload.nameRequiredHint")}
             </span>
+
+            {!hasName && (
+              <div
+                className="gallery-upload__name-input-row"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <input
+                  type="text"
+                  className={`gallery-upload__name-input${nameError ? " gallery-upload__name-input--error" : ""}`}
+                  placeholder={t("upload.namePlaceholder")}
+                  aria-label={t("upload.nameLabel")}
+                  aria-required="true"
+                  autoFocus={isEditingName}
+                  value={draftName}
+                  onChange={(e) => {
+                    setDraftName(e.target.value);
+                    setNameError(false);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleConfirmName();
+                  }}
+                  maxLength={100}
+                  disabled={isUploading}
+                />
+                <button
+                  type="button"
+                  className="gallery-upload__name-confirm"
+                  onClick={handleConfirmName}
+                  disabled={isUploading || !draftName.trim()}
+                  aria-label={t("upload.saveName")}
+                >
+                  <Icon.Tick size={16} />
+                </button>
+              </div>
+            )}
+
+            {nameError && (
+              <p className="gallery-upload__feedback gallery-upload__feedback--error">
+                {t("upload.nameRequired")}
+              </p>
+            )}
           </span>
 
           {pendingFiles.length > 0 && (

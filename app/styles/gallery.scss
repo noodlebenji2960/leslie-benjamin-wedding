@@ -542,6 +542,12 @@
   align-items: flex-start;
   text-align: left;
   gap: $space-xs;
+
+  .gallery-upload__name-input-row {
+    align-self: stretch;
+    max-width: 280px;
+    margin-top: $space-xs;
+  }
 }
 
 .gallery-upload__label {
