@@ -16,7 +16,8 @@ const ACCEPTED = "image/*";
 const UPLOADER_NAME_KEY = "wedding_uploader_name";
 const UPLOAD_SPACING_MS = 400;
 
-const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+const sleep = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 type PendingFileStatus = "pending" | "staging" | "uploading" | "done" | "error";
 
@@ -28,10 +29,15 @@ interface PendingFile {
   progress: number;
 }
 
-export function UploadButton({ onUploaded, uploaderName, setUploaderName }: UploadButtonProps) {
+export function UploadButton({
+  onUploaded,
+  uploaderName,
+  setUploaderName,
+}: UploadButtonProps) {
   const { t } = useTranslation("gallery");
   const { visitor } = useSession();
   const { status, errorMessage, upload, reset } = useImageUpload();
+  const [draftName, setDraftName] = useState(uploaderName);
   const [nameError, setNameError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -50,19 +56,21 @@ export function UploadButton({ onUploaded, uploaderName, setUploaderName }: Uplo
   const hasName = uploaderName.trim().length > 0;
 
   const handleSetName = useCallback(() => {
+    setDraftName(uploaderName);
     setIsEditingName(true);
-  }, []);
+  }, [uploaderName]);
 
   const handleConfirmName = useCallback(() => {
-    const trimmed = uploaderName.trim();
+    const trimmed = draftName.trim();
     if (!trimmed) {
       setNameError(true);
       return;
     }
     setNameError(false);
     localStorage.setItem(UPLOADER_NAME_KEY, trimmed);
+    setUploaderName(trimmed);
     setIsEditingName(false);
-  }, [uploaderName]);
+  }, [draftName, setUploaderName]);
 
   const isRecognized = hasName && !isEditingName;
 
@@ -236,15 +244,14 @@ export function UploadButton({ onUploaded, uploaderName, setUploaderName }: Uplo
               aria-label={t("upload.nameLabel")}
               aria-required="true"
               autoFocus={isEditingName}
-              value={uploaderName}
+              value={draftName}
               onChange={(e) => {
-                setUploaderName(e.target.value);
+                setDraftName(e.target.value);
                 setNameError(false);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleConfirmName();
               }}
-              onBlur={handleConfirmName}
               maxLength={100}
               disabled={isUploading}
             />
@@ -252,14 +259,14 @@ export function UploadButton({ onUploaded, uploaderName, setUploaderName }: Uplo
               type="button"
               className="gallery-upload__name-confirm"
               onClick={handleConfirmName}
-              disabled={isUploading || !uploaderName.trim()}
+              disabled={isUploading || !draftName.trim()}
               aria-label={t("upload.saveName")}
             >
               <Icon.Tick size={16} />
             </button>
           </div>
         )}
-
+        <br />
         {nameError && (
           <p className="gallery-upload__feedback gallery-upload__feedback--error">
             {t("upload.nameRequired")}
@@ -277,7 +284,7 @@ export function UploadButton({ onUploaded, uploaderName, setUploaderName }: Uplo
         {/* Camera button — opens rear camera directly on mobile */}
         {/* File picker — drag-and-drop + browse library */}
         <div
-        ref={dropzoneRef}
+          ref={dropzoneRef}
           className={`gallery-upload__dropzone${isDragging ? " gallery-upload__dropzone--active" : ""}${pendingFiles.length > 0 ? " gallery-upload__dropzone--has-files" : ""}${!hasName ? " gallery-upload__dropzone--locked" : ""}`}
           style={{
             paddingBottom: previewsHeight ? `${previewsHeight}px` : undefined,
@@ -288,7 +295,9 @@ export function UploadButton({ onUploaded, uploaderName, setUploaderName }: Uplo
           onKeyDown={(e) =>
             e.key === "Enter" && !locked && fileInputRef.current?.click()
           }
-          aria-label={hasName ? t("upload.chooseFile") : t("upload.nameRequiredLabel")}
+          aria-label={
+            hasName ? t("upload.chooseFile") : t("upload.nameRequiredLabel")
+          }
           aria-disabled={locked}
         >
           <input
@@ -361,7 +370,9 @@ export function UploadButton({ onUploaded, uploaderName, setUploaderName }: Uplo
           className="gallery-upload__fab"
           onClick={() => !locked && cameraInputRef.current?.click()}
           disabled={locked}
-          aria-label={hasName ? t("upload.takePhoto") : t("upload.nameRequiredLabel")}
+          aria-label={
+            hasName ? t("upload.takePhoto") : t("upload.nameRequiredLabel")
+          }
         >
           {isUploading ? (
             <span className="gallery-upload__spinner" />
