@@ -60,20 +60,21 @@ class Database {
     name: string | null;
     ip: string | null;
     userAgent: string | null;
-    imageId: string;
+    imageId?: string;
   }): Promise<void> {
     this.assertConnected();
     const { visitorId, name, ip, userAgent, imageId } = opts;
 
-    const addToSet: Record<string, unknown> = { uploadIds: imageId };
-    if (name)      addToSet["knownNames"]  = name;
-    if (ip)        addToSet["ips"]         = ip;
-    if (userAgent) addToSet["userAgents"]  = userAgent;
+    const addToSet: Record<string, unknown> = {};
+    if (imageId)   addToSet["uploadIds"]    = imageId;
+    if (name)      addToSet["knownNames"]   = name;
+    if (ip)        addToSet["ips"]          = ip;
+    if (userAgent) addToSet["userAgents"]   = userAgent;
 
     await Visitor.findOneAndUpdate(
       { visitorId },
       {
-        $addToSet: addToSet,
+        ...(Object.keys(addToSet).length > 0 ? { $addToSet: addToSet } : {}),
         $set:      { lastSeen: new Date() },
         $setOnInsert: { firstSeen: new Date() },
       },

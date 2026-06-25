@@ -229,25 +229,36 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
             <span className="gallery-upload__description">{t("subtitle")}</span>
           </p>
         ) : (
-          <input
-            type="text"
-            className={`gallery-upload__name-input${nameError ? " gallery-upload__name-input--error" : ""}`}
-            placeholder={t("upload.namePlaceholder")}
-            aria-label={t("upload.nameLabel")}
-            aria-required="true"
-            autoFocus={isEditingName}
-            value={uploaderName}
-            onChange={(e) => {
-              setUploaderName(e.target.value);
-              setNameError(false);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleConfirmName();
-            }}
-            onBlur={handleConfirmName}
-            maxLength={100}
-            disabled={isUploading}
-          />
+          <div className="gallery-upload__name-input-row">
+            <input
+              type="text"
+              className={`gallery-upload__name-input${nameError ? " gallery-upload__name-input--error" : ""}`}
+              placeholder={t("upload.namePlaceholder")}
+              aria-label={t("upload.nameLabel")}
+              aria-required="true"
+              autoFocus={isEditingName}
+              value={uploaderName}
+              onChange={(e) => {
+                setUploaderName(e.target.value);
+                setNameError(false);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleConfirmName();
+              }}
+              onBlur={handleConfirmName}
+              maxLength={100}
+              disabled={isUploading}
+            />
+            <button
+              type="button"
+              className="gallery-upload__name-confirm"
+              onClick={handleConfirmName}
+              disabled={isUploading || !uploaderName.trim()}
+              aria-label={t("upload.saveName")}
+            >
+              <Icon.Tick size={16} />
+            </button>
+          </div>
         )}
 
         {nameError && (

@@ -26,6 +26,12 @@ export const app = express();
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "img-src": ["'self'", "https://*.amazonaws.com", "https://*.cloudfront.net"],
+      },
+    },
   }),
 );
 
@@ -218,6 +224,16 @@ app.post(
 
     await database.addImage(image);
 
+    if (uploaderVisitorId) {
+      await database.upsertVisitor({
+        visitorId: uploaderVisitorId,
+        name: uploaderName,
+        ip: image.uploaderIp,
+        userAgent: image.uploaderUserAgent,
+        imageId,
+      });
+    }
+
     sseManager.broadcastNewImage(image);
 
     res.status(201).json(image);
@@ -306,6 +322,14 @@ app.post(
     const cleanVisitorId = visitorId
       .replace(/[^a-zA-Z0-9_\-]/g, "")
       .slice(0, 64);
+    const cleanUploaderName = uploaderName.trim().slice(0, MAX_UPLOADER_NAME_LENGTH);
+
+    await database.upsertVisitor({
+      visitorId: cleanVisitorId,
+      name: cleanUploaderName,
+      ip: req.socket.remoteAddress ?? null,
+      userAgent: req.headers["user-agent"]?.slice(0, 256) ?? null,
+    });
 
     const { reactions, previousEmoji } = await database.setReaction(
       cleanImageId,

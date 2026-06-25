@@ -14,6 +14,7 @@
     "namePlaceholder": "e.g. María",
     "nameRequired": "Please enter your name before uploading.",
     "nameGreeting": "Welcome back, {{name}}!",
+    "saveName": "Save name",
     "uploading": "Uploading...",
     "uploadingBatch": "Uploading {{done}} of {{total}}...",
     "success": "Photo uploaded!",

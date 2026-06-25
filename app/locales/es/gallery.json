@@ -14,6 +14,7 @@
     "namePlaceholder": "p.ej. María",
     "nameRequired": "Por favor, escribe tu nombre antes de subir.",
     "nameGreeting": "¡Bienvenido/a de nuevo, {{name}}!",
+    "saveName": "Guardar nombre",
     "uploading": "Subiendo...",
     "uploadingBatch": "Subiendo {{done}} de {{total}}...",
     "success": "¡Foto subida!",
