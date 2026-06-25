@@ -10,6 +10,7 @@ jobs:
     env:
       # Ensure production build uses root base when deploying to a custom domain
       VITE_BASE: "/"
+      VITE_API_BASE_URL: "https://leslie-benjamin-wedding-api.fly.dev"
     permissions:
       contents: read
       pages: write

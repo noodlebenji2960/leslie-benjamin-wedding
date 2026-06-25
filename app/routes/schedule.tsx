@@ -1,10 +1,23 @@
 import { useTranslation, Trans } from "react-i18next";
+import { motion } from "framer-motion";
 import { useWeddingData } from "@/hooks/useWeddingData";
 import Map from "@/components/Map";
 import { Icon } from "@/components/Icon";
 import { FadeInSection } from "@/components/FadeInsection";
 import { useRef, useCallback, useEffect } from "react";
 import ScrollChevron from "@/components/ScrollDown";
+import type { Route } from "./+types/schedule";
+import { Countdown } from "@/components/Countdown";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "The Day - Leslie & Benjamin" },
+    {
+      name: "description",
+      content: "Schedule for Leslie & Benjamin's wedding day.",
+    },
+  ];
+}
 
 const Schedule = () => {
   const { t } = useTranslation(["schedule", "common"]);
@@ -189,16 +202,29 @@ const Schedule = () => {
     <div className="schedule-page">
       {/* Page Header */}
       <div className="schedule-hero">
+        <motion.h1
+          className="schedule-title"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {t("schedule:title", "The Day")}
+        </motion.h1>
         <p className="schedule-eyebrow">
           {t("schedule:eyebrow", "Saturday · July 11, 2026")}
         </p>
-        <h1 className="schedule-title">{t("schedule:title", "The Day")}</h1>
         <p className="schedule-subtitle">
           {t(
             "schedule:subtitle",
             "Everything you need to know about our wedding day, from start to finish.",
           )}
         </p>
+        <Countdown
+          date={wedding.wedding.date}
+          time={wedding.wedding.ceremony.time}
+          size="lg"
+        />
+        <br />
         <ScrollChevron />
       </div>
 

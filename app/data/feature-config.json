@@ -14,8 +14,8 @@
     "isInFeatureList": true
   },
   "schedule": {
-    "enabled": false,
-    "timesEnabled": false,
+    "enabled": true,
+    "timesEnabled": true,
     "isInFeatureList": true
   },
   "qa": {
@@ -81,7 +81,7 @@
     ]
   },
   "gallery": {
-    "enabled": false,
+    "enabled": true,
     "isInFeatureList": true
   },
   "cookies": {

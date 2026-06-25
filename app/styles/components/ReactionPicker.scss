@@ -1,0 +1,199 @@
+// ─────────────────────────────────────────────
+// Reaction Picker (main pill)
+// ─────────────────────────────────────────────
+
+.reaction-picker {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 6px 10px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.reaction-picker__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reaction-picker__emoji-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: transform 0.12s ease, background 0.12s ease;
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &--mine {
+    background: color-mix(in srgb, var(--color-primary-base) 18%, transparent);
+  }
+}
+
+.reaction-picker__emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.reaction-picker__more {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+  border: 1px dashed var(--color-border);
+  background: transparent;
+
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+// ─────────────────────────────────────────────
+// OVERLAY BACKDROP
+// ─────────────────────────────────────────────
+
+.reaction-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ─────────────────────────────────────────────
+// BOTTOM SHEET PANEL
+// ─────────────────────────────────────────────
+
+.reaction-overlay__panel {
+  width: 100%;
+  max-width: 520px;
+
+  max-height: 70vh;
+
+  background: var(--color-background);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+
+  padding: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  overflow: hidden;
+
+  animation: sheetUp 0.2s ease-out;
+}
+
+@keyframes sheetUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// ─────────────────────────────────────────────
+// TAB BAR
+// ─────────────────────────────────────────────
+
+.reaction-overlay__tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.reaction-overlay__tab {
+  flex: 0 0 auto;
+
+  border: 1px solid var(--color-border);
+  background: transparent;
+
+  padding: 6px 10px;
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  &.is-active {
+    background: var(--color-primary-base);
+    color: white;
+    border-color: var(--color-primary-base);
+  }
+}
+
+// ─────────────────────────────────────────────
+// SCROLLABLE EMOJI GRID
+// ─────────────────────────────────────────────
+
+.reaction-overlay__grid {
+  flex: 1;
+  overflow-y: auto;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+
+  padding: 10px 4px;
+
+  -webkit-overflow-scrolling: touch;
+}

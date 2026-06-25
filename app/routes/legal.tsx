@@ -1,9 +1,16 @@
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
+import type { Route } from "./+types/legal";
+
+export function meta({ params }: Route.MetaArgs) {
+  const title = params.page === "privacy" ? "Privacy Policy" : "Terms & Conditions";
+  return [{ title: `${title} - Leslie & Benjamin` }];
+}
 
 const LEGAL_PAGES = {
   terms: {
@@ -72,7 +79,14 @@ export default function LegalPage() {
           <div className="legal-page__ornament" aria-hidden="true">
             ❧
           </div>
-          <h1 className="legal-page__title">{t("title")}</h1>
+          <motion.h1
+            className="legal-page__title"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {t("title")}
+          </motion.h1>
           <p className="legal-page__updated">{t("lastUpdated")}</p>
           <p className="legal-page__intro">{t("intro")}</p>
         </header>

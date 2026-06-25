@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin — Wedding Gallery</title>
+    <link rel="stylesheet" href="/admin/admin.css" />
+  </head>
+  <body>
+    <!-- Login -->
+    <div id="login-screen">
+      <div class="login-card" id="login-card">
+        <h1>Admin</h1>
+        <label for="pw">Password</label>
+        <input type="password" id="pw" autofocus />
+        <button id="login-btn">Sign in</button>
+        <p class="login-error" id="login-error" style="display: none"></p>
+        <button class="text-link" id="forgot-link">Forgot password?</button>
+      </div>
+
+      <div class="login-card" id="forgot-card" style="display: none">
+        <h1>Reset password</h1>
+        <p style="font-size: 0.85rem; color: #999; margin-bottom: 1rem">
+          We'll email a one-time code to the admin address.
+        </p>
+        <button id="send-otp-btn">Send code</button>
+        <p class="login-error" id="forgot-error" style="display: none"></p>
+        <p class="login-info" id="forgot-info" style="display: none"></p>
+        <button class="text-link" id="back-to-login-link-1">
+          Back to sign in
+        </button>
+      </div>
+
+      <div class="login-card" id="reset-card" style="display: none">
+        <h1>Enter code</h1>
+        <label for="otp">One-time code</label>
+        <input
+          type="text"
+          id="otp"
+          inputmode="numeric"
+          maxlength="6"
+          autocomplete="one-time-code"
+        />
+        <label for="new-pw" style="margin-top: 1rem">New password</label>
+        <input type="password" id="new-pw" autocomplete="new-password" />
+        <button id="reset-btn">Set new password</button>
+        <p class="login-error" id="reset-error" style="display: none"></p>
+        <button class="text-link" id="back-to-login-link-2">
+          Back to sign in
+        </button>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div id="gallery-screen">
+      <header>
+        <div class="header-title">
+          <h1>Admin</h1>
+          <p id="subtitle">0 photos</p>
+        </div>
+        <div class="header-actions">
+          <span id="live-indicator"
+            ><span class="live-dot" id="live-dot"></span>live</span
+          >
+          <button id="toggle-uploads-btn" class="btn-toggle">
+            Uploads: on
+          </button>
+          <button id="toggle-gallery-btn" class="btn-toggle">
+            Gallery API: on
+          </button>
+          <a
+            id="download-btn"
+            href="/admin/download"
+            class="btn-green"
+            style="display: none"
+            >Download all (.zip)</a
+          >
+          <button id="delete-all-btn" class="btn-danger">Delete all</button>
+          <button id="logout-btn" class="btn-outline">Sign out</button>
+        </div>
+      </header>
+      <div id="grid-container"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="/admin/admin.js"></script>
+  </body>
+</html>

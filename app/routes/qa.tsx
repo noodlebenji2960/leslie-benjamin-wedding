@@ -10,18 +10,16 @@ import DonateButton from "@/components/DonateButton";
 import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Link } from "react-router";
 import { useBuildLink } from "@/hooks/useBuildLink";
+import type { Route } from "./+types/qa";
 
-interface FAQItem {
-  question: string;
-  answer: string;
-  category:
-    | "essentials"
-    | "logistics"
-    | "style"
-    | "family"
-    | "gifts"
-    | "travel";
-  id: string;
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Q&A - Leslie & Benjamin" },
+    {
+      name: "description",
+      content: "Frequently asked questions about Leslie & Benjamin's wedding.",
+    },
+  ];
 }
 
 type Category =
@@ -32,6 +30,18 @@ type Category =
   | "family"
   | "gifts"
   | "travel";
+
+interface FAQItem {
+  question: string;
+  answer: string;
+  category: Exclude<Category, "all">;
+  id: string;
+}
+
+interface CategoryConfig {
+  name: Category;
+  icon: React.ReactNode;
+}
 
 const QA = () => {
   const config = useSiteConfig();
@@ -122,7 +132,9 @@ const QA = () => {
           undefined,
           { month: "long" },
         ),
-        season: t(`season.${ { 0: "winter", 1: "winter", 2: "spring", 3: "spring", 4: "spring", 5: "summer", 6: "summer", 7: "summer", 8: "fall", 9: "fall", 10: "fall", 11: "winter" }[new Date(weddingData.wedding.date).getMonth()] }`),
+        season: t(
+          `season.${{ 0: "winter", 1: "winter", 2: "spring", 3: "spring", 4: "spring", 5: "summer", 6: "summer", 7: "summer", 8: "fall", 9: "fall", 10: "fall", 11: "winter" }[new Date(weddingData.wedding.date).getMonth()]}`,
+        ),
       },
       brideFirstName: weddingData.bride.firstName,
       bridePhone: brideContact?.phone || "",
@@ -164,15 +176,15 @@ const QA = () => {
     setOpenIndex(null);
   }, []);
 
-  const categories: Category[] = [
-    "essentials",
-    "logistics",
-    "style",
-    "family",
-    "gifts",
-    "travel",
-    "all",
-  ];
+const categories: CategoryConfig[] = [
+  { name: "essentials", icon: null },
+  { name: "logistics", icon: null },
+  { name: "style", icon: <Icon.Tie /> },
+  { name: "family", icon: <Icon.Family /> },
+  { name: "gifts", icon: <Icon.Gift /> },
+  { name: "travel", icon: <Icon.Plane /> },
+  { name: "all", icon: <Icon.All /> },
+];
 
   return (
     <div className="qa-page container">
@@ -188,11 +200,14 @@ const QA = () => {
       <div className="qa-categories">
         {categories.map((category) => (
           <motion.button
-            key={category}
-            className={`category-tab ${activeCategory === category ? "active" : ""}`}
-            onClick={() => toggleCategory(category)}
+            key={category.name}
+            className={`category-tab ${
+              activeCategory === category.name ? "active" : ""
+            }`}
+            onClick={() => toggleCategory(category.name)}
           >
-            {t(category)}
+            {category.icon}
+            <span>{t(category.name)}</span>
           </motion.button>
         ))}
       </div>
@@ -250,9 +265,9 @@ const QA = () => {
                               </>
                             ) : (
                               <>
-                              <br/>
-                              <br/>
-                              {t(`items.${originalIndex}.notEnabled`)}
+                                <br />
+                                <br />
+                                {t(`items.${originalIndex}.notEnabled`)}
                               </>
                             ),
                             VenueLink: (
@@ -329,7 +344,9 @@ const QA = () => {
                                       {t("distance", { distance: a.distance })},{" "}
                                       {t("transport", {
                                         transport: a.transportOptions
-                                          .map((opt: string) => t(`transport_options.${opt}`))
+                                          .map((opt: string) =>
+                                            t(`transport_options.${opt}`),
+                                          )
                                           .join(", "),
                                       })}
                                     </li>

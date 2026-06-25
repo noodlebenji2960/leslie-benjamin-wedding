@@ -1,0 +1,63 @@
+{
+  "title": "Photo Gallery",
+  "subtitle": "Share your memories from our special day",
+  "photoCount": "{{count}} photo",
+  "photoCount_other": "{{count}} photos",
+  "enterNamePrompt": "Enter your name",
+  "setName": "Set name",
+  "changeName": "Change name",
+  "upload": {
+    "sectionTitle": "Share a photo",
+    "button": "Upload Photo",
+    "dragDrop": "or drag & drop here",
+    "nameLabel": "Your name",
+    "namePlaceholder": "e.g. María",
+    "nameRequired": "Please enter your name before uploading.",
+    "nameGreeting": "Welcome back, {{name}}!",
+    "uploading": "Uploading...",
+    "uploadingBatch": "Uploading {{done}} of {{total}}...",
+    "success": "Photo uploaded!",
+    "error": "Upload failed. Please try again.",
+    "fileError": "Only JPEG, PNG, WebP, and HEIC images are accepted (max 10MB).",
+    "takePhoto": "Take Photo",
+    "chooseFile": "Choose from Library",
+    "removeFile": "Remove {{name}}",
+    "cancel": "Cancel",
+    "confirmShort": "Upload",
+    "pendingCount": "{{count}} photo awaiting upload",
+    "pendingCount_other": "{{count}} photos awaiting upload",
+    "addMore": "Add more"
+  },
+  "empty": "No photos yet — be the first to share one!",
+  "loading": "Loading photos...",
+  "loadMore": "Load more",
+  "selection": {
+    "count": "{{count}} selected",
+    "selectAll": "Select all",
+    "download": "Download",
+    "downloading": "Downloading..."
+  },
+  "lightbox": {
+    "label": "Photo viewer",
+    "close": "Close",
+    "prev": "Previous photo",
+    "next": "Next photo"
+  },
+  "reactions": {
+    "pickerLabel": "Choose a reaction",
+    "nameRequired": "Set your name to react to photos."
+  },
+  "status": {
+    "label": "Service status",
+    "checking": "Checking status...",
+    "ok": "All systems running normally",
+    "degraded": "Service is having issues",
+    "down": "Service is unreachable",
+    "database": "Database",
+    "db": {
+      "connected": "Connected",
+      "disconnected": "Disconnected"
+    },
+    "lastChecked": "Last checked at {{time}}"
+  }
+}

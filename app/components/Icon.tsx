@@ -29,23 +29,34 @@ import {
   IoBusinessOutline,
   IoPhonePortraitOutline,
   IoDownloadOutline,
+  IoCameraOutline,
+  IoCamera,
+  IoImagesOutline,
 } from "react-icons/io5";
 import { IoMdPaperPlane } from "react-icons/io";
 import { RiExternalLinkLine } from "react-icons/ri";
-import { MdLocationPin, MdOutlineTapas } from "react-icons/md";
+import {
+  MdLocationPin,
+  MdOutlineTapas,
+  MdFamilyRestroom,
+} from "react-icons/md";
 import { WiFog } from "react-icons/wi";
 import { CiStickyNote } from "react-icons/ci";
 import { PiPencilLineLight } from "react-icons/pi";
-import { BsEnvelopePaperHeart, BsSuitHeartFill } from "react-icons/bs";
+import {
+  BsEnvelopePaperHeart,
+  BsSuitHeartFill,
+  BsAirplaneEngines,
+} from "react-icons/bs";
 import { SiPaypal, SiRevolut } from "react-icons/si";
-import { FaCheck, FaMoon } from "react-icons/fa6";
+import { FaCheck, FaMoon, FaInfinity } from "react-icons/fa6";
 import { VscChecklist } from "react-icons/vsc";
 import { TbBus } from "react-icons/tb";
-import { GiLinkedRings } from "react-icons/gi";
+import { GiLinkedRings, GiTie } from "react-icons/gi";
 import { LiaCocktailSolid } from "react-icons/lia";
 import { GiForkKnifeSpoon } from "react-icons/gi";
 import { LuPartyPopper } from "react-icons/lu";
-
+import { ImGift } from "react-icons/im";
 
 type IconProps = {
   size?: number;
@@ -138,6 +149,9 @@ const ICONS = {
   Bank: IoBusinessOutline,
   Phone: IoPhonePortraitOutline,
   Download: IoDownloadOutline,
+  Camera: IoCameraOutline,
+  CameraFlash: IoCamera,
+  Images: IoImagesOutline,
   Paypal: SiPaypal,
   Revolut: SiRevolut,
   Tick: FaCheck,
@@ -153,6 +167,12 @@ const ICONS = {
   Cocktail: LiaCocktailSolid,
   Tapas: MdOutlineTapas,
   Party: LuPartyPopper,
+  Tie: GiTie,
+  Family: MdFamilyRestroom,
+  Gift: ImGift,
+  Plane: BsAirplaneEngines,
+  All: FaInfinity
+  
 };
 
 /* ======================================================

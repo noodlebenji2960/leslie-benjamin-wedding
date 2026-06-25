@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import { StepContent } from "@/components/rsvp/stepContent/StepContent";
 import SuccessScreen from "@/components/rsvp/SuccessScreen";
 import { useRSVPForm } from "@/hooks/rsvp/useRSVPForm";
@@ -8,6 +9,17 @@ import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { Icon } from "@/components/Icon";
 import { ProgressBar } from "@/components/ProgressBar";
 import { useWeddingData } from "@/hooks/useWeddingData";
+import type { Route } from "./+types/rsvp";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "RSVP - Leslie & Benjamin" },
+    {
+      name: "description",
+      content: "RSVP for Leslie & Benjamin's wedding.",
+    },
+  ];
+}
 
 const isDev = import.meta.env.DEV;
 
@@ -185,7 +197,13 @@ export default function RSVP() {
 
   return (
     <div className="rsvp-page container">
-      <h1>Rsvp</h1>
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        Rsvp
+      </motion.h1>
       <ProgressBar
         currentStep={currentStep}
         steps={steps}

@@ -15,8 +15,8 @@
 }
 
 .not-found__title {
-  font-size: $font-size-7xl;
-  font-weight: $fw-bold;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: $fw-medium;
   color: $color-text;
   margin: 0 0 $space-xs 0;
 }

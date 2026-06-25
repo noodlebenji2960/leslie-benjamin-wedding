@@ -9,14 +9,11 @@
 
   .qa-title {
     font-family: $font-fancy;
-    font-size: $font-size-5xl;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: $fw-medium;
     text-align: center;
     color: $color-accent;
     margin-bottom: $space-xl;
-    
-    @media (max-width: $bp-sm) {
-      font-size: $font-size-3xl;
-    }
   }
 
   // --- Category Tabs ---
@@ -28,6 +25,10 @@
     margin-bottom: $space-xl;
 
     .category-tab {
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      align-items: center;
       background: transparent;
       border: 1px solid $color-border;
       padding: $space-xs $space-md;
@@ -39,6 +40,7 @@
       cursor: pointer;
       transition: all $transition-base;
       text-transform: capitalize;
+      background-color: $color-white;
 
       &.active {
         background-color: $color-accent;

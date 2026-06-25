@@ -14,9 +14,9 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
 import { SessionProvider, SessionContext } from "@/contexts/SessionContext";
-import { useEffect } from "react";
 import { LayoutProvider } from "./contexts/LayoutContext";
 import { ConfigProvider } from "./contexts/ConfigContext";
+import { ServerProvider } from "./contexts/ServerContext";
 
 const GA_ID = import.meta.env.VITE_GA_ID;
 const isProd = import.meta.env.MODE === "production";
@@ -80,19 +80,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       <body className="body">
         <ConfigProvider>
-          <SessionProvider>
-            <SessionContext.Consumer>
-              {({ cookiePreference }) => (
-                <AnalyticsProvider cookiePreference={cookiePreference}>
-                  <ThemeProvider>
-                    <LanguageProvider>
-                      <LayoutProvider>{children}</LayoutProvider>
-                    </LanguageProvider>
-                  </ThemeProvider>
-                </AnalyticsProvider>
-              )}
-            </SessionContext.Consumer>
-          </SessionProvider>
+          <ServerProvider>
+            <SessionProvider>
+              <SessionContext.Consumer>
+                {({ cookiePreference }) => (
+                  <AnalyticsProvider cookiePreference={cookiePreference}>
+                    <ThemeProvider>
+                      <LanguageProvider>
+                        <LayoutProvider>{children}</LayoutProvider>
+                      </LanguageProvider>
+                    </ThemeProvider>
+                  </AnalyticsProvider>
+                )}
+              </SessionContext.Consumer>
+            </SessionProvider>
+          </ServerProvider>
         </ConfigProvider>
         <ScrollRestoration />
         <Scripts />

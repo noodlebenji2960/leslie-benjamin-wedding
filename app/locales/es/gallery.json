@@ -1,0 +1,63 @@
+{
+  "title": "Galería de Fotos",
+  "subtitle": "Comparte tus recuerdos de nuestro día especial",
+  "photoCount": "{{count}} foto",
+  "photoCount_other": "{{count}} fotos",
+  "enterNamePrompt": "Escribe tu nombre",
+  "setName": "Indicar nombre",
+  "changeName": "Cambiar nombre",
+  "upload": {
+    "sectionTitle": "Comparte una foto",
+    "button": "Subir Foto",
+    "dragDrop": "o arrastra y suelta aquí",
+    "nameLabel": "Tu nombre",
+    "namePlaceholder": "p.ej. María",
+    "nameRequired": "Por favor, escribe tu nombre antes de subir.",
+    "nameGreeting": "¡Bienvenido/a de nuevo, {{name}}!",
+    "uploading": "Subiendo...",
+    "uploadingBatch": "Subiendo {{done}} de {{total}}...",
+    "success": "¡Foto subida!",
+    "error": "Error al subir. Por favor, inténtalo de nuevo.",
+    "fileError": "Solo se aceptan imágenes JPEG, PNG, WebP y HEIC (máx. 10 MB).",
+    "takePhoto": "Hacer Foto",
+    "chooseFile": "Elegir de la Galería",
+    "removeFile": "Quitar {{name}}",
+    "cancel": "Cancelar",
+    "confirmShort": "Subir",
+    "pendingCount": "{{count}} foto pendiente de subir",
+    "pendingCount_other": "{{count}} fotos pendientes de subir",
+    "addMore": "Añadir más"
+  },
+  "empty": "Aún no hay fotos — ¡sé el primero en compartir una!",
+  "loading": "Cargando fotos...",
+  "loadMore": "Cargar más",
+  "selection": {
+    "count": "{{count}} seleccionada/s",
+    "selectAll": "Seleccionar todo",
+    "download": "Descargar",
+    "downloading": "Descargando..."
+  },
+  "lightbox": {
+    "label": "Visor de fotos",
+    "close": "Cerrar",
+    "prev": "Foto anterior",
+    "next": "Foto siguiente"
+  },
+  "reactions": {
+    "pickerLabel": "Elige una reacción",
+    "nameRequired": "Indica tu nombre para reaccionar a las fotos."
+  },
+  "status": {
+    "label": "Estado del servicio",
+    "checking": "Comprobando estado...",
+    "ok": "Todo funciona correctamente",
+    "degraded": "El servicio tiene problemas",
+    "down": "El servicio no está disponible",
+    "database": "Base de datos",
+    "db": {
+      "connected": "Conectada",
+      "disconnected": "Desconectada"
+    },
+    "lastChecked": "Última comprobación: {{time}}"
+  }
+}

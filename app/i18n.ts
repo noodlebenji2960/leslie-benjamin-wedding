@@ -19,6 +19,8 @@ import privacy_en from "./locales/en/privacy.json";
 import privacy_es from "./locales/es/privacy.json";
 import notFound_en from "./locales/en/not-found.json";
 import notFound_es from "./locales/es/not-found.json";
+import gallery_en from "./locales/en/gallery.json";
+import gallery_es from "./locales/es/gallery.json";
 
 i18n
   .use(LanguageDetector)
@@ -26,7 +28,7 @@ i18n
   .init({
     fallbackLng: "es",
     supportedLngs: ["en", "es"],
-    ns: ["common", "home", "qa", "schedule", "rsvp", "terms", "privacy", "notFound"],
+    ns: ["common", "home", "qa", "schedule", "rsvp", "terms", "privacy", "notFound", "gallery"],
     defaultNS: "common",
     resources: {
       en: {
@@ -38,6 +40,7 @@ i18n
         terms: terms_en,
         privacy: privacy_en,
         notFound: notFound_en,
+        gallery: gallery_en,
       },
       es: {
         common: common_es,
@@ -48,6 +51,7 @@ i18n
         terms: terms_es,
         privacy: privacy_es,
         notFound: notFound_es,
+        gallery: gallery_es,
       },
     },
     interpolation: { escapeValue: false },
