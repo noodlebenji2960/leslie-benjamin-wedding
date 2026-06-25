@@ -224,10 +224,12 @@ export function UploadButton({
         handleDrop(e);
       }}
     >
-      <p className="gallery-upload__title">
-        <Icon.CameraFlash size={18} />
-        {t("upload.sectionTitle")}
-      </p>
+      {hasName && (
+        <p className="gallery-upload__title">
+          <Icon.CameraFlash size={18} />
+          {t("upload.sectionTitle")}
+        </p>
+      )}
 
       {isRecognized && (
         <div className="gallery-upload__name-row">
