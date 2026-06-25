@@ -172,6 +172,7 @@ export default function GalleryPage() {
         loadingMore={loadingMore}
         hasMore={hasMore}
         onLoadMore={handleLoadMore}
+        locked={!uploaderName.trim()}
         onReactImage={(imageId, reactions) =>
           setImages((prev) =>
             prev.map((img) =>

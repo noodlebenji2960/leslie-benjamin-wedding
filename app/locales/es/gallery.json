@@ -13,6 +13,8 @@
     "nameLabel": "Tu nombre",
     "namePlaceholder": "p.ej. María",
     "nameRequired": "Por favor, escribe tu nombre antes de subir.",
+    "nameRequiredLabel": "Añade tu nombre para compartir fotos",
+    "nameRequiredHint": "Escribe tu nombre arriba para poder subir fotos",
     "nameGreeting": "¡Bienvenido/a de nuevo, {{name}}!",
     "saveName": "Guardar nombre",
     "uploading": "Subiendo...",

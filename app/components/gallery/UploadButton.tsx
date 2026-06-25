@@ -8,7 +8,7 @@ import type { SSEImageRecord } from "@/hooks/useSSE";
 
 interface UploadButtonProps {
   onUploaded: (image: SSEImageRecord) => void;
-  uploaderName?: string;
+  uploaderName: string;
   setUploaderName: (name: string) => void;
 }
 
@@ -28,11 +28,10 @@ interface PendingFile {
   progress: number;
 }
 
-export function UploadButton({ onUploaded }: UploadButtonProps) {
+export function UploadButton({ onUploaded, uploaderName, setUploaderName }: UploadButtonProps) {
   const { t } = useTranslation("gallery");
   const { visitor } = useSession();
   const { status, errorMessage, upload, reset } = useImageUpload();
-  const [uploaderName, setUploaderName] = useState("");
   const [nameError, setNameError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -48,11 +47,7 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
   const [baseHeight, setBaseHeight] = useState(0);
   const [previewsHeight, setPreviewsHeight] = useState(0);
 
-  // Pre-fill name from localStorage if known
-  const savedName =
-    typeof window !== "undefined"
-      ? (localStorage.getItem(UPLOADER_NAME_KEY) ?? "")
-      : "";
+  const hasName = uploaderName.trim().length > 0;
 
   const handleSetName = useCallback(() => {
     setIsEditingName(true);
@@ -69,11 +64,7 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
     setIsEditingName(false);
   }, [uploaderName]);
 
-  useEffect(() => {
-    if (savedName) setUploaderName(savedName);
-  }, [savedName]);
-
-  const isRecognized = savedName.length > 0 && !isEditingName;
+  const isRecognized = hasName && !isEditingName;
 
   const addPendingFiles = (files: File[]) => {
     const next: PendingFile[] = files.map((file) => ({
@@ -177,6 +168,7 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
   };
 
   const isUploading = status === "uploading" || status === "staging";
+  const locked = !hasName || isUploading;
 
   const capitalizedName = uploaderName
     .split(" ")
@@ -212,10 +204,17 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
       className={`gallery-upload${isDragging ? " gallery-upload--active" : ""}`}
       onDragOver={(e) => {
         e.preventDefault();
-        if (!isUploading) setIsDragging(true);
+        if (!locked) setIsDragging(true);
       }}
       onDragLeave={() => setIsDragging(false)}
-      onDrop={handleDrop}
+      onDrop={(e) => {
+        if (locked) {
+          e.preventDefault();
+          setIsDragging(false);
+          return;
+        }
+        handleDrop(e);
+      }}
     >
       <p className="gallery-upload__title">
         <Icon.CameraFlash size={18} />
@@ -279,18 +278,18 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
         {/* File picker — drag-and-drop + browse library */}
         <div
         ref={dropzoneRef}
-          className={`gallery-upload__dropzone${isDragging ? " gallery-upload__dropzone--active" : ""}${pendingFiles.length > 0 ? " gallery-upload__dropzone--has-files" : ""}`}
+          className={`gallery-upload__dropzone${isDragging ? " gallery-upload__dropzone--active" : ""}${pendingFiles.length > 0 ? " gallery-upload__dropzone--has-files" : ""}${!hasName ? " gallery-upload__dropzone--locked" : ""}`}
           style={{
             paddingBottom: previewsHeight ? `${previewsHeight}px` : undefined,
           }}
-          onClick={() => !isUploading && fileInputRef.current?.click()}
+          onClick={() => !locked && fileInputRef.current?.click()}
           role="button"
-          tabIndex={isUploading ? -1 : 0}
+          tabIndex={locked ? -1 : 0}
           onKeyDown={(e) =>
-            e.key === "Enter" && !isUploading && fileInputRef.current?.click()
+            e.key === "Enter" && !locked && fileInputRef.current?.click()
           }
-          aria-label={t("upload.chooseFile")}
-          aria-disabled={isUploading}
+          aria-label={hasName ? t("upload.chooseFile") : t("upload.nameRequiredLabel")}
+          aria-disabled={locked}
         >
           <input
             ref={fileInputRef}
@@ -301,11 +300,14 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
             className="gallery-upload__input"
             aria-hidden="true"
             tabIndex={-1}
+            disabled={locked}
           />
 
           <span className="gallery-upload__dropzone-icon" aria-hidden="true">
             {isUploading ? (
               <span className="gallery-upload__spinner" />
+            ) : !hasName ? (
+              <Icon.CameraFlash size={48} />
             ) : (
               <Icon.Add size={56} />
             )}
@@ -319,9 +321,13 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
                       total: batchProgress.total,
                     })
                   : t("upload.uploading")
-                : t("upload.chooseFile")}
+                : !hasName
+                  ? t("upload.nameRequiredLabel")
+                  : t("upload.chooseFile")}
             </span>
-            <span className="gallery-upload__hint">{t("upload.dragDrop")}</span>
+            <span className="gallery-upload__hint">
+              {hasName ? t("upload.dragDrop") : t("upload.nameRequiredHint")}
+            </span>
           </span>
 
           {pendingFiles.length > 0 && (
@@ -353,8 +359,9 @@ export function UploadButton({ onUploaded }: UploadButtonProps) {
         <button
           type="button"
           className="gallery-upload__fab"
-          onClick={() => !isUploading && cameraInputRef.current?.click()}
-          disabled={isUploading}
+          onClick={() => !locked && cameraInputRef.current?.click()}
+          disabled={locked}
+          aria-label={hasName ? t("upload.takePhoto") : t("upload.nameRequiredLabel")}
         >
           {isUploading ? (
             <span className="gallery-upload__spinner" />

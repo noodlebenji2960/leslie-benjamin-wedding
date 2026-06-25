@@ -12,6 +12,8 @@ interface InlineReactionPickerProps {
   onClose: () => void;
 }
 
+const ALL_GROUP_KEY = "all";
+
 export function InlineReactionPicker({
   imageId,
   myReaction,
@@ -19,7 +21,7 @@ export function InlineReactionPicker({
   onClose,
 }: InlineReactionPickerProps) {
   const [openMore, setOpenMore] = useState(false);
-  const [activeGroup, setActiveGroup] = useState("love");
+  const [activeGroup, setActiveGroup] = useState(ALL_GROUP_KEY);
   const [pending, setPending] = useState<string | null>(null);
   const server = useServer();
   const { visitor } = useSession();
@@ -27,9 +29,12 @@ export function InlineReactionPicker({
   const groups = server.config?.REACTION_GROUPS ?? [];
   const allEmojis = groups.flatMap((g) => g.emojis);
 
-  const active = useMemo(
-    () => groups.find((g) => g.key === activeGroup),
-    [groups, activeGroup],
+  const activeEmojis = useMemo(
+    () =>
+      activeGroup === ALL_GROUP_KEY
+        ? allEmojis
+        : groups.find((g) => g.key === activeGroup)?.emojis ?? [],
+    [groups, activeGroup, allEmojis],
   );
 
   const handleReact = useCallback(
@@ -106,6 +111,16 @@ export function InlineReactionPicker({
           >
             {/* Tabs */}
             <div className="reaction-overlay__tabs">
+              <button
+                type="button"
+                className={`reaction-overlay__tab ${
+                  activeGroup === ALL_GROUP_KEY ? "is-active" : ""
+                }`}
+                onClick={() => setActiveGroup(ALL_GROUP_KEY)}
+              >
+                <span>✨</span>
+                <span>All</span>
+              </button>
               {groups.map((g) => (
                 <button
                   key={g.key}
@@ -123,11 +138,11 @@ export function InlineReactionPicker({
 
             {/* Emoji grid */}
             <div className="reaction-overlay__grid">
-              {active?.emojis.map((emoji) => (
+              {activeEmojis.map((emoji) => (
                 <button
                   key={emoji}
                   type="button"
-                  className={`reaction-picker__emoji-btn${myReaction === emoji ? " reaction-picker__emoji-btn--mine" : ""}`}
+                  className={`reaction-overlay__emoji-btn${myReaction === emoji ? " reaction-overlay__emoji-btn--mine" : ""}`}
                   onClick={() => void handleReact(emoji)}
                   disabled={!!pending}
                 >

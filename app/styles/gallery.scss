@@ -289,6 +289,25 @@
       opacity: 0.25;
     }
   }
+
+  &--locked {
+    cursor: default;
+    background: $color-background-alt;
+    border-color: $color-border;
+
+    &:hover {
+      border-color: $color-border;
+      background: $color-background-alt;
+    }
+
+    .gallery-upload__dropzone-icon {
+      color: $color-secondary;
+    }
+
+    .gallery-upload__label {
+      color: $color-secondary;
+    }
+  }
 }
 
 // File-name list shown below the dropzone once files are staged

@@ -58,6 +58,8 @@ interface GalleryGridProps {
   hasMore?: boolean;
   onLoadMore?: () => void;
   onReactImage?: (imageId: string, reactions: Record<string, number>) => void;
+  /** When true, reacting and selecting are disabled — viewing photos in the lightbox still works. */
+  locked?: boolean;
 }
 
 const SKELETON_HEIGHTS = [
@@ -74,6 +76,7 @@ export function GalleryGrid({
   hasMore,
   onLoadMore,
   onReactImage,
+  locked = false,
 }: GalleryGridProps) {
   const { t } = useTranslation("gallery");
 
@@ -311,6 +314,7 @@ export function GalleryGrid({
 
   const handleGridItemPointerDown = useCallback(
     (img: SSEImageRecord, e: React.PointerEvent) => {
+      if (locked) return;
       const el = e.currentTarget;
       const timer = setTimeout(() => {
         if (!selectionMode) {
@@ -320,7 +324,7 @@ export function GalleryGrid({
       }, 450);
       (el as any)._pressTimer = timer;
     },
-    [selectionMode],
+    [selectionMode, locked],
   );
 
   const handleGridItemPointerUp = useCallback((e: React.PointerEvent) => {
@@ -470,7 +474,10 @@ export function GalleryGrid({
               {img.reactions && Object.keys(img.reactions).length > 0 && (
                 <span
                   className="gallery-grid__reactions"
-                  onClick={(e) => { e.stopPropagation(); setPickerOpenId(img.id); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!locked) setPickerOpenId(img.id);
+                  }}
                 >
                   {Object.entries(img.reactions).map(([emoji, count]) => (
                     <span key={emoji}>
@@ -565,7 +572,10 @@ export function GalleryGrid({
                   {hasReactions && (
                     <div
                       className="gallery-lightbox__reactions gallery-lightbox__reactions--clickable"
-                      onClick={(e) => { e.stopPropagation(); setLightboxPickerOpen((v) => !v); }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (!locked) setLightboxPickerOpen((v) => !v);
+                      }}
                     >
                       {Object.entries(grouped).map(([emoji, names]) => (
                         <div key={emoji} className="gallery-lightbox__reaction-group">
@@ -577,7 +587,7 @@ export function GalleryGrid({
                       ))}
                     </div>
                   )}
-                  {lightboxPickerOpen && (
+                  {lightboxPickerOpen && !locked && (
                     <div className="gallery-lightbox__picker">
                       <InlineReactionPicker
                         imageId={currImg.id}
@@ -590,7 +600,7 @@ export function GalleryGrid({
                       />
                     </div>
                   )}
-                  {!hasReactions && !lightboxPickerOpen && (
+                  {!hasReactions && !lightboxPickerOpen && !locked && (
                     <button
                       className="gallery-lightbox__react-btn"
                       onClick={(e) => { e.stopPropagation(); setLightboxPickerOpen(true); }}

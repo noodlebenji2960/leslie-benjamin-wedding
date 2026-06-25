@@ -1,3 +1,5 @@
+@use "app/styles/variables" as *;
+
 // ─────────────────────────────────────────────
 // Reaction Picker (main pill)
 // ─────────────────────────────────────────────
@@ -9,18 +11,18 @@
   transform: translateX(-50%);
   z-index: 50;
 
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
+  background: $color-white;
+  border: 1px solid $color-border;
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: $space-xs $space-sm;
 
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 30px rgba($color-shadow, 0.2);
 }
 
 .reaction-picker__row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: $space-xs;
 }
 
 .reaction-picker__emoji-btn {
@@ -35,14 +37,14 @@
   align-items: center;
   justify-content: center;
 
-  transition: transform 0.12s ease, background 0.12s ease;
+  transition: transform $transition-base, background $transition-base;
 
   &:active {
     transform: scale(0.9);
   }
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
+  &:hover:not(:disabled) {
+    background: rgba($color-shadow, 0.06);
   }
 
   &:disabled {
@@ -51,7 +53,7 @@
   }
 
   &--mine {
-    background: color-mix(in srgb, var(--color-primary-base) 18%, transparent);
+    background: rgba($color-primary, 0.18);
   }
 }
 
@@ -65,20 +67,23 @@
   height: 42px;
 
   border-radius: 50%;
-  border: 1px dashed var(--color-border);
+  border: 1px dashed $color-border;
   background: transparent;
+  color: $color-secondary;
 
   font-size: 1.2rem;
+  font-weight: $fw-medium;
   cursor: pointer;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  transition: background 0.15s ease;
+  transition: background $transition-base, border-color $transition-base;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba($color-shadow, 0.06);
+    border-color: $color-primary;
   }
 }
 
@@ -89,18 +94,20 @@
 .reaction-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 1100;
 
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba($color-shadow, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 
   display: flex;
   align-items: flex-end;
   justify-content: center;
 
-  animation: fadeIn 0.15s ease;
+  animation: reactionFadeIn 0.15s ease;
 }
 
-@keyframes fadeIn {
+@keyframes reactionFadeIn {
   from {
     opacity: 0;
   }
@@ -115,28 +122,38 @@
 
 .reaction-overlay__panel {
   width: 100%;
-  max-width: 520px;
-
+  max-width: 480px;
   max-height: 70vh;
 
-  background: var(--color-background);
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
+  background: $color-white;
+  border-top-left-radius: $radius-lg;
+  border-top-right-radius: $radius-lg;
+  box-shadow: 0 -8px 40px rgba($color-shadow, 0.25);
 
-  padding: 12px;
+  padding: $space-md $space-md $space-lg;
 
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $space-sm;
 
   overflow: hidden;
 
-  animation: sheetUp 0.2s ease-out;
+  animation: reactionSheetUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 999px;
+    background: $color-border;
+    margin: 0 auto $space-xs;
+  }
 }
 
-@keyframes sheetUp {
+@keyframes reactionSheetUp {
   from {
-    transform: translateY(20px);
+    transform: translateY(24px);
     opacity: 0;
   }
   to {
@@ -151,33 +168,45 @@
 
 .reaction-overlay__tabs {
   display: flex;
-  gap: 8px;
+  gap: $space-xs;
   overflow-x: auto;
-  padding-bottom: 6px;
+  padding-bottom: $space-xs;
+
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .reaction-overlay__tab {
   flex: 0 0 auto;
 
-  border: 1px solid var(--color-border);
-  background: transparent;
+  border: 1px solid $color-border;
+  background: $color-background-alt;
+  color: $color-text;
 
-  padding: 6px 10px;
+  padding: $space-xs $space-sm;
   border-radius: 999px;
 
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: $space-xs;
 
-  font-size: 0.85rem;
+  font-size: $font-size-sm;
+  font-weight: $fw-medium;
   cursor: pointer;
+  transition: all $transition-base;
 
   white-space: nowrap;
 
+  &:hover {
+    border-color: $color-primary;
+  }
+
   &.is-active {
-    background: var(--color-primary-base);
-    color: white;
-    border-color: var(--color-primary-base);
+    background: $color-primary;
+    color: $color-white;
+    border-color: $color-primary;
   }
 }
 
@@ -190,10 +219,50 @@
   overflow-y: auto;
 
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: $space-xs;
 
-  padding: 10px 4px;
+  padding: $space-sm $space-xs;
 
   -webkit-overflow-scrolling: touch;
+
+  @media (max-width: $bp-sm) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.reaction-overlay__emoji-btn {
+  aspect-ratio: 1;
+  border: 1px solid transparent;
+  background: $color-background-alt;
+  border-radius: $radius-md;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.5rem;
+  line-height: 1;
+
+  transition: transform $transition-base, background $transition-base, border-color $transition-base;
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  &:hover:not(:disabled) {
+    background: rgba($color-primary, 0.1);
+    border-color: $color-primary;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &--mine {
+    background: rgba($color-primary, 0.18);
+    border-color: $color-primary;
+  }
 }
