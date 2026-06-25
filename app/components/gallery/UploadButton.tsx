@@ -396,7 +396,7 @@ export function UploadButton({
           onChange={handleChange}
           className="gallery-upload__input"
         />
-        <div className="gallery-upload__actions-footer">
+        <div className={`gallery-upload__actions-footer${!hasName ? " gallery-upload__actions-footer--centered" : ""}`}>
           {isRecognized && (
             <button
               type="button"
