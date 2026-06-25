@@ -243,6 +243,7 @@ function buildCard(img) {
   card.appendChild(meta);
 
   // reactions
+  const reactionNameBtns = [];
   if (details.length > 0) {
     const grouped = {};
     for (const { emoji, name, visitorId } of details) {
@@ -268,6 +269,7 @@ function buildCard(img) {
         nameBtn.className = 'reaction-name-chip';
         nameBtn.textContent = name;
         nameBtn.title = 'Click to rename';
+        nameBtn.disabled = true;
         nameBtn.addEventListener('click', async () => {
           const newName = prompt('Rename this reactor:', name);
           if (newName === null) return;
@@ -278,6 +280,7 @@ function buildCard(img) {
           if (old) old.replaceWith(buildCard(img));
           toast('Reactor renamed');
         });
+        reactionNameBtns.push(nameBtn);
         namesEl.appendChild(nameBtn);
         if (i < entries.length - 1) namesEl.appendChild(document.createTextNode(', '));
       });
@@ -383,7 +386,7 @@ function buildCard(img) {
       editBtn.innerHTML = '✓';
       editBtn.title = 'Save uploader name';
       nameInput.disabled = false;
-      nameInput.focus();
+      reactionNameBtns.forEach(btn => { btn.disabled = false; });
       card.classList.add('is-editing');
     } else {
       await api('POST', '/admin/api/update/' + img.id, { uploaderName: nameInput.value });
@@ -392,6 +395,7 @@ function buildCard(img) {
       editBtn.innerHTML = '✎';
       editBtn.title = 'Edit uploader name';
       nameInput.disabled = true;
+      reactionNameBtns.forEach(btn => { btn.disabled = true; });
       card.classList.remove('is-editing');
       toast('Name saved');
     }

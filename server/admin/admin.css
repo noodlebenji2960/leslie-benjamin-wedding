@@ -316,9 +316,12 @@ header {
     text-decoration-color 0.15s;
   text-transform: capitalize;
 }
-.reaction-name-chip:hover {
+.reaction-name-chip:hover:not(:disabled) {
   color: var(--text);
   text-decoration-color: var(--text-muted-3);
+}
+.reaction-name-chip:disabled {
+  cursor: default;
 }
 .reaction-del {
   background: none;
