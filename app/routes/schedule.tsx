@@ -1,9 +1,9 @@
 import { useTranslation, Trans } from "react-i18next";
-import { motion } from "framer-motion";
 import { useWeddingData } from "@/hooks/useWeddingData";
 import Map from "@/components/Map";
 import { Icon } from "@/components/Icon";
 import { FadeInSection } from "@/components/FadeInsection";
+import { PageTitle } from "@/components/PageTitle";
 import { useRef, useCallback, useEffect } from "react";
 import ScrollChevron from "@/components/ScrollDown";
 import type { Route } from "./+types/schedule";
@@ -202,14 +202,9 @@ const Schedule = () => {
     <div className="schedule-page">
       {/* Page Header */}
       <div className="schedule-hero">
-        <motion.h1
-          className="schedule-title"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <PageTitle className="schedule-title">
           {t("schedule:title", "The Day")}
-        </motion.h1>
+        </PageTitle>
         <p className="schedule-eyebrow">
           {t("schedule:eyebrow", "Saturday · July 11, 2026")}
         </p>

@@ -3,6 +3,7 @@ import { useTranslation, Trans } from "react-i18next";
 import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/components/Icon";
+import { PageTitle } from "@/components/PageTitle";
 import { useWeddingData } from "@/hooks/useWeddingData";
 import WeatherForecast from "@/components/WeatherForecast";
 import Map from "@/components/Map";
@@ -188,14 +189,7 @@ const categories: CategoryConfig[] = [
 
   return (
     <div className="qa-page container">
-      <motion.h1
-        className="qa-title"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        {t("title")}
-      </motion.h1>
+      <PageTitle className="qa-title">{t("title")}</PageTitle>
 
       <div className="qa-categories">
         {categories.map((category) => (

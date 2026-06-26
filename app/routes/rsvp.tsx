@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
 import { StepContent } from "@/components/rsvp/stepContent/StepContent";
 import SuccessScreen from "@/components/rsvp/SuccessScreen";
 import { useRSVPForm } from "@/hooks/rsvp/useRSVPForm";
 import { useRSVPSubmit } from "@/hooks/rsvp/useRSVPSubmit";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { Icon } from "@/components/Icon";
+import { PageTitle } from "@/components/PageTitle";
 import { ProgressBar } from "@/components/ProgressBar";
 import { useWeddingData } from "@/hooks/useWeddingData";
 import type { Route } from "./+types/rsvp";
@@ -197,13 +197,7 @@ export default function RSVP() {
 
   return (
     <div className="rsvp-page container">
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        Rsvp
-      </motion.h1>
+      <PageTitle>{t("rsvp:title")}</PageTitle>
       <ProgressBar
         currentStep={currentStep}
         steps={steps}

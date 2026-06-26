@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
+import { PageTitle } from "@/components/PageTitle";
 import { UploadButton } from "@/components/gallery/UploadButton";
 import { useSSE } from "@/hooks/useSSE";
 import type { SSEImageRecord } from "@/hooks/useSSE";
@@ -156,13 +156,7 @@ export default function GalleryPage() {
 
   return (
     <div className="gallery-page container">
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        {t("title")}
-      </motion.h1>
+      <PageTitle>{t("title")}</PageTitle>
 
       <UploadButton onUploaded={handleUploaded} setUploaderName={setUploaderName} uploaderName={uploaderName}/>
 

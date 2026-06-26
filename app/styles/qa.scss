@@ -7,15 +7,6 @@
   margin: 0 auto;
   padding-inline: var(--container-padding);
 
-  .qa-title {
-    font-family: $font-fancy;
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    font-weight: $fw-medium;
-    text-align: center;
-    color: $color-accent;
-    margin-bottom: $space-xl;
-  }
-
   // --- Category Tabs ---
   .qa-categories {
     display: flex;

@@ -12,13 +12,6 @@
   text-align: center;
   font-family: $font-body;
 
-  h1 {
-    font-family: $font-fancy;
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    font-weight: $fw-medium;
-    color: $color-accent;
-  }
-
   .step-description {
     flex-shrink: 0;
     display: flex;

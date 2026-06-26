@@ -1,0 +1,11 @@
+@use "app/styles/variables" as *;
+
+.page-title {
+  font-family: $font-fancy;
+  font-size: $page-title-font-size;
+  font-weight: $fw-medium;
+  color: $color-accent;
+  text-align: center;
+  line-height: 1.1;
+  margin: $space-lg 0 $space-xl;
+}

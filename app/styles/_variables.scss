@@ -389,6 +389,10 @@ $bp-xl: 1280px;
 $nav-height: 72px;
 $nav-height-scrolled: 60px;
 
+/* Shared page title sizing — used by PageTitle.tsx and any page that
+   builds its own hero (e.g. the home page, legal pages) */
+$page-title-font-size: clamp(2.5rem, 8vw, 4rem);
+
 /* Transitions */
 $transition-base: 0.3s ease;
 $transition-indicator: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
