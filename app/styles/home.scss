@@ -15,7 +15,7 @@
 }
 
 .home-hero {
-  margin-top: $space-2xl;
+  
   position: relative;
   text-align: center;
 
@@ -70,7 +70,7 @@
 
     i {
       position: relative;
-      color: $color-white;
+      color: $color-accent;
       text-shadow: none;
       padding: $space-sm;
       font-family: $font-display;
@@ -85,7 +85,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: $color-primary;
+        background: $color-white;
+        border: 1px solid $color-accent;
         border-radius: 50%;
         z-index: -1;
         pointer-events: none;
