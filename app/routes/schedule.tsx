@@ -202,9 +202,7 @@ const Schedule = () => {
     <div className="schedule-page">
       {/* Page Header */}
       <div className="schedule-hero">
-        <PageTitle className="schedule-title">
-          {t("schedule:title", "The Day")}
-        </PageTitle>
+        <PageTitle>{t("schedule:title", "The Day")}</PageTitle>
         <p className="schedule-eyebrow">
           {t("schedule:eyebrow", "Saturday · July 11, 2026")}
         </p>

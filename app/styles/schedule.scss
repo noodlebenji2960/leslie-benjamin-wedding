@@ -26,7 +26,7 @@
 .schedule-hero {
   position: relative;
   text-align: center;
-  padding: $space-2xl $space-xl $space-xl $space-xl;
+  padding: 0 $space-xl $space-xl $space-xl;
   max-width: 600px;
   margin: 0 auto;
   z-index: 1;
@@ -41,10 +41,6 @@
   color: $color-secondary-tint;
   margin-bottom: $space-sm;
   z-index: 1;
-}
-
-.schedule-title {
-  margin: 0 0 $space-lg;
 }
 
 .schedule-subtitle {
