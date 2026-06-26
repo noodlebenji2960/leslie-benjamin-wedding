@@ -44,11 +44,7 @@
 }
 
 .schedule-title {
-  // Deliberately overrides PageTitle's $font-fancy with $font-header to
-  // match the home page's heading typeface.
-  font-family: $font-header;
   margin: 0 0 $space-lg;
-  letter-spacing: 0.02em;
 }
 
 .schedule-subtitle {
