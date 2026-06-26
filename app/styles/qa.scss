@@ -5,7 +5,7 @@
   padding-bottom: $space-2xl;
   max-width: 800px;
   margin: 0 auto;
-  padding-inline: var(--container-padding);
+  padding-inline: $space-md;
 
   // --- Category Tabs ---
   .qa-categories {

@@ -155,7 +155,7 @@ export default function GalleryPage() {
   }, [cursor, loadingMore, fetchImages]);
 
   return (
-    <div className="gallery-page container">
+    <div className="gallery-page">
       <PageTitle>{t("title")}</PageTitle>
 
       <UploadButton onUploaded={handleUploaded} setUploaderName={setUploaderName} uploaderName={uploaderName}/>

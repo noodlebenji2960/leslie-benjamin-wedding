@@ -188,7 +188,7 @@ const categories: CategoryConfig[] = [
 ];
 
   return (
-    <div className="qa-page container">
+    <div className="qa-page">
       <PageTitle className="qa-title">{t("title")}</PageTitle>
 
       <div className="qa-categories">

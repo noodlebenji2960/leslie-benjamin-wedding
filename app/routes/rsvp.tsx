@@ -196,7 +196,7 @@ export default function RSVP() {
   );
 
   return (
-    <div className="rsvp-page container">
+    <div className="rsvp-page">
       <PageTitle>{t("rsvp:title")}</PageTitle>
       <ProgressBar
         currentStep={currentStep}
