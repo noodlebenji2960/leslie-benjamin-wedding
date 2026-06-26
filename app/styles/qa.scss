@@ -1,11 +1,12 @@
 @use "variables" as *;
 
 .qa-page {
-  padding-top: $space-xl;
   padding-bottom: $space-2xl;
   max-width: 800px;
-  margin: 0 auto;
+  margin: auto;
   padding-inline: $space-md;
+  text-align: center;
+  font-family: $font-body;
 
   // --- Category Tabs ---
   .qa-categories {
