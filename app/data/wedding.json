@@ -128,7 +128,7 @@
     {
       "id": "cocktails",
       "icon": "Tapas",
-      "time": "16:30",
+      "time": "14:45",
       "location": "Terrace",
       "images": [
       ],
@@ -137,7 +137,7 @@
     {
       "id": "dinner",
       "icon": "Spoon",
-      "time": "19:30",
+      "time": "16:00",
       "location": "Hotel San Camilo",
       "images": [],
       "maps": [

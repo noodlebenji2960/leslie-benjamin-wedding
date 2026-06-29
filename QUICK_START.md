@@ -73,17 +73,6 @@ cd server && npm run dev
 - Accepted input formats: JPEG, PNG, WebP, GIF (validated by magic bytes, not just declared MIME type)
 - Max upload size: 10MB (`MAX_FILE_SIZE` env var)
 
-## Troubleshooting
-
-| Issue | Check |
-|-------|-------|
-| Server won't start | `npm run build` succeeds; `MONGODB_URI` is set; port 3001 free |
-| Mongo connection error | Atlas Network Access allows `0.0.0.0/0` (Fly has no static IP) |
-| S3 `AccessDenied` | IAM user has `PutObject`/`GetObject`/`DeleteObject`/`ListBucket`/`HeadBucket` on the bucket |
-| Upload fails | File under 10MB, format is JPEG/PNG/WebP/GIF |
-| CORS errors | `CLIENT_URL` exactly matches the frontend origin |
-| Server crashes on a route error | Should not happen — all admin routes are wrapped in `asyncRoute` (`server/src/asyncRoute.ts`) to catch rejections instead of crashing the process |
-
 **Logs:**
 ```bash
 # Local

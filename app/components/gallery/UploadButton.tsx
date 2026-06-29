@@ -279,7 +279,11 @@ export function UploadButton({
             disabled={locked}
           />
 
-          <span className="gallery-upload__dropzone-icon" aria-hidden="true">
+          <span
+            className="gallery-upload__dropzone-icon"
+            aria-hidden="true"
+            style={showNameForm ? {alignItems: "end"} : {}}
+          >
             {isUploading ? (
               <span className="gallery-upload__spinner" />
             ) : showNameForm ? (
@@ -301,14 +305,20 @@ export function UploadButton({
                       : t("upload.uploading")
                     : t("upload.chooseFile")}
                 </span>
-                <span className="gallery-upload__hint">{t("upload.dragDrop")}</span>
+                <span className="gallery-upload__hint">
+                  {t("upload.dragDrop")}
+                </span>
               </>
             )}
 
             {!hasName && (
               <>
-                <span className="gallery-upload__label">{t("upload.nameRequiredLabel")}</span>
-                <span className="gallery-upload__hint">{t("upload.nameRequiredHint")}</span>
+                <span className="gallery-upload__label">
+                  {t("upload.nameRequiredLabel")}
+                </span>
+                <span className="gallery-upload__hint">
+                  {t("upload.nameRequiredHint")}
+                </span>
               </>
             )}
 
@@ -317,12 +327,14 @@ export function UploadButton({
                 className="gallery-upload__name-input-row"
                 onClick={(e) => e.stopPropagation()}
               >
-                <label
-                  className="gallery-upload__name-input-label"
-                  htmlFor="gallery-upload-name-input"
-                >
-                  {t("upload.nameLabel")}
-                </label>
+                {hasName && (
+                  <label
+                    className="gallery-upload__name-input-label"
+                    htmlFor="gallery-upload-name-input"
+                  >
+                    {t("upload.nameLabel")}
+                  </label>
+                )}
                 <div className="gallery-upload__name-input-controls">
                   <input
                     id="gallery-upload-name-input"
@@ -412,7 +424,9 @@ export function UploadButton({
           onChange={handleChange}
           className="gallery-upload__input"
         />
-        <div className={`gallery-upload__actions-footer${!hasName ? " gallery-upload__actions-footer--centered" : ""}`}>
+        <div
+          className={`gallery-upload__actions-footer${!hasName ? " gallery-upload__actions-footer--centered" : ""}`}
+        >
           {isRecognized && (
             <button
               type="button"
