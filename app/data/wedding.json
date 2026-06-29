@@ -115,15 +115,7 @@
       "icon": "Rings",
       "time": "13:30",
       "location": "Hotel San Camilo",
-      "maps": [
-        {
-          "coordinates": { "lat": 42.4337996, "lng": -2.5694691 },
-          "mapUrl": "https://www.google.com/maps/place/Hotel+San+Camilo",
-          "showRoute": true,
-          "interactive": false,
-          "extraCoordinates": []
-        }
-      ]
+      "maps": []
     },
     {
       "id": "cocktails",
@@ -135,20 +127,20 @@
       "maps": []
     },
     {
-      "id": "dinner",
+      "id": "lunch",
       "icon": "Spoon",
-      "time": "16:00",
+      "time": "16:15",
       "location": "Hotel San Camilo",
       "images": [],
-      "maps": [
-        {
-          "coordinates": { "lat": 42.4337996, "lng": -2.5694691 },
-          "mapUrl": "https://www.google.com/maps/place/Hotel+San+Camilo",
-          "showRoute": false,
-          "interactive": false,
-          "extraCoordinates": []
-        }
-      ]
+      "maps": []
+    },
+    {
+      "id": "dancing",
+      "icon": "Party",
+      "time": "19:00",
+      "location": "Hotel San Camilo",
+      "images": [],
+      "maps": []
     },
     {
       "id": "busReturn",
@@ -156,6 +148,13 @@
       "time": "20:30",
       "location": "Hotel San Camilo",
       "maps": [
+        {
+          "coordinates": { "lat": 42.4337996, "lng": -2.5694691 },
+          "mapUrl": "https://www.google.com/maps/place/Hotel+San+Camilo",
+          "showRoute": false,
+          "interactive": false,
+          "zoom": 14.5
+        },
         {
           "coordinates": { "lat": 42.4661562, "lng": -2.4511548 },
           "mapUrl": "https://www.google.com/maps/directions/...",
@@ -178,6 +177,13 @@
       "time": "00:00",
       "location": "Hotel San Camilo",
       "maps": [
+        {
+          "coordinates": { "lat": 42.4337996, "lng": -2.5694691 },
+          "mapUrl": "https://www.google.com/maps/place/Hotel+San+Camilo",
+          "showRoute": false,
+          "interactive": false,
+          "zoom": 14.5
+        },
         {
           "coordinates": { "lat": 42.4661562, "lng": -2.4511548 },
           "mapUrl": "https://www.google.com/maps/directions/...",

@@ -16,12 +16,16 @@
       "title": "Cóctel",
       "description": "Celebra con nosotros en la terraza con bebidas y pintxos mientras nos hacemos fotos con familiares y amigos."
     },
-    "dinner": {
-      "title": "Cena y Baile",
-      "description": "Disfruta de una cena de boda seguida de una noche de baile con nosotros en el Hotel San Camilo."
+    "lunch": {
+      "title": "Comida",
+      "description": "Disfruta de una comida de boda con nosotros en el Hotel San Camilo."
+    },
+    "dancing": {
+      "title": "DJ y Baile",
+      "description": "Baila toda la noche con nuestro DJ en el Hotel San Camilo."
     },
     "busReturn": {
-      "title": "Autobús de Vuelta",
+      "title": "Autobús de Vuelta (Antes)",
       "description": "El autobús saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes necesiten transporte de regreso."
     },
     "busReturnLate": {

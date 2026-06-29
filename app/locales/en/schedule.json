@@ -16,12 +16,16 @@
       "title": "Cocktail Hour",
       "description": "Celebrate with us on the terrace with drinks and pintxos while we take photos with family and friends."
     },
-    "dinner": {
-      "title": "Dinner & Dancing",
-      "description": "Enjoy a wedding dinner followed by dancing the night away with us at Hotel San Camilo."
+    "lunch": {
+      "title": "Lunch",
+      "description": "Enjoy a wedding lunch with us at Hotel San Camilo."
+    },
+    "dancing": {
+      "title": "DJ & Dancing",
+      "description": "Dance the night away with our DJ at Hotel San Camilo."
     },
     "busReturn": {
-      "title": "Bus Return",
+      "title": "Early Bus Return",
       "description": "A bus will depart from Hotel San Camilo back to Fuente Murrieta in Logroño for those who need a ride back."
     },
     "busReturnLate": {
