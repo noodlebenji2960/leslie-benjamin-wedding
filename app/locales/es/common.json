@@ -57,10 +57,6 @@
   "save_preferences": "Guardar preferencias",
   "current_preferences": "Tus preferencias de cookies:",
   "errors": {
-    "notFoundTitle": "Página no encontrada",
-    "errorTitle": "Algo salió mal",
-    "genericMessage": "Algo salió mal. Por favor, inténtalo de nuevo.",
-    "goHome": "Ir al inicio",
     "goBack": "Volver"
   }
 }

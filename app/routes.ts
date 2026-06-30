@@ -39,6 +39,9 @@ export const enRoutes: RouteConfig[] = [
   ...optionalRoute(siteConfig.gallery.enabled, () =>
     route("gallery", "routes/gallery.tsx", { id: "en/gallery" }),
   ),
+  route("service-unavailable", "routes/service-unavailable.tsx", {
+    id: "en/service-unavailable",
+  }),
 ];
 
 // --- Spanish routes ---
@@ -56,6 +59,9 @@ export const esRoutes: RouteConfig[] = [
   ...optionalRoute(siteConfig.gallery.enabled, () =>
     route("gallery", "routes/gallery.tsx", { id: "es/gallery" }),
   ),
+  route("service-unavailable", "routes/service-unavailable.tsx", {
+    id: "es/service-unavailable",
+  }),
 ];
 
 // --- Export final route config ---

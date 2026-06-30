@@ -57,10 +57,6 @@
   "save_preferences": "Save Preferences",
   "current_preferences": "Your cookie preferences:",
   "errors": {
-    "notFoundTitle": "Page not found",
-    "errorTitle": "Something went wrong",
-    "genericMessage": "Something went wrong. Please try again.",
-    "goHome": "Go home",
     "goBack": "Go back"
   }
 }

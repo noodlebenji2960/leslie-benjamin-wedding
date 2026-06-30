@@ -17,10 +17,10 @@ import terms_en from "./locales/en/terms.json";
 import terms_es from "./locales/es/terms.json";
 import privacy_en from "./locales/en/privacy.json";
 import privacy_es from "./locales/es/privacy.json";
-import notFound_en from "./locales/en/not-found.json";
-import notFound_es from "./locales/es/not-found.json";
 import gallery_en from "./locales/en/gallery.json";
 import gallery_es from "./locales/es/gallery.json";
+import errorPage_en from "./locales/en/error-page.json";
+import errorPage_es from "./locales/es/error-page.json";
 
 i18n
   .use(LanguageDetector)
@@ -28,7 +28,7 @@ i18n
   .init({
     fallbackLng: "es",
     supportedLngs: ["en", "es"],
-    ns: ["common", "home", "qa", "schedule", "rsvp", "terms", "privacy", "notFound", "gallery"],
+    ns: ["common", "home", "qa", "schedule", "rsvp", "terms", "privacy", "gallery", "errorPage"],
     defaultNS: "common",
     resources: {
       en: {
@@ -39,8 +39,8 @@ i18n
         rsvp: rsvp_en,
         terms: terms_en,
         privacy: privacy_en,
-        notFound: notFound_en,
         gallery: gallery_en,
+        errorPage: errorPage_en,
       },
       es: {
         common: common_es,
@@ -50,8 +50,8 @@ i18n
         rsvp: rsvp_es,
         terms: terms_es,
         privacy: privacy_es,
-        notFound: notFound_es,
         gallery: gallery_es,
+        errorPage: errorPage_es,
       },
     },
     interpolation: { escapeValue: false },

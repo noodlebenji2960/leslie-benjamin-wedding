@@ -1,0 +1,152 @@
+// app/styles/components/Button.scss
+// Shared button system — see app/components/Button.tsx
+@use "app/styles/variables" as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-xs;
+  font-family: $font-body;
+  font-size: $font-size-md;
+  font-weight: $fw-semibold;
+  border: none;
+  border-radius: $radius-button;
+  padding: $space-sm $space-lg;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all $transition-base;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ── Sizes ─────────────────────────────────────────────────
+
+.btn--sm {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 $space-xs;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $fw-regular;
+  gap: 0;
+}
+
+.btn--lg {
+  padding: $space-md $space-xl;
+  font-size: $font-size-md;
+  font-weight: $fw-bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  &.btn--primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  &.btn--primary:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+// ── Variants ──────────────────────────────────────────────
+
+.btn--primary {
+  color: $color-white;
+  background: $color-accent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}
+
+.btn--secondary {
+  color: $color-text;
+  background: $color-background-alt;
+  border: 1px solid $color-border;
+
+  &:hover:not(:disabled) {
+    background: $color-border;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &.btn--selected {
+    background: $color-accent;
+    border-color: $color-accent;
+    color: $color-white;
+    font-weight: $fw-semibold;
+
+    &:hover:not(:disabled) {
+      background: $color-accent;
+    }
+  }
+}
+
+.btn--ghost {
+  color: $color-text;
+  background: transparent;
+
+  &:hover:not(:disabled) {
+    opacity: 0.7;
+  }
+
+  &.btn--selected {
+    font-weight: $fw-bold;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.btn--destructive {
+  color: $color-white;
+  background: $color-danger;
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}
+
+// ── States ────────────────────────────────────────────────
+
+.btn--loading {
+  cursor: wait;
+}
+
+.btn--success {
+  background: $color-primary;
+}
+
+.btn--error {
+  background: $color-danger;
+}
+
+.btn__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: btn-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

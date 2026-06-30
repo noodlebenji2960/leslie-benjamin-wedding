@@ -1,0 +1,35 @@
+{
+  "actions": {
+    "goHome": "Go to homepage",
+    "goBack": "Go back",
+    "retry": "Try again",
+    "retrying": "Checking..."
+  },
+  "statuses": {
+    "404": {
+      "title": "404",
+      "message": "Page not found",
+      "help": "The link you followed might be broken or the page may have been moved."
+    },
+    "403": {
+      "title": "403",
+      "message": "Forbidden",
+      "help": "You don't have permission to access this page."
+    },
+    "500": {
+      "title": "500",
+      "message": "Something went wrong",
+      "help": "An unexpected error occurred on our end. Please try again later."
+    },
+    "503": {
+      "title": "503",
+      "message": "Service unavailable",
+      "help": "We can't reach the server right now. This is usually temporary — try again in a moment."
+    },
+    "default": {
+      "title": "Error",
+      "message": "Something went wrong",
+      "help": "An unexpected error occurred. Please try again."
+    }
+  }
+}

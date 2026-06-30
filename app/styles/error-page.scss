@@ -1,0 +1,102 @@
+// app/styles/error-page.scss
+// Shared styling for all full-page errors (404, 403, 500, 503, ...).
+@use "app/styles/variables" as *;
+@use "app/styles/mixins" as *;
+
+.error-page__container {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-body;
+  color: $color-text;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: $space-xl $space-md;
+  text-align: center;
+  gap: $space-sm;
+}
+
+.error-page__code {
+  margin: 0;
+}
+
+.error-page__message {
+  font-size: $font-size-lg;
+  font-weight: $fw-semibold;
+  color: $color-text;
+  margin: 0;
+}
+
+.error-page__help {
+  font-size: $font-size-sm;
+  color: $color-text-alt;
+  max-width: 420px;
+  line-height: 1.6;
+  margin: 0 0 $space-md;
+}
+
+.error-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-md;
+  justify-content: center;
+  margin-top: $space-sm;
+}
+
+.error-page__extra {
+  margin-top: $space-lg;
+}
+
+// ── Dev-only error detail panel (used by the thrown-error boundary) ──
+.error-page__dev-panel {
+  width: 100%;
+  max-width: 860px;
+  margin-top: $space-xl;
+  border: 1px solid #f97316;
+  border-radius: $radius-md;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+.error-page__dev-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: $space-sm;
+  padding: $space-sm $space-md;
+  background: #fff7ed;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: $font-size-sm;
+  font-weight: $fw-semibold;
+  color: #9a3412;
+}
+
+.error-page__dev-badge {
+  background: #f97316;
+  color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: $radius-sm;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.error-page__dev-chevron {
+  margin-left: auto;
+}
+
+.error-page__dev-stack {
+  margin: 0;
+  padding: $space-md;
+  background: #1e1e1e;
+  color: #f8f8f2;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  text-align: left;
+}
