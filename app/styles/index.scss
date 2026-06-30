@@ -23,6 +23,7 @@
    COMPONENT STYLES
    ========================================================= */
 
+@use "./components/Button";
 @use "./components/BackToTopButton";
 @use "./components/CookieConsentModal";
 @use "./components/Countdown";
@@ -34,6 +35,7 @@
 @use "./components/Modal";
 @use "./components/PageTitle";
 @use "./components/SongListManager";
+@use "./components/TabNav";
 @use "./components/ThemeSwitcher";
 @use "./components/Toast";
 @use "./components/WaveEmoji";
@@ -58,4 +60,4 @@
 @use "./rsvp";
 @use "./schedule";
 @use "./legal";
-@use "./not-found";
+@use "./error-page";

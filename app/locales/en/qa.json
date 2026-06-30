@@ -1,13 +1,17 @@
 {
   "title": "Questions?",
+  "closedTitle": "Q&A is now closed",
+  "closedMessage": "Our wedding has come and gone — thanks for all your questions along the way!",
   "all": "All",
   "essentials": "Essentials",
-  "logistics": "Logistics",
+  "weather": "Weather",
   "style": "Dress Code",
   "family": "Family",
   "gifts": "Gifts",
   "travel": "Travel & Accommodation",
   "loading": "Loading...",
+  "busToVenueMapLabel": "Bus to Venue",
+  "busFromVenueMapLabel": "Bus from Venue",
   "transport_options": {
     "taxi": "Taxi",
     "bus": "Bus",
@@ -42,15 +46,9 @@
       "id": "ceremonyVenue"
     },
     {
-      "question": "What's the weather like?",
-      "answer": "July is usually sunny and warm, often hotter than in the UK. <WeatherForecast/>",
-      "category": "logistics",
-      "id": "weather"
-    },
-    {
       "question": "Is there a shuttle bus?",
-      "answer": "Yes! A bus will depart at <strong>{{busToVenue.time}}</strong> from the main meeting point. There will be a return bus at <strong>{{busFromVenue.time}}</strong>. <br/><MapBus></MapBus>",
-      "category": "logistics",
+      "answer": "Yes! A bus will depart at <strong>{{busToVenue.time}}</strong> from the main meeting point. There will be two return buses, at <strong>{{busFromVenue.time}}</strong> and <strong>{{busFromVenueLateTime}}</strong>, for those who want to stay a bit longer. <br/><MapBus></MapBus>",
+      "category": "travel",
       "id": "bus"
     },
     {
@@ -74,7 +72,7 @@
     {
       "question": "Outdoor or indoor?",
       "answer": "Both! We will have an outdoor ceremony, followed by cocktails on the terrace and an indoor dinner at {{ceremonyVenue}}. Sunscreen and hats are recommended for those not used to Spain's July sun.",
-      "category": "logistics",
+      "category": "essentials",
       "id": "outdoor"
     },
     {

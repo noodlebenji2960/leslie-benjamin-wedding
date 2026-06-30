@@ -1,13 +1,17 @@
 {
   "title": "¿Preguntas?",
+  "closedTitle": "Las preguntas frecuentes están cerradas",
+  "closedMessage": "Nuestra boda ya ha pasado — ¡gracias por todas vuestras preguntas durante este tiempo!",
   "all": "Todas",
   "essentials": "Esenciales",
-  "logistics": "Logística",
+  "weather": "Tiempo",
   "style": "Código de Vestimenta",
   "family": "Familia",
   "gifts": "Regalos",
   "travel": "Viaje y Alojamiento",
   "loading": "Cargando...",
+  "busToVenueMapLabel": "Autobús a la Finca",
+  "busFromVenueMapLabel": "Autobús de Vuelta",
   "transport_options": {
     "taxi": "Taxi",
     "bus": "Autobús",
@@ -42,15 +46,9 @@
       "id": "ceremonyVenue"
     },
     {
-      "question": "¿Cómo estará el clima?",
-      "answer": "Julio suele ser soleado y cálido, a menudo más que en el Reino Unido. <WeatherForecast/>",
-      "category": "logistics",
-      "id": "weather"
-    },
-    {
       "question": "¿Habrá un autobús de traslado?",
-      "answer": "¡Sí! Un autobús saldrá a las <strong>{{busToVenue.time}}</strong> desde el punto de encuentro principal. Habrá un autobús de regreso a las <strong>{{busFromVenue.time}}</strong>. <br/><MapBus></MapBus>",
-      "category": "logistics",
+      "answer": "¡Sí! Un autobús saldrá a las <strong>{{busToVenue.time}}</strong> desde el punto de encuentro principal. Habrá dos autobuses de regreso, a las <strong>{{busFromVenue.time}}</strong> y a las <strong>{{busFromVenueLateTime}}</strong>, para quienes quieran quedarse un poco más. <br/><MapBus></MapBus>",
+      "category": "travel",
       "id": "bus"
     },
     {
@@ -74,7 +72,7 @@
     {
       "question": "¿La ceremonia será al aire libre o en interior?",
       "answer": "¡Ambas! Tendremos la ceremonia al aire libre, seguida de cócteles en la terraza y una comida en interior en {{ceremonyVenue}}. Recomendamos protector solar y sombreros para quienes no estén acostumbrados al sol de julio en España.",
-      "category": "logistics",
+      "category": "essentials",
       "id": "outdoor"
     },
     {

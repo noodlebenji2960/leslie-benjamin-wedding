@@ -1,15 +1,17 @@
 // app/routes/qa.tsx
 import { useTranslation, Trans } from "react-i18next";
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/components/Icon";
+import { TabNav } from "@/components/TabNav";
 import { PageTitle } from "@/components/PageTitle";
 import { useWeddingData } from "@/hooks/useWeddingData";
+import { useIsWeddingOver } from "@/hooks/useIsToday";
 import WeatherForecast from "@/components/WeatherForecast";
 import Map from "@/components/Map";
 import DonateButton from "@/components/DonateButton";
 import { useSiteConfig } from "@/contexts/ConfigContext";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { useBuildLink } from "@/hooks/useBuildLink";
 import type { Route } from "./+types/qa";
 
@@ -26,7 +28,7 @@ export function meta({}: Route.MetaArgs) {
 type Category =
   | "all"
   | "essentials"
-  | "logistics"
+  | "weather"
   | "style"
   | "family"
   | "gifts"
@@ -44,41 +46,60 @@ interface CategoryConfig {
   icon: React.ReactNode;
 }
 
+const VALID_CATEGORIES: Category[] = [
+  "all",
+  "essentials",
+  "weather",
+  "style",
+  "family",
+  "gifts",
+  "travel",
+];
+
 const QA = () => {
   const config = useSiteConfig();
   const { t, ready } = useTranslation("qa");
   const weddingData = useWeddingData();
 
-  const [activeCategory, setActiveCategory] = useState<Category>("essentials");
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const questionParam = searchParams.get("q");
+
+  const [activeCategory, setActiveCategory] = useState<Category>(
+    VALID_CATEGORIES.includes(categoryParam as Category)
+      ? (categoryParam as Category)
+      : "essentials",
+  );
+  const [openId, setOpenId] = useState<string | null>(questionParam);
 
   const { buildLink } = useBuildLink();
+  const [isPast] = useIsWeddingOver(weddingData.wedding.date);
 
   if (!ready)
     return <div className="loading">{t("loading", "Loading...")}</div>;
 
-  // IMPROVED: Separate TO/FROM venue bus handling
+  if (isPast) {
+    return (
+      <div className="qa-page">
+        <PageTitle className="qa-title">{t("closedTitle")}</PageTitle>
+        <p className="qa-closed-message">{t("closedMessage")}</p>
+      </div>
+    );
+  }
+
+  // Separate TO/FROM venue bus handling — schedule IDs are "bus" (outbound),
+  // "busReturn" (earlier return) and "busReturnLate" (later return).
   const dynamicValues = useMemo(() => {
-    // Find bus schedule events (separate TO/FROM venue)
-    const busToVenue = weddingData.schedule.find(
-      (s: any) => s.id === "bus-to-venue" || s.type === "bus-to-venue",
-    );
+    const busToVenue = weddingData.schedule.find((s: any) => s.id === "bus");
     const busFromVenue = weddingData.schedule.find(
-      (s: any) => s.id === "bus-from-venue" || s.type === "bus-from-venue",
+      (s: any) => s.id === "busReturn",
+    );
+    const busFromVenueLate = weddingData.schedule.find(
+      (s: any) => s.id === "busReturnLate",
     );
 
-    // Bus TO venue map data
-    const busToVenueSchedule = weddingData.schedule.find(
-      (s: any) => s.id === "bus-to-venue" || s.maps?.[0]?.label?.includes("to"),
-    );
-    const busToVenueMap = busToVenueSchedule?.maps?.[0];
-
-    // Bus FROM venue map data
-    const busFromVenueSchedule = weddingData.schedule.find(
-      (s: any) =>
-        s.id === "bus-from-venue" || s.maps?.[0]?.label?.includes("from"),
-    );
-    const busFromVenueMap = busFromVenueSchedule?.maps?.[0];
+    const busToVenueMap = busToVenue?.maps?.[0];
+    const busFromVenueMap = busFromVenue?.maps?.[0];
 
     const brideContact = weddingData.contact.find((c: any) =>
       c.name.includes(weddingData.bride.firstName),
@@ -90,7 +111,7 @@ const QA = () => {
     return {
       // Separate bus objects for TO/FROM venue
       busToVenue: {
-        time: busToVenue?.time || "18:00",
+        time: busToVenue?.time,
         mainCoords: busToVenueMap?.coordinates || null,
         extraCoords: (busToVenueMap?.extraCoordinates || []).map((c: any) => ({
           lat: c.lat,
@@ -100,10 +121,10 @@ const QA = () => {
         })),
         mapUrl: busToVenueMap?.mapUrl || "",
         showRoute: busToVenueMap?.showRoute || false,
-        label: busToVenueMap?.label || "Bus to Venue",
+        label: busToVenueMap?.label || t("busToVenueMapLabel"),
       },
       busFromVenue: {
-        time: busFromVenue?.time || "00:00",
+        time: busFromVenue?.time,
         mainCoords: busFromVenueMap?.coordinates || null,
         extraCoords: (busFromVenueMap?.extraCoordinates || []).map(
           (c: any) => ({
@@ -115,8 +136,9 @@ const QA = () => {
         ),
         mapUrl: busFromVenueMap?.mapUrl || "",
         showRoute: busFromVenueMap?.showRoute || false,
-        label: busFromVenueMap?.label || "Bus from Venue",
+        label: busFromVenueMap?.label || t("busFromVenueMapLabel"),
       },
+      busFromVenueLateTime: busFromVenueLate?.time,
       venueCoordinates: weddingData.wedding.ceremony.venue.coordinates,
       rsvpDeadline: weddingData.rsvp.deadline,
       ceremonyTime: weddingData.wedding.ceremony.time,
@@ -144,7 +166,7 @@ const QA = () => {
       airports: weddingData.travel?.nearestAirport || [],
       hotels: weddingData.travel?.hotels || [],
     };
-  }, [weddingData]);
+  }, [weddingData, t]);
 
   const allItems = useMemo(
     () =>
@@ -152,6 +174,19 @@ const QA = () => {
       [],
     [t, dynamicValues],
   );
+
+  // Deep-link support: if ?q=<id> points to a question outside the active
+  // category, switch to that question's own category so the link works
+  // without also requiring a matching ?category= param.
+  const reconciledRef = useRef(false);
+  useEffect(() => {
+    if (reconciledRef.current || !questionParam || !allItems.length) return;
+    const target = allItems.find((i) => i.id === questionParam);
+    if (target && target.category !== activeCategory) {
+      setActiveCategory(target.category);
+    }
+    reconciledRef.current = true;
+  }, [questionParam, allItems, activeCategory]);
 
   const enabledQAIds = useMemo(() => {
     if (!config.qa?.questions) return [];
@@ -168,18 +203,50 @@ const QA = () => {
     );
   }, [allItems, activeCategory, enabledQAIds]);
 
-  const toggleItem = useCallback((index: number) => {
-    setOpenIndex((prev) => (prev === index ? null : index));
-  }, []);
+  const toggleItem = useCallback(
+    (id: string) => {
+      setOpenId((prev) => {
+        const next = prev === id ? null : id;
+        setSearchParams(
+          (params) => {
+            if (next) {
+              params.set("q", next);
+            } else {
+              params.delete("q");
+            }
+            return params;
+          },
+          { replace: true },
+        );
+        return next;
+      });
+    },
+    [setSearchParams],
+  );
 
-  const toggleCategory = useCallback((category: Category) => {
-    setActiveCategory(category);
-    setOpenIndex(null);
-  }, []);
+  const toggleCategory = useCallback(
+    (category: Category) => {
+      setActiveCategory(category);
+      setOpenId(null);
+      setSearchParams(
+        (params) => {
+          if (category === "essentials") {
+            params.delete("category");
+          } else {
+            params.set("category", category);
+          }
+          params.delete("q");
+          return params;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
 
-const categories: CategoryConfig[] = [
-  { name: "essentials", icon: null },
-  { name: "logistics", icon: null },
+const allCategories: CategoryConfig[] = [
+  { name: "essentials", icon: <Icon.Checklist /> },
+  { name: "weather", icon: <Icon.Sun /> },
   { name: "style", icon: <Icon.Tie /> },
   { name: "family", icon: <Icon.Family /> },
   { name: "gifts", icon: <Icon.Gift /> },
@@ -187,32 +254,51 @@ const categories: CategoryConfig[] = [
   { name: "all", icon: <Icon.All /> },
 ];
 
+  const categories = useMemo(
+    () =>
+      config.weather.enabled
+        ? allCategories
+        : allCategories.filter((c) => c.name !== "weather"),
+    [config.weather.enabled],
+  );
+
   return (
     <div className="qa-page">
       <PageTitle className="qa-title">{t("title")}</PageTitle>
 
-      <div className="qa-categories">
-        {categories.map((category) => (
-          <motion.button
-            key={category.name}
-            className={`category-tab ${
-              activeCategory === category.name ? "active" : ""
-            }`}
-            onClick={() => toggleCategory(category.name)}
-          >
-            {category.icon}
-            <span>{t(category.name)}</span>
-          </motion.button>
-        ))}
-      </div>
+      <TabNav
+        className="qa-categories"
+        itemClassName="category-tab"
+        items={categories.map((category) => ({
+          id: category.name,
+          active: activeCategory === category.name,
+          onClick: () => toggleCategory(category.name),
+          content: (
+            <>
+              {category.icon && (
+                <>
+                  {category.icon}
+                  <br />
+                </>
+              )}
+              {t(category.name)}
+            </>
+          ),
+        }))}
+      />
 
+      {activeCategory === "weather" ? (
+        <div className="qa-weather">
+          <WeatherForecast variant="full" />
+        </div>
+      ) : (
       <div className="qa-list">
         <AnimatePresence mode="popLayout">
           {visibleItems.map((item, displayIndex) => {
             const originalIndex = allItems.findIndex(
               (i) => i.question === item.question,
             );
-            const isOpen = openIndex === originalIndex;
+            const isOpen = openId === item.id;
 
             return (
               <motion.div
@@ -226,7 +312,7 @@ const categories: CategoryConfig[] = [
               >
                 <button
                   className={`qa-question ${isOpen ? "open" : ""}`}
-                  onClick={() => toggleItem(originalIndex)}
+                  onClick={() => toggleItem(item.id)}
                 >
                   <span>{item.question}</span>
                   <Icon.Down
@@ -305,9 +391,6 @@ const categories: CategoryConfig[] = [
                               />
                             ),
                             DonateButton: <DonateButton />,
-                            WeatherForecast: config.weather.enabled ? (
-                              <WeatherForecast />
-                            ) : null,
                             SkyscannerLink: (
                               <a
                                 href="https://www.skyscanner.com/"
@@ -379,6 +462,7 @@ const categories: CategoryConfig[] = [
           })}
         </AnimatePresence>
       </div>
+      )}
     </div>
   );
 };

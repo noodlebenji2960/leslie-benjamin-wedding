@@ -1,0 +1,36 @@
+@use "app/styles/variables" as *;
+
+.tab-nav {
+  display: flex;
+  position: relative;
+
+  &__item {
+    padding: $space-sm $space-md;
+    border: none;
+    background: none;
+    border-radius: $radius-sm;
+    color: $color-accent;
+    font: inherit;
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      background 0.2s ease;
+
+    &:hover {
+      color: $color-accent;
+    }
+  }
+
+  &__indicator {
+    position: absolute;
+    height: 3px;
+    background: $color-accent;
+    border-radius: 3px;
+    bottom: -2px;
+    left: 0;
+    z-index: 1;
+    transition:
+      transform 0.18s ease,
+      width 0.18s ease;
+  }
+}

@@ -8,43 +8,48 @@
   text-align: center;
   font-family: $font-body;
 
+  .qa-closed-message {
+    font-size: $font-size-md;
+    line-height: 1.7;
+    color: $color-text;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
   // --- Category Tabs ---
   .qa-categories {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: $space-sm;
+    justify-content: stretch;
     margin-bottom: $space-xl;
 
+    &:hover{
+      .category-tab.active:not(:hover){
+        font-weight: $fw-regular !important;
+        color: $color-text !important;
+      }
+    }
+
     .category-tab {
-      display: flex;
-      flex-direction: column;
-      justify-content: end;
-      align-items: center;
-      background: transparent;
-      border: 1px solid $color-border;
+      flex-grow: 1;
       padding: $space-xs $space-md;
-      border-radius: $radius-button;
-      font-family: $font-body;
       font-size: $font-size-sm;
-      font-weight: $fw-medium;
-      color: $color-text;
-      cursor: pointer;
-      transition: all $transition-base;
       text-transform: capitalize;
-      background-color: $color-white;
+      text-align: center;
+      color: $color-text;
+      font-weight: $fw-regular;
+      opacity: 0.7;
+      margin: -1px;
+      transition: all 0.2s ease !important;
 
       &.active {
-        background-color: $color-accent;
-        border-color: $color-accent;
-        color: $color-white;
-        box-shadow: 0 4px 12px $color-shadow;
+        color: $color-accent;
+        opacity: 1;
       }
 
-      &:hover:not(.active) {
-        border-color: $color-primary;
-        color: $color-background;
-        background-color: $color-primary;
+      &:hover {
+        opacity: 1;
+        color: $color-accent;
       }
 
       // --- Small screen adjustments ---
@@ -53,6 +58,25 @@
         font-size: $font-size-md;     // slightly larger text
       }
     }
+
+    .tab-nav__indicator {
+      height: 1px;
+      pointer-events: none;
+    }
+
+    // Tabs wrap to multiple rows below this width — a single absolutely
+    // positioned indicator can't track an item across rows, so hide it
+    // and rely on the .active text styling instead.
+    @media (max-width: 600px) {
+      .tab-nav__indicator {
+        display: none;
+      }
+    }
+  }
+
+  // --- Weather tab ---
+  .qa-weather {
+    min-height: 300px; // Maintain layout stability when switching tabs
   }
 
   // --- Accordion List ---

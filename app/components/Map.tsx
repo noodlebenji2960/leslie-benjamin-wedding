@@ -1,6 +1,16 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { Icon } from "./Icon";
 
+type WeatherMarker = {
+  id: string;
+  lat: number;
+  lng: number;
+  label: string;
+  /** Rendered HTML for a custom divIcon (e.g. a weather icon + temp badge) */
+  iconHtml: string;
+  active?: boolean;
+};
+
 type MapProps = {
   label?: string;
   coordinates: { lat: number; lng: number } | string;
@@ -10,11 +20,14 @@ type MapProps = {
     showMarker?: boolean;
     label?: string;
   }[];
+  /** When provided, renders these custom-icon markers instead of the default single pin */
+  markers?: WeatherMarker[];
   mapUrl?: string;
   width?: string;
   height?: string;
   showRoute?: boolean;
   interactive?: boolean;
+  zoomControl?: boolean;
   zoom?: number;
   style?: React.CSSProperties;
   dragging?: boolean;
@@ -24,11 +37,13 @@ const Map: React.FC<MapProps> = ({
   label,
   coordinates,
   extraCoordinates,
+  markers,
   mapUrl,
   width = "100%",
   height = "300px",
   showRoute = false,
   interactive = false,
+  zoomControl,
   zoom,
   style,
   dragging,
@@ -145,7 +160,6 @@ const Map: React.FC<MapProps> = ({
             number,
           ],
           zoom,
-          dragging,
         }
       : {
           bounds: allCoords.map((c: any) => [c.lat, c.lng]),
@@ -185,9 +199,9 @@ const Map: React.FC<MapProps> = ({
         <Leaflet.MapContainer
           ref={mapRef}
           style={{ width: "100%", height: "100%" }}
-          scrollWheelZoom={false}
-          dragging={interactive}
-          zoomControl={interactive}
+          scrollWheelZoom={interactive}
+          dragging={dragging ?? interactive}
+          zoomControl={zoomControl ?? interactive}
           {...mapProps}
           // Removes the default "Leaflet" prefix and attribution container
           attributionControl={false}
@@ -205,38 +219,60 @@ const Map: React.FC<MapProps> = ({
             attribution="" // Ensures tile provider text is hidden
           />
 
-          <Leaflet.Marker
-            position={[parsedCoordinates.lat, parsedCoordinates.lng]}
-          >
-            <Leaflet.Popup closeButton={false}>
-              {mapUrl ? (
-                <a
-                  href={mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {label || "View Location"} <Icon.ExternalLink size={16} />
-                </a>
-              ) : (
-                label
-              )}
-            </Leaflet.Popup>
-          </Leaflet.Marker>
+          {markers ? (
+            markers.map((m) => {
+              const size = m.active ? 56 : 44;
+              const half = size / 2;
+              return (
+                <Leaflet.Marker
+                  key={m.id}
+                  position={[m.lat, m.lng]}
+                  title={m.label}
+                  icon={L.divIcon({
+                    className: `map-weather-marker${m.active ? " active" : ""}`,
+                    html: m.iconHtml,
+                    iconSize: [size, size],
+                    iconAnchor: [half, half],
+                  })}
+                />
+              );
+            })
+          ) : (
+            <>
+              <Leaflet.Marker
+                position={[parsedCoordinates.lat, parsedCoordinates.lng]}
+              >
+                <Leaflet.Popup closeButton={false}>
+                  {mapUrl ? (
+                    <a
+                      href={mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        textDecoration: "none",
+                        color: "inherit",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {label || "View Location"} <Icon.ExternalLink size={16} />
+                    </a>
+                  ) : (
+                    label
+                  )}
+                </Leaflet.Popup>
+              </Leaflet.Marker>
 
-          {extraCoordinates?.map(
-            (c, i) =>
-              c.showMarker !== false && (
-                <Leaflet.Marker key={i} position={[c.lat, c.lng]}>
-                  <Leaflet.Popup>
-                    {c.label || "Additional location"}
-                  </Leaflet.Popup>
-                </Leaflet.Marker>
-              ),
+              {extraCoordinates?.map(
+                (c, i) =>
+                  c.showMarker !== false && (
+                    <Leaflet.Marker key={i} position={[c.lat, c.lng]}>
+                      <Leaflet.Popup>
+                        {c.label || "Additional location"}
+                      </Leaflet.Popup>
+                    </Leaflet.Marker>
+                  ),
+              )}
+            </>
           )}
         </Leaflet.MapContainer>
       )}
