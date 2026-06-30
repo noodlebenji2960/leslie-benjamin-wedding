@@ -2,9 +2,11 @@ import { useWeddingData } from "@/hooks/useWeddingData";
 import { Countdown } from "./Countdown";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useLocation } from "react-router";
+import { useLocation, Link } from "react-router";
 import { useLayout } from "@/contexts/LayoutContext";
 import { motion } from "framer-motion";
+import { useSiteConfig } from "@/contexts/ConfigContext";
+import { useBuildLink } from "@/hooks/useBuildLink";
 
 const Footer = ({
   openCookieConsentModal,
@@ -16,6 +18,8 @@ const Footer = ({
   } = useLayout();
   const weddingData = useWeddingData();
   const { t } = useTranslation();
+  const config = useSiteConfig();
+  const { buildLink } = useBuildLink();
 
   if (!weddingData?.wedding) return null;
 
@@ -38,6 +42,11 @@ const Footer = ({
       }}
     >
       <div className="footer-content">
+        {config.gallery.enabled && (
+          <Link to={buildLink("/gallery")} className="footer__gallery-link">
+            {t("common:nav.gallery", "Gallery")}
+          </Link>
+        )}
         <button onClick={openCookieConsentModal} className="footer__cookie-btn">
           {t("common:change_cookie_preferences", "See cookie Preferences.")}
         </button>

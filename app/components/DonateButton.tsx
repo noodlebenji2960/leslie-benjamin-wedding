@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { Modal } from "./Modal";
 import { Icon } from "./Icon";
+import { Button } from "./Button";
 import { useWeddingData } from "@/hooks/useWeddingData";
 
 type DetailMethod = "iban" | "bizum";
@@ -51,18 +52,14 @@ const DonateButton: React.FC<DonateButtonProps> = ({
 
   return (
     <>
-      <motion.button
-        type="button"
+      <Button
+        variant="ghost"
         className={`donate-container ${className}`}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
         title={t("donate.title")}
         onClick={() => setIsOpen(true)}
       >
-        <div className="donate-content">
-          <span className="donate-text">{t("click_here")}</span>
-        </div>
-      </motion.button>
+        {t("click_here")}
+      </Button>
 
       <Modal
         isOpen={isOpen}

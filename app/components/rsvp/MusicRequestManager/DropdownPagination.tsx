@@ -1,4 +1,6 @@
 // Compact pagination for inside the dropdown
+import { Button } from "@/components/Button";
+
 interface DropdownPaginationProps {
   currentPage: number;
   totalPages: number;
@@ -35,14 +37,15 @@ const DropdownPagination: React.FC<DropdownPaginationProps> = ({
 
   return (
     <div className="dd-pagination">
-      <button
-        className="dd-pagination__btn"
+      <Button
+        variant="secondary"
+        size="sm"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         aria-label="Previous page"
       >
         ‹
-      </button>
+      </Button>
       <div>
         {getPages().map((p, i) =>
           p === "…" ? (
@@ -50,26 +53,29 @@ const DropdownPagination: React.FC<DropdownPaginationProps> = ({
               …
             </span>
           ) : (
-            <button
+            <Button
               key={p}
-              className={`dd-pagination__btn${p === currentPage ? " dd-pagination__btn--active" : ""}`}
+              variant="secondary"
+              size="sm"
+              selected={p === currentPage}
               onClick={() => typeof p === "number" && onPageChange(p)}
               disabled={p === currentPage}
               aria-current={p === currentPage ? "page" : undefined}
             >
               {p}
-            </button>
+            </Button>
           ),
         )}
       </div>
-      <button
-        className="dd-pagination__btn"
+      <Button
+        variant="secondary"
+        size="sm"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         aria-label="Next page"
       >
         ›
-      </button>
+      </Button>
     </div>
   );
 };

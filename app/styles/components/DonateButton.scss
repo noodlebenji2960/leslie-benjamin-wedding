@@ -1,15 +1,13 @@
 @use "app/styles/variables" as *;
 
 .donate-container {
-  display: inline-block;
-  background: none;
   border: 1px solid $color-border;
-  cursor: pointer;
-  transition: all $transition-base;
+  padding: $space-xs $space-sm;
 
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: $color-accent;
     box-shadow: 0 $space-xl $space-2xl rgba(201, 168, 124, 0.4);
+    opacity: 1;
   }
 }
 

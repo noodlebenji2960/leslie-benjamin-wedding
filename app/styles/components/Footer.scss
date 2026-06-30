@@ -39,6 +39,21 @@
   min-height: 100px;
 }
 
+.footer__gallery-link {
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $fw-medium;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.85;
+
+  transition: opacity $transition-base;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .footer__cookie-btn {
   background: none;
   border: none;

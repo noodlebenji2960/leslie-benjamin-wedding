@@ -631,38 +631,8 @@
   justify-content: space-around;
   gap: 2px;
 
-  &__btn {
-    min-width: 28px;
-    height: 28px;
-    padding: 0 $space-xs;
-    border: 1px solid $color-border;
-    background: none;
-    border-radius: $radius-sm;
-    font-size: $font-size-xs;
-    color: $color-text;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all $transition-base;
-
-    &:hover:not(:disabled) {
-      color: $color-accent;
-      border-color: $color-accent;
-    }
-
-    &:disabled {
-      opacity: 0.35;
-      cursor: default;
-    }
-
-    &--active {
-      background: $color-accent !important;
-      border-color: $color-accent !important;
-      color: $color-white !important;
-      font-weight: $fw-semibold;
-      cursor: default;
-    }
+  .btn--sm:disabled {
+    opacity: 0.35;
   }
 
   &__ellipsis {

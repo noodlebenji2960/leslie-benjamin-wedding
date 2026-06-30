@@ -2,6 +2,7 @@ import { useSession, type CookiePreference } from "@/contexts/SessionContext";
 import { useState, useEffect } from "react";
 import { Modal } from "./Modal";
 import { Toast } from "./Toast";
+import { Button } from "./Button";
 import { Trans, useTranslation } from "react-i18next";
 import { WaveEmoji } from "./WaveEmoji";
 
@@ -219,24 +220,24 @@ export function CookieConsentModal({
             </div>
 
             <div className="ccm__actions">
-              <button className="ccm__save-btn" onClick={handleSavePreferences}>
+              <Button variant="primary" onClick={handleSavePreferences}>
                 {t("common:save_preferences", "Save Preferences")}
-              </button>
-              <button className="ccm__accept-all-btn" onClick={handleAcceptAll}>
+              </Button>
+              <Button variant="primary" onClick={handleAcceptAll}>
                 {t("common:accept_all", "Accept All")}
-              </button>
-              <button className="ccm__reject-all-btn" onClick={handleRejectAll}>
+              </Button>
+              <Button variant="secondary" onClick={handleRejectAll}>
                 {t("common:reject_all", "Reject All")}
-              </button>
+              </Button>
             </div>
           </div>
         ) : (
-          <button
-            className="ccm__toggle-btn"
+          <Button
+            variant="secondary"
             onClick={() => setShowPreferencesSection(true)}
           >
             {t("common:show_preferences", "Show Preferences")}
-          </button>
+          </Button>
         )}
       </div>
     </Modal>

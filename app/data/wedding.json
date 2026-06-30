@@ -20,7 +20,7 @@
         "name": "Hotel San Camilo",
         "longName": "Finca del Hotel San Camilo",
         "address": "Ctra. Fuenmayor, 4",
-        "city": "Navarrette",
+        "city": "Navarrete",
         "region": "La Rioja",
         "postalCode": "26370",
         "country": "España",
@@ -129,7 +129,7 @@
     {
       "id": "lunch",
       "icon": "Spoon",
-      "time": "16:15",
+      "time": "16:00",
       "location": "Hotel San Camilo",
       "images": [],
       "maps": []
