@@ -26,21 +26,63 @@
 .schedule-hero {
   position: relative;
   text-align: center;
-  padding: 0 $space-xl $space-xl $space-xl;
+  padding: 0 $space-xl 0 $space-xl;
   max-width: 600px;
   margin: 0 auto;
   z-index: 1;
 }
 
-.schedule-eyebrow {
+.today-banner-wrap {
+  margin-bottom: $space-xl;
+
+  & + .page-title {
+    margin-top: 0;
+  }
+}
+
+.today-banner {
   font-family: $font-body;
   font-size: 0.8rem;
   font-weight: $fw-bold;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  margin: 0;
+}
+
+.schedule-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: $space-md;
+  // Full-bleed: break out of .schedule-hero/.schedule-page's max-width so
+  // the lines below can reach the actual viewport edges.
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  font-family: $font-body;
+  font-size: $font-size-md;
+  font-weight: $fw-bold;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   color: $color-secondary-tint;
-  margin-bottom: $space-sm;
+  margin-bottom: $space-lg;
   z-index: 1;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: alpha($color-accent, 0.2);
+  }
+
+  &::before {
+    margin-left: $space-xl;
+  }
+
+  &::after {
+    margin-right: $space-xl;
+  }
 }
 
 .schedule-subtitle {
@@ -354,6 +396,10 @@
   border-radius: $radius-md;
   overflow: hidden;
   border: 1px solid alpha($color-accent-light, 0.5);
+
+  .map-container-wrapper{
+    pointer-events: none;
+  }
 }
 
 .schedule-map-directions {
@@ -371,8 +417,7 @@
   transition: background 0.2s ease, color 0.2s ease;
 
   &:hover {
-    background: $color-accent;
-    color: $color-white;
+    text-decoration: underline;
   }
 }
 

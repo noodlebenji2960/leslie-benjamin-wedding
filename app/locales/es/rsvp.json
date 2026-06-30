@@ -1,5 +1,7 @@
 {
   "title": "Rsvp",
+  "closedTitle": "La confirmación de asistencia está cerrada",
+  "closedMessage": "¡Gracias a todos los que nos confirmaron su asistencia — significó muchísimo para nosotros!",
   "steps": {
     "contactAndAttendance": {
       "stepTitle": "Contacto y Asistencia",

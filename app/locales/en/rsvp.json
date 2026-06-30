@@ -1,5 +1,7 @@
 {
   "title": "Rsvp",
+  "closedTitle": "RSVP is now closed",
+  "closedMessage": "Thank you to everyone who let us know they were coming — it meant the world to us!",
   "steps": {
     "contactAndAttendance": {
       "stepTitle": "Contact & Attendance",

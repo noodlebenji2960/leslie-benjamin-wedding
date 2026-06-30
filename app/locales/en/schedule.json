@@ -1,40 +1,49 @@
 {
-  "eyebrow": "Saturday · July 11, 2026",
-  "title": "The Day",
+  "today": "Today is",
+  "title": "The Big Day",
   "subtitle": "Everything you need to know about our wedding day, from start to finish.",
+  "subtitlePast": "Here's how our wedding day went, from start to finish.",
   "footerNote": "Times are approximate. We'll send final details closer to the date.",
   "events": {
     "bus": {
       "title": "Bus to Venue",
-      "description": "A bus will depart from Fuente Murrieta in Logroño to take guests to the venue. Please arrive a few minutes early so we can leave on time."
+      "description": "A bus will depart from Fuente Murrieta in Logroño to take guests to the venue. Please arrive a few minutes early so we can leave on time.",
+      "descriptionPast": "A bus departed from Fuente Murrieta in Logroño to take guests to the venue."
     },
     "ceremony": {
       "title": "Ceremony",
-      "description": "Join us as we exchange our vows at the beautiful Finca del Hotel San Camilo in Navarrete."
+      "description": "Join us as we exchange our vows at the beautiful Finca del Hotel San Camilo in Navarrete.",
+      "descriptionPast": "We exchanged our vows at the beautiful Finca del Hotel San Camilo in Navarrete."
     },
     "cocktails": {
       "title": "Cocktail Hour",
-      "description": "Celebrate with us on the terrace with drinks and pintxos while we take photos with family and friends."
+      "description": "Celebrate with us on the terrace with drinks and pintxos while we take photos with family and friends.",
+      "descriptionPast": "We celebrated on the terrace with drinks and pintxos, and took photos with family and friends."
     },
     "lunch": {
       "title": "Lunch",
-      "description": "Enjoy a wedding lunch with us at Hotel San Camilo."
+      "description": "Enjoy a wedding lunch with us at Hotel San Camilo.",
+      "descriptionPast": "We enjoyed a wedding lunch together at Hotel San Camilo."
     },
     "dancing": {
       "title": "DJ & Dancing",
-      "description": "Dance the night away with our DJ at Hotel San Camilo."
+      "description": "Dance the night away with our DJ at Hotel San Camilo.",
+      "descriptionPast": "We danced the night away with our DJ at Hotel San Camilo."
     },
     "busReturn": {
       "title": "Early Bus Return",
-      "description": "A bus will depart from Hotel San Camilo back to Fuente Murrieta in Logroño for those who need a ride back."
+      "description": "A bus will depart from Hotel San Camilo back to Fuente Murrieta in Logroño for those who need a ride back.",
+      "descriptionPast": "A bus departed from Hotel San Camilo back to Fuente Murrieta in Logroño for those who needed a ride back."
     },
     "busReturnLate": {
       "title": "Late Bus Return",
-      "description": "A second, later bus will depart from Hotel San Camilo back to Fuente Murrieta in Logroño for those who want to stay a bit longer."
+      "description": "A second, later bus will depart from Hotel San Camilo back to Fuente Murrieta in Logroño for those who want to stay a bit longer.",
+      "descriptionPast": "A second, later bus departed from Hotel San Camilo back to Fuente Murrieta in Logroño for those who wanted to stay a bit longer."
     },
     "afterparty": {
       "title": "After Party",
-      "description": "The night doesn't have to end! Join us in Logroño city centre to keep the celebration going."
+      "description": "The night doesn't have to end! Join us in Logroño city centre to keep the celebration going.",
+      "descriptionPast": "The celebration continued in Logroño city centre into the night."
     }
   }
 }

@@ -8,6 +8,8 @@ import { useRef, useCallback, useEffect } from "react";
 import ScrollChevron from "@/components/ScrollDown";
 import type { Route } from "./+types/schedule";
 import { Countdown } from "@/components/Countdown";
+import { TodayBanner } from "@/components/TodayBanner";
+import { useIsToday, useIsWeddingOver } from "@/hooks/useIsToday";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,9 +22,25 @@ export function meta({}: Route.MetaArgs) {
 }
 
 const Schedule = () => {
-  const { t } = useTranslation(["schedule", "common"]);
+  const { t, i18n } = useTranslation(["schedule", "common"]);
   const wedding = useWeddingData();
   const events = wedding.schedule || [];
+  const [isToday, setIsToday] = useIsToday(
+    wedding.wedding.date,
+    wedding.wedding.ceremony.time,
+  );
+  const [isPast] = useIsWeddingOver(wedding.wedding.date);
+
+  const weddingDate = new Date(wedding.wedding.date);
+  const weekday = weddingDate.toLocaleDateString(i18n.language, {
+    weekday: "long",
+  });
+  const fullDate = weddingDate.toLocaleDateString(i18n.language, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const eyebrowDate = `${weekday.charAt(0).toUpperCase()}${weekday.slice(1)} · ${fullDate}`;
 
   const timelineRef = useRef<HTMLDivElement>(null); // points at schedule-timeline-wrapper
   const dotRef = useRef<HTMLDivElement>(null);
@@ -202,20 +220,27 @@ const Schedule = () => {
     <div className="schedule-page">
       {/* Page Header */}
       <div className="schedule-hero">
+        <TodayBanner show={isToday && !isPast} />
         <PageTitle>{t("schedule:title", "The Day")}</PageTitle>
         <p className="schedule-eyebrow">
-          {t("schedule:eyebrow", "Saturday · July 11, 2026")}
+          <span>{eyebrowDate}</span>
         </p>
         <p className="schedule-subtitle">
-          {t(
-            "schedule:subtitle",
-            "Everything you need to know about our wedding day, from start to finish.",
-          )}
+          {isPast
+            ? t(
+                "schedule:subtitlePast",
+                "Here's how our wedding day went, from start to finish.",
+              )
+            : t(
+                "schedule:subtitle",
+                "Everything you need to know about our wedding day, from start to finish.",
+              )}
         </p>
         <Countdown
           date={wedding.wedding.date}
           time={wedding.wedding.ceremony.time}
           size="lg"
+          onCelebrate={() => setIsToday(true)}
         />
         <br />
         <ScrollChevron />
@@ -327,7 +352,7 @@ const Schedule = () => {
 
                     <p className="schedule-event-desc">
                       <Trans
-                        i18nKey={`schedule:events.${event.id}.description`}
+                        i18nKey={`schedule:events.${event.id}.${isPast ? "descriptionPast" : "description"}`}
                         defaults=""
                       />
                     </p>
@@ -372,16 +397,18 @@ const Schedule = () => {
       </div>
 
       {/* Footer note */}
-      <FadeInSection delay={0.1}>
-        <div className="schedule-footer-note">
-          <p>
-            <Trans
-              i18nKey="schedule:footerNote"
-              defaults="Times are approximate. We'll send final details closer to the date."
-            />
-          </p>
-        </div>
-      </FadeInSection>
+      {!isPast && (
+        <FadeInSection delay={0.1}>
+          <div className="schedule-footer-note">
+            <p>
+              <Trans
+                i18nKey="schedule:footerNote"
+                defaults="Times are approximate. We'll send final details closer to the date."
+              />
+            </p>
+          </div>
+        </FadeInSection>
+      )}
     </div>
   );
 };

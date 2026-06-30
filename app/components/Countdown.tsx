@@ -1,12 +1,15 @@
 // app/components/Countdown.tsx
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
+import { isPast, useIsToday, useIsWeddingOver } from "@/hooks/useIsToday";
 
 interface CountdownProps {
   date: string;
   time: string;
   size?: "sm" | "lg";
   showLabel?: boolean;
+  onCelebrate?: () => void;
 }
 
 interface TimeLeft {
@@ -16,23 +19,25 @@ interface TimeLeft {
   seconds: number;
 }
 
-export function Countdown({ date, time, size = "lg", showLabel=true, labelPosition="bottom" }: CountdownProps) {
+const ZERO_TIME: TimeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+const ZERO_LINGER_MS = 1000;
+
+const isZero = (t: TimeLeft) =>
+  t.days === 0 && t.hours === 0 && t.minutes === 0 && t.seconds === 0;
+
+export function Countdown({ date, time, size = "lg", showLabel=true, labelPosition="bottom", onCelebrate }: CountdownProps) {
   const { t } = useTranslation(["common"]);
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const [prevTime, setPrevTime] = useState<TimeLeft>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(ZERO_TIME);
+  const [prevTime, setPrevTime] = useState<TimeLeft>(ZERO_TIME);
+  const [celebrating, setCelebrating] = useIsToday(date, time);
+  const [isOver] = useIsWeddingOver(date);
 
   useEffect(() => {
+    if (isPast(date, time)) return;
+
     const weddingDate = new Date(`${date}T${time}:00`);
+    let hasCelebrated = false;
+    let lingerTimeout: ReturnType<typeof setTimeout>;
 
     const updateCountdown = () => {
       const now = Date.now();
@@ -50,12 +55,22 @@ export function Countdown({ date, time, size = "lg", showLabel=true, labelPositi
         setPrevTime(prev);
         return newTime;
       });
+
+      if (isZero(newTime) && !hasCelebrated) {
+        hasCelebrated = true;
+        lingerTimeout = setTimeout(() => setCelebrating(true), ZERO_LINGER_MS);
+      }
     };
 
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(lingerTimeout);
+    };
   }, [date, time]);
+
+  if (isOver) return null;
 
   const renderItem = (label: string, value: number, prevValue: number) => {
     let tLongLabel = t(label);
@@ -89,12 +104,29 @@ export function Countdown({ date, time, size = "lg", showLabel=true, labelPositi
 
   return (
     <div className={`countdown-card countdown-card--${size}`}>
-      <div className={`countdown-grid countdown-grid--${size}`}>
-        {renderItem("days", timeLeft.days, prevTime.days)}
-        {renderItem("hours", timeLeft.hours, prevTime.hours)}
-        {renderItem("minutes", timeLeft.minutes, prevTime.minutes)}
-        {renderItem("seconds", timeLeft.seconds, prevTime.seconds)}
-      </div>
+      <AnimatePresence onExitComplete={() => onCelebrate?.()}>
+        {!celebrating && (
+          <motion.div
+            style={{ overflow: "hidden" }}
+            initial={{ height: "auto" }}
+            exit={{
+              opacity: 0,
+              height: 0,
+              transition: {
+                opacity: { duration: 0.6, ease: "easeOut" },
+                height: { duration: 0.4, ease: "easeOut", delay: 0.6 },
+              },
+            }}
+          >
+            <div className={`countdown-grid countdown-grid--${size}`}>
+              {renderItem("days", timeLeft.days, prevTime.days)}
+              {renderItem("hours", timeLeft.hours, prevTime.hours)}
+              {renderItem("minutes", timeLeft.minutes, prevTime.minutes)}
+              {renderItem("seconds", timeLeft.seconds, prevTime.seconds)}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

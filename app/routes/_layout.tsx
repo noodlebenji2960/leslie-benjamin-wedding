@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useNavigate, useOutlet } from "react-router";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useTransition } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "@/components/Header";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,6 +12,8 @@ import Footer from "@/components/Footer";
 import { CookieConsentModal } from "@/components/CookieConsentModal";
 import { useLayout } from "@/contexts/LayoutContext";
 import { useSiteConfig } from "@/contexts/ConfigContext";
+import { useWeddingData } from "@/hooks/useWeddingData";
+import { useIsWeddingOver } from "@/hooks/useIsToday";
 
 export default function Layout() {
   const location = useLocation();
@@ -28,6 +30,8 @@ export default function Layout() {
   const mainRef = useRef<HTMLDivElement>(null);
   const layout = useLayout();
   const config = useSiteConfig();
+  const wedding = useWeddingData();
+  const [isPast] = useIsWeddingOver(wedding.wedding.date);
 
   const lenis = useLenis(() => {});
 
@@ -36,6 +40,13 @@ export default function Layout() {
   } = useLayout();
 
   const hasScrolledRef = useRef(false);
+
+  // Scroll the native window to top synchronously, before paint, so the
+  // sticky nav (position: sticky; top: -50px) never renders mid-scroll —
+  // Lenis isn't ready yet this early, so it can't do this for us.
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!lenis) return;
@@ -54,6 +65,10 @@ export default function Layout() {
   }, [location.pathname, lenis]);
 
 
+  // RSVP and Q&A are pre-wedding logistics — drop them from the nav once
+  // the wedding day has passed, even if the feature flag is still on.
+  const closesWhenPast = ["/rsvp", "/qa"];
+
   const links = [
     { path: "/", label: t("nav.home") }, // always visible
     { path: "/rsvp", label: t("nav.rsvp"), feature: "rsvp" },
@@ -61,6 +76,7 @@ export default function Layout() {
     { path: "/qa", label: t("nav.qa"), feature: "qa" },
     { path: "/gallery", label: t("nav.gallery"), feature: "gallery" },
   ].filter((link) => {
+    if (isPast && closesWhenPast.includes(link.path)) return false;
     if (!link.feature) return true; // no feature key → always show
     return Boolean(
       link.feature.split(".").reduce((acc, key) => acc?.[key], config),
@@ -89,7 +105,9 @@ export default function Layout() {
     <ReactLenis
       root
       options={{
-        prevent: (node) => node.closest(".search-dropdown__list") !== null,
+        prevent: (node) =>
+          node.closest(".search-dropdown__list") !== null ||
+          node.closest(".map-container-wrapper") !== null,
       }}
     >
       <CookieConsentModal

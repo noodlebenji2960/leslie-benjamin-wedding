@@ -6,9 +6,11 @@ import { useRSVPForm } from "@/hooks/rsvp/useRSVPForm";
 import { useRSVPSubmit } from "@/hooks/rsvp/useRSVPSubmit";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { Icon } from "@/components/Icon";
+import { Button } from "@/components/Button";
 import { PageTitle } from "@/components/PageTitle";
 import { ProgressBar } from "@/components/ProgressBar";
 import { useWeddingData } from "@/hooks/useWeddingData";
+import { useIsWeddingOver } from "@/hooks/useIsToday";
 import type { Route } from "./+types/rsvp";
 
 export function meta({}: Route.MetaArgs) {
@@ -34,6 +36,7 @@ export default function RSVP() {
   
   const cleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const weddingData = useWeddingData();
+  const [isPast] = useIsWeddingOver(weddingData.wedding.date);
 
   const {
     form,
@@ -161,6 +164,15 @@ export default function RSVP() {
 
   if (!ready) return <div className="loading">{t("common:loading")}</div>;
 
+  if (isPast && !submitted) {
+    return (
+      <div className="rsvp-page">
+        <PageTitle>{t("rsvp:closedTitle")}</PageTitle>
+        <p className="rsvp-closed-message">{t("rsvp:closedMessage")}</p>
+      </div>
+    );
+  }
+
   if (submitted) {
     return (
       <SuccessScreen
@@ -227,21 +239,21 @@ export default function RSVP() {
           </div>
         )}
         <div className="form-navigation">
-          <button
-            type="button"
+          <Button
+            variant="ghost"
             onClick={prevStep}
             disabled={currentStep === 0}
             title={t("common:back") || "Back"}
           >
             <Icon.Back />
             {t("common:previous")}
-          </button>
+          </Button>
           <span>
             {currentStep + 1}/{steps.length}
           </span>
           {currentStep < steps.length - 1 ? (
-            <button
-              type="button"
+            <Button
+              variant="ghost"
               onClick={nextStep}
               disabled={isNextDisabled()}
               title={
@@ -261,15 +273,18 @@ export default function RSVP() {
                   <Icon.Next />
                 </>
               )}
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               type="submit"
+              variant="primary"
+              state={sending ? "loading" : "idle"}
+              loadingChildren={t("rsvp:sending")}
               onClick={submit}
-              disabled={sending || isNextDisabled()}
+              disabled={isNextDisabled()}
             >
-              {sending ? t("rsvp:sending") : t("rsvp:submit")}
-            </button>
+              {t("rsvp:submit")}
+            </Button>
           )}
         </div>
       </form>

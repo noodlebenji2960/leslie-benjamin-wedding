@@ -13,6 +13,13 @@
   text-align: center;
   font-family: $font-body;
 
+  .rsvp-closed-message {
+    font-size: $font-size-md;
+    line-height: 1.7;
+    color: $color-text;
+    max-width: 480px;
+  }
+
   .step-description {
     flex-shrink: 0;
     display: flex;

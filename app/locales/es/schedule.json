@@ -1,40 +1,49 @@
 {
-  "eyebrow": "Sábado · 11 de julio de 2026",
+  "today": "Hoy es",
   "title": "El Gran Día",
   "subtitle": "Todo lo que necesitas saber sobre nuestro día de boda, de principio a fin.",
+  "subtitlePast": "Así fue nuestro día de boda, de principio a fin.",
   "footerNote": "Los horarios son aproximados. Enviaremos los detalles finales más cerca de la fecha.",
   "events": {
     "bus": {
       "title": "Autobús a la Finca",
-      "description": "El autobús saldrá desde la Fuente Murrieta en Logroño para llevar a los invitados a la finca. Por favor, llega unos minutos antes para poder salir a tiempo."
+      "description": "El autobús saldrá desde la Fuente Murrieta en Logroño para llevar a los invitados a la finca. Por favor, llega unos minutos antes para poder salir a tiempo.",
+      "descriptionPast": "El autobús salió desde la Fuente Murrieta en Logroño para llevar a los invitados a la finca."
     },
     "ceremony": {
       "title": "Ceremonia",
-      "description": "Acompáñanos mientras intercambiamos nuestros votos en la preciosa Finca del Hotel San Camilo en Navarrete."
+      "description": "Acompáñanos mientras intercambiamos nuestros votos en la preciosa Finca del Hotel San Camilo en Navarrete.",
+      "descriptionPast": "Intercambiamos nuestros votos en la preciosa Finca del Hotel San Camilo en Navarrete."
     },
     "cocktails": {
       "title": "Cóctel",
-      "description": "Celebra con nosotros en la terraza con bebidas y pintxos mientras nos hacemos fotos con familiares y amigos."
+      "description": "Celebra con nosotros en la terraza con bebidas y pintxos mientras nos hacemos fotos con familiares y amigos.",
+      "descriptionPast": "Celebramos en la terraza con bebidas y pintxos, y nos hicimos fotos con familiares y amigos."
     },
     "lunch": {
       "title": "Comida",
-      "description": "Disfruta de una comida de boda con nosotros en el Hotel San Camilo."
+      "description": "Disfruta de una comida de boda con nosotros en el Hotel San Camilo.",
+      "descriptionPast": "Disfrutamos juntos de una comida de boda en el Hotel San Camilo."
     },
     "dancing": {
       "title": "DJ y Baile",
-      "description": "Baila toda la noche con nuestro DJ en el Hotel San Camilo."
+      "description": "Baila toda la noche con nuestro DJ en el Hotel San Camilo.",
+      "descriptionPast": "Bailamos toda la noche con nuestro DJ en el Hotel San Camilo."
     },
     "busReturn": {
       "title": "Autobús de Vuelta (Antes)",
-      "description": "El autobús saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes necesiten transporte de regreso."
+      "description": "El autobús saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes necesiten transporte de regreso.",
+      "descriptionPast": "El autobús salió desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes necesitaban transporte de regreso."
     },
     "busReturnLate": {
       "title": "Autobús de Vuelta (Más Tarde)",
-      "description": "Un segundo autobús, más tarde, saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes quieran quedarse un poco más."
+      "description": "Un segundo autobús, más tarde, saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes quieran quedarse un poco más.",
+      "descriptionPast": "Un segundo autobús, más tarde, salió desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes quisieron quedarse un poco más."
     },
     "afterparty": {
       "title": "After Party",
-      "description": "¡La noche no tiene por qué acabar! Únete a nosotros en el centro de Logroño para seguir celebrando."
+      "description": "¡La noche no tiene por qué acabar! Únete a nosotros en el centro de Logroño para seguir celebrando.",
+      "descriptionPast": "La celebración continuó en el centro de Logroño hasta bien entrada la noche."
     }
   }
 }
