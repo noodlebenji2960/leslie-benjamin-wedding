@@ -160,9 +160,11 @@ describe("UploadButton — recognized state (name already set)", () => {
 
   it("uploads a selected file when a name is already set", async () => {
     setup({ uploaderName: "Ben" });
+    await waitFor(() => expect(screen.getByLabelText(/service status/i)).toBeInTheDocument());
 
     const file = new File(["x"], "photo.jpg", { type: "image/jpeg" });
     const input = document.querySelector('input[type="file"]:not([capture])') as HTMLInputElement;
+    await waitFor(() => expect(input).not.toBeDisabled());
 
     await userEvent.upload(input, file);
 
@@ -176,6 +178,7 @@ describe("UploadButton — recognized state (name already set)", () => {
     const fileInput = document.querySelector(
       'input[type="file"]:not([capture])',
     ) as HTMLInputElement;
+    await waitFor(() => expect(fileInput).not.toBeDisabled());
     await userEvent.upload(fileInput, file);
 
     const confirmButton = screen.getByRole("button", { name: /^upload$/i });
@@ -191,6 +194,7 @@ describe("UploadButton — recognized state (name already set)", () => {
     const fileInput = document.querySelector(
       'input[type="file"]:not([capture])',
     ) as HTMLInputElement;
+    await waitFor(() => expect(fileInput).not.toBeDisabled());
     await userEvent.upload(fileInput, file);
 
     expect(screen.getByText(/1 photo awaiting upload/i)).toBeInTheDocument();
@@ -206,6 +210,7 @@ describe("UploadButton — recognized state (name already set)", () => {
     const fileInput = document.querySelector(
       'input[type="file"]:not([capture])',
     ) as HTMLInputElement;
+    await waitFor(() => expect(fileInput).not.toBeDisabled());
     await userEvent.upload(fileInput, file);
 
     fireEvent.click(screen.getByRole("button", { name: /cancel/i }));

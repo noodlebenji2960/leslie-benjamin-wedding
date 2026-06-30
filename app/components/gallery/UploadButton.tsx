@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useSession } from "@/contexts/SessionContext";
+import { useServer } from "@/contexts/ServerContext";
 import { Icon } from "@/components/Icon";
+import { Button } from "@/components/Button";
 import { ServerStatus } from "@/components/gallery/ServerStatus";
 import type { SSEImageRecord } from "@/hooks/useSSE";
 
@@ -36,6 +38,7 @@ export function UploadButton({
 }: UploadButtonProps) {
   const { t } = useTranslation("gallery");
   const { visitor } = useSession();
+  const { isAvailable: serverAvailable } = useServer();
   const { status, errorMessage, upload, reset } = useImageUpload();
   const [draftName, setDraftName] = useState(uploaderName);
   const [nameError, setNameError] = useState(false);
@@ -177,7 +180,7 @@ export function UploadButton({
   };
 
   const isUploading = status === "uploading" || status === "staging";
-  const locked = !hasName || isUploading || isEditingName;
+  const locked = !hasName || isUploading || isEditingName || !serverAvailable;
 
   const capitalizedName = uploaderName
     .split(" ")
@@ -241,6 +244,13 @@ export function UploadButton({
         </div>
       )}
 
+      {!serverAvailable && (
+        <p className="gallery-upload__feedback gallery-upload__feedback--error">
+          <Icon.Close size={16} />
+          {t("upload.serverUnavailable")}
+        </p>
+      )}
+
       {pendingFiles.length > 0 && (
         <p className="gallery-upload__pending-count">
           {t("upload.pendingCount", { count: pendingFiles.length })}
@@ -250,6 +260,8 @@ export function UploadButton({
       <div className="gallery-upload__actions">
         {/* Camera button — opens rear camera directly on mobile */}
         {/* File picker — drag-and-drop + browse library */}
+        {serverAvailable && (
+        <>
         <div
           ref={dropzoneRef}
           className={`gallery-upload__dropzone${isDragging ? " gallery-upload__dropzone--active" : ""}${pendingFiles.length > 0 ? " gallery-upload__dropzone--has-files" : ""}${showNameForm ? " gallery-upload__dropzone--locked" : ""}`}
@@ -424,6 +436,8 @@ export function UploadButton({
           onChange={handleChange}
           className="gallery-upload__input"
         />
+        </>
+        )}
         <div
           className={`gallery-upload__actions-footer${!hasName ? " gallery-upload__actions-footer--centered" : ""}`}
         >
@@ -501,34 +515,32 @@ export function UploadButton({
 
       {pendingFiles.length > 0 && (
         <div className="gallery-upload__confirm-row">
-          <button
-            type="button"
-            className="gallery-upload__confirm-btn"
+          <Button
+            variant="primary"
+            state={isUploading ? "loading" : "idle"}
+            loadingChildren={t("upload.uploading")}
             onClick={() => void handleConfirmUpload()}
-            disabled={isUploading}
           >
-            {isUploading ? t("upload.uploading") : t("upload.confirmShort")}
+            {t("upload.confirmShort")}
             <Icon.Tick size={16} />
-          </button>
-          <button
-            type="button"
-            className="gallery-upload__confirm-btn"
+          </Button>
+          <Button
+            variant="secondary"
             onClick={() => !isUploading && fileInputRef.current?.click()}
             disabled={isUploading}
             title={t("upload.addMore")}
           >
             <Icon.Add size={16} />
             {t("upload.addMore")}
-          </button>
-          <button
-            type="button"
-            className="gallery-upload__cancel-btn"
+          </Button>
+          <Button
+            variant="ghost"
             onClick={handleClearPending}
             disabled={isUploading}
           >
             <Icon.Close size={16} />
             {t("upload.cancel")}
-          </button>
+          </Button>
         </div>
       )}
 

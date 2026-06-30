@@ -11,6 +11,7 @@ import {
 } from "react";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
+const HEALTH_POLL_INTERVAL = 30_000;
 
 export interface ReactionGroup {
   key: string;
@@ -25,10 +26,25 @@ export interface ServerConfig {
   maxUploaderNameLength: number;
 }
 
+export type ServerHealthState = "checking" | "ok" | "degraded" | "down";
+
+export interface ServerHealth {
+  status: string;
+  db: string;
+  timestamp: string;
+}
+
 interface ServerContextValue {
   config: ServerConfig | null;
   loading: boolean;
   refresh: () => Promise<void>;
+  healthState: ServerHealthState;
+  health: ServerHealth | null;
+  /** Raw HTTP status code from the last /health response (null if the request itself failed, e.g. network error). */
+  healthStatusCode: number | null;
+  /** False only once we've confirmed the server is unreachable/unhealthy — stays true while still checking, so the UI doesn't flash a "down" state on every load. */
+  isAvailable: boolean;
+  checkHealth: () => Promise<void>;
 }
 
 const DEFAULT_CONFIG: ServerConfig = {
@@ -55,6 +71,9 @@ const ServerContext = createContext<ServerContextValue | undefined>(undefined);
 export function ServerProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<ServerConfig | null>(null);
   const [loading, setLoading] = useState(true);
+  const [healthState, setHealthState] = useState<ServerHealthState>("checking");
+  const [health, setHealth] = useState<ServerHealth | null>(null);
+  const [healthStatusCode, setHealthStatusCode] = useState<number | null>(null);
 
   const loadConfig = useCallback(async () => {
     try {
@@ -78,17 +97,47 @@ export function ServerProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const checkHealth = useCallback(async () => {
+    if (!API_BASE) {
+      setHealthState("down");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/health`);
+      const data: ServerHealth = await res.json();
+      setHealth(data);
+      setHealthStatusCode(res.status);
+      setHealthState(res.ok ? "ok" : "degraded");
+    } catch {
+      setHealth(null);
+      setHealthStatusCode(null);
+      setHealthState("down");
+    }
+  }, []);
+
   useEffect(() => {
     void loadConfig();
   }, [loadConfig]);
+
+  useEffect(() => {
+    void checkHealth();
+    const id = setInterval(() => void checkHealth(), HEALTH_POLL_INTERVAL);
+    return () => clearInterval(id);
+  }, [checkHealth]);
 
   const value = useMemo<ServerContextValue>(
     () => ({
       config,
       loading,
       refresh: loadConfig,
+      healthState,
+      health,
+      healthStatusCode,
+      isAvailable: healthState !== "down" && healthState !== "degraded",
+      checkHealth,
     }),
-    [config, loading, loadConfig],
+    [config, loading, loadConfig, healthState, health, healthStatusCode, checkHealth],
   );
 
   return (

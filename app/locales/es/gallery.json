@@ -29,8 +29,10 @@
     "confirmShort": "Subir",
     "pendingCount": "{{count}} foto pendiente de subir",
     "pendingCount_other": "{{count}} fotos pendientes de subir",
-    "addMore": "Añadir más"
+    "addMore": "Añadir más",
+    "serverUnavailable": "Las subidas no están disponibles temporalmente — inténtalo de nuevo en un rato."
   },
+  "viewInGallery": "Ver en la galería completa",
   "empty": "Aún no hay fotos — ¡sé el primero en compartir una!",
   "loading": "Cargando fotos...",
   "loadMore": "Cargar más",
@@ -59,11 +61,8 @@
     "ok": "Todo funciona correctamente",
     "degraded": "El servicio tiene problemas",
     "down": "El servicio no está disponible",
-    "database": "Base de datos",
-    "db": {
-      "connected": "Conectada",
-      "disconnected": "Desconectada"
-    },
+    "httpCode": "(HTTP {{code}})",
+    "noResponse": "(sin respuesta — error de red)",
     "lastChecked": "Última comprobación: {{time}}"
   }
 }

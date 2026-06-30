@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { Modal } from "./Modal";
 
 interface PolaroidCarouselProps {
   photos: string[];
+  /** Given a photo URL, return the gallery page link to view it there (or null/undefined to omit the link). */
+  getGalleryLink?: (photoUrl: string) => string | null | undefined;
 }
 
 // Deterministic pseudo-random from a string seed
@@ -16,7 +20,8 @@ function seededRandom(seed: string): number {
   return (Math.abs(hash) % 1000) / 1000;
 }
 
-function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
+function PolaroidCarouselInner({ photos, getGalleryLink }: PolaroidCarouselProps) {
+  const { t } = useTranslation("gallery");
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -279,6 +284,7 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
       >
         {selectedPhoto && (
           <motion.div
+            className="polaroid-carousel__modal-content"
             initial={{ opacity: 0, scale: 0.85, rotate: -4 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.9, rotate: 4 }}
@@ -289,6 +295,14 @@ function PolaroidCarouselInner({ photos }: PolaroidCarouselProps) {
               alt="Selected photo"
               layoutId={selectedPhoto}
             />
+            {getGalleryLink?.(selectedPhoto) && (
+              <Link
+                to={getGalleryLink(selectedPhoto)!}
+                className="polaroid-carousel__modal-link"
+              >
+                {t("viewInGallery", "View in full gallery")}
+              </Link>
+            )}
           </motion.div>
         )}
       </Modal>

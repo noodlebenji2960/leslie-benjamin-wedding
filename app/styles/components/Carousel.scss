@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   gap: $space-sm;
+  width: 100%;
 
   user-select: none;
 
@@ -78,14 +79,12 @@
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid $color-border;
-    border-radius: $radius-button;
-    background: $color-background;
+    border: none;
+    background: none;
     color: $color-text;
     font-size: $font-size-2xl;
     line-height: 1;
     cursor: pointer;
-    box-shadow: $box-shadow-sm;
     transition:
       background $transition-base,
       color $transition-base,
@@ -103,16 +102,7 @@
     }
 
     &:hover {
-      background: $color-primary;
-      color: $color-text-alt;
-      box-shadow: $box-shadow-md;
-      transform: scale(1.1) translateY(-100%);
-    }
-
-    &:active {
-      background: $color-accent;
-      box-shadow: $box-shadow-xs;
-      transform: scale(0.96) translateY(-100%);
+      color: $color-accent;
     }
 
     @media (max-width: 768px) {
@@ -120,6 +110,28 @@
       height: 2rem;
       font-size: $font-size-xl;
     }
+  }
+}
+
+.polaroid-carousel__modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-sm;
+}
+
+.polaroid-carousel__modal-link {
+  font-family: $font-body;
+  font-size: $font-size-sm;
+  font-weight: $fw-medium;
+  color: $color-accent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.9;
+  transition: opacity $transition-base;
+
+  &:hover {
+    opacity: 1;
   }
 }
 

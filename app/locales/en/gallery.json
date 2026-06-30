@@ -29,8 +29,10 @@
     "confirmShort": "Upload",
     "pendingCount": "{{count}} photo awaiting upload",
     "pendingCount_other": "{{count}} photos awaiting upload",
-    "addMore": "Add more"
+    "addMore": "Add more",
+    "serverUnavailable": "Uploads are temporarily unavailable — please try again in a little while."
   },
+  "viewInGallery": "View in full gallery",
   "empty": "No photos yet — be the first to share one!",
   "loading": "Loading photos...",
   "loadMore": "Load more",
@@ -59,11 +61,8 @@
     "ok": "All systems running normally",
     "degraded": "Service is having issues",
     "down": "Service is unreachable",
-    "database": "Database",
-    "db": {
-      "connected": "Connected",
-      "disconnected": "Disconnected"
-    },
+    "httpCode": "(HTTP {{code}})",
+    "noResponse": "(no response — network error)",
     "lastChecked": "Last checked at {{time}}"
   }
 }

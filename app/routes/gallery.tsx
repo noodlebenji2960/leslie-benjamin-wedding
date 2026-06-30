@@ -1,10 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { PageTitle } from "@/components/PageTitle";
 import { UploadButton } from "@/components/gallery/UploadButton";
 import { useSSE } from "@/hooks/useSSE";
 import type { SSEImageRecord } from "@/hooks/useSSE";
+import { useServer } from "@/contexts/ServerContext";
+import { useBuildLink } from "@/hooks/useBuildLink";
 import "@/styles/gallery.scss";
 import type { Route } from "./+types/gallery";
 
@@ -23,6 +26,8 @@ interface GalleryResponse {
 
 export default function GalleryPage() {
   const { t } = useTranslation("gallery");
+  const { isAvailable: serverAvailable } = useServer();
+  const { buildLink } = useBuildLink();
 
   const [images, setImages] = useState<SSEImageRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -153,6 +158,15 @@ export default function GalleryPage() {
     if (!cursor || loadingMore) return;
     void fetchImages(cursor);
   }, [cursor, loadingMore, fetchImages]);
+
+  if (!serverAvailable) {
+    return (
+      <Navigate
+        to={`${buildLink("/service-unavailable")}?from=${encodeURIComponent("/gallery")}`}
+        replace
+      />
+    );
+  }
 
   return (
     <div className="gallery-page">

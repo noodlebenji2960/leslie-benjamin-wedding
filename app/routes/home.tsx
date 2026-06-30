@@ -1,13 +1,16 @@
 import type { Route } from "./+types/home";
 import { Trans, useTranslation } from "react-i18next";
 import { useWeddingData } from "@/hooks/useWeddingData";
+import { Button } from "@/components/Button";
 import { Countdown } from "@/components/Countdown";
-import { AnimatePresence, motion } from "framer-motion";
+import { TodayBanner } from "@/components/TodayBanner";
+import { useIsToday, useIsWeddingOver } from "@/hooks/useIsToday";
 import { useBuildLink } from "@/hooks/useBuildLink";
 import Map from "@/components/Map";
 import { Link } from "react-router";
 import { FadeInSection } from "@/components/FadeInsection";
 import DonateButton from "@/components/DonateButton";
+import { PageTitle } from "@/components/PageTitle";
 import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
 import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
@@ -25,6 +28,11 @@ import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Fragment } from "react/jsx-runtime";
 import Heart from "@/components/Heart";
 import Carousel from "@/components/Carousel";
+import { HomeGalleryPreview } from "@/components/gallery/HomeGalleryPreview";
+import {
+  useGalleryPreviewImages,
+  MIN_GALLERY_PREVIEW_PHOTOS,
+} from "@/hooks/useGalleryPreviewImages";
 import ScrollChevron from "@/components/ScrollDown";
 import { useState } from "react";
 import { Icon } from "@/components/Icon";
@@ -44,6 +52,16 @@ export default function Home() {
   const wedding = useWeddingData();
   const { t, i18n, ready } = useTranslation(["home", "common"]);
   const { navigateTo, buildLink } = useBuildLink();
+  const [isToday, setIsToday] = useIsToday(
+    wedding.wedding.date,
+    wedding.wedding.ceremony.time,
+  );
+  const [isPast] = useIsWeddingOver(wedding.wedding.date);
+  const galleryImages = useGalleryPreviewImages();
+  const showGalleryPreview =
+    config.gallery.enabled &&
+    !!galleryImages &&
+    galleryImages.length >= MIN_GALLERY_PREVIEW_PHOTOS;
 
   const weddingDate = new Date(wedding.wedding.date);
   const dayNumber = weddingDate.toLocaleDateString(i18n.language, {
@@ -90,33 +108,34 @@ export default function Home() {
     <div className="home-hero">
       {/* HERO */}
       <div className="hero">
-        <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-          >
-            <h1>{coupleNames}</h1>
-          </motion.div>
-        </AnimatePresence>
+        <PageTitle>{coupleNames}</PageTitle>
         <span>
           <div className="hero-subtitle">
-            {t("subtitle", { ns: "home" })} <br />
+            {t(isPast ? "subtitlePast" : "subtitle", { ns: "home" })} <br />
           </div>
-          <div className="hero-body">{t("welcome", { ns: "home" })}</div>
+          <div className="hero-body">
+            {t(isPast ? "welcomePast" : "welcome", { ns: "home" })}{" "}
+            {isPast && showGalleryPreview && (
+              <Trans
+                i18nKey="welcomePastGalleryLink"
+                ns="home"
+                components={{
+                  galleryLink: (
+                    <Link to={buildLink("/gallery")} className="faq-link" />
+                  ),
+                }}
+              />
+            )}
+          </div>
         </span>
+        {showGalleryPreview && <HomeGalleryPreview images={galleryImages!} />}
         <ScrollChevron />
         <div className="hero-date">
-          <span
-            className={`horizontal-line ${showHorizontalLine ? "show" : ""}`}
-          />
-          <span className="date-month">{monthName}</span>|
-          <span className="date-daynum">{dayNumber}</span>|
-          <span className="date-year">{year}</span>
-          <span
-            className={`horizontal-line ${showHorizontalLine ? "show" : ""}`}
-          />
+          <span>
+            <span className="date-month">{monthName}</span>|
+            <span className="date-daynum">{dayNumber}</span>|
+            <span className="date-year">{year}</span>
+          </span>
         </div>
       </div>
 
@@ -153,6 +172,7 @@ export default function Home() {
             <FadeInSection delay={0.1}>
               <div className="schedule-preview">
                 <div className="schedule-header">
+                  <TodayBanner show={isToday && !isPast} />
                   <h3>
                     {t("scheduleTitle", {
                       ns: "home",
@@ -177,6 +197,7 @@ export default function Home() {
                     date={wedding.wedding.date}
                     time={wedding.wedding.ceremony.time}
                     size="sm"
+                    onCelebrate={() => setIsToday(true)}
                   />
                 </div>
                 <div className="timeline">
@@ -213,7 +234,9 @@ export default function Home() {
                               busReturnLocation:
                                 event.id === "busReturn" ||
                                 event.id === "busReturnLate"
-                                  ? event?.maps[0]?.extraCoordinates[0]?.label
+                                  ? event.maps?.find(
+                                      (m) => m.extraCoordinates?.length,
+                                    )?.extraCoordinates?.[0]?.label
                                   : "",
                               location: event.location,
                             }}
@@ -227,46 +250,51 @@ export default function Home() {
             </FadeInSection>
           )}
           {/* GUEST ESSENTIALS */}
-          <FadeInSection delay={0.1}>
-            <div className="guest-essentials">
-              <div className="essentials-grid">
-                <div className="essential-item">
-                  <ShoeIllustration />
-                  <span className="essential-item-body">
-                    <strong>
-                      {t("dressCode", {
-                        ns: "home",
-                        defaultValue: "Dress Code",
-                      })}
-                    </strong>
-                    <p>
-                      {t("dressCodeHint", {
-                        ns: "home",
-                        defaultValue: "Formal. No jeans, no flip-flops.",
-                      })}
-                    </p>
-                  </span>
-                </div>
-                <div className="essential-item">
-                  <HeartBoxIllustration />
-                  <span className="essential-item-body">
-                    <strong>
-                      {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
-                    </strong>
-                    <p>
-                      <Trans
-                        i18nKey="giftsHint"
-                        ns="home"
-                        components={{
-                          DonateButton: <DonateButton />,
-                        }}
-                      />
-                    </p>
-                  </span>
+          {!isPast && (
+            <FadeInSection delay={0.1}>
+              <div className="guest-essentials">
+                <div className="essentials-grid">
+                  <div className="essential-item">
+                    <ShoeIllustration />
+                    <span className="essential-item-body">
+                      <strong>
+                        {t("dressCode", {
+                          ns: "home",
+                          defaultValue: "Dress Code",
+                        })}
+                      </strong>
+                      <p>
+                        {t("dressCodeHint", {
+                          ns: "home",
+                          defaultValue: "Formal. No jeans, no flip-flops.",
+                        })}
+                      </p>
+                    </span>
+                  </div>
+                  <div className="essential-item">
+                    <HeartBoxIllustration />
+                    <span className="essential-item-body">
+                      <strong>
+                        {t("giftsLabel", {
+                          ns: "home",
+                          defaultValue: "Gifts",
+                        })}
+                      </strong>
+                      <p>
+                        <Trans
+                          i18nKey="giftsHint"
+                          ns="home"
+                          components={{
+                            DonateButton: <DonateButton />,
+                          }}
+                        />
+                      </p>
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </FadeInSection>
+            </FadeInSection>
+          )}
         </div>
         <img src="/images/wavey.svg" alt="wavey" />
       </div>
@@ -274,13 +302,24 @@ export default function Home() {
       {config.rsvp.enabled && (
         <FadeInSection delay={0.1}>
           <div className="rsvp-section">
-            <h2>{rsvpDeadline}</h2>
-            <p className="rsvp-intro">
-              <Trans i18nKey="rsvpIntro" ns="home" />
-            </p>
-            <button onClick={handleRSVP} className="cta-btn">
-              {t("rsvp", { ns: "home" })}
-            </button>
+            {isPast ? (
+              <>
+                <h2>{t("rsvpClosedTitle", { ns: "home" })}</h2>
+                <p className="rsvp-intro">
+                  {t("rsvpClosedMessage", { ns: "home" })}
+                </p>
+              </>
+            ) : (
+              <>
+                <h2>{rsvpDeadline}</h2>
+                <p className="rsvp-intro">
+                  <Trans i18nKey="rsvpIntro" ns="home" />
+                </p>
+                <Button size="lg" onClick={handleRSVP}>
+                  {t("rsvp", { ns: "home" })}
+                </Button>
+              </>
+            )}
           </div>
         </FadeInSection>
       )}
@@ -301,19 +340,28 @@ export default function Home() {
         <FadeInSection delay={0.1}>
           <div className="contact-section">
             <HeartSpeechBubbleIllustration />
-            <h4>
-              {t("questionsTitle", { ns: "home", defaultValue: "Questions?" })}
-            </h4>
+            {!isPast && (
+              <>
+                <h4>
+                  {t("questionsTitle", {
+                    ns: "home",
+                    defaultValue: "Questions?",
+                  })}
+                </h4>
 
-            <p className="questions-body">
-              <Trans
-                i18nKey="questionsBody"
-                ns="home"
-                components={{
-                  qaLink: <Link to={buildLink("/qa")} className="faq-link" />,
-                }}
-              />
-            </p>
+                <p className="questions-body">
+                  <Trans
+                    i18nKey="questionsBody"
+                    ns="home"
+                    components={{
+                      qaLink: (
+                        <Link to={buildLink("/qa")} className="faq-link" />
+                      ),
+                    }}
+                  />
+                </p>
+              </>
+            )}
             <div className="contacts-row">
               {wedding.contact.map((c, index) => {
                 const isFirst = index === 0;
@@ -341,7 +389,32 @@ export default function Home() {
           </div>
         </FadeInSection>
       )}
-      {config.underConstruction?.homeSection.enabled && (
+      {isPast && (
+        <FadeInSection delay={0.1}>
+          <div className="guest-essentials guest-essentials--gifts-only">
+            <div className="essentials-grid">
+              <div className="essential-item">
+                <HeartBoxIllustration />
+                <span className="essential-item-body">
+                  <strong>
+                    {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
+                  </strong>
+                  <p>
+                    <Trans
+                      i18nKey="giftsHint"
+                      ns="home"
+                      components={{
+                        DonateButton: <DonateButton />,
+                      }}
+                    />
+                  </p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </FadeInSection>
+      )}
+      {config.underConstruction?.homeSection.enabled && !isPast && (
         <FadeInSection delay={0.1}>
           <div className="under-construction">
             <h4>

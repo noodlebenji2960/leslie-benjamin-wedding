@@ -1,7 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router";
 import { useLenis } from "lenis/react";
 import { Icon } from "@/components/Icon";
+import { Button } from "@/components/Button";
 import { InlineReactionPicker } from "@/components/gallery/ReactionPicker";
 import { Toast } from "@/components/Toast";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
@@ -93,6 +95,47 @@ export function GalleryGrid({
   const touchStartX = useRef<number | null>(null);
   const committingRef = useRef(false);
 
+  // Track the open image by ID (set explicitly wherever lightboxIndex changes)
+  // so we can recover the index if the array shifts, without re-deriving it
+  // from images[lightboxIndex] reactively — that derivation races with array
+  // mutations (e.g. a deletion) when both land in the same effect flush.
+  const lightboxImageIdRef = useRef<string | null>(null);
+
+  // Sync the lightbox with ?photo=<id> in the URL: deep-link opens the
+  // photo once it's loaded, and opening/closing/navigating updates the URL.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const hasAppliedDeepLinkRef = useRef(false);
+  useEffect(() => {
+    if (hasAppliedDeepLinkRef.current) return;
+    if (lightboxIndex !== null) {
+      hasAppliedDeepLinkRef.current = true;
+      return;
+    }
+    const photoId = searchParams.get("photo");
+    if (!photoId || images.length === 0) return;
+    const index = images.findIndex((img) => img.id === photoId);
+    if (index !== -1) {
+      hasAppliedDeepLinkRef.current = true;
+      lightboxImageIdRef.current = photoId;
+      setLightboxIndex(index);
+    }
+  }, [searchParams, images, lightboxIndex]);
+
+  const setUrlPhoto = useCallback(
+    (id: string | null) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (id) next.set("photo", id);
+          else next.delete("photo");
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
+
   // Stop the lenis-driven page scroll while the lightbox is open
   const lenis = useLenis(() => {});
   useEffect(() => {
@@ -100,12 +143,6 @@ export function GalleryGrid({
     lightboxIndex !== null ? lenis.stop() : lenis.start();
   }, [lightboxIndex, lenis]);
   useEffect(() => () => lenis?.start(), [lenis]);
-
-  // Keep track of open image by ID so we can recover index when array shifts
-  const lightboxImageIdRef = useRef<string | null>(null);
-  useEffect(() => {
-    lightboxImageIdRef.current = lightboxIndex !== null ? (images[lightboxIndex]?.id ?? null) : null;
-  });
 
   // If the open image was deleted, close lightbox; if array shifted, re-sync index
   useEffect(() => {
@@ -117,6 +154,7 @@ export function GalleryGrid({
       setLightboxIndex(null);
       setDragOffset(0);
       setTransitioning(false);
+      setUrlPhoto(null);
     } else if (newIndex !== lightboxIndex) {
       setLightboxIndex(newIndex);
     }
@@ -171,11 +209,13 @@ export function GalleryGrid({
   }, [lightboxIndex, images, reactionDetails, fetchReactionDetails]);
 
   const closeLightbox = useCallback(() => {
+    lightboxImageIdRef.current = null;
     setLightboxIndex(null);
     setDragOffset(0);
     setTransitioning(false);
     setLightboxPickerOpen(false);
-  }, []);
+    setUrlPhoto(null);
+  }, [setUrlPhoto]);
 
   const navigate = useCallback(
     (direction: 1 | -1, fromSwipe = false) => {
@@ -185,6 +225,9 @@ export function GalleryGrid({
         if (prev === null) return prev;
         const next = prev + direction;
         if (next < 0 || next >= images.length) return prev;
+
+        lightboxImageIdRef.current = images[next]?.id ?? null;
+        setUrlPhoto(images[next]?.id ?? null);
 
         if (!fromSwipe) {
           return next;
@@ -205,7 +248,7 @@ export function GalleryGrid({
         return next;
       });
     },
-    [images.length],
+    [images, setUrlPhoto],
   );
 
   // keyboard navigation
@@ -348,9 +391,11 @@ export function GalleryGrid({
         toggleSelect(img.id);
         return;
       }
+      lightboxImageIdRef.current = img.id;
       setLightboxIndex(index);
+      setUrlPhoto(img.id);
     },
-    [pickerOpenId, selectionMode, toggleSelect],
+    [pickerOpenId, selectionMode, toggleSelect, setUrlPhoto],
   );
 
   // ── render ────────────────────────────────
@@ -394,39 +439,33 @@ export function GalleryGrid({
             <span className="gallery-grid__toolbar-count">
               {t("selection.count", { count: selectedIds.size })}
             </span>
-            <button
-              type="button"
-              className="gallery-grid__toolbar-btn"
-              onClick={selectAll}
-            >
+            <Button variant="secondary" size="md" onClick={selectAll}>
               {t("selection.selectAll")}
-            </button>
-            <button
-              type="button"
-              className="gallery-grid__toolbar-btn"
-              onClick={clearSelection}
-            >
+            </Button>
+            <Button variant="secondary" size="md" onClick={clearSelection}>
               {t("selection.clear")}
-            </button>
-            <button
-              type="button"
-              className="gallery-grid__toolbar-btn gallery-grid__toolbar-btn--primary"
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
+              state={downloading ? "loading" : "idle"}
+              loadingChildren={t("selection.downloading")}
               onClick={() => void handleDownload()}
-              disabled={downloading}
             >
-              {downloading ? t("selection.downloading") : t("selection.download")}
-            </button>
+              {t("selection.download")}
+            </Button>
           </>
         ) : (
-          <button
-            type="button"
-            className="gallery-grid__toolbar-btn"
+          <Button
+            variant="secondary"
+            size="md"
+            state={downloading ? "loading" : "idle"}
+            loadingChildren={t("selection.downloading")}
             onClick={() => void handleDownload()}
-            disabled={downloading}
           >
             <Icon.Download size={14} />
-            {downloading ? t("selection.downloading") : t("selection.downloadAll")}
-          </button>
+            {t("selection.downloadAll")}
+          </Button>
         )}
       </div>
 

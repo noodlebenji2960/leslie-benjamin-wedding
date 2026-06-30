@@ -486,45 +486,11 @@
     gap: $space-sm;
     padding: $space-sm 0 0;
   }
-}
 
-.gallery-upload__confirm-btn,
-.gallery-upload__cancel-btn {
-  margin: 0;
-  appearance: none;
-  border: none;
-  border-radius: $radius-sm;
-  padding: $space-sm $space-md;
-  font-family: $font-body;
-  font-size: $font-size-md;
-  font-weight: $fw-semibold;
-  cursor: pointer;
-  transition: all $transition-base;
-  display: inline-flex;
-  align-items: center;
-  gap: $space-xs;
-  text-transform: capitalize;
-
-  @media (max-width: $bp-sm) {
-    padding: $space-xs $space-sm;
-    font-size: $font-size-sm;
+  // Cancel is always the last .btn in this row — push it to the far end
+  .btn:last-child {
+    margin-left: auto;
   }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.75;
-  }
-}
-
-.gallery-upload__cancel-btn {
-  margin-left: auto;
-  background: none;
-  color: $color-text;
-}
-
-.gallery-upload__confirm-btn:not(:disabled) {
-  background: $color-primary;
-  color: $color-white;
 }
 
 .gallery-upload__input {
@@ -704,6 +670,13 @@
   color: var(--color-text-muted, var(--color-secondary));
 }
 
+.server-status-detail__code {
+  margin-left: $space-xs;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted, var(--color-secondary));
+}
+
 // ─────────────────────────────────────────────
 // Floating Camera Button (NEW)
 // ─────────────────────────────────────────────
@@ -766,40 +739,6 @@
   font-size: $font-size-sm;
   color: $color-secondary;
   margin-right: auto;
-}
-
-.gallery-grid__toolbar-btn {
-  display: flex;
-  align-items: center;
-  gap: $space-xs;
-  padding: $space-xs $space-md;
-  border: 1px solid $color-border;
-  border-radius: $radius-sm;
-  background: $color-white;
-  font-size: $font-size-sm;
-  color: $color-text;
-  cursor: pointer;
-  transition: all $transition-base;
-
-  &:hover:not(:disabled) {
-    border-color: $color-primary;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  &--primary {
-    background: $color-primary;
-    border-color: $color-primary;
-    color: $color-white;
-
-    &:hover:not(:disabled) {
-      background: $color-primary;
-      opacity: 0.9;
-    }
-  }
 }
 
 .gallery-grid {
@@ -955,8 +894,11 @@
 }
 
 .gallery-grid__empty-icon {
-  color: $color-accent;
-  opacity: 0.5;
+  height: auto;
+  width: 10vw;
+  color: $color-secondary-tint;
+  opacity: 0.25;
+  margin-bottom: $space-lg;
 }
 
 .gallery-grid__sentinel {

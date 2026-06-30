@@ -1,47 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal } from "@/components/Modal";
-import { Icon } from "@/components/Icon";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL as string;
-const POLL_INTERVAL = 30_000;
-
-type ServerState = "checking" | "ok" | "degraded" | "down";
-
-interface HealthResponse {
-  status: string;
-  db: string;
-  timestamp: string;
-}
+import { useServer } from "@/contexts/ServerContext";
 
 export function ServerStatus() {
   const { t } = useTranslation("gallery");
-  const [state, setState] = useState<ServerState>("checking");
-  const [health, setHealth] = useState<HealthResponse | null>(null);
+  const { healthState, health, healthStatusCode, checkHealth } = useServer();
   const [isOpen, setIsOpen] = useState(false);
-
-  const checkHealth = useCallback(async () => {
-    if (!API_BASE) {
-      setState("down");
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_BASE}/health`);
-      const data: HealthResponse = await res.json();
-      setHealth(data);
-      setState(res.ok ? "ok" : "degraded");
-    } catch {
-      setHealth(null);
-      setState("down");
-    }
-  }, []);
-
-  useEffect(() => {
-    void checkHealth();
-    const id = setInterval(() => void checkHealth(), POLL_INTERVAL);
-    return () => clearInterval(id);
-  }, [checkHealth]);
 
   const handleOpen = () => {
     void checkHealth();
@@ -56,7 +21,7 @@ export function ServerStatus() {
         onClick={handleOpen}
         aria-label={t("status.label")}
       >
-        <span className={`server-status__dot server-status__dot--${state}`} />
+        <span className={`server-status__dot server-status__dot--${healthState}`} />
         {t("status.label")}
       </button>
 
@@ -67,22 +32,23 @@ export function ServerStatus() {
       >
         <div className="server-status-detail">
           <p className="server-status-detail__row">
-            <span className={`server-status__dot server-status__dot--${state}`} />
-            {t(`status.${state}`)}
+            <span className={`server-status__dot server-status__dot--${healthState}`} />
+            {t(`status.${healthState}`)}
+            {healthState !== "checking" && (
+              <span className="server-status-detail__code">
+                {healthStatusCode !== null
+                  ? t("status.httpCode", { code: healthStatusCode })
+                  : t("status.noResponse")}
+              </span>
+            )}
           </p>
 
           {health && (
-            <>
-              <p className="server-status-detail__row">
-                <Icon.Checklist size={16} />
-                {t("status.database")}: {t(`status.db.${health.db}`)}
-              </p>
-              <p className="server-status-detail__timestamp">
-                {t("status.lastChecked", {
-                  time: new Date(health.timestamp).toLocaleTimeString(),
-                })}
-              </p>
-            </>
+            <p className="server-status-detail__timestamp">
+              {t("status.lastChecked", {
+                time: new Date(health.timestamp).toLocaleTimeString(),
+              })}
+            </p>
           )}
         </div>
       </Modal>

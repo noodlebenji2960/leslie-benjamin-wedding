@@ -406,8 +406,9 @@ app.get(
 app.get("/health", async (_req, res) => {
   const dbConnected = mongoose.connection.readyState === 1;
   const s3Reachable = await checkS3Reachable();
-  res.json({
-    status: dbConnected && s3Reachable ? "ok" : "degraded",
+  const ok = dbConnected && s3Reachable;
+  res.status(ok ? 200 : 503).json({
+    status: ok ? "ok" : "degraded",
     db: dbConnected ? "connected" : "disconnected",
     s3Reachable,
     timestamp: new Date().toISOString(),

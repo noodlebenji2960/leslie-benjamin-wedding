@@ -43,7 +43,7 @@ beforeEach(() => {
 describe("GET /health", () => {
   it("reports degraded when the DB isn't connected", async () => {
     const res = await request(app).get("/health");
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(503);
     expect(res.body.db).toBe("disconnected");
     expect(res.body.s3Reachable).toBe(true);
     expect(res.body.status).toBe("degraded");
