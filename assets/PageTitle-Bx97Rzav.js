@@ -1,1 +1,0 @@
-import{j as o}from"./jsx-runtime-u17CrQMm.js";import{m as a}from"./proxy-B3I4XYwM.js";function e({children:i,className:t}){return o.jsx(a.h1,{className:`page-title${t?` ${t}`:""}`,initial:{opacity:0,y:-20},animate:{opacity:1,y:0},transition:{duration:.6},children:i})}export{e as P};
