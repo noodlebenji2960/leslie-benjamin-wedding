@@ -37,6 +37,7 @@ html {
     pointer-events: none;
   }
 
+
   &:has(.home-hero)::before {
     background: url("/images/hojas.png");
     background-repeat: no-repeat;
@@ -60,6 +61,20 @@ html {
       height: 50vw;
       background-size: auto 100%;
     }
+  }
+}
+
+html[data-theme="dark"]::after,
+html[data-theme="dark"]:has(.home-hero)::before {
+  mix-blend-mode: color-dodge;
+  opacity: 0.1;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"])::after,
+  html:not([data-theme="light"]):has(.home-hero)::before {
+    mix-blend-mode: color-dodge;
+    opacity: 0.1;
   }
 }
 
@@ -245,7 +260,7 @@ label {
   gap: 0;
 
   .inner-wavey-wrapper{
-    background-color: oklab(94.571% -0.0006 0.00944);
+    background-color: $color-background-alt;
     padding-bottom: calc($space-3xl  * 2);
   }
 

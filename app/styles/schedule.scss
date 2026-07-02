@@ -348,7 +348,7 @@
 .schedule-event-opposite-img {
   flex: 0 0 calc(25% - #{$space-sm});
   max-width: calc(25% - #{$space-sm});
-  background: #fff;
+  background: $color-white;
   padding: $space-sm $space-sm calc(#{$space-sm} * 3);
   box-shadow:
     0 4px 18px rgba(0, 0, 0, 0.14),
