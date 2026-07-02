@@ -270,7 +270,17 @@ export default function Home() {
                 <ChampagneIllustration />
                 <span className="essential-item-body">
                   <strong>{t("stayLabel", { ns: "home" })}</strong>
-                  <p>{t("stayHint", { ns: "home" })}</p>
+                  <p>
+                    <Trans
+                      i18nKey="stayHint"
+                      ns="home"
+                      components={{
+                        qaLink: (
+                          <Link to={buildLink("/qa?q=hotels")} className="faq-link" />
+                        ),
+                      }}
+                    />
+                  </p>
                 </span>
               </div>
             </div>

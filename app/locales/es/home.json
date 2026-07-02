@@ -26,7 +26,7 @@
   "giftsLabel": "Regalos",
   "giftsHint": "<1>Si quieres contribuir</1>, <DonateButton />.",
   "stayLabel": "Dónde alojarse",
-  "stayHint": "Recomendamos el Hotel San Camilo — a poca distancia del lugar.",
+  "stayHint": "Consulta nuestros <qaLink>hoteles recomendados</qaLink> en las preguntas frecuentes.",
   "questionsBody": "Si tienes alguna pregunta, no dudes en llamarnos, escribirnos o consulta <qaLink>la pagina de preguntas</qaLink>.",
   "featureLabels": {
     "rsvp": "Confirmación de asistencia",
