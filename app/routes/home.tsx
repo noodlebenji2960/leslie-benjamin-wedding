@@ -187,52 +187,6 @@ export default function Home() {
             </FadeInSection>
           )}
 
-          {/* GUEST ESSENTIALS */}
-          {!isPast && (
-            <FadeInSection delay={0.1}>
-              <div className="guest-essentials">
-                <div className="essentials-grid">
-                  <div className="essential-item">
-                    <ShoeIllustration />
-                    <span className="essential-item-body">
-                      <strong>
-                        {t("dressCode", {
-                          ns: "home",
-                          defaultValue: "Dress Code",
-                        })}
-                      </strong>
-                      <p>
-                        {t("dressCodeHint", {
-                          ns: "home",
-                          defaultValue: "Formal. No jeans, no flip-flops.",
-                        })}
-                      </p>
-                    </span>
-                  </div>
-                  <div className="essential-item">
-                    <HeartBoxIllustration />
-                    <span className="essential-item-body">
-                      <strong>
-                        {t("giftsLabel", {
-                          ns: "home",
-                          defaultValue: "Gifts",
-                        })}
-                      </strong>
-                      <p>
-                        <Trans
-                          i18nKey="giftsHint"
-                          ns="home"
-                          components={{
-                            DonateButton: <DonateButton />,
-                          }}
-                        />
-                      </p>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </FadeInSection>
-          )}
         </div>
         <img src="/images/wavey.svg" alt="wavey" />
       </div>
@@ -273,6 +227,53 @@ export default function Home() {
               {t("ourStoryBody", { ns: "home" })}
             </p>
             <Carousel photos={photos} />
+          </div>
+        </FadeInSection>
+      )}
+
+      {/* GUEST ESSENTIALS */}
+      {!isPast && (
+        <FadeInSection delay={0.1}>
+          <div className="guest-essentials">
+            <div className="essentials-grid">
+              <div className="essential-item">
+                <ShoeIllustration />
+                <span className="essential-item-body">
+                  <strong>
+                    {t("dressCode", {
+                      ns: "home",
+                      defaultValue: "Dress Code",
+                    })}
+                  </strong>
+                  <p>
+                    {t("dressCodeHint", {
+                      ns: "home",
+                      defaultValue: "Formal. No jeans, no flip-flops.",
+                    })}
+                  </p>
+                </span>
+              </div>
+              <div className="essential-item">
+                <HeartBoxIllustration />
+                <span className="essential-item-body">
+                  <strong>
+                    {t("giftsLabel", {
+                      ns: "home",
+                      defaultValue: "Gifts",
+                    })}
+                  </strong>
+                  <p>
+                    <Trans
+                      i18nKey="giftsHint"
+                      ns="home"
+                      components={{
+                        DonateButton: <DonateButton />,
+                      }}
+                    />
+                  </p>
+                </span>
+              </div>
+            </div>
           </div>
         </FadeInSection>
       )}
