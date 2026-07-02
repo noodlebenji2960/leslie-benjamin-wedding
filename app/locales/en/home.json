@@ -25,6 +25,8 @@
   "familyHint": "Children welcome with kids area.",
   "giftsLabel": "Gifts",
   "giftsHint": "<1>If you'd like to contribute</1>, <DonateButton />.",
+  "stayLabel": "Where to Stay",
+  "stayHint": "We recommend Hotel San Camilo — a short drive from the venue.",
   "questionsBody": "If you have any questions, feel free to call us, write to us, or check <qaLink>the questions page</qaLink>.",
   "featureLabels": {
     "rsvp": "RSVP",

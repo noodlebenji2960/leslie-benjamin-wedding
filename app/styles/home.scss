@@ -351,10 +351,9 @@
   background: $color-white;
 
   h2 {
-    
     font-size: clamp(1.4rem, 3vw, 1.9rem);
-    font-weight: $fw-medium;
-    color: $color-accent;
+    font-weight: $fw-bold;
+    color: $color-secondary;
     margin-bottom: $space-md;
   }
 
@@ -429,15 +428,15 @@
 // ─────────────────────────────────────────────
 
 .guest-essentials {
-  max-width: 640px;
+  max-width: 760px;
   margin: 0 auto;
   padding: $space-xl $space-lg;
 }
 
 .essentials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: $space-xl;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-xl $space-lg;
 }
 
 .essential-item {
@@ -662,7 +661,6 @@
   .rsvp-section { margin: $space-lg $space-md; }
 
   .essentials-grid {
-    grid-template-columns: 1fr 1fr;
     gap: $space-lg;
   }
 

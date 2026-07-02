@@ -14,6 +14,8 @@ import { PageTitle } from "@/components/PageTitle";
 import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
 import { ReactComponent as HeartSpeechBubbleIllustration } from "../images/heartSpeechBubble.svg";
+import { ReactComponent as BirdyIllustration } from "../images/birdy.svg";
+import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
 import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Fragment } from "react/jsx-runtime";
 import Carousel from "@/components/Carousel";
@@ -232,7 +234,7 @@ export default function Home() {
         </FadeInSection>
       )}
 
-      {/* GUEST ESSENTIALS — dress code + gifts */}
+      {/* GUEST ESSENTIALS — dress code, gifts, family, accommodation */}
       {!isPast && (
         <FadeInSection delay={0.1}>
           <div className="guest-essentials">
@@ -242,6 +244,13 @@ export default function Home() {
                 <span className="essential-item-body">
                   <strong>{t("dressCode", { ns: "home" })}</strong>
                   <p>{t("dressCodeHint", { ns: "home" })}</p>
+                </span>
+              </div>
+              <div className="essential-item">
+                <BirdyIllustration />
+                <span className="essential-item-body">
+                  <strong>{t("familyWelcome", { ns: "home" })}</strong>
+                  <p>{t("familyHint", { ns: "home" })}</p>
                 </span>
               </div>
               <div className="essential-item">
@@ -255,6 +264,13 @@ export default function Home() {
                       components={{ DonateButton: <DonateButton /> }}
                     />
                   </p>
+                </span>
+              </div>
+              <div className="essential-item">
+                <ChampagneIllustration />
+                <span className="essential-item-body">
+                  <strong>{t("stayLabel", { ns: "home" })}</strong>
+                  <p>{t("stayHint", { ns: "home" })}</p>
                 </span>
               </div>
             </div>
