@@ -31,6 +31,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      margin-top: $space-xs;
       margin-bottom: $space-lg;
     }
 
@@ -64,10 +65,17 @@
     margin: auto;
   }
 
+  .countdown-card {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   .page-title {
     max-width: 100vw;
     position: relative;
     z-index: -1;
+    margin-bottom: $space-sm;
 
     i {
       position: relative;
