@@ -14,13 +14,22 @@
 
 .back-to-top {
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  width: 0;
+  padding: 0;
+  border: none;
+  margin-left: calc(-1 * $space-sm);
+  overflow: hidden;
+  transition: opacity 0.5s ease-in-out, width 0.3s ease, padding 0.3s ease, border 0.3s ease, margin 0.3s ease;
 }
 .back-to-top.visible {
   opacity: 0.2;
+  width: 34px;
+  padding: revert;
+  border: 1px solid $color-text;
+  margin-left: 0;
   pointer-events: auto;
 
-    &:hover {
+  &:hover {
     opacity: 1;
   }
 }

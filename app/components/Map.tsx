@@ -22,6 +22,7 @@ type MapProps = {
   }[];
   /** When provided, renders these custom-icon markers instead of the default single pin */
   markers?: WeatherMarker[];
+  onMarkerClick?: (id: string) => void;
   mapUrl?: string;
   width?: string;
   height?: string;
@@ -38,6 +39,7 @@ const Map: React.FC<MapProps> = ({
   coordinates,
   extraCoordinates,
   markers,
+  onMarkerClick,
   mapUrl,
   width = "100%",
   height = "300px",
@@ -234,6 +236,7 @@ const Map: React.FC<MapProps> = ({
                     iconSize: [size, size],
                     iconAnchor: [half, half],
                   })}
+                  eventHandlers={onMarkerClick ? { click: () => onMarkerClick(m.id) } : undefined}
                 />
               );
             })

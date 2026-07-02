@@ -4,7 +4,10 @@ import Map from "@/components/Map";
 import { Icon } from "@/components/Icon";
 import { FadeInSection } from "@/components/FadeInsection";
 import { PageTitle } from "@/components/PageTitle";
-import { useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useEffect, useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useFixedSlot } from "@/contexts/LayoutContext";
+import { useLenis } from "lenis/react";
 import ScrollChevron from "@/components/ScrollDown";
 import type { Route } from "./+types/schedule";
 import { Countdown } from "@/components/Countdown";
@@ -32,9 +35,7 @@ const Schedule = () => {
   const [isPast] = useIsWeddingOver(wedding.wedding.date);
 
   const weddingDate = new Date(wedding.wedding.date);
-  const weekday = weddingDate.toLocaleDateString(i18n.language, {
-    weekday: "long",
-  });
+  const weekday = weddingDate.toLocaleDateString(i18n.language, { weekday: "long" });
   const fullDate = weddingDate.toLocaleDateString(i18n.language, {
     year: "numeric",
     month: "long",
@@ -42,15 +43,48 @@ const Schedule = () => {
   });
   const eyebrowDate = `${weekday.charAt(0).toUpperCase()}${weekday.slice(1)} · ${fullDate}`;
 
-  const timelineRef = useRef<HTMLDivElement>(null); // points at schedule-timeline-wrapper
+  const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+
+  const allCollapsed = events.length > 0 && openIds.size === 0;
+  const isHorizontal = allCollapsed;
+  const lenis = useLenis();
+
+  const toggleAll = useCallback((scrollToTop = true) => {
+    setOpenIds(allCollapsed ? new Set(events.map((e) => e.id)) : new Set());
+    if (scrollToTop) lenis?.scrollTo(0, { duration: 1 });
+  }, [allCollapsed, events, lenis]);
+
+  const collapseSlot = useMemo(
+    () => (
+      <button className="schedule-collapse-btn" onClick={() => toggleAll()}>
+        {allCollapsed
+          ? t("schedule:expandAll", "Expand all")
+          : t("schedule:collapseAll", "Collapse all")}
+        <div className="border" />
+      </button>
+    ),
+    [toggleAll, allCollapsed, t],
+  );
+
+  useFixedSlot(collapseSlot);
+
+  // ── Refs ──────────────────────────────────────────────────────
+  const timelineRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const dotLabelRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const nodeStateRefs = useRef<(HTMLDivElement | null)[]>([]);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const lastClientY = useRef<number>(0);
+  const lastClientX = useRef<number>(0);
+  const isHorizontalRef = useRef(isHorizontal);
+  const pendingScrollId = useRef<string | null>(null);
 
-  // Convert "HH:MM" to total minutes, treating post-midnight as next day
+  useEffect(() => {
+    isHorizontalRef.current = isHorizontal;
+  }, [isHorizontal]);
+
+  // ── Time helpers ──────────────────────────────────────────────
   const timeToMinutes = (time: string) => {
     const [h, m] = time.split(":").map(Number);
     return (h < 6 ? h + 24 : h) * 60 + m;
@@ -62,7 +96,8 @@ const Schedule = () => {
     return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
   };
 
-  const updateDot = useCallback(
+  // ── Vertical tracker ──────────────────────────────────────────
+  const updateDotVertical = useCallback(
     (clientY: number) => {
       const timeline = timelineRef.current;
       const dot = dotRef.current;
@@ -75,7 +110,6 @@ const Schedule = () => {
 
       if (!label || events.length < 2) return;
 
-      // Get the Y centre of each node relative to the timeline
       const nodePositions = nodeRefs.current
         .map((el) => {
           if (!el) return null;
@@ -86,60 +120,33 @@ const Schedule = () => {
 
       if (nodePositions.length < 2) return;
 
-      // Pin the timeline line to first and last node centres
       timeline.style.setProperty("--timeline-start", `${nodePositions[0]}px`);
-      timeline.style.setProperty(
-        "--timeline-end",
-        `${nodePositions[nodePositions.length - 1]}px`,
-      );
+      timeline.style.setProperty("--timeline-end", `${nodePositions[nodePositions.length - 1]}px`);
 
       const times = events.map((e) => timeToMinutes(e.time));
-
       const firstY = nodePositions[0];
       const lastY = nodePositions[nodePositions.length - 1];
-
-      // Split the line at the cursor, clamped to the node range
       const splitY = Math.min(Math.max(y, firstY), lastY);
       timeline.style.setProperty("--split-y", `${splitY - 18}px`);
 
-      // Update past/active/upcoming states on node inner elements only —
-      // keeping state classes isolated from FadeInSection cards.
-      // A node is "active" while the cursor is within its card's bounds,
-      // "past" once the cursor has passed the card bottom, and "upcoming" before.
-      const updateRowStates = (activeY: number) => {
-        nodeStateRefs.current.forEach((node, i) => {
-          if (!node) return;
-          node.classList.remove(
-            "schedule-event--past",
-            "schedule-event--active",
-            "schedule-event--upcoming",
-          );
-          const card = cardRefs.current[i];
-          if (card) {
-            const r = card.getBoundingClientRect();
-            const cardTop = r.top - top;
-            const cardBottom = r.bottom - top;
-            if (activeY > cardBottom) {
-              node.classList.add("schedule-event--past");
-            } else if (activeY >= cardTop) {
-              node.classList.add("schedule-event--active");
-            } else {
-              node.classList.add("schedule-event--upcoming");
-            }
-          } else {
-            const nodeY = nodePositions[i];
-            if (nodeY < activeY) {
-              node.classList.add("schedule-event--past");
-            } else {
-              node.classList.add("schedule-event--upcoming");
-            }
-          }
-        });
-      };
+      nodeStateRefs.current.forEach((node, i) => {
+        if (!node) return;
+        node.classList.remove("schedule-event--past", "schedule-event--active", "schedule-event--upcoming");
+        const card = cardRefs.current[i];
+        if (card) {
+          const r = card.getBoundingClientRect();
+          const cardTop = r.top - top;
+          const cardBottom = r.bottom - top;
+          if (y > cardBottom) node.classList.add("schedule-event--past");
+          else if (y >= cardTop) node.classList.add("schedule-event--active");
+          else node.classList.add("schedule-event--upcoming");
+        } else {
+          nodePositions[i] < y
+            ? node.classList.add("schedule-event--past")
+            : node.classList.add("schedule-event--upcoming");
+        }
+      });
 
-      updateRowStates(y);
-
-      // Hide dot + label outside the node range
       if (y < firstY || y > lastY) {
         dot.style.opacity = "0";
         label.style.opacity = "0";
@@ -149,7 +156,6 @@ const Schedule = () => {
       dot.style.opacity = "1";
       label.style.opacity = "1";
 
-      // Find which segment the dot sits in and interpolate
       let interpolated = times[0];
       for (let i = 0; i < nodePositions.length - 1; i++) {
         const y0 = nodePositions[i];
@@ -161,242 +167,458 @@ const Schedule = () => {
         }
       }
 
-
       label.textContent = minutesToTime(interpolated);
     },
     [events],
   );
 
+  const isMobileCollapsed = () =>
+    isHorizontalRef.current && window.matchMedia("(max-width: 680px)").matches;
+
+  // ── Collapsed horizontal tracker ──────────────────────────────
+  const updateDotHorizontal = useCallback(
+    (clientX: number) => {
+      const timeline = timelineRef.current;
+      const dot = dotRef.current;
+      const label = dotLabelRef.current;
+      if (!timeline || !dot) return;
+
+      const { left, width } = timeline.getBoundingClientRect();
+      const x = Math.min(Math.max(clientX - left, 0), width);
+      dot.style.setProperty("--dot-x", `${x}px`);
+
+      if (!label || events.length < 2) return;
+
+      const nodePositions = nodeRefs.current
+        .map((el) => {
+          if (!el) return null;
+          const r = el.getBoundingClientRect();
+          return r.left + r.width / 2 - left;
+        })
+        .filter((v): v is number => v !== null);
+
+      if (nodePositions.length < 2) return;
+
+      timeline.style.setProperty("--timeline-start-x", `${nodePositions[0]}px`);
+      timeline.style.setProperty("--timeline-end-x", `${nodePositions[nodePositions.length - 1]}px`);
+
+      const firstX = nodePositions[0];
+      const lastX = nodePositions[nodePositions.length - 1];
+      const splitX = Math.min(Math.max(x, firstX), lastX);
+      timeline.style.setProperty("--split-x", `${splitX}px`);
+
+      nodeStateRefs.current.forEach((node, i) => {
+        if (!node) return;
+        node.classList.remove("schedule-event--past", "schedule-event--active", "schedule-event--upcoming");
+        const nodeX = nodePositions[i];
+        if (nodeX < splitX) node.classList.add("schedule-event--past");
+        else if (Math.abs(nodeX - splitX) < 30) node.classList.add("schedule-event--active");
+        else node.classList.add("schedule-event--upcoming");
+      });
+    },
+    [events],
+  );
+
+  // ── Collapsed vertical tracker (mobile) ───────────────────────
+  const updateDotVerticalCollapsed = useCallback(
+    (clientY: number) => {
+      const timeline = timelineRef.current;
+      if (!timeline || events.length < 2) return;
+
+      const { top } = timeline.getBoundingClientRect();
+      const y = Math.min(Math.max(clientY - top, 0), timeline.offsetHeight);
+
+      const nodeRects = nodeRefs.current
+        .map((el) => el ? el.getBoundingClientRect() : null)
+        .filter((r): r is DOMRect => r !== null);
+
+      if (nodeRects.length < 2) return;
+
+      const nodeCentres = nodeRects.map((r) => r.top + r.height / 2 - top);
+      const lineStart = nodeRects[0].bottom - top;
+      const lineEnd = nodeRects[nodeRects.length - 1].top - top;
+
+      timeline.style.setProperty("--timeline-start-y", `${lineStart}px`);
+      timeline.style.setProperty("--timeline-end-y", `${lineEnd}px`);
+
+      const splitY = Math.min(Math.max(y, lineStart), lineEnd);
+      timeline.style.setProperty("--split-y", `${splitY}px`);
+
+      nodeStateRefs.current.forEach((node, i) => {
+        if (!node) return;
+        node.classList.remove("schedule-event--past", "schedule-event--active", "schedule-event--upcoming");
+        const nodeY = nodeCentres[i];
+        if (nodeY < splitY) node.classList.add("schedule-event--past");
+        else if (Math.abs(nodeY - splitY) < 30) node.classList.add("schedule-event--active");
+        else node.classList.add("schedule-event--upcoming");
+      });
+    },
+    [events],
+  );
+
+  const updateTracker = useCallback(
+    (clientX: number, clientY: number) => {
+      if (!isHorizontalRef.current) { updateDotVertical(clientY); return; }
+      if (isMobileCollapsed()) updateDotVerticalCollapsed(clientY);
+      else updateDotHorizontal(clientX);
+    },
+    [updateDotHorizontal, updateDotVertical, updateDotVerticalCollapsed],
+  );
+
+  // ── Event handlers ────────────────────────────────────────────
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
       lastClientY.current = e.clientY;
-      updateDot(e.clientY);
+      lastClientX.current = e.clientX;
+      updateTracker(e.clientX, e.clientY);
     },
-    [updateDot],
+    [updateTracker],
   );
 
-  // On touch devices the dot stays pinned to the viewport centre and tracks
-  // scroll position, rather than following the finger like the cursor does.
   const handleTouchMove = useCallback(() => {
-    updateDot(window.innerHeight / 2);
-  }, [updateDot]);
+    if (isHorizontalRef.current) {
+      // horizontal touch: use viewport centre horizontally
+      const timeline = timelineRef.current;
+      if (timeline) {
+        const { left, width } = timeline.getBoundingClientRect();
+        updateDotHorizontal(left + width / 2);
+      }
+    } else {
+      updateDotVertical(window.innerHeight / 2);
+    }
+  }, [updateDotHorizontal, updateDotVertical]);
 
   const handleMouseLeave = useCallback(() => {
     if (dotRef.current) dotRef.current.style.opacity = "0";
     if (dotLabelRef.current) dotLabelRef.current.style.opacity = "0";
     timelineRef.current?.style.removeProperty("--split-y");
+    timelineRef.current?.style.removeProperty("--split-x");
     nodeStateRefs.current.forEach((node) => {
       if (!node) return;
-      node.classList.remove(
-        "schedule-event--past",
-        "schedule-event--active",
-        "schedule-event--upcoming",
-      );
+      node.classList.remove("schedule-event--past", "schedule-event--active", "schedule-event--upcoming");
     });
   }, []);
 
-  // On touch/no-cursor devices, use viewport centre as the reference Y.
-  // On desktop, use the last known cursor position.
-  const referenceY = useCallback(
-    () =>
-      window.matchMedia("(hover: none) and (pointer: coarse)").matches
-        ? window.innerHeight / 2
-        : lastClientY.current,
-    [],
-  );
+  const referencePosition = useCallback(() => {
+    const isTouch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const timeline = timelineRef.current;
+    if (isHorizontalRef.current) {
+      if (isMobileCollapsed()) {
+        return { x: 0, y: isTouch && timeline ? timeline.getBoundingClientRect().top + timeline.offsetHeight / 2 : lastClientY.current };
+      }
+      if (!timeline) return { x: 0, y: 0 };
+      const { left, width } = timeline.getBoundingClientRect();
+      return { x: isTouch ? left + width / 2 : lastClientX.current, y: 0 };
+    }
+    return { x: lastClientX.current, y: isTouch ? window.innerHeight / 2 : lastClientY.current };
+  }, []);
 
-  // Initialize CSS vars on mount so the full future line renders before mouse interaction
   useEffect(() => {
-    updateDot(referenceY());
-  }, [updateDot, referenceY]);
+    const pos = referencePosition();
+    updateTracker(pos.x, pos.y);
+  }, [updateTracker, referencePosition]);
+
+  // Recalculate after expand/collapse animations settle
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const pos = referencePosition();
+      updateTracker(pos.x, pos.y);
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [openIds, updateTracker, referencePosition]);
+
+  // After switching to horizontal, scroll so the timeline is centred in the viewport
+  useEffect(() => {
+    if (!isHorizontal) return;
+    const timer = setTimeout(() => {
+      const el = timelineRef.current;
+      if (el && lenis) {
+        const offset = -(window.innerHeight / 2 - el.offsetHeight / 2);
+        lenis.scrollTo(el, { offset, lerp: 0.1 });
+      }
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [isHorizontal, lenis]);
+
+  // After switching from horizontal → vertical, scroll to the opened node.
+  // Needs 900ms: AnimatePresence runs exit (400ms) then enter (400ms) before
+  // the vertical refs are in the DOM and measurable.
+  useEffect(() => {
+    if (isHorizontal || !pendingScrollId.current) return;
+    const id = pendingScrollId.current;
+    pendingScrollId.current = null;
+    const timer = setTimeout(() => {
+      const index = events.findIndex((e) => e.id === id);
+      const el = nodeRefs.current[index];
+      if (el && lenis) {
+        const offset = -(window.innerHeight / 2 - el.offsetHeight / 2);
+        lenis.scrollTo(el, { offset, lerp: 0.1 });
+      }
+    }, 900); // wait for AnimatePresence fade + layout to settle
+    return () => clearTimeout(timer);
+  }, [isHorizontal, events, lenis]);
 
   useEffect(() => {
-    const onScroll = () => updateDot(referenceY());
+    const onScroll = () => {
+      const pos = referencePosition();
+      updateTracker(pos.x, pos.y);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [updateDot, referenceY]);
+  }, [updateTracker, referencePosition]);
 
+  // ── Render ────────────────────────────────────────────────────
   return (
     <div className="schedule-page">
-      {/* Page Header */}
       <div className="schedule-hero">
         <TodayBanner show={isToday && !isPast} />
         <PageTitle>{t("schedule:title", "The Day")}</PageTitle>
-        <p className="schedule-eyebrow">
-          <span>{eyebrowDate}</span>
-        </p>
-        <p className="schedule-subtitle">
-          {isPast
-            ? t(
-                "schedule:subtitlePast",
-                "Here's how our wedding day went, from start to finish.",
-              )
-            : t(
-                "schedule:subtitle",
-                "Everything you need to know about our wedding day, from start to finish.",
-              )}
-        </p>
         <Countdown
           date={wedding.wedding.date}
           time={wedding.wedding.ceremony.time}
           size="lg"
           onCelebrate={() => setIsToday(true)}
         />
-        <br />
+        <p className="schedule-eyebrow">
+          <span>{eyebrowDate}</span>
+        </p>
+        <p className="schedule-subtitle">
+          {isPast
+            ? t("schedule:subtitlePast", "Here's how our wedding day went, from start to finish.")
+            : t("schedule:subtitle", "Everything you need to know about our wedding day, from start to finish.")}
+        </p>
         <ScrollChevron />
       </div>
 
-      {/* Timeline */}
-      <div
-        className="schedule-timeline-wrapper"
-        ref={timelineRef}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        onTouchMove={handleTouchMove}
-      >
-        {/* Vertical line — two segments split at cursor position */}
-        <div className="schedule-nodes-line-past" />
-        <div className="schedule-nodes-line-future" />
+      <AnimatePresence mode="wait">
+        {isHorizontal ? (
+          /* ── COLLAPSED MODE ── */
+          <motion.div
+            key="collapsed"
+            className="schedule-timeline-wrapper schedule-timeline-wrapper--collapsed"
+            ref={timelineRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onTouchMove={handleTouchMove}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="schedule-nodes-line-past--collapsed" />
+            <div className="schedule-nodes-line-future--collapsed" />
 
-        {/* Tracking dot */}
-        <div
-          ref={dotRef}
-          className="schedule-timeline-dot"
-          style={{ "--dot-y": "0px", opacity: 0 } as React.CSSProperties}
-        >
-          <div
-            ref={dotLabelRef}
-            className="schedule-timeline-dot-label"
-            style={{ opacity: 0 }}
-          />
-        </div>
+            <div
+              ref={dotRef}
+              className="schedule-timeline-dot--collapsed"
+              style={{ "--dot-x": "0px", opacity: 0 } as React.CSSProperties}
+            >
+              <div
+                ref={dotLabelRef}
+                className="schedule-timeline-dot-label--collapsed"
+                style={{ opacity: 0 }}
+              />
+            </div>
 
-        {/* Unified timeline rows — node and card are siblings in the same grid row */}
-        <div className="schedule-timeline">
-          {events.map((event, index) => {
-            const isEven = index % 2 === 0;
-            const hasMaps = event.maps && event.maps.length > 0;
-
-            return (
-              <div key={event.id} className="schedule-event-row">
-                {/* Node — center column */}
-                <div
-                  className="schedule-event-node-inner"
-                  ref={(el) => {
-                    nodeRefs.current[index] = el;
-                    nodeStateRefs.current[index] = el;
-                  }}
-                >
-                  {event.icon && (
-                    <span className="schedule-event-icon">
-                      {event.icon
-                        .split(".")
-                        .reduce((acc: any, key: string) => acc[key], Icon)({
-                        size: 42,
-                      })}
-                    </span>
-                  )}
-                  <div className="schedule-event-time">{event.time}</div>
-                </div>
-
-                {/* Opposite-side slot — any content keyed by event id */}
-                {event.images && event.images.length > 0 && (
-                  <FadeInSection
-                    delay={index * 0.08 + 0.05}
-                    className={`schedule-event-opposite ${isEven ? "schedule-event-opposite--right" : "schedule-event-opposite--left"}`}
-                  >
-                    {event.images.map((image, i) => (
-                      <div
-                        className="schedule-event-opposite-img"
-                        key={`${event.id}-${i}`}
-                      >
-                        <img
-                          src={`${import.meta.env.BASE_URL}${image.replace(/^\//, "")}`}
-                          alt={event.id}
-                        />
-                      </div>
-                    ))}
-                  </FadeInSection>
-                )}
-
-                {/* Card — left or right column */}
-                <FadeInSection
-                  delay={index * 0.08}
-                  className={`schedule-event-card ${isEven ? "schedule-event-card--left" : "schedule-event-card--right"}`}
-                >
+            <div className="schedule-timeline--collapsed">
+              {events.map((event, index) => (
+                <div key={event.id} className="schedule-event-node-wrap">
                   <div
-                    className="schedule-event-card-inner"
+                    className="schedule-event-node-inner"
                     ref={(el) => {
-                      cardRefs.current[index] = el;
+                      nodeRefs.current[index] = el;
+                      nodeStateRefs.current[index] = el;
                     }}
+                    onClick={() => {
+                      pendingScrollId.current = event.id;
+                      toggleAll(false);
+                    }}
+                    style={{ cursor: "pointer" }}
+                    title={t(`schedule:events.${event.id}.title`, event.id)}
                   >
-                    <div className="schedule-event-header">
-                      <h2 className="schedule-event-title">
-                        {t(`schedule:events.${event.id}.title`, event.id)}
-                      </h2>
-                      {event.location && (
-                        <span className="schedule-event-location">
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            style={{ marginRight: "4px", flexShrink: 0 }}
-                          >
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                          </svg>
-                          {event.location}
+                    <span className="schedule-event-node-content">
+                      {event.icon && (
+                        <span className="schedule-event-icon">
+                          {event.icon
+                            .split(".")
+                            .reduce((acc: any, key: string) => acc[key], Icon)({ size: 32 })}
                         </span>
                       )}
+                      <div className="schedule-event-time">{event.time}</div>
+                    </span>
+                    <span className="schedule-event-node-hover-label">
+                      {t(`schedule:events.${event.id}.title`, event.id)}
+                    </span>
+                  </div>
+                  <div className="schedule-event-node-label">
+                    {t(`schedule:events.${event.id}.title`, event.id)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        ) : (
+          /* ── VERTICAL MODE ── */
+          <motion.div
+            key="vertical"
+            className="schedule-timeline-wrapper"
+            ref={timelineRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onTouchMove={handleTouchMove}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className="schedule-nodes-line-past" />
+            <div className="schedule-nodes-line-future" />
+
+            <div
+              ref={dotRef}
+              className="schedule-timeline-dot"
+              style={{ "--dot-y": "0px", opacity: 0 } as React.CSSProperties}
+            >
+              <div
+                ref={dotLabelRef}
+                className="schedule-timeline-dot-label"
+                style={{ opacity: 0 }}
+              />
+            </div>
+
+            <div className="schedule-timeline">
+              {events.map((event, index) => {
+                const isEven = index % 2 === 0;
+                const hasMaps = event.maps && event.maps.length > 0;
+                const isOpen = openIds.has(event.id);
+
+                return (
+                  <div key={event.id} className={`schedule-event-row${isOpen ? "" : " schedule-event-row--collapsed"}`}>
+                    <div
+                      className="schedule-event-node-inner"
+                      ref={(el) => {
+                        nodeRefs.current[index] = el;
+                        nodeStateRefs.current[index] = el;
+                      }}
+                    >
+                      {event.icon && (
+                        <span className="schedule-event-icon">
+                          {event.icon
+                            .split(".")
+                            .reduce((acc: any, key: string) => acc[key], Icon)({ size: 42 })}
+                        </span>
+                      )}
+                      <div className="schedule-event-time">{event.time}</div>
                     </div>
 
-                    <p className="schedule-event-desc">
-                      <Trans
-                        i18nKey={`schedule:events.${event.id}.${isPast ? "descriptionPast" : "description"}`}
-                        defaults=""
-                      />
-                    </p>
-
-                    {hasMaps && (
-                      <div className="schedule-maps">
-                        {event.maps?.map((mapConfig, mapIndex) => (
-                          <div key={mapIndex} className="schedule-map-wrap">
-                            <Map
-                              label={(mapConfig as any).label}
-                              coordinates={(mapConfig as any).coordinates}
-                              extraCoordinates={
-                                (mapConfig as any).extraCoordinates
-                              }
-                              mapUrl={(mapConfig as any).mapUrl}
-                              showRoute={(mapConfig as any).showRoute}
-                              interactive={(mapConfig as any).interactive}
-                              width="100%"
-                              height="220px"
-                              zoom={(mapConfig as any).zoom ?? 14}
-                            />
-                            {(mapConfig as any).mapUrl && (
-                              <a
-                                href={(mapConfig as any).mapUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="schedule-map-directions"
-                              >
-                                {t("common:getDirections", "Get directions")} →
-                              </a>
-                            )}
-                          </div>
-                        ))}
-                      </div>
+                    {event.images && event.images.length > 0 && (
+                      <FadeInSection
+                        delay={index * 0.08 + 0.05}
+                        className={`schedule-event-opposite ${isEven ? "schedule-event-opposite--right" : "schedule-event-opposite--left"}`}
+                      >
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              style={{ display: "contents" }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                            >
+                              {event.images.map((image, i) => (
+                                <div className="schedule-event-opposite-img" key={`${event.id}-${i}`}>
+                                  <img
+                                    src={`${import.meta.env.BASE_URL}${image.replace(/^\//, "")}`}
+                                    alt={event.id}
+                                  />
+                                </div>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </FadeInSection>
                     )}
-                  </div>
-                </FadeInSection>
-              </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* Footer note */}
+                    <FadeInSection
+                      delay={index * 0.08}
+                      className={`schedule-event-card ${isEven ? "schedule-event-card--left" : "schedule-event-card--right"}`}
+                    >
+                      <div
+                        className="schedule-event-card-inner"
+                        ref={(el) => { cardRefs.current[index] = el; }}
+                      >
+                        <div className="schedule-event-header">
+                          <h2 className="schedule-event-title">
+                            {t(`schedule:events.${event.id}.title`, event.id)}
+                          </h2>
+                          {event.location && (
+                            <span className="schedule-event-location">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: "4px", flexShrink: 0 }}>
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                              </svg>
+                              {event.location}
+                            </span>
+                          )}
+                        </div>
+
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: "easeInOut" }}
+                              style={{ overflow: "hidden" }}
+                            >
+                              <p className="schedule-event-desc">
+                                <Trans
+                                  i18nKey={`schedule:events.${event.id}.${isPast ? "descriptionPast" : "description"}`}
+                                  defaults=""
+                                />
+                              </p>
+
+                              {hasMaps && (
+                                <div className="schedule-maps">
+                                  {event.maps?.map((mapConfig, mapIndex) => (
+                                    <div key={mapIndex} className="schedule-map-wrap">
+                                      <Map
+                                        label={(mapConfig as any).label}
+                                        coordinates={(mapConfig as any).coordinates}
+                                        extraCoordinates={(mapConfig as any).extraCoordinates}
+                                        mapUrl={(mapConfig as any).mapUrl}
+                                        showRoute={(mapConfig as any).showRoute}
+                                        interactive={(mapConfig as any).interactive}
+                                        width="100%"
+                                        height="220px"
+                                        zoom={(mapConfig as any).zoom ?? 14}
+                                      />
+                                      {(mapConfig as any).mapUrl && (
+                                        <a
+                                          href={(mapConfig as any).mapUrl}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="schedule-map-directions"
+                                        >
+                                          {t("common:getDirections", "Get directions")} →
+                                        </a>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </FadeInSection>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {!isPast && (
         <FadeInSection delay={0.1}>
           <div className="schedule-footer-note">

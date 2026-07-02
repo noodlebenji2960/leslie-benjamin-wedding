@@ -1,6 +1,7 @@
 // app/routes/qa.tsx
 import { useTranslation, Trans } from "react-i18next";
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { useLenis } from "lenis/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/components/Icon";
 import { TabNav } from "@/components/TabNav";
@@ -71,6 +72,8 @@ const QA = () => {
       : "essentials",
   );
   const [openId, setOpenId] = useState<string | null>(questionParam);
+  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const lenis = useLenis();
 
   const { buildLink } = useBuildLink();
   const [isPast] = useIsWeddingOver(weddingData.wedding.date);
@@ -218,6 +221,15 @@ const QA = () => {
           },
           { replace: true },
         );
+        if (next) {
+          setTimeout(() => {
+            const el = itemRefs.current[next];
+            if (el && lenis) {
+              const offset = -(window.innerHeight / 2 - el.offsetHeight / 2);
+              lenis.scrollTo(el, { offset, lerp: 0.1 });
+            }
+          }, 50);
+        }
         return next;
       });
     },
@@ -304,6 +316,7 @@ const allCategories: CategoryConfig[] = [
               <motion.div
                 key={`${item.id}-${displayIndex}`}
                 className="qa-item"
+                ref={(el) => { itemRefs.current[item.id] = el; }}
                 layout
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

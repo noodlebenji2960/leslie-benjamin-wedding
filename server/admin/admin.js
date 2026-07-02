@@ -566,11 +566,24 @@ function toast(msg) {
 }
 
 // ── Boot ──────────────────────────────────────────────────────
+let clientCountInterval = null;
+
+async function refreshClientCount() {
+  const r = await api('GET', '/admin/api/connected-clients');
+  if (r.ok) {
+    const { count } = await r.json();
+    $('client-count').textContent = count;
+  }
+}
+
 async function showGallery() {
   $('login-screen').style.display = 'none';
   $('gallery-screen').style.display = 'block';
   await Promise.all([loadGallery(), loadServiceStatus()]);
   connectSSE();
+  refreshClientCount();
+  if (clientCountInterval) clearInterval(clientCountInterval);
+  clientCountInterval = setInterval(refreshClientCount, 10_000);
 }
 
 // Check if already authenticated

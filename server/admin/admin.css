@@ -233,6 +233,17 @@ header {
   color: var(--accent-danger);
 }
 
+#client-count-indicator {
+  font-size: 0.8rem;
+  color: var(--text-muted-3);
+  white-space: nowrap;
+}
+
+#client-count-indicator #client-count {
+  color: var(--accent-success);
+  font-weight: 600;
+}
+
 .live-dot {
   width: 8px;
   height: 8px;
@@ -463,4 +474,47 @@ header {
 }
 .toast.show {
   opacity: 1;
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  #gallery-screen {
+    padding: 1rem;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .header-actions > * {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Live indicator spans full width */
+  #live-indicator {
+    grid-column: 1 / -1;
+    font-size: 0.8rem;
+    color: var(--text-muted-3);
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .login-card {
+    margin: 1rem;
+    padding: 1.75rem 1.25rem;
+  }
 }

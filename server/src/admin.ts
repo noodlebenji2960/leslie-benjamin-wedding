@@ -191,6 +191,12 @@ adminRouter.post("/api/delete-all", requireAuth, asyncRoute(async (_req, res) =>
   res.json({ ok: true, deletedCount: deleted.length });
 }));
 
+// ── Connected clients ──────────────────────────────────────────────────────────
+
+adminRouter.get("/api/connected-clients", requireAuth, (_req, res) => {
+  res.json({ count: sseManager.clientCount });
+});
+
 // ── Service status ─────────────────────────────────────────────────────────────
 
 adminRouter.get("/api/service-status", requireAuth, asyncRoute(async (_req, res) => {

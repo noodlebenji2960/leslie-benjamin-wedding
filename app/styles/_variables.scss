@@ -76,7 +76,7 @@
   */
   --accent-hue: 35;
   --accent-saturation: 45%;
-  --accent-lightness: 62%;
+  --accent-lightness: 52%;
 
   /* Auto-generated accent color variants */
   --color-accent-base: hsl(
@@ -112,7 +112,7 @@
     calc(var(--accent-saturation) - 15%),
     92%
   );
-  --color-text-light: #81948c;
+  --color-text-light: #5e746b;
   --color-text-alt-light: hsl(
     var(--accent-hue),
     calc(var(--accent-saturation) - 10%),
@@ -205,6 +205,7 @@
   --font-display: "Cormorant Garamond", "Garamond", Georgia, serif;
 
   /* Font Weights */
+  --fw-extralight: 200;
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
@@ -341,6 +342,7 @@ $font-display: var(--font-display);
 $font-fancy: var(--font-fancy);
 
 /* Font Weights */
+$fw-extralight: var(--fw-extralight);
 $fw-regular: var(--fw-regular);
 $fw-medium: var(--fw-medium);
 $fw-semibold: var(--fw-semibold);

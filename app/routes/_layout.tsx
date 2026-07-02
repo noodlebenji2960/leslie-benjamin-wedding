@@ -152,6 +152,7 @@ export default function Layout() {
               isPending={isPending}
             />
             <div className="group">
+              {layout.state.fixedSlot}
               <BackToTopButton
                 onClick={() => lenis?.scrollTo(0, { duration: 1 })}
               />

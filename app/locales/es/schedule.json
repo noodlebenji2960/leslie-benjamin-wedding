@@ -6,7 +6,7 @@
   "footerNote": "Los horarios son aproximados. Enviaremos los detalles finales más cerca de la fecha.",
   "events": {
     "bus": {
-      "title": "Autobús a la Finca",
+      "title": "Autobús",
       "description": "El autobús saldrá desde la Fuente Murrieta en Logroño para llevar a los invitados a la finca. Por favor, llega unos minutos antes para poder salir a tiempo.",
       "descriptionPast": "El autobús salió desde la Fuente Murrieta en Logroño para llevar a los invitados a la finca."
     },
@@ -31,12 +31,12 @@
       "descriptionPast": "Bailamos toda la noche con nuestro DJ en el Hotel San Camilo."
     },
     "busReturn": {
-      "title": "Autobús de Vuelta (Antes)",
+      "title": "Autobús",
       "description": "El autobús saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes necesiten transporte de regreso.",
       "descriptionPast": "El autobús salió desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes necesitaban transporte de regreso."
     },
     "busReturnLate": {
-      "title": "Autobús de Vuelta (Más Tarde)",
+      "title": "Autobús",
       "description": "Un segundo autobús, más tarde, saldrá desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes quieran quedarse un poco más.",
       "descriptionPast": "Un segundo autobús, más tarde, salió desde el Hotel San Camilo de vuelta a la Fuente Murrieta en Logroño para quienes quisieron quedarse un poco más."
     },

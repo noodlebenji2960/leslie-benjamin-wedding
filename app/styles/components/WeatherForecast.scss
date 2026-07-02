@@ -646,7 +646,18 @@
   @media (max-width: $bp-sm) {
     .weather-forecast__hero {
       flex-direction: column;
+      align-items: center;
       text-align: center;
+
+      &-content {
+        flex-direction: column;
+        align-items: center;
+        gap: $space-sm;
+
+        h2 {
+          margin-left: 0;
+        }
+      }
     }
 
     .weather-forecast__forecast {

@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router";
 import { Icon } from "@/components/Icon";
 import Map from "@/components/Map";
 import { useWeddingData } from "@/hooks/useWeddingData";
+import { useLenis } from "lenis/react";
 
 interface ForecastDay {
   rawDate: string; // ISO for logic
@@ -148,6 +149,7 @@ const WeatherForecast: React.FC<WeatherForecastProps> = ({
     );
   };
 
+  const lenis = useLenis();
   const [pickerOpen, setPickerOpen] = useState(false);
   const pickerRef = useRef<HTMLDivElement>(null);
 
@@ -627,6 +629,10 @@ const WeatherForecast: React.FC<WeatherForecastProps> = ({
               key={selectedId}
               coordinates={selectedLocation.coordinates}
               markers={weatherMarkers}
+              onMarkerClick={(id) => {
+                selectLocation(id);
+                lenis?.scrollTo(0, { duration: 1 });
+              }}
               interactive
               zoomControl
               zoom={selectedId === "venue" ? 10 : 7}

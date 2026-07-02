@@ -5,16 +5,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 0;
-  background: $color-white;
+  border: 1px solid $color-text;
+  background: $color-background;
   cursor: pointer;
-    border: 1px solid $color-border;
   width: 34px;
   height: 44px;
-  transition: border-color 0.5s ease;
+  opacity: 0.2;
+  transition: opacity 0.5s ease-in-out;
 
   &:hover {
-    border-color: $color-text;
+    opacity: 1;
   }
 }
 
@@ -25,14 +25,15 @@
 }
 
 .theme-toggle-slider .icon {
-  border-radius: $radius-sm; 
+  border-radius: $radius-sm;
   font-weight: 600;
-  opacity: 0.2;
-  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
+  color: $color-text;
+  opacity: 0.4;
 
-  svg{
+  svg {
     height: 15px;
-  width: 15px;
+    width: 15px;
   }
 }
 

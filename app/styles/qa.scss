@@ -25,7 +25,7 @@
 
     &:hover{
       .category-tab.active:not(:hover){
-        font-weight: $fw-regular !important;
+        font-weight: $fw-extralight;
         color: $color-text !important;
       }
     }
@@ -37,12 +37,13 @@
       text-transform: capitalize;
       text-align: center;
       color: $color-text;
-      font-weight: $fw-regular;
-      opacity: 0.7;
+      font-weight: $fw-extralight;
+      opacity: 1;
       margin: -1px;
       transition: all 0.2s ease !important;
 
       &.active {
+        font-weight: $fw-regular !important;
         color: $color-accent;
         opacity: 1;
       }
@@ -94,6 +95,10 @@
       box-shadow: 0 2px 4px $color-shadow;
       width: 100%;
 
+      &:has(.open){
+        border-color: $color-secondary;
+      }
+
       .qa-question {
         width: 100%;
         display: flex;
@@ -124,12 +129,11 @@
           }
         }
 
-        &:hover {
-          color: $color-primary;
+        &:hover:not(.open) {
+          color: $color-accent;
         }
 
         &.open {
-          color: $color-primary;
           border-bottom: 1px solid $color-border;
         }
       }
@@ -147,6 +151,16 @@
           strong {
             color: $color-text;
             font-weight: $fw-bold;
+          }
+
+          a {
+            color: $color-accent;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+              text-underline-offset: 3px;
+            }
           }
 
           // Spacing for nested blocks (Map, Weather, etc.)

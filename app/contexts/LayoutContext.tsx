@@ -3,13 +3,14 @@ import {
   createContext,
   useContext,
   useState,
-  
   useCallback,
+  useEffect,
   type ReactNode,
 } from "react";
 
 interface LayoutState {
   fixedOffsetY: number;
+  fixedSlot: ReactNode;
 }
 
 interface LayoutActions {
@@ -17,6 +18,7 @@ interface LayoutActions {
   shiftFixedUp: (amount?: number) => void;
   shiftFixedDown: (amount?: number) => void;
   resetFixedOffset: () => void;
+  setFixedSlot: (node: ReactNode) => void;
 }
 
 interface LayoutContextType {
@@ -28,6 +30,7 @@ const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
 
 export function LayoutProvider({ children }: { children: ReactNode }) {
   const [fixedOffsetY, setFixedOffsetY] = useState(0);
+  const [fixedSlot, setFixedSlot] = useState<ReactNode>(null);
 
   const setFixedOffset = useCallback((offset: number) => {
     setFixedOffsetY(offset);
@@ -48,18 +51,29 @@ export function LayoutProvider({ children }: { children: ReactNode }) {
   return (
     <LayoutContext.Provider
       value={{
-        state: { fixedOffsetY },
+        state: { fixedOffsetY, fixedSlot },
         actions: {
           setFixedOffset,
           shiftFixedUp,
           shiftFixedDown,
           resetFixedOffset,
+          setFixedSlot,
         },
       }}
     >
       {children}
     </LayoutContext.Provider>
   );
+}
+
+/** Mount a node into the fixed-container group while the calling component is alive. */
+export function useFixedSlot(node: ReactNode) {
+  const { actions } = useLayout();
+  useEffect(() => {
+    actions.setFixedSlot(node);
+    return () => actions.setFixedSlot(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [node]);
 }
 
 export function useLayout() {

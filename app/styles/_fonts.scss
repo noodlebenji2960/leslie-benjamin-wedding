@@ -26,9 +26,27 @@
     url('/fonts/mantonico/mantonico-regular.woff2') format('woff2'),
     url('/fonts/mantonico/mantonico-regular.woff') format('woff'),
     url('/fonts/mantonico/mantonico-regular.ttf') format('truetype'),
-    url('/fonts/mantonico/mantonico-regular.otf') format('opentype');
+    url('/fonts/mantonico/Mantonico-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mantonico';
+  src: local('Mantonico ExtraLight'),
+    url('/fonts/mantonico/Mantonico-ExtraLight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Mantonico';
+  src: local('Mantonico ExtraLight Italic'),
+    url('/fonts/mantonico/Mantonico-ExtraLight-Italic.otf') format('opentype');
+  font-weight: 200;
+  font-style: italic;
   font-display: swap;
 }
 
