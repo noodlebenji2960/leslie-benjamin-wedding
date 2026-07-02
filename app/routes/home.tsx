@@ -13,20 +13,9 @@ import DonateButton from "@/components/DonateButton";
 import { PageTitle } from "@/components/PageTitle";
 import { ReactComponent as ShoeIllustration } from "../images/shoe.svg";
 import { ReactComponent as HeartBoxIllustration } from "../images/heartbox.svg";
-import { ReactComponent as FlowersIllustration } from "../images/flowers.svg";
-import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg";
-import { ReactComponent as BirdyIllustration } from "../images/birdy.svg";
 import { ReactComponent as HeartSpeechBubbleIllustration } from "../images/heartSpeechBubble.svg";
-import { ReactComponent as HeartArrow1Illustration } from "../images/heartArrow1.svg";
-
-import { ReactComponent as Plants1Illustration } from "../images/plants.svg";
-import { ReactComponent as Plants2Illustration } from "../images/plants2.svg";
-import { ReactComponent as Plants3Illustration } from "../images/plants3.svg";
-import { ReactComponent as Plants4Illustration } from "../images/plants4.svg";
-
 import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Fragment } from "react/jsx-runtime";
-import Heart from "@/components/Heart";
 import Carousel from "@/components/Carousel";
 import { HomeGalleryPreview } from "@/components/gallery/HomeGalleryPreview";
 import {
@@ -35,7 +24,7 @@ import {
 } from "@/hooks/useGalleryPreviewImages";
 import ScrollChevron from "@/components/ScrollDown";
 import { useState } from "react";
-import { Icon } from "@/components/Icon";
+import { CollapsedTimeline } from "@/components/CollapsedTimeline";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -109,6 +98,12 @@ export default function Home() {
       {/* HERO */}
       <div className="hero">
         <PageTitle>{coupleNames}</PageTitle>
+        <Countdown
+          date={wedding.wedding.date}
+          time={wedding.wedding.ceremony.time}
+          size="sm"
+          onCelebrate={() => setIsToday(true)}
+        />
         <span>
           <div className="hero-subtitle">
             {t(isPast ? "subtitlePast" : "subtitle", { ns: "home" })} <br />
@@ -164,91 +159,34 @@ export default function Home() {
           />
         </div>
       </FadeInSection>
+
       <div className="wavey-wrapper">
         <img src="/images/wavey.svg" alt="wavey" />
         <div className="inner-wavey-wrapper">
-          {/* SCHEDULE HIGHLIGHTS */}
+          {/* SCHEDULE — collapsed timeline */}
           {config.schedule.enabled && (
             <FadeInSection delay={0.1}>
-              <div className="schedule-preview">
-                <div className="schedule-header">
-                  <TodayBanner show={isToday && !isPast} />
-                  <h3>
-                    {t("scheduleTitle", {
-                      ns: "home",
-                      defaultValue: "The Day",
-                    })}
-                  </h3>
-                  <p className="schedule-body">
-                    <Trans
-                      i18nKey="scheduleBody"
-                      ns="home"
-                      components={{
-                        scheduleLink: (
-                          <Link
-                            to={buildLink("/schedule")}
-                            className="faq-link"
-                          />
-                        ),
-                      }}
-                    />
-                  </p>
-                  <Countdown
-                    date={wedding.wedding.date}
-                    time={wedding.wedding.ceremony.time}
-                    size="sm"
-                    onCelebrate={() => setIsToday(true)}
+              <div className="home-schedule-section">
+                <TodayBanner show={isToday && !isPast} />
+                <h3 className="home-schedule-title">
+                  {t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}
+                </h3>
+                <p className="schedule-body">
+                  <Trans
+                    i18nKey="scheduleBody"
+                    ns="home"
+                    components={{
+                      scheduleLink: (
+                        <Link to={buildLink("/schedule")} className="faq-link" />
+                      ),
+                    }}
                   />
-                </div>
-                <div className="timeline">
-                  <div className="timeline-bg-plants">
-                    <Plants1Illustration />
-                  </div>
-                  <div className="timeline-bg-plants">
-                    <Plants2Illustration />
-                  </div>
-                  {wedding.schedule.map((event, index) => (
-                    <div
-                      key={`${event.id}-${index}1`}
-                      className="timeline-item"
-                    >
-                      <div className="timeline-content">
-                        {event.icon && (
-                          // event.icon is a string like "Add" or "Heart.full"
-                          <span className="timeline-icon">
-                            {event.icon
-                              .split(".") // support nested icons like "Heart.full"
-                              .reduce(
-                                (acc, key) => acc[key],
-                                Icon,
-                              )({ size: 24, className: "timeline-icon" })}
-                          </span>
-                        )}
-                        <span className="timeline-time">{event.time}</span>
-                        <span className="timeline-label">
-                          <Trans
-                            i18nKey={`events.${event.id}.title`}
-                            ns="schedule"
-                            values={{
-                              venueName: wedding.wedding.ceremony.venue.name,
-                              busReturnLocation:
-                                event.id === "busReturn" ||
-                                event.id === "busReturnLate"
-                                  ? event.maps?.find(
-                                      (m) => m.extraCoordinates?.length,
-                                    )?.extraCoordinates?.[0]?.label
-                                  : "",
-                              location: event.location,
-                            }}
-                          />
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                </p>
+                <CollapsedTimeline events={wedding.schedule} />
               </div>
             </FadeInSection>
           )}
+
           {/* GUEST ESSENTIALS */}
           {!isPast && (
             <FadeInSection delay={0.1}>
@@ -298,6 +236,7 @@ export default function Home() {
         </div>
         <img src="/images/wavey.svg" alt="wavey" />
       </div>
+
       {/* RSVP & CONTACT */}
       {config.rsvp.enabled && (
         <FadeInSection delay={0.1}>
@@ -323,6 +262,7 @@ export default function Home() {
           </div>
         </FadeInSection>
       )}
+
       {config.ourStory.imageCarousel.enabled && (
         <FadeInSection>
           <div className="our-story-section">
@@ -336,6 +276,7 @@ export default function Home() {
           </div>
         </FadeInSection>
       )}
+
       {config.qa.enabled && (
         <FadeInSection delay={0.1}>
           <div className="contact-section">
@@ -348,7 +289,6 @@ export default function Home() {
                     defaultValue: "Questions?",
                   })}
                 </h4>
-
                 <p className="questions-body">
                   <Trans
                     i18nKey="questionsBody"
@@ -375,7 +315,6 @@ export default function Home() {
                       <strong>{c.name}</strong>
                       <br />
                       <a href={`mailto:${c.email}`}>{c.email}</a>
-
                       <br />
                       {c.phone && <a href={`tel:${c.phone}`}>{c.phone}</a>}
                     </div>
@@ -389,6 +328,7 @@ export default function Home() {
           </div>
         </FadeInSection>
       )}
+
       {isPast && (
         <FadeInSection delay={0.1}>
           <div className="guest-essentials guest-essentials--gifts-only">
@@ -414,6 +354,7 @@ export default function Home() {
           </div>
         </FadeInSection>
       )}
+
       {config.underConstruction?.homeSection.enabled && !isPast && (
         <FadeInSection delay={0.1}>
           <div className="under-construction">
@@ -430,7 +371,6 @@ export default function Home() {
                 values={{
                   featureList: Object.entries(config)
                     .filter(([_, value]) => {
-                      // Some features are nested, so normalize to object
                       const feature =
                         typeof value === "object"
                           ? value
@@ -441,7 +381,6 @@ export default function Home() {
                       );
                     })
                     .map(([key]) => {
-                      // Map raw config keys to friendly labels
                       const mapping: Record<string, string> = {
                         rsvp: t("featureLabels.rsvp", { ns: "home" }),
                         schedule: t("featureLabels.schedule", { ns: "home" }),

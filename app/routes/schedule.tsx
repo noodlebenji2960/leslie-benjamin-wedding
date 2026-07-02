@@ -13,6 +13,7 @@ import type { Route } from "./+types/schedule";
 import { Countdown } from "@/components/Countdown";
 import { TodayBanner } from "@/components/TodayBanner";
 import { useIsToday, useIsWeddingOver } from "@/hooks/useIsToday";
+import { CollapsedTimeline } from "@/components/CollapsedTimeline";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -395,67 +396,24 @@ const Schedule = () => {
           /* ── COLLAPSED MODE ── */
           <motion.div
             key="collapsed"
-            className="schedule-timeline-wrapper schedule-timeline-wrapper--collapsed"
-            ref={timelineRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            onTouchMove={handleTouchMove}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="schedule-nodes-line-past--collapsed" />
-            <div className="schedule-nodes-line-future--collapsed" />
-
-            <div
-              ref={dotRef}
-              className="schedule-timeline-dot--collapsed"
-              style={{ "--dot-x": "0px", opacity: 0 } as React.CSSProperties}
-            >
-              <div
-                ref={dotLabelRef}
-                className="schedule-timeline-dot-label--collapsed"
-                style={{ opacity: 0 }}
-              />
-            </div>
-
-            <div className="schedule-timeline--collapsed">
-              {events.map((event, index) => (
-                <div key={event.id} className="schedule-event-node-wrap">
-                  <div
-                    className="schedule-event-node-inner"
-                    ref={(el) => {
-                      nodeRefs.current[index] = el;
-                      nodeStateRefs.current[index] = el;
-                    }}
-                    onClick={() => {
-                      pendingScrollId.current = event.id;
-                      toggleAll(false);
-                    }}
-                    style={{ cursor: "pointer" }}
-                    title={t(`schedule:events.${event.id}.title`, event.id)}
-                  >
-                    <span className="schedule-event-node-content">
-                      {event.icon && (
-                        <span className="schedule-event-icon">
-                          {event.icon
-                            .split(".")
-                            .reduce((acc: any, key: string) => acc[key], Icon)({ size: 32 })}
-                        </span>
-                      )}
-                      <div className="schedule-event-time">{event.time}</div>
-                    </span>
-                    <span className="schedule-event-node-hover-label">
-                      {t(`schedule:events.${event.id}.title`, event.id)}
-                    </span>
-                  </div>
-                  <div className="schedule-event-node-label">
-                    {t(`schedule:events.${event.id}.title`, event.id)}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <CollapsedTimeline
+              events={events}
+              onNodeClick={(id) => {
+                pendingScrollId.current = id;
+                toggleAll(false);
+              }}
+              timelineRef={timelineRef}
+              nodeRefs={nodeRefs}
+              nodeStateRefs={nodeStateRefs}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              onTouchMove={handleTouchMove}
+            />
           </motion.div>
         ) : (
           /* ── VERTICAL MODE ── */

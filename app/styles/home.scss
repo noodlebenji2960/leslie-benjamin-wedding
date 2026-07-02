@@ -282,163 +282,20 @@
 }
 
 // ─────────────────────────────────────────────
-// Schedule Preview
+// Schedule Section (collapsed timeline)
 // ─────────────────────────────────────────────
 
-.schedule-preview {
+.home-schedule-section {
   padding: $space-xl;
-
-  .schedule-header {
-    margin-top: -250px;
-    margin-bottom: $space-xl;
-    position: relative;
-    background: $color-white;
-    width: fit-content;
-    border-radius: 50%;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    justify-self: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: -26.5%;
-      left: -26.5%;
-      right: -26.5%;
-      bottom: -26.5%;
-      background: url("/images/circularContainer.svg") center no-repeat;
-      pointer-events: none;
-      filter: brightness(110%) saturate(80%);
-    }
-
-    h3 {
-      font-family: $font-header;
-      font-size: clamp(1.75rem, 4vw, 2.25rem);
-      padding: 0 $space-lg;
-      font-weight: $fw-medium;
-      color: $color-accent;
-      margin-bottom: $space-lg;
-      text-align: center;
-      position: relative;
-    }
-  }
-}
-
-.timeline {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: $space-lg 0;
-  max-width: 500px;
-  margin: $space-3xl auto $space-lg auto;
-  gap: $space-lg;
-
-  // Vertical line
-  &::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: -2.5%;
-    bottom: -5%;
-    width: 2px;
-    background: linear-gradient(
-      to bottom,
-      transparent,
-      $color-accent 10%,
-      $color-accent 90%,
-      transparent
-    );
-  }
-}
-
-.timeline-bg-plants {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 0;
-  pointer-events: none;
-  transform: translateX(50%);
-
-  &:nth-of-type(1) {
-    top: 5%;
-    left: 0;
-    transform: scale(1, -1) translate(55%, 5%) rotate(0deg);
-  }
-
-  &:nth-of-type(2) {
-    top: 85%;
-    left: 0;
-    transform: scale(-1, -1) translate(-30%, 5%) rotate(65deg);
-  }
-
-  svg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    fill: $color-accent;
-  }
-}
-
-.timeline-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: $space-lg;
-  margin-bottom: $space-lg;
-  position: relative;
-  background: $color-white;
-  border-radius: 50%;
-  aspect-ratio: 1 / 1;
-  height: 175px;
-  width: 175px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  outline: 1px solid $color-accent-light;
-  outline-offset: -1px;
-  white-space: wrap;
   text-align: center;
-  padding: $space-md;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 
-.timeline-icon {
-  width: 42px;
-  height: 42px;
-  justify-self: center;
-  align-self: center;
-  color: $color-primary-shade;
-  margin-bottom: $space-xs;
-}
-
-.timeline-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: $space-xs;
-  padding-top: 2px;
-}
-
-.timeline-time {
-  font-family: $font-body;
-  font-size: 0.875rem;
-  font-weight: $fw-bold;
+.home-schedule-title {
+  font-family: $font-header;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: $fw-medium;
   color: $color-accent;
-  letter-spacing: 0.05em;
-}
-
-.timeline-label {
-  font-family: $font-body;
-  font-size: 1rem;
-  color: $color-text;
-  line-height: 1.5;
+  margin-bottom: $space-md;
 }
 
 .schedule-body {
@@ -786,7 +643,7 @@
 // ─────────────────────────────────────────────
 
 @media (max-width: 768px) {
-  .schedule-preview,
+  .home-schedule-section,
   .rsvp-section,
   .contact-section,
   .under-construction {
