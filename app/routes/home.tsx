@@ -191,7 +191,7 @@ export default function Home() {
         <img src="/images/wavey.svg" alt="wavey" />
       </div>
 
-      {/* RSVP & CONTACT */}
+      {/* RSVP */}
       {config.rsvp.enabled && (
         <FadeInSection delay={0.1}>
           <div className="rsvp-section">
@@ -217,6 +217,7 @@ export default function Home() {
         </FadeInSection>
       )}
 
+      {/* OUR STORY */}
       {config.ourStory.imageCarousel.enabled && (
         <FadeInSection>
           <div className="our-story-section">
@@ -231,7 +232,7 @@ export default function Home() {
         </FadeInSection>
       )}
 
-      {/* GUEST ESSENTIALS */}
+      {/* GUEST ESSENTIALS — dress code + gifts */}
       {!isPast && (
         <FadeInSection delay={0.1}>
           <div className="guest-essentials">
@@ -239,36 +240,19 @@ export default function Home() {
               <div className="essential-item">
                 <ShoeIllustration />
                 <span className="essential-item-body">
-                  <strong>
-                    {t("dressCode", {
-                      ns: "home",
-                      defaultValue: "Dress Code",
-                    })}
-                  </strong>
-                  <p>
-                    {t("dressCodeHint", {
-                      ns: "home",
-                      defaultValue: "Formal. No jeans, no flip-flops.",
-                    })}
-                  </p>
+                  <strong>{t("dressCode", { ns: "home" })}</strong>
+                  <p>{t("dressCodeHint", { ns: "home" })}</p>
                 </span>
               </div>
               <div className="essential-item">
                 <HeartBoxIllustration />
                 <span className="essential-item-body">
-                  <strong>
-                    {t("giftsLabel", {
-                      ns: "home",
-                      defaultValue: "Gifts",
-                    })}
-                  </strong>
+                  <strong>{t("giftsLabel", { ns: "home" })}</strong>
                   <p>
                     <Trans
                       i18nKey="giftsHint"
                       ns="home"
-                      components={{
-                        DonateButton: <DonateButton />,
-                      }}
+                      components={{ DonateButton: <DonateButton /> }}
                     />
                   </p>
                 </span>
@@ -278,18 +262,14 @@ export default function Home() {
         </FadeInSection>
       )}
 
+      {/* QUESTIONS & CONTACTS */}
       {config.qa.enabled && (
         <FadeInSection delay={0.1}>
           <div className="contact-section">
             <HeartSpeechBubbleIllustration />
             {!isPast && (
               <>
-                <h4>
-                  {t("questionsTitle", {
-                    ns: "home",
-                    defaultValue: "Questions?",
-                  })}
-                </h4>
+                <h4>{t("questionsTitle", { ns: "home" })}</h4>
                 <p className="questions-body">
                   <Trans
                     i18nKey="questionsBody"
@@ -304,49 +284,39 @@ export default function Home() {
               </>
             )}
             <div className="contacts-row">
-              {wedding.contact.map((c, index) => {
-                const isFirst = index === 0;
-                const isLast = index === wedding.contact.length - 1;
-
-                return (
-                  <Fragment key={`${index} ${c.email}`}>
-                    <div
-                      className={`contact-item ${isFirst ? "first" : ""} ${isLast ? "last" : ""}`}
-                    >
-                      <strong>{c.name}</strong>
-                      <br />
-                      <a href={`mailto:${c.email}`}>{c.email}</a>
-                      <br />
-                      {c.phone && <a href={`tel:${c.phone}`}>{c.phone}</a>}
-                    </div>
-                    {index !== wedding.contact.length - 1 && (
-                      <div className="vertical-separator" />
-                    )}
-                  </Fragment>
-                );
-              })}
+              {wedding.contact.map((c, index) => (
+                <Fragment key={`${index} ${c.email}`}>
+                  <div className="contact-item">
+                    <strong>{c.name}</strong>
+                    <br />
+                    <a href={`mailto:${c.email}`}>{c.email}</a>
+                    <br />
+                    {c.phone && <a href={`tel:${c.phone}`}>{c.phone}</a>}
+                  </div>
+                  {index !== wedding.contact.length - 1 && (
+                    <div className="vertical-separator" />
+                  )}
+                </Fragment>
+              ))}
             </div>
           </div>
         </FadeInSection>
       )}
 
+      {/* POST-WEDDING GIFTS (isPast only) */}
       {isPast && (
         <FadeInSection delay={0.1}>
-          <div className="guest-essentials guest-essentials--gifts-only">
-            <div className="essentials-grid">
+          <div className="guest-essentials">
+            <div className="essentials-grid" style={{ gridTemplateColumns: "1fr", maxWidth: 320, margin: "0 auto" }}>
               <div className="essential-item">
                 <HeartBoxIllustration />
                 <span className="essential-item-body">
-                  <strong>
-                    {t("giftsLabel", { ns: "home", defaultValue: "Gifts" })}
-                  </strong>
+                  <strong>{t("giftsLabel", { ns: "home" })}</strong>
                   <p>
                     <Trans
                       i18nKey="giftsHint"
                       ns="home"
-                      components={{
-                        DonateButton: <DonateButton />,
-                      }}
+                      components={{ DonateButton: <DonateButton /> }}
                     />
                   </p>
                 </span>

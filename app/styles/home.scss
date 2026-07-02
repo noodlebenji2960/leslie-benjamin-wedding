@@ -6,22 +6,18 @@
 // ─────────────────────────────────────────────
 
 @keyframes fadeInLeaves {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .home-hero {
-  
   position: relative;
   text-align: center;
 
   .hero {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     min-height: calc(100vh - 300px);
 
@@ -34,35 +30,6 @@
       margin-top: $space-xs;
       margin-bottom: $space-lg;
     }
-
-    .cta-btn {
-      color: $color-white;
-      background-color: $color-accent;
-      padding: $space-sm $space-md;
-      border-radius: $radius-button;
-      font-family: $font-body;
-      font-size: $font-size-md;
-      font-weight: $fw-medium;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        filter: brightness(1.1);
-      }
-    }
-  }
-
-  .home-gallery-preview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
   }
 
   .countdown-card {
@@ -102,19 +69,29 @@
       }
     }
   }
+
+  .home-gallery-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+  }
 }
+
+// ─────────────────────────────────────────────
+// Subtitle & date bands (full-bleed)
+// ─────────────────────────────────────────────
 
 .hero-subtitle {
   display: flex;
   align-items: center;
   gap: $space-md;
-
-  // Full-bleed
   width: 100vw;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-
   font-family: $font-body;
   font-size: clamp(1rem, 2.5vw, 1.25rem);
   margin-bottom: $space-md;
@@ -131,33 +108,33 @@
     opacity: 0.2;
   }
 
-  &::before {
-    margin-left: $space-xl;
-  }
+  &::before { margin-left: $space-xl; }
+  &::after  { margin-right: $space-xl; }
+}
 
-  &::after {
-    margin-right: $space-xl;
-  }
+.hero-body {
+  max-width: 540px;
+  font-family: $font-body;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  line-height: 1.7;
+  color: $color-text;
 }
 
 .hero-date {
   display: flex;
   align-items: center;
-
-  // Full-bleed
   width: 100vw;
   position: relative;
   left: 50%;
   margin: $space-xl 0;
   margin-left: -50vw;
-
   font-family: $font-heading;
   font-size: clamp(1.5rem, 9vw, 2rem);
   letter-spacing: 0.03em;
   z-index: 1;
   transform: translateY(2px);
 
-  & > span:first-of-type{
+  & > span:first-of-type {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -173,15 +150,8 @@
     opacity: 0.2;
   }
 
-  &::before {
-    margin-right: $space-md;
-    margin-left: $space-xl;
-  }
-
-  &::after {
-    margin-right: $space-xl;
-    margin-left: $space-md;
-  }
+  &::before { margin-right: $space-md; margin-left: $space-xl; }
+  &::after  { margin-right: $space-xl; margin-left: $space-md; }
 
   .date-month {
     text-transform: capitalize;
@@ -221,10 +191,7 @@
   min-width: 100vw;
   pointer-events: none;
 
-  a {
-    height: fit-content;
-    z-index: 1;
-  }
+  a { height: fit-content; z-index: 1; }
 
   &::before {
     content: "";
@@ -236,9 +203,6 @@
     @include semi-transparent($color-background, 0.1);
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
-    // The schedule header circle overlaps into this bottom half via a
-    // large negative margin — keep this opaque well past that point so
-    // the map underneath doesn't show through behind the circle.
     mask-image: linear-gradient(to top, black 75%, transparent 100%);
     -webkit-mask-image: linear-gradient(to top, black 75%, transparent 100%);
     pointer-events: none;
@@ -263,11 +227,7 @@
 
   .map-container-wrapper {
     position: absolute !important;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     height: unset !important;
     width: unset !important;
     z-index: -1;
@@ -283,27 +243,76 @@
     transition: border-color 0.2s ease;
     color: $color-accent !important;
 
-    &:hover {
-      border-bottom-color: $color-accent;
-    }
+    &:hover { border-bottom-color: $color-accent; }
   }
 }
 
 // ─────────────────────────────────────────────
-// Schedule Section (collapsed timeline)
+// Shared section rhythm
 // ─────────────────────────────────────────────
 
-.home-schedule-section {
-  padding: $space-xl;
+.home-section {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: $space-2xl $space-lg;
   text-align: center;
+
+  // Thin accent rule above each section
+  &::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: $color-accent;
+    opacity: 0.35;
+    margin: 0 auto $space-lg;
+  }
 }
 
-.home-schedule-title {
+.home-section-eyebrow {
+  font-family: $font-body;
+  font-size: $font-size-2xs;
+  font-weight: $fw-bold;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $color-secondary-tint;
+  margin-bottom: $space-sm;
+}
+
+.home-section-title {
   font-family: $font-header;
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
   font-weight: $fw-medium;
   color: $color-accent;
   margin-bottom: $space-md;
+  line-height: 1.15;
+}
+
+.home-section-body {
+  font-family: $font-body;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  line-height: 1.75;
+  color: $color-text;
+  max-width: 500px;
+  margin: 0 auto $space-md;
+
+  .faq-link {
+    color: $color-accent;
+    text-decoration: none;
+    border-bottom: 1px solid $color-accent;
+    transition: opacity 0.2s ease;
+
+    &:hover { opacity: 0.7; }
+  }
+}
+
+// ─────────────────────────────────────────────
+// Wavey wrapper — schedule section inside
+// ─────────────────────────────────────────────
+
+.home-schedule-section {
+  padding: $space-xl $space-lg $space-lg;
+  text-align: center;
 }
 
 .schedule-body {
@@ -313,7 +322,7 @@
   color: $color-text;
   text-align: center;
   max-width: 500px;
-  margin: 0 auto;
+  margin: 0 auto $space-lg;
 
   .faq-link {
     color: $color-accent;
@@ -321,65 +330,148 @@
     border-bottom: 1px solid $color-accent;
     transition: opacity 0.2s ease;
 
-    &:hover {
-      opacity: 0.7;
-    }
+    &:hover { opacity: 0.7; }
   }
 }
 
 // ─────────────────────────────────────────────
-// Guest Essentials
+// RSVP Section
+// ─────────────────────────────────────────────
+
+.rsvp-section {
+  max-width: 600px;
+  justify-self: center;
+  position: relative;
+  margin: $space-xl auto;
+  padding: $space-xl $space-xl $space-lg;
+  text-align: center;
+  border: 1px solid $color-accent-light;
+  z-index: 1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: $color-white;
+
+  h2 {
+    
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: $fw-medium;
+    color: $color-accent;
+    margin-bottom: $space-md;
+  }
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 1px solid $color-accent-dark;
+    border-radius: 3px;
+    pointer-events: none;
+    background-color: $color-white;
+    z-index: -1;
+  }
+
+  &::before {
+    background-color: transparent;
+    transform: rotate(2deg);
+    z-index: 0;
+  }
+
+  &::after {
+    transform: rotate(-2deg);
+  }
+}
+
+.rsvp-intro {
+  font-family: $font-body;
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  line-height: 1.7;
+  color: $color-text;
+  margin-bottom: $space-lg;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+
+  strong { color: $color-accent; font-weight: $fw-bold; }
+}
+
+// ─────────────────────────────────────────────
+// Our Story Section
+// ─────────────────────────────────────────────
+
+.our-story-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-xl $space-sm 0;
+  text-align: center;
+
+  .our-story-header {
+    font-family: $font-fancy;
+    font-size: $page-title-font-size;
+    font-weight: $fw-medium;
+    color: $color-accent;
+    line-height: 1.1;
+    margin: $space-lg 0 $space-xl;
+    text-shadow: 1px 1px 2px rgba(54, 51, 39, 0.1);
+  }
+
+  .our-story-body {
+    max-width: 600px;
+    margin: 0 auto $space-xl;
+    font-family: $font-body;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    line-height: 1.75;
+    color: $color-text;
+  }
+}
+
+// ─────────────────────────────────────────────
+// Guest Essentials (dress code + gifts)
 // ─────────────────────────────────────────────
 
 .guest-essentials {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: $space-xl $space-lg;
 }
 
 .essentials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: $space-lg;
-  max-width: 700px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: $space-xl;
 }
 
 .essential-item {
   display: flex;
   flex-direction: column;
-  border-radius: $radius-md;
+  align-items: center;
   text-align: center;
   font-family: $font-body;
   font-size: 0.95rem;
   line-height: 1.6;
   color: $color-text;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  gap: $space-md;
+  gap: $space-sm;
 
   & > svg {
-    align-self: center;
-    width: 300px;
-    height: 300px;
-    max-width: 300px;
+    width: 120px;
+    height: 120px;
     object-fit: contain;
-    fill: $color-text;
-    opacity: 0.7;
-    position: relative;
+    fill: $color-accent;
+    opacity: 0.55;
   }
 
   .essential-item-body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
     gap: $space-xs;
-    height: fit-content;
   }
 
   strong {
     display: block;
-    font-size: 1.1em;
+    font-size: 1rem;
     font-weight: $fw-bold;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: $color-accent;
     margin-bottom: $space-xs;
   }
@@ -395,102 +487,122 @@
   }
 }
 
-.under-construction {
-  max-width: 800px;
-  justify-self: center;
-  position: relative;
-  margin: $space-xl 0 0 0;
-  padding: $space-xl;
-  text-align: center;
-  position: relative;
-
-  h4{
-    color: $color-accent;
-  }
-}
-
-// ──────────────────────────────────────────────────────────────────
-// Our Story Section
-// ──────────────────────────────────────────────────────────────────
-
-.our-story-section {
-  max-width: 1200px;
-  position: relative;
-  margin: auto;
-
-  padding: $space-xl $space-sm 0 $space-sm;
-  text-align: center;
-
-  .our-story-header {
-      font-family: $font-fancy;
-  font-size: $page-title-font-size;
-  font-weight: $fw-medium;
-  color: $color-accent;
-  text-align: center;
-  line-height: 1.1;
-  margin: $space-lg 0 $space-xl;
-  text-shadow: 1px 1px 2px rgba(54, 51, 39, 0.1);
-  }
-
-  .our-story-body {
-    max-width: 700px;
-    margin: auto;
-  }
-}
-
 // ─────────────────────────────────────────────
-// RSVP Section
+// Contact / Questions Section
 // ─────────────────────────────────────────────
 
-.rsvp-section {
+.contact-section {
   max-width: 700px;
   justify-self: center;
-  position: relative;
-  margin: calc($space-3xl * -2) 0 $space-2xl 0;
-  padding: $space-xl;
+  margin: 0 auto $space-2xl;
+  padding: $space-xl $space-lg;
   text-align: center;
-  border: 1px solid $color-accent-light;
-  z-index: 1;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    right: 0%;
-    bottom: 0%;
-    border: 1px solid $color-accent-dark;
-    border-radius: 3px;
-    pointer-events: none;
-    transform: rotate(-2deg);
-    background-color: $color-white;
-    z-index: -1;
+  & > svg {
+    width: 80px;
+    height: 80px;
+    fill: $color-primary-darker;
+    opacity: 0.6;
+    margin-bottom: $space-md;
   }
 
-  &::before {
-    background-color: transparent;
-    transform: rotate(2deg);
-    z-index: 0;
+  h4 {
+    font-family: $font-header;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: $fw-medium;
+    color: $color-accent;
+    margin-bottom: $space-md;
   }
 }
 
-.rsvp-intro {
+.questions-body {
   font-family: $font-body;
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: 1rem;
   line-height: 1.7;
   color: $color-text;
-  margin-bottom: $space-lg;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 480px;
+  margin: 0 auto $space-xl;
 
-  strong {
+  .faq-link {
     color: $color-accent;
-    font-weight: $fw-bold;
+    text-decoration: none;
+    border-bottom: 1px solid $color-accent;
+    transition: opacity 0.2s ease;
+
+    &:hover { opacity: 0.7; }
   }
 }
+
+.contacts-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: $space-lg;
+  flex-wrap: wrap;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.contact-item {
+  flex: 1;
+  min-width: 180px;
+  font-family: $font-body;
+  color: $color-text;
+  padding: $space-md;
+  font-size: 0.95rem;
+  line-height: 1.6;
+
+  &:first-child { text-align: right; }
+  &:last-child  { text-align: left; }
+
+  @media (max-width: $bp-md) {
+    &:first-child,
+    &:last-child { text-align: center; }
+  }
+
+  strong {
+    display: block;
+    font-size: $font-size-md;
+    font-weight: $fw-bold;
+    color: $color-accent;
+    margin-bottom: $space-xs;
+  }
+
+  a {
+    color: $color-text;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+
+    &:hover { color: $color-primary; }
+  }
+}
+
+.vertical-separator {
+  justify-self: center;
+  width: 1px;
+  background: $color-border;
+  margin: $space-sm $space-md;
+
+  @media (max-width: 640px) { display: none; }
+}
+
+// ─────────────────────────────────────────────
+// Under construction
+// ─────────────────────────────────────────────
+
+.under-construction {
+  max-width: 700px;
+  margin: $space-xl auto 0;
+  padding: $space-xl $space-lg;
+  text-align: center;
+
+  h4 { color: $color-accent; }
+}
+
+// ─────────────────────────────────────────────
+// CTA button (legacy class still used elsewhere)
+// ─────────────────────────────────────────────
 
 .cta-btn {
   font-family: $font-body;
@@ -514,115 +626,7 @@
     filter: brightness(1.1);
   }
 
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-// ─────────────────────────────────────────────
-// Contact Section
-// ─────────────────────────────────────────────
-
-.contact-section {
-  max-width: 700px;
-  justify-self: center;
-  margin: 0 0 $space-2xl 0;
-  padding: $space-xl;
-  text-align: center;
-
-  svg {
-    fill: $color-primary-darker;
-  }
-
-  h4 {
-    font-family: $font-header;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: $fw-medium;
-    color: $color-text;
-    margin-bottom: $space-md;
-  }
-}
-
-.questions-body {
-  font-family: $font-body;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: $color-text;
-  max-width: 500px;
-  margin: 0 auto $space-xl;
-
-  .faq-link {
-    color: $color-accent;
-    text-decoration: none;
-    border-bottom: 1px solid $color-accent;
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-}
-
-.contacts-row {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: $space-lg;
-  flex-wrap: wrap;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.contact-item {
-  flex: 1;
-  min-width: 200px;
-  font-family: $font-body;
-  color: $color-text;
-  padding: $space-md;
-
-  &:first-child {
-    text-align: right;
-  }
-
-  &:last-child {
-    text-align: left;
-  }
-
-  /* Mobile */
-  @media (max-width: 768px) {
-    &:first-child,
-    &:last-child {
-      text-align: center;
-    }
-  }
-
-  strong {
-    font-size: $font-size-lg;
-    font-weight: $fw-bold;
-    color: $color-accent;
-  }
-
-  a {
-    color: $color-text;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease;
-
-    &:hover {
-      color: $color-primary;
-    }
-  }
-}
-
-.vertical-separator {
-  justify-self: center;
-  width: 1px;
-  background: $color-border;
-  margin: 0 $space-md;
-
-  @media (max-width: 640px) {
-    display: none;
-  }
+  &:active { transform: translateY(0); }
 }
 
 // ─────────────────────────────────────────────
@@ -637,34 +641,29 @@
 }
 
 @keyframes fadeInOut {
-  0%,
-  100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 1;
-  }
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
 }
 
 // ─────────────────────────────────────────────
-// Responsive Adjustments
+// Responsive
 // ─────────────────────────────────────────────
 
-@media (max-width: 768px) {
+@media (max-width: $bp-md) {
+  .home-section,
   .home-schedule-section,
   .rsvp-section,
   .contact-section,
+  .guest-essentials,
   .under-construction {
-    padding: $space-lg;
-    margin: $space-xl $space-lg;
+    padding: $space-lg $space-md;
   }
 
-  .under-construction::before {
-    top: 0%;
-  }
+  .rsvp-section { margin: $space-lg $space-md; }
 
   .essentials-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-lg;
   }
 
   .contacts-row {
@@ -672,10 +671,7 @@
     gap: $space-md;
   }
 
-  // backdrop-filter over the live Leaflet map causes scanline/noise
-  // rendering artifacts on some Android GPUs as the map keeps getting
-  // re-composited under the blur. Drop the blur on mobile and rely on
-  // the solid fade colour alone.
+  // backdrop-filter over Leaflet on Android GPUs causes scanline artifacts
   .venue-card {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -687,4 +683,8 @@
       background-color: $color-background;
     }
   }
+}
+
+@media (max-width: $bp-sm) {
+  .essentials-grid { grid-template-columns: 1fr; }
 }
