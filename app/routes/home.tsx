@@ -19,14 +19,10 @@ import { ReactComponent as ChampagneIllustration } from "../images/champagne.svg
 import { useSiteConfig } from "@/contexts/ConfigContext";
 import { Fragment } from "react/jsx-runtime";
 import Carousel from "@/components/Carousel";
-import { HomeGalleryPreview } from "@/components/gallery/HomeGalleryPreview";
-import {
-  useGalleryPreviewImages,
-  MIN_GALLERY_PREVIEW_PHOTOS,
-} from "@/hooks/useGalleryPreviewImages";
 import ScrollChevron from "@/components/ScrollDown";
 import { useState } from "react";
 import { CollapsedTimeline } from "@/components/CollapsedTimeline";
+import { CircularContainer } from "@/components/CircularContainer";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -48,20 +44,15 @@ export default function Home() {
     wedding.wedding.ceremony.time,
   );
   const [isPast] = useIsWeddingOver(wedding.wedding.date);
-  const galleryImages = useGalleryPreviewImages();
-  const showGalleryPreview =
-    config.gallery.enabled &&
-    !!galleryImages &&
-    galleryImages.length >= MIN_GALLERY_PREVIEW_PHOTOS;
 
   const weddingDate = new Date(wedding.wedding.date);
-  const dayNumber = weddingDate.toLocaleDateString(i18n.language, {
+  const weekday = weddingDate.toLocaleDateString(i18n.language, { weekday: "long" });
+  const fullDate = weddingDate.toLocaleDateString(i18n.language, {
+    year: "numeric",
+    month: "long",
     day: "numeric",
   });
-  const monthName = weddingDate.toLocaleDateString(i18n.language, {
-    month: "long",
-  });
-  const year = weddingDate.getFullYear();
+  const eyebrowDate = `${weekday.charAt(0).toUpperCase()}${weekday.slice(1)} · ${fullDate}`;
   const rsvpDeadline = new Date(wedding.rsvp.deadline).toLocaleDateString(
     i18n.language,
   );
@@ -99,27 +90,20 @@ export default function Home() {
     <div className="home-hero">
       {/* HERO */}
       <div className="hero">
-        <div className="hero-title-group">
-          <p className="hero-eyebrow">
-            {t(isPast ? "subtitlePast" : "subtitle", { ns: "home" })}
-          </p>
-          <PageTitle>{coupleNames}</PageTitle>
-          <Countdown
-            date={wedding.wedding.date}
-            time={wedding.wedding.ceremony.time}
-            size="sm"
-            onCelebrate={() => setIsToday(true)}
-          />
-        </div>
-        {showGalleryPreview && <HomeGalleryPreview images={galleryImages!} />}
+        <PageTitle>{coupleNames}</PageTitle>
+        <Countdown
+          date={wedding.wedding.date}
+          time={wedding.wedding.ceremony.time}
+          size="lg"
+          onCelebrate={() => setIsToday(true)}
+        />
+        <p className="schedule-eyebrow">
+          <span>{eyebrowDate}</span>
+        </p>
+        <p className="schedule-subtitle">
+          {t(isPast ? "welcomePast" : "welcome", { ns: "home" })}
+        </p>
         <ScrollChevron />
-        <div className="hero-date">
-          <span>
-            <span className="date-month">{monthName}</span>|
-            <span className="date-daynum">{dayNumber}</span>|
-            <span className="date-year">{year}</span>
-          </span>
-        </div>
       </div>
 
       {/* LOCATION & MAP */}
@@ -151,26 +135,17 @@ export default function Home() {
       <div className="wavey-wrapper">
         <img src="/images/wavey.svg" alt="wavey" />
         <div className="inner-wavey-wrapper">
-          {/* SCHEDULE — collapsed timeline */}
-          {config.schedule.enabled && (
-            <FadeInSection delay={0.1}>
-              <div className="home-schedule-section">
-                <TodayBanner show={isToday && !isPast} />
-                <h3 className="home-schedule-title">
-                  {t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}
-                </h3>
-                <p className="schedule-body">
-                  <Trans
-                    i18nKey="scheduleBody"
-                    ns="home"
-                    components={{
-                      scheduleLink: (
-                        <Link to={buildLink("/schedule")} className="faq-link" />
-                      ),
-                    }}
-                  />
+          {/* OUR STORY */}
+          {config.ourStory.imageCarousel.enabled && (
+            <FadeInSection>
+              <div className="our-story-section">
+                <h1 className="our-story-header">
+                  {t("ourStoryTitle", { ns: "home" })}
+                </h1>
+                <p className="our-story-body">
+                  {t("ourStoryBody", { ns: "home" })}
                 </p>
-                <CollapsedTimeline events={wedding.schedule} />
+                <Carousel photos={photos} />
               </div>
             </FadeInSection>
           )}
@@ -179,43 +154,35 @@ export default function Home() {
         <img src="/images/wavey.svg" alt="wavey" />
       </div>
 
-      {/* RSVP */}
-      {config.rsvp.enabled && (
+      {/* SCHEDULE — collapsed timeline */}
+      {config.schedule.enabled && (
         <FadeInSection delay={0.1}>
-          <div className="rsvp-section">
-            {isPast ? (
-              <>
-                <h2>{t("rsvpClosedTitle", { ns: "home" })}</h2>
-                <p className="rsvp-intro">
-                  {t("rsvpClosedMessage", { ns: "home" })}
-                </p>
-              </>
-            ) : (
-              <>
-                <h2>{rsvpDeadline}</h2>
-                <p className="rsvp-intro">
-                  <Trans i18nKey="rsvpIntro" ns="home" />
-                </p>
-                <Button size="lg" onClick={handleRSVP}>
-                  {t("rsvp", { ns: "home" })}
-                </Button>
-              </>
-            )}
-          </div>
-        </FadeInSection>
-      )}
-
-      {/* OUR STORY */}
-      {config.ourStory.imageCarousel.enabled && (
-        <FadeInSection>
-          <div className="our-story-section">
-            <h1 className="our-story-header">
-              {t("ourStoryTitle", { ns: "home" })}
-            </h1>
-            <p className="our-story-body">
-              {t("ourStoryBody", { ns: "home" })}
+          <div className="home-schedule-section">
+            <TodayBanner show={isToday && !isPast} />
+            <div className="schedule-header">
+              <CircularContainer className="schedule-header-svg" />
+              <PageTitle>
+                {t("scheduleTitle", { ns: "home", defaultValue: "The Day" })}
+              </PageTitle>
+              <p className="schedule-header-date">{eyebrowDate}</p>
+              <img
+                src="/images/circularContainerleaves.png"
+                className="schedule-header-leaves"
+                aria-hidden="true"
+              />
+            </div>
+            <p className="home-schedule-subtitle">
+              <Trans
+                i18nKey="scheduleBody"
+                ns="home"
+                components={{
+                  scheduleLink: (
+                    <Link to={buildLink("/schedule")} className="faq-link" />
+                  ),
+                }}
+              />
             </p>
-            <Carousel photos={photos} />
+            <CollapsedTimeline events={wedding.schedule} />
           </div>
         </FadeInSection>
       )}
@@ -270,6 +237,32 @@ export default function Home() {
                 </span>
               </div>
             </div>
+          </div>
+        </FadeInSection>
+      )}
+
+      {/* RSVP */}
+      {config.rsvp.enabled && (
+        <FadeInSection delay={0.1}>
+          <div className="rsvp-section">
+            {isPast ? (
+              <>
+                <h2>{t("rsvpClosedTitle", { ns: "home" })}</h2>
+                <p className="rsvp-intro">
+                  {t("rsvpClosedMessage", { ns: "home" })}
+                </p>
+              </>
+            ) : (
+              <>
+                <h2>{rsvpDeadline}</h2>
+                <p className="rsvp-intro">
+                  <Trans i18nKey="rsvpIntro" ns="home" />
+                </p>
+                <Button size="lg" onClick={handleRSVP}>
+                  {t("rsvp", { ns: "home" })}
+                </Button>
+              </>
+            )}
           </div>
         </FadeInSection>
       )}

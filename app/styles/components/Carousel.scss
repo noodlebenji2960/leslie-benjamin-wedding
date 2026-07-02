@@ -59,12 +59,18 @@
   &__track {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 0;
     width: max-content;
     will-change: transform;
 
+    .polaroid + .polaroid {
+      margin-left: -24px;
+    }
+
     @media (max-width: 768px) {
-      gap: 12px;
+      .polaroid + .polaroid {
+        margin-left: -16px;
+      }
     }
   }
 
@@ -137,9 +143,9 @@
 
 .polaroid {
   flex-shrink: 0;
-  width: 180px;
+  width: 260px;
   background: #fffef9;
-  padding: 12px 12px 40px;
+  padding: 16px 16px 56px;
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.08),
     0 1px 3px rgba(0, 0, 0, 0.12),
@@ -160,8 +166,8 @@
   }
 
   &__photo {
-    width: 156px !important;
-    height: 156px !important;
+    width: 228px !important;
+    height: 228px !important;
     overflow: hidden;
     background: #e8e0d4;
 

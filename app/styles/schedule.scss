@@ -721,6 +721,20 @@
     .schedule-event-node-wrap {
       flex-direction: column-reverse;
     }
+
+    .schedule-event-node-inner {
+      width: 80px;
+      height: 80px;
+
+      .schedule-event-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .schedule-event-time {
+        font-size: 0.8rem;
+      }
+    }
   }
 
   .schedule-event-node-label {

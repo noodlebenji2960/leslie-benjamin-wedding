@@ -261,10 +261,9 @@ label {
 
   .inner-wavey-wrapper{
     background-color: $color-background-alt;
-    padding-bottom: calc($space-3xl  * 2);
   }
 
-  img:last-of-type{
+  & > img:last-of-type{
     transform: scale(-1,-1);
   }
 }
