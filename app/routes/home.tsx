@@ -99,32 +99,18 @@ export default function Home() {
     <div className="home-hero">
       {/* HERO */}
       <div className="hero">
-        <PageTitle>{coupleNames}</PageTitle>
-        <Countdown
-          date={wedding.wedding.date}
-          time={wedding.wedding.ceremony.time}
-          size="sm"
-          onCelebrate={() => setIsToday(true)}
-        />
-        <span>
-          <div className="hero-subtitle">
-            {t(isPast ? "subtitlePast" : "subtitle", { ns: "home" })} <br />
-          </div>
-          <div className="hero-body">
-            {t(isPast ? "welcomePast" : "welcome", { ns: "home" })}{" "}
-            {isPast && showGalleryPreview && (
-              <Trans
-                i18nKey="welcomePastGalleryLink"
-                ns="home"
-                components={{
-                  galleryLink: (
-                    <Link to={buildLink("/gallery")} className="faq-link" />
-                  ),
-                }}
-              />
-            )}
-          </div>
-        </span>
+        <div className="hero-title-group">
+          <p className="hero-eyebrow">
+            {t(isPast ? "subtitlePast" : "subtitle", { ns: "home" })}
+          </p>
+          <PageTitle>{coupleNames}</PageTitle>
+          <Countdown
+            date={wedding.wedding.date}
+            time={wedding.wedding.ceremony.time}
+            size="sm"
+            onCelebrate={() => setIsToday(true)}
+          />
+        </div>
         {showGalleryPreview && <HomeGalleryPreview images={galleryImages!} />}
         <ScrollChevron />
         <div className="hero-date">
